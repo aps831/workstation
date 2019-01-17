@@ -1,0 +1,10 @@
+---
+ - name: extract ubuntu codename
+   shell: grep UBUNTU_CODENAME /etc/os-release | awk -F= '{print $2}'
+   register: codename_output
+   changed_when: False
+
+ - name: set ubuntu codename as fact
+   set_fact: ubuntu_codename="{{ codename_output.stdout }}"
+
+

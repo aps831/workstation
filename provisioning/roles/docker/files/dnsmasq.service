@@ -1,0 +1,12 @@
+[Unit]
+Description=dnsmasq
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/dnsmasq --keep-in-foreground --interface=docker0 --except-interface=lo --bind-interfaces
+
+[Install]
+WantedBy=multi-user.target
+

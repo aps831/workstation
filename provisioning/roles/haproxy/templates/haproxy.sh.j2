@@ -1,0 +1,21 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ haproxy_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ haproxy_container_name }}  
+else
+    echo "Creating new container"
+    docker run --net=host \
+               --volume=/usr/local/etc/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro \
+               --volume=/etc/ssl/private/{{ haproxy_host }}.includesprivatekey.pem:/etc/ssl/private/{{ haproxy_host }}.pem:ro \
+               --name {{ haproxy_container_name }} \
+               haproxy 
+fi
+
+
+    
+
+
+

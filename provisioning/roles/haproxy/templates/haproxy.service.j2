@@ -1,0 +1,12 @@
+[Unit]
+Description=haproxy
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/haproxy.sh
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,19 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ vault_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ vault_container_name }}  
+else
+    echo "Creating new container"    
+    docker run --name {{ vault_container_name }} \
+               --net=host \
+               --cap-add=IPC_LOCK \
+               -e SKIP_SETCAP=1 \
+               -v /var/lib/vault:/vault/file \
+               -v /usr/local/etc/vault:/vault/config \
+               vault:{{ vault_container_version }} server    
+fi
+
+

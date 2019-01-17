@@ -1,0 +1,39 @@
+---
+
+ - name: install openssl
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:  
+     - openssl
+
+ - name: check if self-signed certificate already exists for {{ certificate_host }} 
+   become: yes
+   stat:
+     path: "{{ certificate_pem_path }}"
+   register: certificate_result
+
+ - name: create self-signed certificate for {{ certificate_host }}
+   become: yes
+   command: openssl req -subj "{{ certificate_subject }}" -newkey rsa:2048 -nodes -keyout {{ certificate_key_path }} -x509 -days 365 -out {{ certificate_crt_path }}
+   when: not certificate_result.stat.exists
+
+ - name: create symbolic link to certificate
+   become: yes
+   file:
+     src: "{{ certificate_crt_path }}"
+     dest: "{{ certificate_pem_path }}"
+     state: link
+   when: not certificate_result.stat.exists
+
+ - name: create certificate including private key
+   become: yes
+   shell: cat {{ certificate_crt_path }} {{ certificate_key_path }} > {{ certificate_private_key_path }}
+   when: not certificate_result.stat.exists
+
+ - name: update certificates
+   become: yes
+   command: update-ca-certificates
+   when: not certificate_result.stat.exists
+

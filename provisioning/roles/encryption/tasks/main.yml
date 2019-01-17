@@ -1,0 +1,16 @@
+---
+
+ - name: install encryption packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - nemo-seahorse
+     - gnupg2 
+     - gnupg-agent
+     - pinentry-curses
+     - keychain
+     - pass
+     - xclip
+     - xsel

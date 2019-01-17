@@ -1,0 +1,18 @@
+---
+ 
+ - name: accept eula for mscorefonts
+   become: yes
+   debconf:
+     name: ttf-mscorefonts-installer
+     question: msttcorefonts/accepted-mscorefonts-eula
+     value: true
+     vtype: select
+
+ - name: install font packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - ttf-mscorefonts-installer
+

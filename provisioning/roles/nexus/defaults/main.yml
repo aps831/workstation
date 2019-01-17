@@ -1,0 +1,5 @@
+---
+nexus_container_name: nexus3
+nexus_container_version: 3.2.0
+nexus_container_owner: 200
+nexus_container_group: "{{ nexus_container_owner }}"

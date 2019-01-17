@@ -1,0 +1,14 @@
+---
+
+ - name: install application packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages: 
+     - shotwell    
+     - libreoffice
+     - imagemagick
+     - sound-juicer
+    
+

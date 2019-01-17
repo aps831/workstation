@@ -1,0 +1,27 @@
+---
+
+ - name: backup /etc/hosts
+   become: yes
+   copy:
+     src: /etc/hosts 
+     dest: /etc/hosts.bak
+
+ - name: add comment to /etc/hosts
+   become: yes
+   lineinfile:
+     path: /etc/hosts
+     line: '# The following sets up local network'
+
+ - name: add titan.local to /etc/hosts
+   become: yes
+   lineinfile:
+     path: /etc/hosts
+     regexp: '.titan\.local'
+     line: '{{ hosts_titan_ip_address }}    titan.local'
+
+ - name: add thor.local to /etc/hosts
+   become: yes
+   lineinfile:
+     path: /etc/hosts
+     regexp: '.thor\.local'
+     line: '{{ hosts_thor_ip_address }}    thor.local'

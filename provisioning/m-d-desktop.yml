@@ -1,0 +1,56 @@
+---
+
+ - name: run playbook tasks
+   hosts: local
+   become: yes
+   roles:
+
+# Security
+     - role: 2fa
+     - role: encryption
+     - role: firewall
+       vars:
+         firewall_state: enabled
+
+# Setup
+     - role: swappiness
+
+# Admin
+     - role: admin
+     - role: autoupdate
+       vars:
+         autoupdate_playbook: m-d-desktop.yml
+     - role: smartctl
+     - role: teamviewer
+
+# Desktop
+     - role: apps
+     - role: desktop
+     - role: fonts
+     - role: webbrowsers
+
+# Backup
+     - role: backup
+       vars:
+         backup_name: amazons3
+         backup_description: "Amazon S3"
+         backup_time_delay: "60m"
+         backup_test_time_delay: "180m"
+     - role: backup
+       vars:
+         backup_name: internal
+         backup_description: "Internal"
+         backup_time_delay: "30m"
+         backup_test_time_delay: "180m"
+
+# Programming Tools
+     - role: virtualbox
+
+# Services
+     - role: printserver
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

@@ -1,0 +1,113 @@
+---
+
+ - name: run playbook tasks
+   hosts: local
+   become: yes
+   roles:
+
+# Security
+     - role: 2fa
+     - role: encryption
+     - role: firewall
+       vars:
+         firewall_state: disabled # update this
+
+# Setup
+     - role: hosts
+       vars:
+         hosts_titan_ip_address: 192.168.1.101
+         hosts_thor_ip_address: 192.168.1.104
+     - role: nas
+       vars:
+         nas_host: odin.local
+         nas_mounting: present # mounted
+     - role: swappiness
+
+# Admin
+     - role: admin
+     - role: autoupdate
+       vars:
+         autoupdate_playbook: virtualbox.yml # update this
+     - role: smartctl
+     - role: teamviewer
+
+# Desktop
+     - role: apps
+     - role: desktop
+     - role: fonts
+     - role: webbrowsers
+
+# Backup
+     - role: backup
+       vars:
+         backup_name: amazons3
+         backup_description: "Amazon S3"
+         backup_time_delay: "40m" # update this
+         backup_test_time_delay: "140m" # update this
+     - role: backup
+       vars:
+         backup_name: odin
+         backup_description: "Odin"
+         backup_time_delay: "70m" # update this
+         backup_test_time_delay: "190m" # update this
+
+# Programming Tools
+     - role: atom
+     - role: eclipse
+     - role: intellij
+     - role: git
+     - role: gcloud
+     - role: pgadmin
+     - role: vaultclient
+       vars:
+         vault_server_address: titan.local
+         vault_server_port: 8200
+     - role: minikube
+       vars:
+         minikube_docker_registry: titan.local:5000
+         minikube_install: false # update this
+     - role: vagrant
+     - role: virtualbox
+
+# Programming Languages
+     - role: elm
+     - role: javascript
+     - role: jvm
+     - role: python
+     - role: stack
+
+# Services
+     - role: certificate
+       vars:
+         certificate_host: titan.local
+     - role: docker
+     - role: gogs
+       vars:
+         gogs_ssh_port: 10022
+         gogs_http_port: 10080
+     - role: haproxy
+       vars:
+         haproxy_host: titan.local
+         haproxy_docker_external_port: 5000
+         haproxy_docker_internal_port: 5001
+     - role: jenkins
+       vars:
+         jenkins_image_name: jenkins/jenkins:latest # titan.local:5000/jenkins:latest
+         jenkins_http_port: 8989
+     - role: mysql
+     - role: nexus
+       vars:
+         nexus_docker_internal_port: 5001
+         nexus_http_port: 18181
+     - role: printserver
+     - role: ssh
+     - role: vaultserver
+       vars:
+         vault_server_port: 8200
+     - role: watchtower
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

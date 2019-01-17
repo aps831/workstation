@@ -1,0 +1,5 @@
+---
+minikube_version: 0.30.0
+minikube_checksum: "sha256:f6fcd916adbdabc84fceb4ff3cadd58586f0ef6e576233b1bd03ead1f8f04afa"
+minikube_download_url: http://storage.googleapis.com/minikube/releases/v
+minikube_memory: 4096

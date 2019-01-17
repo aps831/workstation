@@ -1,0 +1,160 @@
+---
+
+ - name: ensure old versions of docker are not installed
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+     state: absent
+   vars:
+     packages:  
+     - docker
+     - docker-engine
+
+ - name: install packages
+   become: yes
+   apt:
+     name: ca-certificates
+     state: present
+
+ - name: add docker apt key
+   become: yes
+   apt_key:
+     url: https://download.docker.com/linux/ubuntu/gpg
+     id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+     state: present
+
+ - name: add docker repository
+   become: yes
+   apt_repository:
+     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
+     state: present
+     update_cache: yes
+
+ - name: install docker
+   become: yes
+   apt:
+     name: docker-ce
+     state: present
+   notify: restart docker
+
+ - name: notify handlers to avoid firewall conflicts
+   meta: flush_handlers
+
+ - name: ensure docker group exists
+   become: yes
+   group:
+     name: docker
+     state: present
+
+ - name: "ensure user '{{ ansible_user }}' is in docker group"
+   become: yes
+   user:
+     name: "{{ ansible_user }}"
+     groups: docker
+     append: yes
+
+ - name: check current docker-compose version
+   command: docker-compose --version
+   register: docker_compose_current_version
+   changed_when: false
+   failed_when: false
+
+ - name: delete existing docker-compose version if it is different
+   become: yes
+   file:
+     path: "{{ docker_compose_path }}"
+     state: absent
+   when: >
+     docker_compose_current_version.stdout is defined
+     and docker_compose_version not in docker_compose_current_version.stdout
+
+ - name: install docker compose
+   become: yes
+   get_url:
+     url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+     dest: "{{ docker_compose_path }}"
+     mode: 0755
+
+ - name: install docker compose bash completion
+   become: yes
+   get_url:
+     url: https://raw.githubusercontent.com/docker/compose/{{ docker_compose_version }}/contrib/completion/bash/docker-compose
+     dest: /etc/bash_completion.d/docker-compose
+     mode: 0755
+
+ - name: ensure docker is enabled at boot
+   become: yes
+   systemd:
+     name: docker
+     enabled: yes
+
+ - name: set default forward policy to accept for firewall
+   become: yes
+   ufw: 
+     direction=routed
+     default=allow
+     route=yes
+   notify: reload ufw 
+ 
+ - name: get ip address of docker interface
+   shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
+   register: ip
+   changed_when: false
+   
+ - name: allow connections from docker interface through firewall
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ ip.stdout }}/24"
+   notify: reload ufw 
+
+ - name: create directory for docker daemon configuration
+   become: yes
+   file:
+     path: /etc/systemd/system/docker.service.d/
+     state: directory
+     owner: root
+     group: root
+     mode: u=rw,g=r,o=r
+     recurse: yes
+
+ - name: docker daemon socket configuration
+   become: yes
+   copy:
+     src: hosts.conf
+     dest: /etc/systemd/system/docker.service.d/hosts.conf 
+   notify: restart docker
+
+ - name: docker daemon dns configuration
+   become: yes
+   vars:
+     docker_interface_ip_address: "{{ ip.stdout }}"
+   template:
+     src: daemon.json.j2
+     dest: /etc/docker/daemon.json
+   notify: restart docker 
+
+ - name: update grub for cgroups
+   become: yes
+   lineinfile:
+     state: present
+     dest: /etc/default/grub
+     backrefs: yes
+     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cgroup_enable=memory swapaccount=1)\"[^\"]*)(\".*)'
+     line: '\1 cgroup_enable=memory swapaccount=1\2'
+   notify: update grub
+
+ - name: install dnsmasq service
+   become: yes
+   copy:
+     src: dnsmasq.service
+     dest: /etc/systemd/system/dnsmasq.service
+   notify: restart dnsmasq
+
+ - name: ensure dnsmasq is enabled at boot
+   become: yes
+   systemd:
+     name: dnsmasq
+     enabled: yes
+
+

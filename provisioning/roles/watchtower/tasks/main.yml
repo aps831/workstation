@@ -1,0 +1,34 @@
+---
+
+ - name: create directory for scripts
+   become: yes
+   file: 
+     path=/usr/share/systemd
+     state=directory
+
+ - name: create script for service
+   become: yes
+   template:
+     src: watchtower.sh.j2
+     dest: /usr/share/systemd/watchtower.sh
+     mode: 0744
+   notify: restart watchtower
+
+ - name: create directory for data
+   become: yes
+   file: 
+     path=/var/lib/watchtower
+     state=directory
+
+ - name: create systemd service
+   become: yes
+   template:
+     src: watchtower.service.j2
+     dest: /etc/systemd/system/watchtower.service
+   notify: restart watchtower
+
+ - name: enable service at boot
+   become: yes
+   systemd:
+     name: watchtower
+     enabled: yes

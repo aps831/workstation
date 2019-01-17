@@ -1,0 +1,65 @@
+---
+
+ - name: install backup packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:  
+     - duplicity
+     - duply
+     - python-boto
+     - cron
+
+ - name: "create directory for {{ backup_name }} backup logs"
+   become: yes
+   file:
+     path: "/var/log/duply/{{ backup_name }}_backup"
+     state: directory
+     owner: root
+     group: root
+     mode: u=rw,g=r,o=r
+     recurse: yes
+
+ - name: "create directory for {{ backup_name }} test logs"
+   become: yes
+   file:
+     path: "/var/log/duply/{{ backup_name }}_test"
+     state: directory
+     owner: root
+     group: root
+     mode: u=rw,g=r,o=r
+     recurse: yes
+
+ - name: "install {{ backup_name }} backup script"
+   become: yes
+   template:
+     src: "backup.sh.j2"
+     dest: "/usr/local/sbin/{{ backup_name }}_backup.sh"
+     owner: root
+     group: root
+     mode: u+rwx,g-rwx,o-rwx
+
+ - name: "install {{ backup_name }} test script"
+   become: yes
+   template:
+     src: "test.sh.j2"
+     dest: "/usr/local/sbin/{{ backup_name }}_test.sh"
+     owner: root
+     group: root
+     mode: u+rwx,g-rwx,o-rwx
+
+ - name: "install cron job for {{ backup_name }} backup"
+   become: yes
+   cron:
+     name: "{{ backup_name }} backup"
+     special_time: reboot
+     job: "/usr/local/sbin/{{ backup_name }}_backup.sh"
+
+ - name: "install cron job for {{ backup_name }} test"
+   become: yes
+   cron:
+     name: "{{ backup_name }} test"
+     special_time: reboot
+     job: "/usr/local/sbin/{{ backup_name }}_test.sh"
+

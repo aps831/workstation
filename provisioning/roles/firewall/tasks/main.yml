@@ -1,0 +1,34 @@
+---
+
+ - name: install firewall packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - ufw
+     - gufw
+
+ - name: enable firewall
+   become: yes
+   ufw:
+     state: "{{ firewall_state }}"
+
+ - name: deny incoming
+   become: yes
+   ufw:
+     policy: deny
+     direction: incoming
+
+ - name: allow outgoing
+   become: yes
+   ufw:
+     policy: allow
+     direction: outgoing
+
+ - name: allow connections from within LAN
+   become: yes
+   ufw:
+     rule: allow
+     src: 192.168.1.0/24
+

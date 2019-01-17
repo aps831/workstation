@@ -1,0 +1,5 @@
+---
+vault_container_name: vaultd
+vault_container_version: 0.7.0
+vault_container_owner: 1000
+vault_container_group: "{{ vault_container_owner }}"

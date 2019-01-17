@@ -1,0 +1,14 @@
+---
+
+ - name: restart smbd
+   become: yes
+   systemd:
+     name: smbd
+     state: restarted
+
+ - name: restart nmbd
+   become: yes
+   systemd:
+     name: nmbd
+     state: restarted
+

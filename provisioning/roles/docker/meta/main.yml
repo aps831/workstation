@@ -1,0 +1,5 @@
+---
+ dependencies:
+   - role: codename
+   - role: ansible
+   - role: firewall

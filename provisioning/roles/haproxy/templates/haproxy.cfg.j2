@@ -1,0 +1,33 @@
+global
+   maxconn 4096
+   daemon
+
+defaults
+   log   global
+   mode   http
+   # logs which servers requests go to, plus current connections and a whole lot of other stuff 
+   option   httplog
+   option   dontlognull
+   retries   3
+   option redispatch
+   maxconn   2000
+   timeout connect   5000
+   timeout client   50000
+   timeout server   50000
+   log        127.0.0.1       local0
+   # use rsyslog rules to forword to a centralized server  
+   log        127.0.0.1       local7 debug
+
+frontend docker-https
+    bind {{ haproxy_ip_address }}:{{ haproxy_docker_external_port }} ssl crt /etc/ssl/private/{{ haproxy_host }}.pem
+    mode http
+    reqadd X-Forwarded-Proto:\ https
+    use_backend docker-backend
+
+backend docker-backend
+    balance leastconn
+    cookie JSESSIONID prefix
+    mode http   
+    option httpclose
+    option forwardfor
+    server node1 {{ haproxy_host }}:{{ haproxy_docker_internal_port }}

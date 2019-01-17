@@ -1,0 +1,49 @@
+---
+ - name: install python
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:  
+     - python-apt
+     - python3-apt
+     - python3-distutils
+     - python-dev
+     - python3-dev
+
+ - name: download pip
+   get_url:
+     url: https://bootstrap.pypa.io/get-pip.py
+     dest: /tmp/get-pip.py
+   changed_when: False
+
+ - name: "install pip2"
+   become: yes
+   command: python2 /tmp/get-pip.py
+   register: pip2_result
+   changed_when: "not pip2_result.stdout is search('Found existing installation: pip')"
+
+ - name: "install pip3"
+   become: yes
+   command: python3 /tmp/get-pip.py
+   register: pip3_result
+   changed_when: "not pip3_result.stdout is search('Found existing installation: pip')"
+
+ - name: install virtualenv
+   become: yes
+   command: pip3 install virtualenv
+   register: virtualenv_result
+   changed_when: '"Requirement already satisfied" not in virtualenv_result.stdout'
+
+ - name: install setuptools
+   become: yes
+   command: pip3 install setuptools
+   register: setuptools_result
+   changed_when: '"Requirement already satisfied" not in setuptools_result.stdout'
+
+ - name: install virtualenvwrapper
+   become: yes
+   command: pip3 install virtualenvwrapper
+   register: virtualenvwrapper_result
+   changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
+

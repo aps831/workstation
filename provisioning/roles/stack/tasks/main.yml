@@ -1,0 +1,23 @@
+---
+
+ - name: test if stack already installed
+   stat:
+     path: /usr/local/bin/stack
+   register: stack_result
+
+ - name: download stack shell script
+   get_url: 
+     url: "{{ stack_script_url }}"
+     dest: "{{ stack_script_tmp }}"
+     mode: 0700
+   when: stack_result.stat.exists == false
+
+ - name: execute stack shell script
+   become: yes
+   shell: "{{ stack_script_tmp }}"
+   register: stack
+   when: stack_result.stat.exists == false
+
+
+
+

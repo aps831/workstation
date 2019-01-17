@@ -1,0 +1,5 @@
+---
+ dependencies:
+   - role: samba
+   - role: ansible
+

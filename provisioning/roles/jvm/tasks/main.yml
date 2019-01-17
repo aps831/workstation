@@ -1,0 +1,116 @@
+---
+ - name: install system packages
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages: 
+     - curl
+     - debianutils
+     - findutils
+     - tar
+     - unzip
+     - zip
+   
+ - name: check for sdkman installation
+   stat:
+     path: "{{ sdkman_dir }}/bin/sdkman-init.sh"
+   register: sdkman_init
+
+ - name: download sdkman
+   get_url:
+     url: https://get.sdkman.io
+     dest: "{{ sdkman_tmp_dir }}/sdkman_script"
+   when: not sdkman_init.stat.exists
+
+ - name: run sdkman script
+   become: yes
+   environment:
+     SDKMAN_DIR: "{{ sdkman_dir }}"
+   command: bash {{ sdkman_tmp_dir }}/sdkman_script
+   args:
+     creates: '{{ sdkman_dir }}/bin/sdkman-init.sh'
+   when: not sdkman_init.stat.exists
+
+ - name: cleanup sdkman script
+   file:
+     path: "{{ sdkman_tmp_dir }}/sdkman_script"
+     state: absent
+   when: not sdkman_init.stat.exists
+
+ - name: set permissions on sdkman directory
+   become: yes
+   file:
+     path: "{{ sdkman_dir }}"
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     recurse: true
+   when: not sdkman_init.stat.exists
+
+ - name: flush sdk caches (before)
+   environment:
+     SDKMAN_DIR: "{{ sdkman_dir }}"
+   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
+   args:
+     executable: /bin/bash
+   with_items:
+   - temp
+   changed_when: false
+
+ - name: update sdkman
+   environment:
+     SDKMAN_DIR: "{{ sdkman_dir }}"
+   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk selfupdate
+   args:
+     executable: /bin/bash
+   register: sdk_selfupdate
+   changed_when: sdk_selfupdate.stdout != 'No update available at this time.'
+
+ - name: install sdk candidates/versions
+   environment:
+     SDKMAN_DIR: "{{ sdkman_dir }}"
+   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk install {{ item }}
+   args:
+     executable: /bin/bash
+   with_items:
+   - maven
+   - gradle
+   - java
+   register: sdk_install
+   changed_when: '"Downloading" in sdk_install.stdout'
+
+ - name: flush sdk caches (after)
+   environment:
+     SDKMAN_DIR: "{{ sdkman_dir }}"
+   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
+   args:
+     executable: /bin/bash
+   with_items:
+   - archives
+   - broadcast
+   - candidates
+   - temp
+   changed_when: false
+
+ - name: define java variables
+   become: yes
+   template:
+     src: java.sh.j2
+     dest: /etc/profile.d/java.sh
+     mode: 0777
+
+ - name: define gradle variables 
+   become: yes
+   template:
+     src: gradle.sh.j2
+     dest: /etc/profile.d/gradle.sh
+     mode: 0777
+
+ - name: define maven variables 
+   become: yes
+   template:
+     src: maven.sh.j2
+     dest: /etc/profile.d/maven.sh
+     mode: 0777
+

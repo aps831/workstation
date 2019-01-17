@@ -1,0 +1,66 @@
+---
+
+ - name: ensure smbcredentials exists
+   copy:
+     content: ""
+     dest: /home/{{ ansible_user }}/.smbcredentials
+     force: no
+     group: "{{ ansible_user }}"
+     owner: "{{ ansible_user }}"
+     mode: 0555
+
+ - name: mount homes
+   become: yes
+   mount:
+     path: /mnt/odin/homes
+     src: //{{ nas_host }}/homes
+     fstype: cifs
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     state: "{{ nas_mounting }}"
+
+ - name: mount music
+   become: yes
+   mount:
+     path: /mnt/odin/music
+     src: //{{ nas_host }}/music
+     fstype: cifs
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     state: "{{ nas_mounting }}"
+
+ - name: mount video
+   become: yes
+   mount:
+     path: /mnt/odin/video
+     src: //{{ nas_host }}/video
+     fstype: cifs
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     state: "{{ nas_mounting }}"
+
+ - name: mount photo
+   become: yes
+   mount:
+     path: /mnt/odin/photo
+     src: //{{ nas_host }}/photo
+     fstype: cifs
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     state: "{{ nas_mounting }}"
+
+ - name: mount backups
+   become: yes
+   mount:
+     path: /mnt/odin/backups
+     src: //{{ nas_host }}/backups
+     fstype: cifs
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     state: "{{ nas_mounting }}"
+
+
+
+
+
+
+
+
+
+
+

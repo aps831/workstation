@@ -1,0 +1,12 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ gogs_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ gogs_container_name }}  
+else
+    echo "Creating new container"
+    docker run -p {{ gogs_ssh_port }}:22 -p {{ gogs_http_port }}:3000 --volume=/var/lib/gogs/data:/data --name {{ gogs_container_name }} gogs/gogs
+fi
+

@@ -1,0 +1,163 @@
+---
+
+ - name: create directory for scripts
+   become: yes
+   file: 
+     path=/usr/share/systemd
+     state=directory
+
+ - name: create script for service
+   become: yes
+   template:
+     src: jenkins.sh.j2
+     dest: /usr/share/systemd/jenkins.sh
+     mode: 0744
+   notify: restart jenkins
+
+ - name: create systemd service
+   become: yes
+   template:
+     src: jenkins.service.j2
+     dest: /etc/systemd/system/jenkins.service
+   notify: restart jenkins
+
+ - name: enable service at boot
+   become: yes
+   systemd:
+     name: jenkins
+     enabled: yes
+
+ - name: create directory for data
+   become: yes
+   file: 
+     path=/var/lib/jenkins
+     state=directory
+     owner="{{ jenkins_container_owner }}"
+     group="{{ jenkins_container_group }}"
+
+ - name: create directory for config
+   become: yes
+   file: 
+     path=/var/lib/jenkins_config
+     state=directory
+     owner="{{ jenkins_container_owner }}"
+     group="{{ jenkins_container_group }}"
+
+ - name: check if m2 data volume exists
+   command: docker inspect jenkins_m2_data
+   register: inspect_jenkins_m2_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if npm data volume exists
+   command: docker inspect jenkins_npm_data
+   register: inspect_jenkins_npm_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if npmrc data volume exists
+   command: docker inspect jenkins_npmrc_data
+   register: inspect_jenkins_npmrc_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if gradle data volume exists
+   command: docker inspect jenkins_gradle_data
+   register: inspect_jenkins_gradle_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if docker data volume exists
+   command: docker inspect jenkins_docker_data
+   register: inspect_jenkins_docker_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if config data volume exists
+   command: docker inspect jenkins_config_data
+   register: inspect_jenkins_config_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if kube data volume exists
+   command: docker inspect jenkins_kube_data
+   register: inspect_jenkins_kube_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: check if gcloud data volume exists
+   command: docker inspect jenkins_gcloud_data
+   register: inspect_jenkins_gcloud_data
+   ignore_errors: true
+   changed_when: false
+
+ - name: create m2 data volume
+   command: docker run -d --name jenkins_m2_data -v /home/{{ ansible_user }}/.m2:/home/jenkins/.m2 {{ jenkins_image_name }}
+   when: inspect_jenkins_m2_data.rc == 1
+
+ - name: create npm data volume
+   command: docker run -d --name jenkins_npm_data -v /home/{{ ansible_user }}/.npm:/home/jenkins/.npm {{ jenkins_image_name }}
+   when: inspect_jenkins_npm_data.rc == 1
+
+ - name: create npmrc data volume
+   command: docker run -d --name jenkins_npmrc_data -v /home/{{ ansible_user }}/.npmrc:/home/jenkins/.npmrc {{ jenkins_image_name }}
+   when: inspect_jenkins_npmrc_data.rc == 1
+
+ - name: create gradle data volume
+   command: docker run -d --name jenkins_gradle_data -v /home/{{ ansible_user }}/.gradle:/home/jenkins/.gradle {{ jenkins_image_name }}
+   when: inspect_jenkins_gradle_data.rc == 1
+
+ - name: create docker data volume
+   command: docker run -d --name jenkins_docker_data -v /home/{{ ansible_user }}/.docker:/home/jenkins/.docker {{ jenkins_image_name }}
+   when: inspect_jenkins_docker_data.rc == 1
+
+ - name: create config data volume
+   command: docker run -d --name jenkins_config_data -v /var/lib/jenkins_config:/home/jenkins/.config {{ jenkins_image_name }}
+   when: inspect_jenkins_config_data.rc == 1
+
+ - name: create kube data volume
+   command: docker run -d --name jenkins_kube_data -v /home/{{ ansible_user }}/.kube:/home/jenkins/.kube {{ jenkins_image_name }}
+   when: inspect_jenkins_kube_data.rc == 1
+
+ - name: create gcloud data volume
+   command: docker run -d --name jenkins_gcloud_data -v /home/{{ ansible_user }}/.config/gcloud:/home/jenkins/.config/gcloud {{ jenkins_image_name }}
+   when: inspect_jenkins_gcloud_data.rc == 1
+
+ - name: pause to allow data volume containers to complete building
+   pause:
+     seconds: 20
+
+ - name: stop m2 data volume
+   command: docker stop jenkins_m2_data
+   changed_when: false
+
+ - name: stop npm data volume
+   command: docker stop jenkins_npm_data
+   changed_when: false
+
+ - name: stop npmrc data volume
+   command: docker stop jenkins_npmrc_data
+   changed_when: false
+
+ - name: stop gradle data volume
+   command: docker stop jenkins_gradle_data
+   changed_when: false
+
+ - name: stop docker data volume
+   command: docker stop jenkins_docker_data
+   changed_when: false
+
+ - name: stop config data volume
+   command: docker stop jenkins_config_data
+   changed_when: false
+
+ - name: stop kube data volume
+   command: docker stop jenkins_kube_data
+   changed_when: false
+
+ - name: stop gcloud data volume
+   command: docker stop jenkins_gcloud_data
+   changed_when: false
+
+
+

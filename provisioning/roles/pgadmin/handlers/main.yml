@@ -1,0 +1,9 @@
+---
+
+  - name: restart pgadmin
+    become: yes
+    systemd:
+      name: pgadmin
+      daemon_reload: yes
+      state: restarted
+

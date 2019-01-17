@@ -1,0 +1,22 @@
+#! /bin/bash
+LINES=$(docker ps -a --filter=name=^/{{ jenkins_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Removing existing container"
+    docker rm {{ jenkins_container_name }}
+fi
+echo "Creating new container"
+docker run --net=host \
+           --env JAVA_OPTS=-Xmx512m \
+           --env JENKINS_OPTS=--httpPort={{ jenkins_http_port }} \
+           --volumes-from jenkins_docker_data \
+           -v /var/run/docker.sock:/var/run/docker.sock \
+           -v /var/lib/jenkins:/var/jenkins_home \
+           -v /home/{{ ansible_user }}/.gitconfig:/home/jenkins/.gitconfig \
+           -v /home/{{ ansible_user }}/.minikube/:/home/{{ ansible_user }}/.minikube/ \
+           -v /home/{{ ansible_user }}/.ssh/:/home/jenkins/.ssh/ \
+           --name {{ jenkins_container_name }} \
+           {{ jenkins_image_name }}
+
+
+

@@ -1,0 +1,12 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ mysql_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ mysql_container_name }}  
+else
+    echo "Creating new container"
+    docker run --net=host --volume=/var/lib/mysql:/var/lib/mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true --name {{ mysql_container_name }} mysql:{{ mysql_version }}
+fi
+

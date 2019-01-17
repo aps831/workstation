@@ -1,0 +1,9 @@
+---
+
+  - name: restart nexus
+    become: yes
+    systemd:
+      name: nexus
+      daemon_reload: yes
+      state: restarted
+

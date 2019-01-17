@@ -1,0 +1,30 @@
+---
+
+ - name: install packages
+   become: yes
+   apt:
+     name: hplip
+     state: present
+
+ - name: make printers browseable on samba share
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: printers
+     option: browseable
+     value: yes
+   notify: 
+     - restart smbd
+     - restart nmbd
+
+ - name: allow guest access to printers on samba share
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: printers
+     option: guest ok
+     value: yes
+
+
+
+
+
+

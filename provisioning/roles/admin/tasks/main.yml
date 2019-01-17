@@ -1,0 +1,14 @@
+---
+
+ - name: install admin packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - synaptic    
+     - wget
+     - curl
+     - gparted
+     - smartmontools
+

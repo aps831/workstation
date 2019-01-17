@@ -1,0 +1,35 @@
+---
+
+ - name: add repository
+   become: yes
+   apt_repository:
+     repo: ppa:git-core/ppa
+     codename: "{{ ubuntu_codename }}"
+     state: present
+     update_cache: yes
+
+ - name: install git
+   become: yes
+   apt:
+     name: git
+     state: present
+
+ - name: download git completion
+   become: yes
+   get_url:
+     url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+     dest: /etc/bash_completion.d/git-completion
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}" 
+     mode: 0444
+
+ - name: download git-flow completion
+   become: yes
+   get_url:
+     url: https://raw.githubusercontent.com/bobthecow/git-flow-completion/master/git-flow-completion.bash
+     dest: /etc/bash_completion.d/git-flow-completion
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}" 
+     mode: 0444
+
+

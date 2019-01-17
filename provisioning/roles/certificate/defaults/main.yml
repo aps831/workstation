@@ -1,0 +1,8 @@
+---
+certificate_subject: /C=UK/ST=Cambridgeshire/L=Peterborough/O=Andrew Spratley/CN={{ certificate_host }}
+certificate_key_path: /etc/ssl/private/{{ certificate_host }}.key
+certificate_private_key_path: /etc/ssl/private/{{ certificate_host }}.includesprivatekey.pem
+certificate_crt_path: /usr/local/share/ca-certificates/{{ certificate_host }}.crt
+certificate_pem_path: /etc/ssl/certs/{{ certificate_host }}.pem 
+
+

@@ -1,0 +1,26 @@
+---
+
+ - name: add google linux signing key
+   become: yes
+   apt_key:
+     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+     state: present
+
+ - name: add google chrome repository
+   become: yes
+   apt_repository:
+     repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+     state: present
+
+ - name: install packages
+   become: yes
+   apt: 
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:  
+     - chromium-browser
+     - firefox
+     - google-chrome-stable
+
+

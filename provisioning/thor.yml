@@ -1,0 +1,88 @@
+---
+
+ - name: run playbook tasks
+   hosts: local
+   become: yes
+   roles:
+
+# Security
+     - role: 2fa
+     - role: encryption
+     - role: firewall
+       vars:
+         firewall_state: enabled
+
+# Setup
+     - role: hosts
+       vars:
+         hosts_titan_ip_address: 192.168.1.101
+         hosts_thor_ip_address: 192.168.1.104
+     - role: nas
+       vars:
+         nas_host: odin.local
+         nas_mounting: mounted
+     - role: swappiness
+
+# Admin
+     - role: admin
+     - role: autoupdate
+       vars:
+         autoupdate_playbook: thor.yml
+     - role: smartctl
+     - role: teamviewer
+
+# Desktop
+     - role: apps
+     - role: desktop
+     - role: fonts
+     - role: webbrowsers
+
+# Backup
+     - role: backup
+       vars:
+         backup_name: amazons3
+         backup_description: "Amazon S3"
+         backup_time_delay: "30m"
+         backup_test_time_delay: "180m"
+     - role: backup
+       vars:
+         backup_name: odin
+         backup_description: "Odin"
+         backup_time_delay: "60m"
+         backup_test_time_delay: "180m"
+
+# Programming Tools
+     - role: atom
+     - role: eclipse
+     - role: intellij
+     - role: git
+     - role: gcloud
+     - role: pgadmin
+     - role: vaultclient
+       vars:
+         vault_server_address: titan.local
+         vault_server_port: 8200
+     - role: minikube
+       vars:
+         minikube_docker_registry: titan.local:5000
+         minikube_install: true
+     - role: vagrant
+     - role: virtualbox
+
+# Programming Languages
+     - role: elm
+     - role: javascript
+     - role: jvm
+     - role: python
+     - role: stack
+
+# Services
+     - role: docker
+     - role: ssh
+     - role: watchtower
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

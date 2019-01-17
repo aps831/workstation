@@ -1,0 +1,32 @@
+#! /bin/bash
+sleep {{ backup_test_time_delay }}
+
+WORK_DIR=$(mktemp -d)
+cd $WORK_DIR
+
+if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
+  echo "Could not create temp dir" > /var/log/duply/{{ backup_name }}_test/{{ backup_name }}_test.log
+  exit 1
+fi
+
+function cleanup {      
+  rm -rf "$WORK_DIR"
+}
+
+trap cleanup EXIT
+
+env HOME=/home/{{ ansible_user }} duply {{ backup_name }} fetch hdd/home/{{ ansible_user }}/.m2 fetch/ > /var/log/duply/{{ backup_name }}_test/{{ backup_name }}_test.log
+
+if [ $? -ne 0 ]; then
+    urgency="critical"    
+    title="Backup Test Failed"
+    msg="The test of the backup to {{ backup_description }} failed"
+else
+    urgency="normal"    
+    title="Backup Test Completed"
+    msg="The test of the backup to {{ backup_description }} was successful"
+fi
+
+export DISPLAY=:0
+su {{ ansible_user }} -c "/usr/bin/notify-send --urgency=$urgency --app-name='{{ backup_description }} Backup Test Script' '$title' '$msg'"
+

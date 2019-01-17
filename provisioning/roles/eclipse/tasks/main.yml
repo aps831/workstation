@@ -1,0 +1,80 @@
+---
+ - name: determine if eclipse already installed
+   stat:
+      path: "{{ eclipse_install_dir }}"
+   register: eclipse_install
+   changed_when: false
+
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+   when: not eclipse_install.stat.exists
+
+ - name: download and unpack eclipse
+   become: yes
+   unarchive:
+     src: "{{ eclipse_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"     
+     remote_src: yes
+   changed_when: false
+   when: not eclipse_install.stat.exists
+
+ - name: install features
+   shell: "{{ tmp_dir.path }}/eclipse/eclipse -application org.eclipse.equinox.p2.director -noSplash -repository {{ item.repo }} -installIUs {{ item.feature }}"
+   with_items:
+#     - { repo: 'http://download.eclipse.org/releases/{{ eclipse_version }}', feature: 'org.eclipse.buildship.feature.group'}
+     - { repo: 'http://dadacoalition.org/yedit', feature: 'org.dadacoalition.yedit.feature.feature.group'}
+#     - { repo: 'https://devstudio.redhat.com/{{ eclipse_devstudio_version }}/stable/updates', feature: 'com.jboss.devstudio.core.feature.feature.group'}
+#     - { repo: 'http://jbehave.org/reference/eclipse/updates/', feature: 'org.jbehave.eclipse.feature.feature.group'}
+#     - { repo: 'https://dl.bintray.com/jetbrains/kotlin/eclipse-plugin/last', feature: 'org.jetbrains.kotlin.feature.feature.group'}
+   changed_when: false
+   when: not eclipse_install.stat.exists
+
+ - name: copy eclipse to installation directory
+   become: yes
+   synchronize: 
+     src: "{{ tmp_dir.path }}/eclipse/"
+     dest: "{{ eclipse_install_dir }}"
+     checksum: yes
+     recursive: yes
+     delete: yes
+     times: no
+   delegate_to: "{{ inventory_hostname }}"
+   when: not eclipse_install.stat.exists
+
+ - name: Set Xms value in ini file
+   lineinfile:
+     dest: "{{ eclipse_install_dir }}/eclipse.ini"
+     regexp: "^-Xms"
+     line: "-Xms512m"
+
+ - name: Set Xmx value in ini file
+   lineinfile:
+     dest: "{{ eclipse_install_dir }}/eclipse.ini"
+     regexp: "^-Xmx"
+     line: "-Xmx2048m"
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "{{ eclipse_install_dir }}/eclipse"
+     path: "/usr/local/sbin/eclipse"
+     state: link
+
+ - name: add eclipse shortcut
+   become: yes
+   template: 
+     src=eclipse.desktop.j2 
+     dest=/usr/share/applications/eclipse.desktop
+   when: not eclipse_install.stat.exists
+
+
+
+
+
+

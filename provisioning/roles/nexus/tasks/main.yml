@@ -1,0 +1,38 @@
+---
+
+ - name: create directory for scripts
+   become: yes
+   file: 
+     path=/usr/share/systemd
+     state=directory
+
+ - name: create script for service
+   become: yes
+   template:
+     src: nexus.sh.j2
+     dest: /usr/share/systemd/nexus.sh
+     mode: 0744
+   notify: restart nexus
+
+ - name: create directory for data
+   become: yes
+   file: 
+     path=/var/lib/sonatype/nexus-data
+     state=directory
+     owner="{{ nexus_container_owner }}"
+     group="{{ nexus_container_group }}"
+
+ - name: create systemd service
+   become: yes
+   template:
+     src: nexus.service.j2
+     dest: /etc/systemd/system/nexus.service
+   notify: restart nexus
+
+ - name: enable service at boot
+   become: yes
+   systemd:
+     name: nexus
+     enabled: yes
+
+

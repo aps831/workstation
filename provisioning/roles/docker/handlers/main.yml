@@ -1,0 +1,23 @@
+---
+
+  - name: restart docker
+    become: yes
+    systemd:
+      name: docker
+      daemon_reload: yes
+      state: restarted
+
+  - name: restart dnsmasq
+    become: yes
+    systemd:
+      name: dnsmasq
+      state: restarted
+
+  - name: reload ufw
+    become: yes
+    ufw:
+      state: reloaded
+
+  - name: update grub
+    become: yes
+    command: update-grub

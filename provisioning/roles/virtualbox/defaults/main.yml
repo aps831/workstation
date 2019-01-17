@@ -1,0 +1,9 @@
+---
+vbox_version: 5.2
+vbox_extpack_version: 5.2.22
+vbox_extpack_filename: Oracle_VM_VirtualBox_Extension_Pack-{{ vbox_extpack_version }}.vbox-extpack
+vbox_extpack_url: https://download.virtualbox.org/virtualbox/{{ vbox_extpack_version }}/{{ vbox_extpack_filename }}
+share_name: shared
+share_dir: /home/{{ ansible_user }}/shared
+
+

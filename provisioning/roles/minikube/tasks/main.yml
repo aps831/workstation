@@ -1,0 +1,23 @@
+---
+ - name: download minikube
+   become: true
+   get_url: 
+     url: "{{ minikube_download_url }}{{ minikube_version }}/minikube-linux-amd64"
+     checksum: "{{ minikube_checksum }}"
+     dest: /usr/local/bin/minikube
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"   
+
+
+ - name: create minikube instance
+   command: minikube start --insecure-registry="{{ minikube_docker_registry }}" --memory {{ minikube_memory }} && minikube stop
+   changed_when: false
+   when: minikube_install == true
+
+ - name: set dns host resolver
+   command: VBoxManage modifyvm "minikube" --natdnshostresolver1 on
+   changed_when: false
+   when: minikube_install == true
+
+

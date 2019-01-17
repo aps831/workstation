@@ -1,0 +1,12 @@
+[Unit]
+Description=jenkins
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/jenkins.sh
+
+[Install]
+WantedBy=multi-user.target
+

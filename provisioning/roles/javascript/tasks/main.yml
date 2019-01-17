@@ -1,0 +1,45 @@
+---
+
+ - name: install packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages: 
+     - build-essential
+     - libssl-dev
+
+ - name: check for nvm installation
+   become: yes
+   stat:
+     path: "{{ nvm.dir }}"
+   register: nvm_init
+   changed_when: false
+   
+ - name: install nvm
+   become: yes
+   git:
+   args:
+     repo: https://github.com/creationix/nvm.git
+     dest: "{{ nvm.dir }}"
+     version: "{{ nvm.version }}"
+   when: not nvm_init.stat.exists
+
+ - name: set permissions on nvm directory
+   become: yes
+   file:
+     path: "{{ nvm.dir }}"
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     recurse: true
+ 
+ - name: install node {{ nvm.node_version }}
+   shell: "source {{ nvm.dir }}/nvm.sh && nvm install {{ nvm.node_version }}"
+   args:
+     executable: /bin/bash
+   register: nvm_install_result
+   when: not nvm_init.stat.exists
+   changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
+

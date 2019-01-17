@@ -1,0 +1,2 @@
+[local]
+ansible ansible_host=192.168.33.23 ansible_port=22 

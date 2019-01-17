@@ -1,0 +1,12 @@
+[Unit]
+Description=nexus
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/nexus.sh
+
+[Install]
+WantedBy=multi-user.target
+

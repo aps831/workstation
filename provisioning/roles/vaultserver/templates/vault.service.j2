@@ -1,0 +1,15 @@
+[Unit]
+Description=vault
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/vault.sh
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+

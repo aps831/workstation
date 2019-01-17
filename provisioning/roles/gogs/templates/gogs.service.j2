@@ -1,0 +1,12 @@
+[Unit]
+Description=Gogs
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/gogs.sh
+
+[Install]
+WantedBy=multi-user.target
+

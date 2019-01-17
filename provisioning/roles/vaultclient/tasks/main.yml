@@ -1,0 +1,30 @@
+---
+
+ - name: create script to set vault address
+   become: yes
+   template:
+     src: vault.sh.j2
+     dest: /etc/profile.d/vault.sh
+     mode: 0744
+
+ - name: download vault
+   become: yes
+   unarchive:
+     src: https://releases.hashicorp.com/vault/{{ vault_client_version }}/{{ vault_client_file }}
+     dest: /usr/local/bin/
+     mode: 0777
+     remote_src: yes
+
+ - name: calculate sha256 checksum of unpacked file
+   stat: 
+     path=/usr/local/bin/vault
+     get_checksum=true
+     checksum_algorithm=sha256
+   register: vault_checksum
+
+ - name: fail if checksum is incorrect
+   fail:
+     msg: "checksum of downloaded file was incorrect"
+   when: vault_checksum.stat.checksum != vault_client_file_sha256
+
+

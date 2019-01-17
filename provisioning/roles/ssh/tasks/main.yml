@@ -1,0 +1,35 @@
+---
+  - name: install ssh packages
+    become: yes
+    apt: 
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - openssh-server
+      - ssh
+
+  - name: allow public key authentication
+    become: yes
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^(#|)\s*PubkeyAuthentication (yes|no)'
+      line: 'PubkeyAuthentication yes'
+    notify: restart ssh
+
+  - name: deny challenge response authentication
+    become: yes
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^(#|)\s*ChallengeResponseAuthentication (yes|no)'
+      line: 'ChallengeResponseAuthentication no'
+    notify: restart ssh
+
+  - name: deny password authentication
+    become: yes
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^(#|)\s*PasswordAuthentication (yes|no)'
+      line: 'PasswordAuthentication no'
+    notify: restart ssh
+
+
