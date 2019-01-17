@@ -24,10 +24,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
-#    ansible.playbook = "provisioning/virtualbox.yml"
+    ansible.playbook = "provisioning/virtualbox.yml"
 #    ansible.playbook = "provisioning/thor.yml"
 #    ansible.playbook = "provisioning/titan.yml"
-    ansible.playbook = "provisioning/m-d-desktop.yml"
+#    ansible.playbook = "provisioning/m-d-desktop.yml"
     ansible.inventory_path = "provisioning/inventory"
     ansible.become = true
   end
