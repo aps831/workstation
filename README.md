@@ -4,14 +4,12 @@ Configuration of workstations via Ansible
 ## Testing
 To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have been created called `virtualbox.yml`, `thor.yml`, `titan.yml` and `md-desktop.yml`. `virtualbox.yml` is designed to run through all the roles to test them by creating a Linux Mint instance in Virtualbox.  However, the other playbooks can be tested by uncommenting the appropriate line in `Vagrantfile` and changing the `minikube_install` variable to `false`, `nas_mounting` to `present`, `firewall_state` to `disabled` and `jenkins_image_name` to `jenkins/jenkins:latest` in the appropriate playbook.
 
-If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  
-Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.
-The work-around to this is to restart Docker with `sudo systemctl restart docker`.
+If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
 
 ## Production
 
 ### Pre Tasks
-Before the Ansible playbook is run, mounting of `/home` and `/var` from a secondary hard disk must be done manually.  Using a mount point of `/hdd` and user `andrew` execute:
+If it is necessary to first move `/home` and `/var` onto a secondary hard disk, then ensure that the `-p` flag is used with `cp` to ensure that permissions are preserved.  Before the Ansible playbook is run, mounting of `/home` and `/var` from a secondary hard disk must be done manually.  Using a mount point of `/hdd` and user `andrew` execute:
 
 ```
 sudo mkdir /hdd
