@@ -2,15 +2,14 @@
 sleep {{ backup_time_delay }}
 env HOME=/home/{{ ansible_user }} ionice duply {{ backup_name }} backup > /var/log/duply/{{ backup_name }}_backup/{{ backup_name }}_backup.log
 if [ $? -ne 0 ]; then
-    urgency="critical"    
-    title="Backup Failed"
+    urgency="critical"
+    title="Backup Failed.  Do Not Ignore This Message"
     msg="The backup to {{ backup_description }} failed"
 else
-    urgency="normal"    
+    urgency="normal"
     title="Backup Completed"
     msg="The backup to {{ backup_description }} was successful"
 fi
 
 export DISPLAY=:0
 su {{ ansible_user }} -c "/usr/bin/notify-send --urgency=$urgency --app-name='{{ backup_description }} Backup Script' '$title' '$msg'"
-
