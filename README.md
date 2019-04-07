@@ -34,7 +34,7 @@ sudo ln -s /hdd/home home
 Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.  Do not create a back up in this directory as it will be read in as though it were config.  To restart cups run `sudo systemctl restart cups.service`.
 
 ### Run
-A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Execute the script `bootstrap.sh` and enter the appropriate playbook name: `thor.yml`, `titan.yml` or `md-desktop.yml`.
+A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Execute the script `bootstrap.sh` and enter the appropriate playbook name: `thor.yml`, `titan.yml` or `md-desktop.yml`.  Alternativaly, a playbook can be run locally using `ansible-playbook --ask-become-pass provisioning/<name>.yml`
 
 ### Post Tasks
 To complete the setup, icons on the panel need to be added manually and the self-signed certificate for Docker copied from `titan` to `thor`.  On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`.  On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.  
