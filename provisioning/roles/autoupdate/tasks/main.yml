@@ -2,16 +2,16 @@
 
  - name: install cron
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages:  
+     packages:
      - cron
 
  - name: install cron job for ansible-pull
    become: yes
-   cron: 
-     user="{{ ansible_user }}" 
-     name="ansible provision" 
-     minute="*/10" 
-     job="/usr/bin/ansible-pull -o -U https://aps831@bitbucket.org/aps831/workstation_configuration.git provisioning/{{ autoupdate_playbook }} > /dev/null"
+   cron:
+     user="{{ ansible_user }}"
+     name="ansible provision"
+     minute="*/10"
+     job="/usr/bin/ansible-pull -o -U https://aps831@bitbucket.org/aps831/workstation.git provisioning/{{ autoupdate_playbook }} > /dev/null"

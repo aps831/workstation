@@ -16,5 +16,4 @@ echo "Enter playbook name:"
 read PLAYBOOK
 
 # Run ansible-pull
-ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation_configuration.git provisioning/"$PLAYBOOK"
-
+ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation.git provisioning/"$PLAYBOOK"
