@@ -33,7 +33,7 @@ sudo ln -s /hdd/var var
 sudo ln -s /hdd/home home
 ```
 
-Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.
+Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.  Do not create a back up in this directory as it will be read in as though it were config.  To restart cups run `sudo systemctl restart cups.service`.
 
 ### Run
 A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Execute the script `bootstrap.sh` and enter the appropriate playbook name: `thor.yml`, `titan.yml` or `md-desktop.yml`.
