@@ -23,7 +23,7 @@ To identify the UUID of the disk that `/home` and `/var` are on run `lsblk -f`. 
 
 ```
 # /etc/fstab
-UUID=$UUID    /hdd ext4 defaults 0 2"
+UUID=$UUID    /hdd ext4 defaults 0 2
 ```
 Reload fstab by running `sudo mount -a`.  Then create symbolic links for `/home` and `/var`:
 
