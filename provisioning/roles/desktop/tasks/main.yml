@@ -2,7 +2,7 @@
 
  - name: install desktop packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
      packages:
@@ -10,16 +10,20 @@
      - redshift
      - redshift-gtk
 
+# dconf does not play nicely with ansible_user when playbook is run locally.
+ - name: set username
+   set_fact: desktop_user="{{ ansible_user }}"
+
  - name: set list view for new folders
-   become_user: "{{ ansible_user }}"
+   become_user: "{{ desktop_user }}"
    dconf: key="/org/nemo/preferences/default-folder-viewer" value="'list-view'"
 
  - name: set wallpaper file
-   become_user: "{{ ansible_user }}"
-   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ ansible_user }}/.wallpaper.png'"
+   become_user: "{{ desktop_user }}"
+   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ desktop_user }}/.wallpaper.png'"
 
  - name: centre wallpaper
-   become_user: "{{ ansible_user }}"
+   become_user: "{{ desktop_user }}"
    dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
 
  - name: create nemo action for shred
@@ -27,10 +31,8 @@
    copy:
      src: shred.nemo_action
      dest: /usr/share/nemo/actions/shred.nemo_action
- 
+
  - name: create bookmarks
    template:
-     src: bookmarks.j2
-     dest: /home/{{ ansible_user }}/.config/gtk-3.0/bookmarks
-
-
+     src: "bookmarks.{{ desktop_user }}.j2"
+     dest: /home/{{ desktop_user }}/.config/gtk-3.0/bookmarks

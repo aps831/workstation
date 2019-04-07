@@ -1,10 +1,10 @@
 ---
  - name: install python
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages:  
+     packages:
      - python-apt
      - python3-apt
      - python3-distutils
@@ -46,4 +46,3 @@
    command: pip3 install virtualenvwrapper
    register: virtualenvwrapper_result
    changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
-
