@@ -1,4 +1,2 @@
 [local]
-titan ansible_connection=local
-thor ansible_connection=local
-md-desktop ansible_connection=local
+localhost ansible_connection=local

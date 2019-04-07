@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: local
+   hosts: localhost
    become: yes
    roles:
 
