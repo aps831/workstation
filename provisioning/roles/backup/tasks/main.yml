@@ -2,14 +2,15 @@
 
  - name: install backup packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages:  
+     packages:
      - duplicity
      - duply
      - python-boto
      - cron
+     - timeshift
 
  - name: "create directory for {{ backup_name }} backup logs"
    become: yes
@@ -62,4 +63,3 @@
      name: "{{ backup_name }} test"
      special_time: reboot
      job: "/usr/local/sbin/{{ backup_name }}_test.sh"
-
