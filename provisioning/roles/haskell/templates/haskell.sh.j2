@@ -1,0 +1,4 @@
+#! /bin/bash
+export CABAL_HOME=/home/{{ ansible_user }}/.cabal/bin
+export GHCUP_HOME=/home/{{ ansible_user }}/.ghcup/bin
+export PATH=$PATH:$CABAL_HOME:$GHCUP_HOME

@@ -74,7 +74,7 @@
      - role: javascript
      - role: jvm
      - role: python
-     - role: stack
+     - role: haskell
 
 # Services
      - role: certificate

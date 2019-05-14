@@ -1,0 +1,88 @@
+---
+
+ - name: test if stack already installed
+   stat:
+     path: /usr/local/bin/stack
+   register: stack_result
+
+ - name: download stack shell script
+   get_url:
+     url: "{{ stack_script_url }}"
+     dest: "{{ stack_script_tmp }}"
+     mode: 0700
+   when: not stack_result.stat.exists
+
+ - name: execute stack shell script
+   become: yes
+   shell: "{{ stack_script_tmp }}"
+   when: not stack_result.stat.exists
+
+ - name: test if ghcup already installed
+   stat:
+     path: /home/{{ ansible_user }}/.ghcup/bin/ghcupXXXXTODO
+   register: ghcup_result
+
+ - name: install ghcup packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - curl
+     - g++
+     - gcc
+     - libgmp3-dev
+     - make
+     - libncurses5-dev
+     - libncursesw5-dev
+     - coreutils
+     - xz-utils
+   when: not ghcup_result.stat.exists
+
+ - name: workaround for libtinfo bug
+   file:
+     src: '/usr/lib/x86_64-linux-gnu/libtinfo.so'
+     dest: '/usr/lib/x86_64-linux-gnu/libtinfo.so.6'
+     state: link
+   when: not ghcup_result.stat.exists
+
+ - name: download ghcup shell script
+   get_url:
+     url: "{{ ghcup_script_url }}"
+     dest: "{{ ghcup_script_tmp }}"
+     mode: 0700
+   when: not ghcup_result.stat.exists
+
+ - name: execute ghcup shell script
+   shell: "{{ ghcup_script_tmp }}"
+   environment:
+     HOME: /home/{{ ansible_user }}
+     BOOTSTRAP_HASKELL_NONINTERACTIVE: 0
+   when: not ghcup_result.stat.exists
+
+ - name: update permissions
+   file:
+     path: "{{ item }}"
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     recurse: true
+   with_items:
+    - /home/{{ ansible_user }}/.ghcup
+    - /home/{{ ansible_user }}/.cabal
+   when: not ghcup_result.stat.exists
+
+ - name: define haskell variables
+   become: yes
+   template:
+     src: haskell.sh.j2
+     dest: /etc/profile.d/haskell.sh
+     mode: 0777
+   when: not ghcup_result.stat.exists
+
+ - name: run cabal new install
+   shell: cabal new-install cabal-install
+   environment:
+     PATH: "{{ ansible_env.PATH }}:/home/{{ ansible_user }}/.ghcup/bin/"
+     HOME: /home/{{ ansible_user }}
+   when: not ghcup_result.stat.exists
