@@ -2,13 +2,12 @@
 
  - name: install application packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages: 
-     - shotwell    
+     packages:
+     - shotwell
      - libreoffice
      - imagemagick
      - sound-juicer
-    
-
+     - inkscape
