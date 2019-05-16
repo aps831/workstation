@@ -19,7 +19,7 @@
 
  - name: test if ghcup already installed
    stat:
-     path: /home/{{ ansible_user }}/.ghcup/bin/ghcupXXXXTODO
+     path: /home/{{ ansible_user }}/.ghcup/bin/ghcup
    register: ghcup_result
 
  - name: install ghcup packages
@@ -60,18 +60,6 @@
      BOOTSTRAP_HASKELL_NONINTERACTIVE: 0
    when: not ghcup_result.stat.exists
 
- - name: update permissions
-   file:
-     path: "{{ item }}"
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     recurse: true
-   with_items:
-    - /home/{{ ansible_user }}/.ghcup
-    - /home/{{ ansible_user }}/.cabal
-   when: not ghcup_result.stat.exists
-
  - name: define haskell variables
    become: yes
    template:
@@ -85,4 +73,16 @@
    environment:
      PATH: "{{ ansible_env.PATH }}:/home/{{ ansible_user }}/.ghcup/bin/"
      HOME: /home/{{ ansible_user }}
+   when: not ghcup_result.stat.exists
+
+ - name: update permissions
+   file:
+     path: "{{ item }}"
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     recurse: true
+   with_items:
+     - /home/{{ ansible_user }}/.ghcup
+     - /home/{{ ansible_user }}/.cabal
    when: not ghcup_result.stat.exists
