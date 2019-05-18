@@ -1,0 +1,17 @@
+---
+ - name: install key for microsoft
+   apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+ - name: add vscode repository
+   apt_repository:
+     repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+     state: present
+     filename: sublime
+
+ - name: install vscode
+   apt:
+     state: present
+     pkg: code
+     update_cache: yes
