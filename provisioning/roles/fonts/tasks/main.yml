@@ -5,7 +5,7 @@
    debconf:
      name: ttf-mscorefonts-installer
      question: msttcorefonts/accepted-mscorefonts-eula
-     value: true
+     value: "true"
      vtype: select
 
  - name: install font packages
