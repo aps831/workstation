@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: localhost
+   hosts: local
    roles:
 
 # Security
