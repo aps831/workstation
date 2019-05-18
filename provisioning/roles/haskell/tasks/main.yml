@@ -37,6 +37,7 @@
      - libncursesw5-dev
      - coreutils
      - xz-utils
+     - libz-dev
    when: not ghcup_result.stat.exists
 
  - name: workaround for libtinfo bug
