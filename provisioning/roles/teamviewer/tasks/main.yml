@@ -1,6 +1,7 @@
 ---
 
  - name: install package
+   become: yes
    apt:
      deb: "{{ teamviewer_url_deb }}"
      state: present
