@@ -59,7 +59,6 @@
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000
-         minikube_install: true
      - role: pgadmin
      - role: sublime
      - role: vaultclient
