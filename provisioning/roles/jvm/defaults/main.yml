@@ -1,4 +1,3 @@
 ---
 sdkman_tmp_dir: /tmp
-sdkman_dir: /usr/local/sdkman
-
+sdkman_dir: /home/{{ ansible_user }}/.sdkman
