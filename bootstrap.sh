@@ -12,7 +12,7 @@ sudo apt-get install -y ansible
 
 echo "******************************************"
 echo "******************************************"
-echo "Enter playbook name:"
+echo "Enter playbook name including '.yml' extension:"
 read PLAYBOOK
 
 # Run ansible-pull
