@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: local   
+   hosts: local
    roles:
 
 # Security
@@ -56,17 +56,19 @@
      - role: intellij
      - role: git
      - role: gcloud
-     - role: pgadmin
-     - role: vaultclient
-       vars:
-         vault_server_address: titan.local
-         vault_server_port: 8200
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000
          minikube_install: false # update this
+     - role: pgadmin
+     - role: sublime
+     - role: vaultclient
+       vars:
+         vault_server_address: titan.local
+         vault_server_port: 8200
      - role: vagrant
      - role: virtualbox
+     - role: vscode
 
 # Programming Languages
      - role: elm
