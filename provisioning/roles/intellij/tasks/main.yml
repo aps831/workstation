@@ -21,26 +21,26 @@
      validate_certs: no
      body_format: json
    register: intellij_releases_response
-   when: 
-     - intellij_version == 'latest' 
-     - not intellij_install.stat.exists
-   changed_when: false
-
- - name: extract release version from response   
-   set_fact:
-     intellij_version: "{{ intellij_releases_response.json.IIC.0.version }}"
-   when: 
+   when:
      - intellij_version == 'latest'
      - not intellij_install.stat.exists
    changed_when: false
-     
+
+ - name: extract release version from response
+   set_fact:
+     intellij_version: "{{ intellij_releases_response.json.IIC.0.version }}"
+   when:
+     - intellij_version == 'latest'
+     - not intellij_install.stat.exists
+   changed_when: false
+
  - name: download and unpack intellij
    become: yes
    unarchive:
      src: "{{ intellij_download_url }}"
      dest: "{{ tmp_dir.path }}"
      owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"     
+     group: "{{ ansible_user }}"
      remote_src: yes
    changed_when: false
    when: not intellij_install.stat.exists
@@ -53,7 +53,7 @@
 
  - name: copy intellij to installation directory
    become: yes
-   synchronize: 
+   synchronize:
      src: "{{ tmp_dir.path }}/{{ result_intellij_folder_name.stdout }}/"
      dest: "{{ intellij_install_dir }}"
      checksum: yes
@@ -65,10 +65,15 @@
 
  - name: add intellij to bin folder
    become: yes
-   template: 
-     src=intellij.j2 
-     dest=/usr/bin/intellij 
+   template:
+     src=intellij.j2
+     dest=/usr/bin/intellij
      mode=755
    when: not intellij_install.stat.exists
    changed_when: false
 
+ - name: add intellij shortcut
+   become: yes
+   template:
+     src=intellij.desktop.j2
+     dest=/usr/share/applications/intellij.desktop
