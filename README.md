@@ -9,27 +9,46 @@ If the Vagrant machine, called ansible, is running then re-provisioning can be p
 ## Production
 
 ### Pre Tasks
-If it is necessary to first move `/home` and `/var` onto a secondary hard disk, then ensure that the `-p` flag is used with `cp` to ensure that permissions are preserved.  Before the Ansible playbook is run, mounting of `/home` and `/var` from a secondary hard disk must be done manually.  Using a mount point of `/hdd` and user `andrew` execute:
+First move the `/home` and `/var` directories that are on the secondary hard drive to temporary directory names:
+
+```
+sudo mv /media/andrew/hdd/home /media/andrew/hdd/home_orig
+sudo mv /media/andrew/hdd/var /media/andrew/hdd/var_orig
+```
+
+Now create a mount point for the secondary hard drive:
 
 ```
 sudo mkdir /hdd
-sudo chown andrew:andrew /hdd
-sudo chmod +rw /hdd
+sudo chmod 0755 /hdd
 ```
 
-To identify the UUID of the disk that `/home` and `/var` are on run `lsblk -f`.  Back up `/etc/fstab` using `sudo cp /etc/fstab /etc/fstab.bak` then edit `/etc/fstab` as follows:
+Backup /etc/fstab:
+
+```
+sudo cp /etc/fstab /etc/fstab.bak
+```
+
+Edit `/etc/fstab` using `lsblk -f` to identify the UID of the secondary hard drive:
 
 ```
 # /etc/fstab
 UUID=$UUID    /hdd ext4 defaults 0 2
 ```
-Reload fstab by running `sudo mount -a`.  Then create symbolic links for `/home` and `/var`:
+
+Mount the secondary hard drive and then move `/home` and `/var` to the secondary hard drive:
 
 ```
-cd /
+sudo mount -a
+sudo cp -pr /home /hdd/home
+sudo cp -pr /var /hdd/var
+sudo mv /home /home_old
+sudo mv /var /var_old
 sudo ln -s /hdd/var var
 sudo ln -s /hdd/home home
 ```
+
+`/hdd/home_orig` and `/hdd/var_orig` can then be merged manually into `/hdd/home` and `/hdd/var`, taking care to not move all the dot files.
 
 Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.  Do not create a back up in this directory as it will be read in as though it were config.  To restart cups run `sudo systemctl restart cups.service`.
 
