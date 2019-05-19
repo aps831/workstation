@@ -7,24 +7,20 @@
      state: present
 
  - name: make printers browseable on samba share
+   become: yes
    ini_file:
      path: /etc/samba/smb.conf
      section: printers
      option: browseable
-     value: yes
-   notify: 
+     value: "yes"
+   notify:
      - restart smbd
      - restart nmbd
 
  - name: allow guest access to printers on samba share
+   become: yes
    ini_file:
      path: /etc/samba/smb.conf
      section: printers
      option: guest ok
-     value: yes
-
-
-
-
-
-
+     value: "yes"
