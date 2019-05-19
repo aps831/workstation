@@ -29,7 +29,13 @@
    register: pip3_result
    changed_when: "not pip3_result.stdout is search('Found existing installation: pip')"
 
- - name: install virtualenv
+ - name: install virtualenv for python 2
+   become: yes
+   command: pip2 install virtualenv
+   register: virtualenv_result
+   changed_when: '"Requirement already satisfied" not in virtualenv_result.stdout'
+
+ - name: install virtualenv for python 3
    become: yes
    command: pip3 install virtualenv
    register: virtualenv_result
@@ -41,7 +47,13 @@
    register: setuptools_result
    changed_when: '"Requirement already satisfied" not in setuptools_result.stdout'
 
- - name: install virtualenvwrapper
+- name: install virtualenvwrapper for python 2
+  become: yes
+  command: pip2 install virtualenvwrapper
+  register: virtualenvwrapper_result
+  changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
+
+ - name: install virtualenvwrapper for python 3
    become: yes
    command: pip3 install virtualenvwrapper
    register: virtualenvwrapper_result
