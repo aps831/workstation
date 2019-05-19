@@ -36,3 +36,8 @@
    template:
      src: "bookmarks.{{ desktop_user }}.j2"
      dest: /home/{{ desktop_user }}/.config/gtk-3.0/bookmarks
+
+ - name: add redshift shortcut
+   template:
+     src=redshift-gtk.desktop.j2
+     dest=/home/{{ desktop_user }}/.config/autostart/redshift-gtk.desktop
