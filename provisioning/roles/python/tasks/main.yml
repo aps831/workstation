@@ -47,11 +47,11 @@
    register: setuptools_result
    changed_when: '"Requirement already satisfied" not in setuptools_result.stdout'
 
-- name: install virtualenvwrapper for python 2
-  become: yes
-  command: pip2 install virtualenvwrapper
-  register: virtualenvwrapper_result
-  changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
+ - name: install virtualenvwrapper for python 2
+   become: yes
+   command: pip2 install virtualenvwrapper
+   register: virtualenvwrapper_result
+   changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
 
  - name: install virtualenvwrapper for python 3
    become: yes
