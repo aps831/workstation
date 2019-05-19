@@ -15,7 +15,7 @@
      path: /mnt/odin/homes
      src: //{{ nas_host }}/homes
      fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
      state: "{{ nas_mounting }}"
 
  - name: mount music
@@ -24,7 +24,7 @@
      path: /mnt/odin/music
      src: //{{ nas_host }}/music
      fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
      state: "{{ nas_mounting }}"
 
  - name: mount video
@@ -33,7 +33,7 @@
      path: /mnt/odin/video
      src: //{{ nas_host }}/video
      fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
      state: "{{ nas_mounting }}"
 
  - name: mount photo
@@ -42,7 +42,7 @@
      path: /mnt/odin/photo
      src: //{{ nas_host }}/photo
      fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
      state: "{{ nas_mounting }}"
 
  - name: mount backups
@@ -51,16 +51,5 @@
      path: /mnt/odin/backups
      src: //{{ nas_host }}/backups
      fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm
+     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
      state: "{{ nas_mounting }}"
-
-
-
-
-
-
-
-
-
-
-
