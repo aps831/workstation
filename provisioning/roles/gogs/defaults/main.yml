@@ -1,4 +1,4 @@
 ---
 gogs_container_name: gogs
-gogs_container_owner: 1000
+gogs_container_owner: "1000"
 gogs_container_group: "{{ gogs_container_owner }}"

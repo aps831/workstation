@@ -1,5 +1,4 @@
 ---
 jenkins_container_name: jenkins
-jenkins_container_owner: 1000
+jenkins_container_owner: "1000"
 jenkins_container_group: "{{ jenkins_container_owner }}"
-
