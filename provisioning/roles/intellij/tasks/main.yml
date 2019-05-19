@@ -76,4 +76,4 @@
    become: yes
    template:
      src=intellij.desktop.j2
-     dest=/usr/share/applications/intellij.desktop
+     dest=/usr/share/applications/Intellij.desktop
