@@ -29,7 +29,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    ansible.playbook = "provisioning/titan.yml"
 #    ansible.playbook = "provisioning/md-desktop.yml"
     ansible.inventory_path = "provisioning/inventory"
-    ansible.become = true
   end
 
 end
