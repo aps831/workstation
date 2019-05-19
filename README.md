@@ -56,6 +56,8 @@ Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, 
 A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Execute the script `bootstrap.sh` and enter the appropriate playbook name: `thor.yml`, `titan.yml` or `md-desktop.yml`.  Alternativaly, a playbook can be run locally using `ansible-playbook --ask-become-pass provisioning/<name>.yml`
 
 ### Post Tasks
+Both the Docker and Virtualbox roles involve setting group membership.  This will only take effect after logging out and back in.
+
 To complete the setup, icons on the panel need to be added manually.
 
 The self-signed certificate for Docker needs to be copied from `titan` to `thor`.  On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`.  On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.  
