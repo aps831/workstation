@@ -64,6 +64,8 @@ Timeshift will require manual configuration.
 
 Virtual machines will need adding to Virtualbox and the location for saving virtual machines updated.
 
+Duply backups will need to be deleted.
+
 The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.
 
 ### Specified Versions
