@@ -78,6 +78,7 @@
    when: not ghcup_result.stat.exists
 
  - name: update permissions
+   become: yes
    file:
      path: "{{ item }}"
      state: directory
