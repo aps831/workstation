@@ -28,8 +28,12 @@
      recurse: true
    changed_when: False
 
+ - name: follow symlink to nvm directory
+   shell: readlink -f {{ nvm.dir }}
+     register: nvm_dir
+
  - name: install node {{ nvm.node_version }}
-   shell: "source {{ nvm.dir }}/nvm.sh && nvm install {{ nvm.node_version }}"
+   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm install {{ nvm.node_version }}"
    args:
      executable: /bin/bash
    register: nvm_install_result
