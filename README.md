@@ -44,6 +44,7 @@ sudo cp -pr /home /hdd/home
 sudo cp -pr /var /hdd/var
 sudo mv /home /home_old
 sudo mv /var /var_old
+cd /
 sudo ln -s /hdd/var var
 sudo ln -s /hdd/home home
 ```
