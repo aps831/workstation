@@ -24,9 +24,6 @@
 
 # Admin
      - role: admin
-     - role: autoupdate
-       vars:
-         autoupdate_playbook: virtualbox.yml # update this
      - role: smartctl
      - role: teamviewer
 

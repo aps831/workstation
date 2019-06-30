@@ -24,9 +24,6 @@
 
 # Admin
      - role: admin
-     - role: autoupdate
-       vars:
-         autoupdate_playbook: thor.yml
      - role: smartctl
      - role: teamviewer
 

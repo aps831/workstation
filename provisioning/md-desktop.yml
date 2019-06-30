@@ -16,9 +16,6 @@
 
 # Admin
      - role: admin
-     - role: autoupdate
-       vars:
-         autoupdate_playbook: md-desktop.yml
      - role: smartctl
      - role: teamviewer
 
