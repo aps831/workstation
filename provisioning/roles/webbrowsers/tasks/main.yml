@@ -10,6 +10,7 @@
    become: yes
    apt_repository:
      repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+     filename: google-chrome
      state: present
 
  - name: install packages
@@ -22,5 +23,3 @@
      - chromium-browser
      - firefox
      - google-chrome-stable
-
-
