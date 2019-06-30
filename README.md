@@ -50,6 +50,7 @@ sudo ln -s /hdd/home home
 ```
 
 `/hdd/home_orig` and `/hdd/var_orig` can then be merged manually into `/hdd/home` and `/hdd/var`, taking care to not move all the dot files.
+TODO add notes about dot files and files from /var
 
 Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.  Do not create a back up in this directory as it will be read in as though it were config.  To restart cups run `sudo systemctl restart cups.service`.
 
