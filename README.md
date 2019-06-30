@@ -82,7 +82,6 @@ The following roles have version numbers defined within the role:
 * javascript
 * minikube
 * mysql
-* nexus
 * vagrant
 * vaultclient
 * vaultserver
