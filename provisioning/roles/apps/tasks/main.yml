@@ -5,8 +5,7 @@
    apt:
      name: "{{ packages }}"
    vars:
-     packages:
-     - shotwell
+     packages:     
      - libreoffice
      - imagemagick
      - sound-juicer

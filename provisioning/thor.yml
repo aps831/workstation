@@ -31,6 +31,9 @@
      - role: apps
      - role: desktop
      - role: fonts
+     - role: shotwell
+       vars:
+         shotwell_import_directory: "'/mnt/odin/photo/andrew'"
      - role: webbrowsers
 
 # Backup

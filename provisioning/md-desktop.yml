@@ -22,7 +22,10 @@
 # Desktop
      - role: apps
      - role: desktop
-     - role: fonts
+     - role: fonts     
+     - role: shotwell
+       vars:
+         shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"  
      - role: webbrowsers
 
 # Backup

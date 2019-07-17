@@ -1,0 +1,34 @@
+---
+
+ - name: install shotwell
+   become: yes
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - shotwell
+     
+ - name: set commit metadata
+   dconf:
+     key: "/org/yorba/shotwell/preferences/files/commit-metadata"
+     value: "true"
+     state: present
+
+ - name: set import directory
+   dconf:
+     key: "/org/yorba/shotwell/preferences/files/import-dir"
+     value: "{{ shotwell_import_directory }}"     
+     state: present
+
+ - name: set directory pattern
+   dconf:
+     key: "/org/yorba/shotwell/preferences/files/directory-pattern"
+     value: "'%Y/%m/%d'"
+     state: present
+
+ - name: set auto-import
+   dconf:
+     key: "/org/yorba/shotwell/preferences/files/auto-import"
+     value: "true"
+     state: present     
+     
