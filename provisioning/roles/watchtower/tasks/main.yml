@@ -14,12 +14,6 @@
      mode: 0744
    notify: restart watchtower
 
- - name: create directory for data
-   become: yes
-   file: 
-     path=/var/lib/watchtower
-     state=directory
-
  - name: create systemd service
    become: yes
    template:
