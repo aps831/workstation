@@ -37,16 +37,14 @@
      - libncursesw5-dev
      - coreutils
      - xz-utils
-     - libz-dev
-   when: not ghcup_result.stat.exists
+     - libz-dev   
 
  - name: workaround for libtinfo bug
    become: yes
    file:
      src: '/usr/lib/x86_64-linux-gnu/libtinfo.so'
      dest: '/usr/lib/x86_64-linux-gnu/libtinfo.so.6'
-     state: link
-   when: not ghcup_result.stat.exists
+     state: link  
 
  - name: download ghcup shell script
    get_url:
@@ -68,7 +66,6 @@
      src: haskell.sh.j2
      dest: /etc/profile.d/haskell.sh
      mode: 0777
-   when: not ghcup_result.stat.exists
 
  - name: run cabal new install
    shell: cabal new-install cabal-install
@@ -88,4 +85,6 @@
    with_items:
      - /home/{{ ansible_user }}/.ghcup
      - /home/{{ ansible_user }}/.cabal
-   when: not ghcup_result.stat.exists
+   
+   
+   
