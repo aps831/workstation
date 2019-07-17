@@ -86,5 +86,12 @@
      - /home/{{ ansible_user }}/.ghcup
      - /home/{{ ansible_user }}/.cabal
    
+ - name: install development packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - libpq-dev
    
    
