@@ -42,13 +42,13 @@
          backup_name: amazons3
          backup_description: "Amazon S3"
          backup_time_delay: "30m"
-         backup_test_time_delay: "180m"
+         backup_test_time_delay: "240m"
      - role: backup
        vars:
          backup_name: odin
          backup_description: "Odin"
          backup_time_delay: "60m"
-         backup_test_time_delay: "180m"
+         backup_test_time_delay: "270m"
 
 # Programming Tools
      - role: atom
