@@ -1,0 +1,8 @@
+/var/lib/docker
+/var/lib/gogs
+/var/lib/jenkins
+/var/lib/jenkins_config
+/var/lib/mysql
+/var/lib/pgadmin
+/var/lib/sonatype
+/var/lib/vault

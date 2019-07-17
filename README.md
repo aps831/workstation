@@ -49,8 +49,7 @@ sudo ln -s /hdd/var var
 sudo ln -s /hdd/home home
 ```
 
-`/hdd/home_orig` and `/hdd/var_orig` can then be merged manually into `/hdd/home` and `/hdd/var`, taking care to not move all the dot files.
-TODO add notes about dot files and files from /var
+`/hdd/home_orig` and `/hdd/var_orig` can then be merged manually into `/hdd/home` and `/hdd/var`, taking care to not move all the dot files and to replace rather than merge.  Check lists of files are provided in `dot_file_checklist.txt` and `var_file_checklist.txt`.
 
 Finally, in `/etc/apparmor.d/usr.sbin.cupsd` replace to `/var` with `/hdd/var`, and `,var` with `,hdd/var`.  Do not create a back up in this directory as it will be read in as though it were config.  To restart cups run `sudo systemctl restart cups.service`.
 
@@ -64,13 +63,7 @@ To complete the setup, icons on the panel need to be added manually.
 
 The self-signed certificate for Docker needs to be copied from `titan` to `thor`.  On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`.  On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.  
 
-Timeshift will require manual configuration.
-
-Virtual machines will need adding to Virtualbox and the location for saving virtual machines updated.
-
-Duply backups will need to be deleted.
-
-Minikube will need to be recreated assuming the `.minikube` directory is not copied.
+Timeshift will require manual configuration whilst Duply backups will need to be deleted and recreated.
 
 The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.
 
