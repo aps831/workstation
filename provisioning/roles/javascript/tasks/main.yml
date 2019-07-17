@@ -31,6 +31,7 @@
  - name: follow symlink to nvm directory
    shell: readlink -f {{ nvm.dir }}
    register: nvm_dir
+   changed_when: False
 
  - name: install node {{ nvm.node_version }}
    shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm install {{ nvm.node_version }}"
