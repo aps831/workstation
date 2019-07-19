@@ -2,6 +2,8 @@
 
  - name: run playbook tasks
    hosts: localhost
+   vars:
+     ansible_user: andrew  
    roles:
 
 # Security

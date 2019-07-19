@@ -10,20 +10,16 @@
      - redshift
      - redshift-gtk
 
-# dconf does not play nicely with ansible_user when playbook is run locally.
- - name: set username
-   set_fact: desktop_user="{{ ansible_user }}"
-
  - name: set list view for new folders
-   become_user: "{{ desktop_user }}"
+   become_user: "{{ ansible_user }}"
    dconf: key="/org/nemo/preferences/default-folder-viewer" value="'list-view'"
 
  - name: set wallpaper file
-   become_user: "{{ desktop_user }}"
-   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ desktop_user }}/.wallpaper.png'"
+   become_user: "{{ ansible_user }}"
+   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ ansible_user }}/.wallpaper.png'"
 
  - name: centre wallpaper
-   become_user: "{{ desktop_user }}"
+   become_user: "{{ ansible_user }}"
    dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
 
  - name: create nemo action for shred
@@ -34,10 +30,10 @@
 
  - name: create bookmarks
    template:
-     src: "bookmarks.{{ desktop_user }}.j2"
-     dest: /home/{{ desktop_user }}/.config/gtk-3.0/bookmarks
+     src: "bookmarks.{{ ansible_user }}.j2"
+     dest: /home/{{ ansible_user }}/.config/gtk-3.0/bookmarks
 
  - name: add redshift shortcut
    template:
      src=redshift-gtk.desktop.j2
-     dest=/home/{{ desktop_user }}/.config/autostart/redshift-gtk.desktop
+     dest=/home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop

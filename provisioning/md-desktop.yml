@@ -2,6 +2,8 @@
 
  - name: run playbook tasks
    hosts: localhost
+   vars:
+     ansible_user: m-d  
    roles:
 
 # Security
@@ -25,7 +27,7 @@
      - role: fonts     
      - role: shotwell
        vars:
-         shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"  
+         shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"
      - role: webbrowsers
 
 # Backup
