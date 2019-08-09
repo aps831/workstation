@@ -1,5 +1,5 @@
 # Workstation Configuration
-Configuration of workstations via Ansible
+Configuration of workstations via Ansible 
 
 ## Testing
 To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have been created called `virtualbox.yml`, `thor.yml`, `titan.yml` and `md-desktop.yml`. `virtualbox.yml` is designed to run through all the roles to test them by creating a Linux Mint instance in Virtualbox.  However, the other playbooks can be tested by uncommenting the appropriate line in `Vagrantfile` and changing the `minikube_install` variable to `false`, `nas_mounting` to `present`, `firewall_state` to `disabled` and `jenkins_image_name` to `jenkins/jenkins:latest` in the appropriate playbook.
