@@ -77,11 +77,12 @@
    template:
      src=intellij.desktop.j2
      dest=/usr/share/applications/Intellij.desktop
-     
+
  - name: update permissions on intellij folder
    become: yes
    file:
-     path: "{{ intellij_install_dir }}"  
+     path: "{{ intellij_install_dir }}"
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
-   changed_when: false     
+     recurse: true
+   changed_when: false
