@@ -24,3 +24,6 @@
      section: printers
      option: guest ok
      value: "yes"
+   notify:
+     - restart smbd
+     - restart nmbd
