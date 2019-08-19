@@ -3,7 +3,7 @@
  - name: run playbook tasks
    hosts: localhost
    vars:
-     ansible_user: m-d  
+     ansible_user: m-d
    roles:
 
 # Security
@@ -24,7 +24,7 @@
 # Desktop
      - role: apps
      - role: desktop
-     - role: fonts     
+     - role: fonts
      - role: shotwell
        vars:
          shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"
@@ -49,6 +49,7 @@
 
 # Services
      - role: printserver
+     - role: sambashare
 
    pre_tasks:
      - name: update repository caches

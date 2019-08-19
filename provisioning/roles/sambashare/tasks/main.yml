@@ -1,0 +1,66 @@
+---
+ - name: set path for phone photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: PhonePhotos
+     option: path
+     value: "/home/m-d/Desktop/PhonePhotos"
+   notify:
+     - restart smbd
+     - restart nmbd
+
+ - name: set valid user for phone photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: PhonePhotos
+     option: "valid users"
+     value: "m-d"
+   notify:
+     - restart smbd
+     - restart nmbd
+
+ - name: set read only flag for phone photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: PhonePhotos
+     option: "read only"
+     value: "no"
+   notify:
+     - restart smbd
+     - restart nmbd
+
+ - name: set path for tablet photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: TabletPhotos
+     option: path
+     value: "/home/m-d/Desktop/TabletPhotos"
+   notify:
+     - restart smbd
+     - restart nmbd
+
+ - name: set valid user for tablet photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: TabletPhotos
+     option: "valid users"
+     value: "m-d"
+   notify:
+     - restart smbd
+     - restart nmbd
+
+ - name: set read only flag for tablet photos share
+   become: yes
+   ini_file:
+     path: /etc/samba/smb.conf
+     section: TabletPhotos
+     option: "read only"
+     value: "no"
+   notify:
+     - restart smbd
+     - restart nmbd

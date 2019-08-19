@@ -3,7 +3,7 @@
  - name: run playbook tasks
    hosts: local
    vars:
-     ansible_user: ansible     
+     ansible_user: ansible
    roles:
 
 # Security
@@ -35,7 +35,7 @@
      - role: fonts
      - role: shotwell
        vars:
-         shotwell_import_directory: "'/home/ansible'"     
+         shotwell_import_directory: "'/home/ansible'"
      - role: webbrowsers
 
 # Backup
@@ -102,6 +102,7 @@
          nexus_docker_internal_port: 5001
          nexus_http_port: 18181
      - role: printserver
+     - role: sambashare
      - role: ssh
      - role: vaultserver
        vars:
