@@ -33,6 +33,7 @@
      - role: apps
      - role: desktop
      - role: fonts
+     - role: noson
      - role: shotwell
        vars:
          shotwell_import_directory: "'/home/ansible'"

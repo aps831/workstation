@@ -3,7 +3,7 @@
  - name: run playbook tasks
    hosts: localhost
    vars:
-     ansible_user: andrew  
+     ansible_user: andrew
    roles:
 
 # Security
@@ -33,9 +33,10 @@
      - role: apps
      - role: desktop
      - role: fonts
+     - role: noson
      - role: shotwell
        vars:
-         shotwell_import_directory: "'/mnt/odin/photo/andrew'"     
+         shotwell_import_directory: "'/mnt/odin/photo/andrew'"
      - role: webbrowsers
 
 # Backup
