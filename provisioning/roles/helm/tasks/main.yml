@@ -10,8 +10,15 @@
    become: yes
    unarchive:
      src: "{{ helm_download_tmp }}"
+     dest: /tmp
+     remote_src: yes
+
+ - name: copy helm file to bin
+   become: yes
+   copy:
+     src: /tmp/linux-amd64/helm
      dest: /usr/local/bin
      remote_src: yes
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
-     mode: 0744
+     mode: '0744'
