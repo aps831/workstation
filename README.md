@@ -75,6 +75,7 @@ The following roles have version numbers defined within the role:
 * docker
 * eclipse
 * elm
+* helm
 * javascript
 * minikube
 * mysql

@@ -4,14 +4,14 @@
      name: "{{ packages }}"
      state: present
    vars:
-     packages: 
+     packages:
      - curl
      - debianutils
      - findutils
      - tar
      - unzip
      - zip
-   
+
  - name: check for sdkman installation
    stat:
      path: "{{ sdkman_dir }}/bin/sdkman-init.sh"
@@ -77,6 +77,7 @@
    - maven
    - gradle
    - java
+   ignore_errors: true
    register: sdk_install
    changed_when: '"Downloading" in sdk_install.stdout'
 
@@ -100,17 +101,16 @@
      dest: /etc/profile.d/java.sh
      mode: 0777
 
- - name: define gradle variables 
+ - name: define gradle variables
    become: yes
    template:
      src: gradle.sh.j2
      dest: /etc/profile.d/gradle.sh
      mode: 0777
 
- - name: define maven variables 
+ - name: define maven variables
    become: yes
    template:
      src: maven.sh.j2
      dest: /etc/profile.d/maven.sh
      mode: 0777
-

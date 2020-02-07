@@ -24,6 +24,7 @@
 # Desktop
      - role: apps
      - role: desktop
+     - role: dropbox
      - role: fonts
      - role: shotwell
        vars:

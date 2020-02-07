@@ -32,6 +32,7 @@
 # Desktop
      - role: apps
      - role: desktop
+     - role: dropbox
      - role: fonts
      - role: noson
      - role: shotwell
@@ -59,6 +60,7 @@
      - role: intellij
      - role: git
      - role: gcloud
+     - role: helm     
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000

@@ -1,0 +1,17 @@
+---
+
+ - name: download binary
+   get_url:
+     url: "{{ helm_download_url }}"
+     dest: "{{ helm_download_tmp }}"
+   changed_when: false
+
+ - name: extract from archive
+   become: yes
+   unarchive:
+     src: "{{ helm_download_tmp }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0744
