@@ -21,7 +21,7 @@ defaults
 frontend docker-https
     bind {{ haproxy_ip_address }}:{{ haproxy_docker_external_port }} ssl crt /etc/ssl/private/{{ haproxy_host }}.pem
     mode http
-    reqadd X-Forwarded-Proto:\ https
+    http-request set-header X-Forwarded-Proto https
     use_backend docker-backend
 
 backend docker-backend
