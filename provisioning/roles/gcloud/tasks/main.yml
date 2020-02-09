@@ -19,6 +19,19 @@
      name: "{{ packages }}"
      state: present
    vars:
-     packages: 
+     packages:
      - google-cloud-sdk
      - kubectl
+     - bash-completion
+
+ - name: install bash completion for kubectl
+   become: yes
+   shell: /usr/bin/kubectl completion bash > /etc/bash_completion.d/kubectl
+
+ - name: set permissions on bash completion for kubectl
+   become: yes
+   file:
+     path: /etc/bash_completion.d/kubectl
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0444

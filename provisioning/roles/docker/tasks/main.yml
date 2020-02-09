@@ -2,11 +2,11 @@
 
  - name: ensure old versions of docker are not installed
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
      state: absent
    vars:
-     packages:  
+     packages:
      - docker
      - docker-engine
 
@@ -37,6 +37,12 @@
      state: present
    notify: restart docker
 
+ - name: install bash-completion
+   become: yes
+   apt:
+     name: bash-completion
+     state: present
+ 
  - name: notify handlers to avoid firewall conflicts
    meta: flush_handlers
 
@@ -90,23 +96,23 @@
 
  - name: set default forward policy to accept for firewall
    become: yes
-   ufw: 
+   ufw:
      direction=routed
      default=allow
      route=yes
-   notify: reload ufw 
- 
+   notify: reload ufw
+
  - name: get ip address of docker interface
    shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
    register: ip
    changed_when: false
-   
+
  - name: allow connections from docker interface through firewall
    become: yes
    ufw:
      rule: allow
      src: "{{ ip.stdout }}/24"
-   notify: reload ufw 
+   notify: reload ufw
 
  - name: create directory for docker daemon configuration
    become: yes
@@ -122,7 +128,7 @@
    become: yes
    copy:
      src: hosts.conf
-     dest: /etc/systemd/system/docker.service.d/hosts.conf 
+     dest: /etc/systemd/system/docker.service.d/hosts.conf
    notify: restart docker
 
  - name: docker daemon dns configuration
@@ -132,7 +138,7 @@
    template:
      src: daemon.json.j2
      dest: /etc/docker/daemon.json
-   notify: restart docker 
+   notify: restart docker
 
  - name: update grub for cgroups
    become: yes
@@ -156,5 +162,3 @@
    systemd:
      name: dnsmasq
      enabled: yes
-
-
