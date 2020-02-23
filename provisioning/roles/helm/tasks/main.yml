@@ -22,3 +22,7 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: '0744'
+
+ - name: install helm secrets
+   become: yes
+   command: helm plugin install https://github.com/futuresimple/helm-secrets
