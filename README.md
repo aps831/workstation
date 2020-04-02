@@ -6,6 +6,8 @@ To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have
 
 If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
 
+The password to the vagrant machine is `vagrant`.
+
 ## Production
 
 ### Pre Tasks
