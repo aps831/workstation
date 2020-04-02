@@ -37,4 +37,5 @@
      mode: 0444
 
  - name: configure docker
+   become: yes
    shell: gcloud auth configure-docker --quiet
