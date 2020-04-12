@@ -8,6 +8,13 @@ If the Vagrant machine, called ansible, is running then re-provisioning can be p
 
 The password to the vagrant machine is `vagrant`.
 
+To run a single role for development or testing purposes:
+
+```
+cd provisioning
+ansible --ask-become localhost -m include_role -a name=<role_name>
+```
+
 ## Production
 
 ### Pre Tasks
