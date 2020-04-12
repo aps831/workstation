@@ -76,6 +76,7 @@
 
 # Programming Languages
      - role: elm
+     - role: golang     
      - role: javascript
      - role: jvm
      - role: python

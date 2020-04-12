@@ -1,0 +1,33 @@
+---
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
+ - name: download golang
+   become: yes
+   get_url:
+     url: "{{ golang_download_url }}"
+     checksum: "{{ golang_checksum }}"
+     dest: "{{ tmp_dir.path }}"
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: unpack golang
+   become: yes
+   unarchive:
+     src: "{{ tmp_dir.path }}/{{ golang_download_filename }}"
+     dest: "{{ golang_install_dir }}"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     remote_src: yes
+
+ - name: define golang variables
+   become: yes
+   template:
+     src: golang.sh.j2
+     dest: /etc/profile.d/golang.sh
+     mode: 0777

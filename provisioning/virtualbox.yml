@@ -60,7 +60,7 @@
      - role: intellij
      - role: git
      - role: gcloud
-     - role: helm     
+     - role: helm
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000
@@ -76,6 +76,7 @@
 
 # Programming Languages
      - role: elm
+     - role: golang
      - role: javascript
      - role: jvm
      - role: python
