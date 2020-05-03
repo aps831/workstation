@@ -13,6 +13,8 @@
 .atom
 .aws
 .cabal
+.config/Atom
+.config/Code
 .config/helm
 .docker
 .duply
