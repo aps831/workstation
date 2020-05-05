@@ -3,7 +3,7 @@
  - name: backup /etc/hosts
    become: yes
    copy:
-     src: /etc/hosts 
+     src: /etc/hosts
      dest: /etc/hosts.bak
 
  - name: add comment to /etc/hosts
@@ -25,3 +25,10 @@
      path: /etc/hosts
      regexp: '.thor\.local'
      line: '{{ hosts_thor_ip_address }}    thor.local'
+
+ - name: add odin.local to /etc/hosts
+   become: yes
+   lineinfile:
+     path: /etc/hosts
+     regexp: '.odin\.local'
+     line: '{{ hosts_odin_ip_address }}    odin.local'
