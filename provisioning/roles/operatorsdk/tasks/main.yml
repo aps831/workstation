@@ -1,0 +1,46 @@
+---
+ - name: create temporary directory
+   tempfile:
+     state: directory
+   register: tmp_dir
+   changed_when: false
+
+ - name: download operatorsdk
+   become: true
+   get_url:
+     url: "{{ operatorsdk_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: download operatorsdk asc
+   become: true
+   get_url:
+     url: "{{ operatorsdk_asc_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: get keyid for gpg key
+   become: true
+   shell: gpg --list-packets <{{ tmp_dir.path }}/{{ operatorsdk_asc_file }} | awk '/keyid/{ print $6}'
+   register: operatorsdk_keyid
+
+ - name: get gpg key
+   become: true
+   shell: gpg --keyserver keyserver.ubuntu.com --recv-key {{ operatorsdk_keyid.stdout }}
+
+ - name: verify operatorsdk file
+   become: true
+   shell: gpg --verify {{ tmp_dir.path }}/{{ operatorsdk_asc_file }}
+
+ - name: copy operatorsdk to /usr/local/bin/
+   become: yes
+   copy:
+     src: "{{ tmp_dir.path }}/{{ operatorsdk_file }}"
+     dest: /usr/local/bin/operatorsdk
+     remote_src: true
+
+ - name: make operatorsdk executable
+   become: yes
+   file:
+     path: /usr/local/bin/operatorsdk
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: a+x
