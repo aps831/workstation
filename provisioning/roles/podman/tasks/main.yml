@@ -1,0 +1,30 @@
+---
+ - name: extract ubuntu version id
+   shell: grep DISTRIB_RELEASE /etc/upstream-release/lsb-release | awk -F= '{print $2}'
+   register: version_id_output
+   changed_when: False
+
+ - name: set ubuntu version id as fact
+   set_fact: ubuntu_version_id="{{ version_id_output.stdout }}"
+
+ - name: install apt key
+   become: yes
+   apt_key:
+     url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ubuntu_version_id }}/Release.key"
+     state: present
+
+ - name: install repo
+   become: yes
+   apt_repository:
+     repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ubuntu_version_id }}/ /
+     filename: devel:kubic:libcontainers:stable
+     state: present
+
+ - name: install packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - podman
