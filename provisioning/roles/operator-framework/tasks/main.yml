@@ -48,3 +48,12 @@
  - name: install operator-courier
    become: yes
    command: pip3 install operator-courier
+
+ - name: install opm
+   become: yes
+   get_url:
+     url: "{{ opm_url }}"     
+     dest: /usr/local/bin/opm
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"

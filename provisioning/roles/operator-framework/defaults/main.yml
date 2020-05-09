@@ -4,3 +4,6 @@ operator_sdk_file: operator-sdk-{{ operator_sdk_version }}-x86_64-linux-gnu
 operator_sdk_asc_file: operator-sdk-{{ operator_sdk_version }}-x86_64-linux-gnu.asc
 operator_sdk_download_url: https://github.com/operator-framework/operator-sdk/releases/download/{{ operator_sdk_version }}/{{ operator_sdk_file }}
 operator_sdk_asc_download_url: https://github.com/operator-framework/operator-sdk/releases/download/{{ operator_sdk_version }}/{{ operator_sdk_asc_file }}
+
+opm_version: v1.11.1
+opm_url: https://github.com/operator-framework/operator-registry/releases/download/{{ opm_version }}/linux-amd64-opm
