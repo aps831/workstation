@@ -1,0 +1,50 @@
+---
+ - name: create temporary directory
+   tempfile:
+     state: directory
+   register: tmp_dir
+   changed_when: false
+
+ - name: download operator_sdk
+   become: true
+   get_url:
+     url: "{{ operator_sdk_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: download operator_sdk asc
+   become: true
+   get_url:
+     url: "{{ operator_sdk_asc_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: get keyid for gpg key
+   become: true
+   shell: gpg --list-packets <{{ tmp_dir.path }}/{{ operator_sdk_asc_file }} | awk '/keyid/{ print $6}'
+   register: operator_sdk_keyid
+
+ - name: get gpg key
+   become: true
+   shell: gpg --keyserver keyserver.ubuntu.com --recv-key {{ operator_sdk_keyid.stdout }}
+
+ - name: verify operator_sdk file
+   become: true
+   shell: gpg --verify {{ tmp_dir.path }}/{{ operator_sdk_asc_file }}
+
+ - name: copy operator_sdk to /usr/local/bin/
+   become: yes
+   copy:
+     src: "{{ tmp_dir.path }}/{{ operator_sdk_file }}"
+     dest: /usr/local/bin/operator-sdk
+     remote_src: true
+
+ - name: make operator-sdk executable
+   become: yes
+   file:
+     path: /usr/local/bin/operator-sdk
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: a+x
+
+ - name: install operator-courier
+   become: yes
+   command: pip3 install operator-courier

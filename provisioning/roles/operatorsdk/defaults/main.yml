@@ -1,6 +1,0 @@
----
-operatorsdk_version: v0.17.0
-operatorsdk_file: operator-sdk-{{ operatorsdk_version }}-x86_64-linux-gnu
-operatorsdk_asc_file: operator-sdk-{{ operatorsdk_version }}-x86_64-linux-gnu.asc
-operatorsdk_download_url: https://github.com/operator-framework/operator-sdk/releases/download/{{ operatorsdk_version }}/{{ operatorsdk_file }}
-operatorsdk_asc_download_url: https://github.com/operator-framework/operator-sdk/releases/download/{{ operatorsdk_version }}/{{ operatorsdk_asc_file }}

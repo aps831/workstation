@@ -64,7 +64,7 @@
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000
-     - role: operatorsdk         
+     - role: operator-framework         
      - role: pgadmin
      - role: sublime
      - role: vaultclient
