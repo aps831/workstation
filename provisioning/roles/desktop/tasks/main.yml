@@ -9,6 +9,7 @@
      - coreutils # shred
      - redshift
      - redshift-gtk
+     - easytag
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"
