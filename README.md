@@ -76,7 +76,7 @@ Timeshift will require manual configuration whilst Duply backups will need to be
 
 If a Samba share has been created then a user will need setting up: `sudo smbpasswd -a <user_name>`.
 
-The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.
+The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.  Apparmor may still not play nicely with `/var` located on a different drive even with edits to `/etc/apparmor.d/usr.sbin.cupsd` listed above.  A workaround is to install apparmor-utils with `sudo apt-get apparmor-utils`, then run `sudo aa-complain cupsd`, install the printer and then run `sudo aa-enforce cupsd`.  Details are on `https://wiki.ubuntu.com/DebuggingPrintingProblems`.
 
 ### Specified Versions
 The following roles have version numbers defined within the role:
