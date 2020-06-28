@@ -12,7 +12,7 @@ To run a single role for development or testing purposes:
 
 ```
 cd provisioning
-ansible --ask-become localhost -m include_role -a name=<role_name>
+ansible --ask-become localhost -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>"
 ```
 
 ## Production
