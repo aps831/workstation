@@ -1,0 +1,11 @@
+[Unit]
+Description=dockerhubmirror
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/dockerhubmirror.sh
+
+[Install]
+WantedBy=multi-user.target

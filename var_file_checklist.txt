@@ -1,4 +1,5 @@
 /var/lib/docker
+/var/lib/dockerhub-mirror
 /var/lib/gogs
 /var/lib/jenkins
 /var/lib/jenkins_config

@@ -42,7 +42,7 @@
    apt:
      name: bash-completion
      state: present
- 
+
  - name: notify handlers to avoid firewall conflicts
    meta: flush_handlers
 
@@ -161,4 +161,35 @@
    become: yes
    systemd:
      name: dnsmasq
+     enabled: yes
+
+ - name: create directory for dockerhub mirror
+   become: yes
+   file:
+     path=/var/lib/dockerhub-mirror
+     state=directory
+
+ - name: copy dockerhub mirror config
+   become: yes
+   copy:
+     src: dockerhubmirrorconfig.yml
+     dest: /var/lib/dockerhub-mirror/config.yml
+
+ - name: create script for dockerhub mirror service
+   become: yes
+   template:
+     src: dockerhubmirror.sh.j2
+     dest: /usr/share/systemd/dockerhubmirror.sh
+     mode: 0744
+
+ - name: create dockerhubmirror service
+   become: yes
+   template:
+     src: dockerhubmirror.service.j2
+     dest: /etc/systemd/system/dockerhubmirror.service
+
+ - name: enable dockerhub mirror service at boot
+   become: yes
+   systemd:
+     name: dockerhubmirror
      enabled: yes

@@ -1,0 +1,17 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ dockerhub_mirror_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ dockerhub_mirror_container_name }}
+else
+    echo "Creating new container"
+    docker run --restart=always \
+               --publish 5002:5000 \
+               --name {{ dockerhub_mirror_container_name }} \
+               --volume /var/lib/dockerhub-mirror:/var/lib/registry \
+               --detach \
+               registry:2 \
+               serve /var/lib/registry/config.yml
+fi

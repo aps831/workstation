@@ -1,3 +1,4 @@
 ---
 docker_compose_version: "1.24.0"
 docker_compose_path: /usr/local/bin/docker-compose
+dockerhub_mirror_container_name: dockerhub-mirror
