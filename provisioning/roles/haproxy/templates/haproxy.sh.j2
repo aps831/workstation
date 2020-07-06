@@ -10,12 +10,10 @@ else
     docker run --net=host \
                --volume=/usr/local/etc/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro \
                --volume=/etc/ssl/private/{{ haproxy_host }}.includesprivatekey.pem:/etc/ssl/private/{{ haproxy_host }}.pem:ro \
+               --restart=always \
                --name {{ haproxy_container_name }} \
                haproxy 
 fi
 
 
     
-
-
-

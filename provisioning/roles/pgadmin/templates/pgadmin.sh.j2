@@ -7,6 +7,5 @@ if test "$LINES" = "2"; then
     docker start -a {{ pgadmin_container_name }}  
 else
     echo "Creating new container"    
-    docker run -p 5050:5050 -p 5432:5432 --net=host --volume=/var/lib/pgadmin/data:/pgadmin --name {{ pgadmin_container_name }} thajeztah/pgadmin4
+    docker run -p 5050:5050 -p 5432:5432 --restart=always --net=host --volume=/var/lib/pgadmin/data:/pgadmin --name {{ pgadmin_container_name }} thajeztah/pgadmin4
 fi
-

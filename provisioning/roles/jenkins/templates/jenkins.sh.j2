@@ -10,6 +10,7 @@ docker run --net=host \
            --env JAVA_OPTS=-Xmx512m \
            --env JENKINS_OPTS=--httpPort={{ jenkins_http_port }} \
            --volumes-from jenkins_docker_data \
+           --restart=always \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v /var/lib/jenkins:/var/jenkins_home \
            -v /home/{{ ansible_user }}/.gitconfig:/home/jenkins/.gitconfig \
@@ -17,6 +18,3 @@ docker run --net=host \
            -v /home/{{ ansible_user }}/.ssh/:/home/jenkins/.ssh/ \
            --name {{ jenkins_container_name }} \
            {{ jenkins_image_name }}
-
-
-

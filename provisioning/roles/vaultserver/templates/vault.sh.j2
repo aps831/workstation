@@ -10,10 +10,9 @@ else
     docker run --name {{ vault_container_name }} \
                --net=host \
                --cap-add=IPC_LOCK \
+               --restart=always \
                -e SKIP_SETCAP=1 \
                -v /var/lib/vault:/vault/file \
                -v /usr/local/etc/vault:/vault/config \
                vault:{{ vault_container_version }} server    
 fi
-
-

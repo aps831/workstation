@@ -12,8 +12,8 @@ else
            -p {{ nexus_docker_internal_port }}:5001 \
            -e MIN_HEAP=256m \
            -e MAX_HEAP=768m \
+           --restart=always \
            --volume=/var/lib/sonatype/nexus-data:/nexus-data \
            --name {{ nexus_container_name }} \
            sonatype/nexus3:{{ nexus_container_version }}
 fi
-
