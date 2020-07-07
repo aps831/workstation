@@ -1,10 +1,4 @@
 ---
- - name: install packages
-   become: yes
-   apt:
-     name: ca-certificates
-     state: present
-
 #
 # Docker
 #
