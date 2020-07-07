@@ -1,11 +1,13 @@
 ---
-
  - name: install packages
    become: yes
    apt:
      name: ca-certificates
      state: present
 
+#
+# Docker
+#
  - name: add docker apt key
    become: yes
    apt_key:
@@ -49,6 +51,35 @@
      groups: docker
      append: yes
 
+#
+# Docker Service
+#
+ - name: create directory for docker daemon configuration
+   become: yes
+   file:
+     path: /etc/systemd/system/docker.service.d/
+     state: directory
+     owner: root
+     group: root
+     mode: u=rw,g=r,o=r
+     recurse: yes
+
+ - name: docker daemon socket configuration
+   become: yes
+   copy:
+     src: hosts.conf
+     dest: /etc/systemd/system/docker.service.d/hosts.conf
+   notify: restart docker
+
+ - name: ensure docker is enabled at boot
+   become: yes
+   systemd:
+     name: docker
+     enabled: yes
+
+#
+# Docker Compose
+#
  - name: check current docker-compose version
    command: docker-compose --version
    register: docker_compose_current_version
@@ -78,12 +109,9 @@
      dest: /etc/bash_completion.d/docker-compose
      mode: 0755
 
- - name: ensure docker is enabled at boot
-   become: yes
-   systemd:
-     name: docker
-     enabled: yes
-
+#
+# Firewall
+#
  - name: set default forward policy to accept for firewall
    become: yes
    ufw:
@@ -104,32 +132,9 @@
      src: "{{ ip.stdout }}/24"
    notify: reload ufw
 
- - name: create directory for docker daemon configuration
-   become: yes
-   file:
-     path: /etc/systemd/system/docker.service.d/
-     state: directory
-     owner: root
-     group: root
-     mode: u=rw,g=r,o=r
-     recurse: yes
-
- - name: docker daemon socket configuration
-   become: yes
-   copy:
-     src: hosts.conf
-     dest: /etc/systemd/system/docker.service.d/hosts.conf
-   notify: restart docker
-
- - name: docker daemon dns configuration
-   become: yes
-   vars:
-     docker_interface_ip_address: "{{ ip.stdout }}"
-   template:
-     src: daemon.json.j2
-     dest: /etc/docker/daemon.json
-   notify: restart docker
-
+#
+# Grub
+#
  - name: update grub for cgroups
    become: yes
    lineinfile:
@@ -139,6 +144,18 @@
      regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cgroup_enable=memory swapaccount=1)\"[^\"]*)(\".*)'
      line: '\1 cgroup_enable=memory swapaccount=1\2'
    notify: update grub
+
+#
+# Dns
+#
+ - name: docker daemon dns configuration
+   become: yes
+   vars:
+     docker_interface_ip_address: "{{ ip.stdout }}"
+   template:
+     src: daemon.json.j2
+     dest: /etc/docker/daemon.json
+   notify: restart docker
 
  - name: install dnsmasq service
    become: yes
@@ -153,6 +170,9 @@
      name: dnsmasq
      enabled: yes
 
+#
+# Dockerhub mirror
+#
  - name: create directory for dockerhub mirror
    become: yes
    file:
@@ -184,6 +204,9 @@
      name: dockerhubmirror
      enabled: yes
 
+#
+# Docker Credential Helper
+#
  - name: create temporary build directory
    tempfile:
      state: directory
