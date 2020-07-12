@@ -1,6 +1,6 @@
 ---
 
- - name: download binary
+ - name: download helm binary
    get_url:
      url: "{{ helm_download_url }}"
      dest: "{{ helm_download_tmp }}"
@@ -27,3 +27,10 @@
    become: yes
    command: helm plugin install https://github.com/futuresimple/helm-secrets
    ignore_errors: yes
+
+ - name: download helmfile binary
+   become: yes
+   get_url:
+     url: "{{ helmfile_download_url }}"
+     dest: /usr/local/bin/helmfile
+     mode: '0777'     
