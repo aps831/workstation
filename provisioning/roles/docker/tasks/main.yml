@@ -63,6 +63,25 @@
      name: docker
      enabled: yes
 
+ - name: update grub for cgroups
+   become: yes
+   lineinfile:
+     state: present
+     dest: /etc/default/grub
+     backrefs: yes
+     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cgroup_enable=memory swapaccount=1)\"[^\"]*)(\".*)'
+     line: '\1 cgroup_enable=memory swapaccount=1\2'
+   notify: update grub
+
+ - name: docker daemon dns configuration
+   become: yes
+   vars:
+     docker_interface_ip_address: "{{ ip.stdout }}"
+   template:
+     src: daemon.json.j2
+     dest: /etc/docker/daemon.json
+   notify: restart docker
+
 #
 # Docker Compose
 #
@@ -117,44 +136,6 @@
      rule: allow
      src: "{{ ip.stdout }}/24"
    notify: reload ufw
-
-#
-# Grub
-#
- - name: update grub for cgroups
-   become: yes
-   lineinfile:
-     state: present
-     dest: /etc/default/grub
-     backrefs: yes
-     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cgroup_enable=memory swapaccount=1)\"[^\"]*)(\".*)'
-     line: '\1 cgroup_enable=memory swapaccount=1\2'
-   notify: update grub
-
-#
-# Dns
-#
- - name: docker daemon dns configuration
-   become: yes
-   vars:
-     docker_interface_ip_address: "{{ ip.stdout }}"
-   template:
-     src: daemon.json.j2
-     dest: /etc/docker/daemon.json
-   notify: restart docker
-
- - name: install dnsmasq service
-   become: yes
-   copy:
-     src: dnsmasq.service
-     dest: /etc/systemd/system/dnsmasq.service
-   notify: restart dnsmasq
-
- - name: ensure dnsmasq is enabled at boot
-   become: yes
-   systemd:
-     name: dnsmasq
-     enabled: yes
 
 #
 # Dockerhub mirror
