@@ -57,26 +57,6 @@
      groups: docker
      append: yes
 
-#
-# Docker Service
-#
- - name: create directory for docker daemon configuration
-   become: yes
-   file:
-     path: /etc/systemd/system/docker.service.d/
-     state: directory
-     owner: root
-     group: root
-     mode: u=rw,g=r,o=r
-     recurse: yes
-
- - name: docker daemon socket configuration
-   become: yes
-   copy:
-     src: hosts.conf
-     dest: /etc/systemd/system/docker.service.d/hosts.conf
-   notify: restart docker
-
  - name: ensure docker is enabled at boot
    become: yes
    systemd:
