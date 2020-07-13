@@ -28,9 +28,14 @@
    command: helm plugin install https://github.com/futuresimple/helm-secrets
    ignore_errors: yes
 
+ - name: install helm diff
+   become: yes
+   command: helm plugin install https://github.com/databus23/helm-diff --version master
+   ignore_errors: yes
+
  - name: download helmfile binary
    become: yes
    get_url:
      url: "{{ helmfile_download_url }}"
      dest: /usr/local/bin/helmfile
-     mode: '0777'     
+     mode: '0777'
