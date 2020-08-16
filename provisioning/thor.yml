@@ -67,7 +67,7 @@
          minikube_docker_registry: titan.local:5000
      - role: operator-framework
      - role: pgadmin
-     - role: podman     
+     - role: podman
      - role: sublime
      - role: vaultclient
        vars:
@@ -76,6 +76,7 @@
      - role: vagrant
      - role: virtualbox
      - role: vscode
+     - role: yq
 
 # Programming Languages
      - role: elm
