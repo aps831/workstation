@@ -1,4 +1,4 @@
 ---
-minikube_version: 1.12.0-beta.0
-minikube_checksum: "sha256:b11be4ce3e241b0371dcfefffeb4c4c7738028f93651ece199c36f802f93a1e3"
+minikube_version: 1.12.3
+minikube_checksum: "sha256:664ebef01166ef6c6b13ff1d70faecca9292e2fcdc85766e8ebd2c607488711c"
 minikube_download_url: http://storage.googleapis.com/minikube/releases/v
