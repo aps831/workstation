@@ -1,6 +1,4 @@
 #! /bin/bash
-sleep {{ backup_test_time_delay }}
-
 WORK_DIR=$(mktemp -d)
 cd $WORK_DIR
 
@@ -29,4 +27,3 @@ fi
 
 export DISPLAY=:0
 su {{ ansible_user }} -c "/usr/bin/notify-send --urgency=$urgency --app-name='{{ backup_description }} Backup Test Script' '$title' '$msg'"
-

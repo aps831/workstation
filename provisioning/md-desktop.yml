@@ -36,14 +36,14 @@
        vars:
          backup_name: amazons3
          backup_description: "Amazon S3"
-         backup_time_delay: "60m"
-         backup_test_time_delay: "180m"
+         backup_time_delay: "60min"
+         backup_test_time_delay: "180min"
      - role: backup
        vars:
          backup_name: internal
          backup_description: "Internal"
-         backup_time_delay: "30m"
-         backup_test_time_delay: "180m"
+         backup_time_delay: "30min"
+         backup_test_time_delay: "180min"
 
 # Programming Tools
      - role: virtualbox

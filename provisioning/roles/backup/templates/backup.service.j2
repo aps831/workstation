@@ -1,0 +1,9 @@
+[Unit]
+Description=Run {{ backup_name }} backup
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/{{ backup_name }}_backup.sh
+
+[Install]
+WantedBy=multi-user.target

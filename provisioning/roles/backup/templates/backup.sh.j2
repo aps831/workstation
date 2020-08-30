@@ -1,5 +1,4 @@
 #! /bin/bash
-sleep {{ backup_time_delay }}
 env HOME=/home/{{ ansible_user }} ionice duply {{ backup_name }} backup > /var/log/duply/{{ backup_name }}_backup/{{ backup_name }}_backup.log
 if [ $? -ne 0 ]; then
     urgency="critical"

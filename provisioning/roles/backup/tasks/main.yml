@@ -22,10 +22,10 @@
      mode: u=rw,g=r,o=r
      recurse: yes
 
- - name: "create directory for {{ backup_name }} test logs"
+ - name: "create directory for {{ backup_name }} backup test logs"
    become: yes
    file:
-     path: "/var/log/duply/{{ backup_name }}_test"
+     path: "/var/log/duply/{{ backup_name }}_backup_test"
      state: directory
      owner: root
      group: root
@@ -41,25 +41,73 @@
      group: root
      mode: u+rwx,g-rwx,o-rwx
 
- - name: "install {{ backup_name }} test script"
+ - name: "install {{ backup_name }} backup test script"
    become: yes
    template:
      src: "test.sh.j2"
-     dest: "/usr/local/sbin/{{ backup_name }}_test.sh"
+     dest: "/usr/local/sbin/{{ backup_name }}_backup_test.sh"
      owner: root
      group: root
      mode: u+rwx,g-rwx,o-rwx
 
- - name: "install cron job for {{ backup_name }} backup"
+ - name: "install {{ backup_name }} backup service"
    become: yes
-   cron:
-     name: "{{ backup_name }} backup"
-     special_time: reboot
-     job: "/usr/local/sbin/{{ backup_name }}_backup.sh"
+   template:
+     src: "backup.service.j2"
+     dest: "/etc/systemd/system/{{ backup_name }}_backup.service"
+     owner: root
+     group: root
+     mode: 0666
 
- - name: "install cron job for {{ backup_name }} test"
+ - name: "install {{ backup_name }} backup timer"
    become: yes
-   cron:
-     name: "{{ backup_name }} test"
-     special_time: reboot
-     job: "/usr/local/sbin/{{ backup_name }}_test.sh"
+   template:
+     src: "backup.timer.j2"
+     dest: "/etc/systemd/system/{{ backup_name }}_backup.timer"
+     owner: root
+     group: root
+     mode: 0666
+
+ - name: "install {{ backup_name }} backup test service"
+   become: yes
+   template:
+     src: "test.service.j2"
+     dest: "/etc/systemd/system/{{ backup_name }}_backup_test.service"
+     owner: root
+     group: root
+     mode: 0666
+
+ - name: "install {{ backup_name }} backup test timer"
+   become: yes
+   template:
+     src: "test.timer.j2"
+     dest: "/etc/systemd/system/{{ backup_name }}_backup_test.timer"
+     owner: root
+     group: root
+     mode: 0666
+
+ - name: enable {{ backup_name }} backup service
+   become: yes
+   systemd:
+     name: "{{ backup_name }}_backup"
+     enabled: yes
+    
+ - name: enable {{ backup_name }} backup timer
+   become: yes
+   systemd:
+     name: "{{ backup_name }}_backup.timer"
+     state: started
+     enabled: yes
+
+ - name: enable {{ backup_name }} backup test service
+   become: yes
+   systemd:
+     name: "{{ backup_name }}_backup_test"
+     enabled: yes
+
+ - name: enable {{ backup_name }} backup test timer
+   become: yes
+   systemd:
+     name: "{{ backup_name }}_backup_test.timer"
+     state: started
+     enabled: yes
