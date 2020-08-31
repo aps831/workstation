@@ -86,12 +86,12 @@
      group: root
      mode: 0666
 
- - name: enable {{ backup_name }} backup service
+ - name: disable {{ backup_name }} backup service
    become: yes
    systemd:
      name: "{{ backup_name }}_backup"
-     enabled: yes
-    
+     enabled: no
+
  - name: enable {{ backup_name }} backup timer
    become: yes
    systemd:
@@ -99,11 +99,11 @@
      state: started
      enabled: yes
 
- - name: enable {{ backup_name }} backup test service
+ - name: disable {{ backup_name }} backup test service
    become: yes
    systemd:
      name: "{{ backup_name }}_backup_test"
-     enabled: yes
+     enabled: no
 
  - name: enable {{ backup_name }} backup test timer
    become: yes
