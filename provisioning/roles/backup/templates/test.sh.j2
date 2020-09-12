@@ -7,7 +7,7 @@ if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
   exit 1
 fi
 
-function cleanup {      
+function cleanup {
   rm -rf "$WORK_DIR"
 }
 
@@ -16,12 +16,12 @@ trap cleanup EXIT
 env HOME=/home/{{ ansible_user }} duply {{ backup_name }} fetch hdd/home/{{ ansible_user }}/.m2 fetch/ > /var/log/duply/{{ backup_name }}_test/{{ backup_name }}_test.log
 
 if [ $? -ne 0 ]; then
-    urgency="critical"    
-    title="Backup Test Failed"
+    urgency="critical"
+    title="{{ backup_description }} Backup Test Failed"
     msg="The test of the backup to {{ backup_description }} failed"
 else
-    urgency="normal"    
-    title="Backup Test Completed"
+    urgency="normal"
+    title="{{ backup_description }} Backup Test Completed"
     msg="The test of the backup to {{ backup_description }} was successful"
 fi
 
