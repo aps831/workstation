@@ -56,6 +56,7 @@
 
 # Programming Tools
      - role: atom
+     - role: data          
      - role: eclipse
      - role: intellij
      - role: git
@@ -75,7 +76,6 @@
      - role: vagrant
      - role: virtualbox
      - role: vscode
-     - role: yq     
 
 # Programming Languages
      - role: elm
