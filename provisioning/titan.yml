@@ -57,12 +57,13 @@
 
 # Programming Tools
      - role: atom
-     - role: data     
+     - role: data
      - role: eclipse
      - role: intellij
      - role: git
      - role: gcloud
      - role: helm
+     - role: lens
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000

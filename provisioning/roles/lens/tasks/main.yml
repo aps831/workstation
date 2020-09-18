@@ -1,0 +1,9 @@
+---
+ - name: download lens
+   become: true
+   get_url:
+     url: "{{ lens_download_url }}"
+     dest: /usr/local/bin/lens
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
