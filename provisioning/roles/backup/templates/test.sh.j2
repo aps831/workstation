@@ -1,9 +1,11 @@
 #! /bin/bash
+LOG_PATH="/var/log/duply/{{ backup_name }}_backup_test/{{ backup_name }}_backup_test.log"
+
 WORK_DIR=$(mktemp -d)
 cd $WORK_DIR
 
 if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
-  echo "Could not create temp dir" > /var/log/duply/{{ backup_name }}_backup_test/{{ backup_name }}_backup_test.log
+  echo "Could not create temp dir" > "$LOG_PATH"
   exit 1
 fi
 
@@ -13,7 +15,7 @@ function cleanup {
 
 trap cleanup EXIT
 
-env HOME=/home/{{ ansible_user }} duply {{ backup_name }} fetch hdd/home/{{ ansible_user }}/.m2 fetch/ > /var/log/duply/{{ backup_name }}_backup_test/{{ backup_name }}_backup_test.log
+env HOME=/home/{{ ansible_user }} duply {{ backup_name }} fetch hdd/home/{{ ansible_user }}/.m2 fetch/ > "$LOG_PATH"
 
 if [ $? -ne 0 ]; then
     urgency="critical"
