@@ -11,4 +11,4 @@
      - curl
      - gparted
      - smartmontools
-
+     - nload
