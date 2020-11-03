@@ -132,3 +132,13 @@
      - libpango1.0-dev
      - libx11-dev
      - libxtst-dev
+
+ - name: install native image packages
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - build-essential
+     - libz-dev
+     - zlib1g-dev
