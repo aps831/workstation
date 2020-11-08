@@ -9,6 +9,7 @@
      packages:
      - build-essential
      - libssl-dev
+     - curl
 
  - name: install nvm
    become: yes
