@@ -14,17 +14,17 @@
  - name: install repo
    become: yes
    apt_repository:
-     repo: deb http://download.virtualbox.org/virtualbox/debian {{ ubuntu_codename }} contrib
+     repo: deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian {{ ubuntu_codename }} contrib
      filename: virtualbox
      state: present
 
  - name: install packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
      state: present
    vars:
-     packages:  
+     packages:
      - virtualbox-{{ vbox_version }}
 
  - name: find installed extension packs
@@ -49,11 +49,11 @@
    become: yes
    user:
      name: "{{ ansible_user }}"
-     append: yes 
+     append: yes
      groups: vboxusers
 
  - name: create shared folder
-   file: 
+   file:
      path="{{ share_dir }}"
      state=directory
 
@@ -61,8 +61,3 @@
    become: yes
    command: net usershare add {{ share_name }} {{ share_dir }} "virtual box share" everyone:F guest_ok=n
    changed_when: false
-
-
-
-
-
