@@ -8,5 +8,6 @@
    vars:
      packages:
      - python-gpg
+     - python3-gpg     
      - dropbox
      - nemo-dropbox
