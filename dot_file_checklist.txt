@@ -24,10 +24,10 @@
 .ghcup
 .gnupg
 .gradle
-.IdeaIC*
 .jspm
 .kube
 .local/share/shotwell
+.local/share/JetBrains
 .m2
 .minikube
 .mysql
