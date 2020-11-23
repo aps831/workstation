@@ -62,7 +62,7 @@
      - role: git
      - role: gcloud
      - role: helm
-     - role: lens     
+     - role: lens
      - role: minikube
        vars:
          minikube_docker_registry: titan.local:5000
@@ -112,9 +112,6 @@
      - role: printserver
      - role: sambashare
      - role: ssh
-     - role: vaultserver
-       vars:
-         vault_server_port: 8200
      - role: watchtower
 
    pre_tasks:
