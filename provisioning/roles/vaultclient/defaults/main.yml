@@ -1,5 +1,0 @@
----
-vault_server_address: http://{{ vault_server_address }}:{{ vault_server_port }}
-vault_client_version: 1.1.2
-vault_client_file: vault_{{ vault_client_version }}_linux_amd64.zip
-vault_client_file_sha256: 804bae1231d8c445fd0860e23325eda5922517b5f9066d6bfbdb934dd4c5361d
