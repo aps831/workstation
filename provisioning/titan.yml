@@ -107,7 +107,6 @@
          nexus_http_port: 18181
      - role: printserver
      - role: ssh
-     - role: watchtower
 
    pre_tasks:
      - name: update repository caches

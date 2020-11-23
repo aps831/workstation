@@ -85,8 +85,7 @@
 
 # Services
      - role: docker
-     - role: ssh
-     - role: watchtower
+     - role: ssh     
 
    pre_tasks:
      - name: update repository caches
