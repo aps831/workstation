@@ -2,7 +2,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "mrlesmithjr/linuxmint-19.1"
+  config.vm.box = "mrlesmithjr/linuxmint-19.3"
   config.ssh.insert_key = false
 
   config.vm.provider :virtualbox do |v|
