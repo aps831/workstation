@@ -18,6 +18,7 @@
        vars:
          hosts_titan_ip_address: 192.168.1.101
          hosts_thor_ip_address: 192.168.1.104
+         hosts_odin_ip_address: 192.168.1.190         
      - role: nas
        vars:
          nas_host: odin.local
