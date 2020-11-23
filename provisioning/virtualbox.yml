@@ -100,7 +100,6 @@
        vars:
          jenkins_image_name: jenkins/jenkins:latest # titan.local:5000/jenkins:latest
          jenkins_http_port: 8989
-     - role: mysql
      - role: nexus
        vars:
          nexus_docker_internal_port: 5001
