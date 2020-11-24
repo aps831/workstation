@@ -28,7 +28,7 @@
 # Admin
      - role: admin
      - role: smartctl
-     - role: teamviewer
+#     - role: teamviewer # this is causing problems with an expired certificate
 
 # Desktop
      - role: apps
@@ -85,7 +85,7 @@
 
 # Services
      - role: docker
-     - role: ssh     
+     - role: ssh
 
    pre_tasks:
      - name: update repository caches
