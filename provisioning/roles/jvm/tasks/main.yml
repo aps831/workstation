@@ -116,6 +116,7 @@
      mode: 0777
 
  - name: install javafx packages
+   become: yes
    apt:
      name: "{{ packages }}"
      state: present
@@ -134,6 +135,7 @@
      - libxtst-dev
 
  - name: install native image packages
+   become: yes 
    apt:
      name: "{{ packages }}"
      state: present
