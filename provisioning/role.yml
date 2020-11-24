@@ -1,0 +1,14 @@
+---
+
+ - name: run playbook tasks
+   hosts: local
+   vars:
+     ansible_user: ansible
+   roles:
+     - role: 2fa
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False
