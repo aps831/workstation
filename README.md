@@ -4,9 +4,7 @@ Configuration of workstations via Ansible
 ## Testing
 To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have been created called `virtualbox.yml`, `thor.yml`, `titan.yml` and `md-desktop.yml`. `virtualbox.yml` is designed to run through all the roles to test them by creating a Linux Mint instance in Virtualbox.  However, the other playbooks can be tested by uncommenting the appropriate line in `Vagrantfile` and changing the `minikube_install` variable to `false`, `nas_mounting` to `present`, `firewall_state` to `disabled` and `jenkins_image_name` to `jenkins/jenkins:latest` in the appropriate playbook.
 
-If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
-
-The password to the vagrant machine is `vagrant`.
+If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  The password to the vagrant machine is `vagrant`.
 
 To run a single role for development or testing purposes:
 
@@ -14,6 +12,12 @@ To run a single role for development or testing purposes:
 cd provisioning
 ansible --ask-become localhost -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>"
 ```
+
+### Issues
+Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
+
+There is an issue in the dropbox role with installing nemo-dropbox.  It is
+requesting an answer to a question which cannot be supplied by debconf.
 
 ## Production
 

@@ -8,6 +8,6 @@
    vars:
      packages:
      - python-gpg
-     - python3-gpg     
+     - python3-gpg
      - dropbox
-     - nemo-dropbox
+     # - nemo-dropbox this is causing problems with a prompt that debconf can't answer
