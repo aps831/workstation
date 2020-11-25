@@ -5,7 +5,7 @@
    vars:
      ansible_user: ansible
    roles:
-     - role: 2fa
+     - role: gogs
 
    pre_tasks:
      - name: update repository caches

@@ -1,32 +1,77 @@
 ---
 
- - name: create directory for scripts
+ - name: install packages
    become: yes
-   file: 
-     path=/usr/share/systemd
-     state=directory
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - unzip
 
- - name: create script for service
+ - name: create gogs user
    become: yes
-   template:
-     src: gogs.sh.j2
-     dest: /usr/share/systemd/gogs.sh
-     mode: 0744
+   user:
+     name: "{{ gogs_user }}"
+     comment: Gogs
+     home: "{{ gogs_user_home }}"
+
+ - name: check if gogs is already installed
+   become: yes
+   stat:
+     path: /usr/local/bin/gogs
+   register: gogs_bin
+
+ - name: download gogs
+   become: yes
+   get_url:
+     url: "{{ gogs_binary_url }}"
+     dest: "{{ gogs_user_home }}/gogs.zip"
+     owner: "{{ gogs_user }}"
+     group: "{{ gogs_user }}"
+   when: gogs_bin.stat.islnk is not defined
+
+ - name: expand gogs
+   become: yes
+   unarchive:
+     src: "{{ gogs_user_home }}/gogs.zip"
+     dest: "{{ gogs_user_home }}"
+     group: "{{ gogs_user }}"
+     owner: "{{ gogs_user }}"
+     copy: false
+     mode: 0755
+   when: gogs_bin.stat.islnk is not defined
+
+ - name: delete gogs zip
+   become: yes
+   file:
+     path: "{{ gogs_user_home }}/gogs.zip"
+     state: absent
+
+ - name: create gogs log folder
+   become: yes
+   file:
+     path: "{{ gogs_user_home }}/gogs/log"
+     state: directory
+     owner: "{{ gogs_user }}"
+     group: "{{ gogs_user }}"
+     mode: 0755
+
+ - name: symlink gogs binary and startup scripts
+   become: yes
+   file:  # noqa 208
+     src: "{{ gogs_user_home }}/gogs/gogs"
+     dest: "/usr/local/bin/gogs"
+     state: link
    notify: restart gogs
-
- - name: create directory for data
-   become: yes
-   file: 
-     path=/var/lib/gogs/data
-     state=directory
-     owner="{{ ansible_user }}"
-     group="{{ ansible_user }}"
-
+        
  - name: create systemd service
    become: yes
    template:
      src: gogs.service.j2
      dest: /etc/systemd/system/gogs.service
+     owner: root
+     group: root
+     mode: 0755
    notify: restart gogs
 
  - name: enable service at boot
@@ -34,5 +79,3 @@
    systemd:
      name: gogs
      enabled: yes
-
-

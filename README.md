@@ -90,6 +90,7 @@ The following roles have version numbers defined within the role:
 * eclipse
 * elm
 * golang
+* gogs
 * helm
 * javascript
 * minikube
