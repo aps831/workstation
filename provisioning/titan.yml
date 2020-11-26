@@ -90,7 +90,6 @@
      - role: docker
      - role: gogs
        vars:
-         gogs_ssh_port: 10022
          gogs_http_port: 10080
      - role: haproxy
        vars:

@@ -89,8 +89,7 @@
          certificate_host: titan.local
      - role: docker
      - role: gogs
-       vars:
-         gogs_ssh_port: 10022
+       vars:         
          gogs_http_port: 10080
      - role: haproxy
        vars:
