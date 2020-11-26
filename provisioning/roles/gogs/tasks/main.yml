@@ -14,6 +14,7 @@
      name: "{{ gogs_user }}"
      comment: Gogs
      home: "{{ gogs_user_home }}"
+     system: true
 
  - name: check if gogs is already installed
    become: yes
@@ -63,7 +64,7 @@
      dest: "/usr/local/bin/gogs"
      state: link
    notify: restart gogs
-        
+
  - name: create systemd service
    become: yes
    template:
