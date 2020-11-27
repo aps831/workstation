@@ -57,7 +57,7 @@
      group: "{{ gogs_user }}"
      mode: 0755
 
- - name: symlink gogs binary and startup scripts
+ - name: symlink gogs binary
    become: yes
    file:  # noqa 208
      src: "{{ gogs_user_home }}/gogs/gogs"
