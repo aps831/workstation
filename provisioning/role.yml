@@ -5,7 +5,10 @@
    vars:
      ansible_user: ansible
    roles:
-     - role: gogs
+     - role: pgadmin
+     - role: jenkins
+       vars:
+         jenkins_http_port: 8989  
 
    pre_tasks:
      - name: update repository caches

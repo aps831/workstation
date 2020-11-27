@@ -89,7 +89,7 @@
          certificate_host: titan.local
      - role: docker
      - role: gogs
-       vars:         
+       vars:
          gogs_http_port: 10080
      - role: haproxy
        vars:
@@ -98,8 +98,7 @@
          haproxy_docker_external_port: 5000
          haproxy_docker_internal_port: 5001
      - role: jenkins
-       vars:
-         jenkins_image_name: jenkins/jenkins:latest # titan.local:5000/jenkins:latest
+       vars:         
          jenkins_http_port: 8989
      - role: nexus
        vars:

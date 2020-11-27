@@ -1,6 +1,3 @@
 /var/lib/docker
 /var/lib/dockerhub-mirror
-/var/lib/jenkins
-/var/lib/jenkins_config
-/var/lib/pgadmin
 /var/lib/sonatype

@@ -99,7 +99,6 @@
          haproxy_docker_internal_port: 5001
      - role: jenkins
        vars:
-         jenkins_image_name: titan.local:5000/jenkins:latest
          jenkins_http_port: 8989
      - role: nexus
        vars:

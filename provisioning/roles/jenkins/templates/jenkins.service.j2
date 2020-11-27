@@ -1,12 +1,15 @@
 [Unit]
-Description=jenkins
-After=docker.service
-Requires=docker.service
+Description=Jenkins
+After=syslog.target
+After=network.target
 
 [Service]
 Type=simple
+User={{ jenkins_user }}
+Group={{ jenkins_user }}
+WorkingDirectory={{ jenkins_user_home }}/jenkins
 ExecStart=/bin/bash /usr/share/systemd/jenkins.sh
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
-

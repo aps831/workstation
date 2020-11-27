@@ -1,4 +1,5 @@
 ---
-jenkins_container_name: jenkins
-jenkins_container_owner: "1000"
-jenkins_container_group: "{{ jenkins_container_owner }}"
+ jenkins_version: 2.249.3
+ jenkins_user: jenkins
+ jenkins_user_home: /home/jenkins
+ jenkins_war_url: https://get.jenkins.io/war-stable/{{ jenkins_version }}/jenkins.war
