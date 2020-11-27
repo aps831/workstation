@@ -3,13 +3,13 @@
  - name: add pgadmin signing key
    become: yes
    apt_key:
-     url: https://www.pgadmin.org/static/packages_pgadmin_org.pub
+     url: "{{ pgadmin4_apt_key_url }}"
      state: present
 
- - name: add google chrome repository
+ - name: add pgadmin repository
    become: yes
    apt_repository:
-     repo: deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }} pgadmin4 main
+     repo: "{{ pgadmin4_apt_url }}"
      filename: pgadmin4
      state: present
 
