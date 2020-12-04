@@ -3,4 +3,3 @@ gogs_user: git
 gogs_user_home: /home/git
 gogs_version: 0.12.3
 gogs_binary_url: https://github.com/gogs/gogs/releases/download/v{{ gogs_version }}/gogs_{{ gogs_version }}_linux_amd64.zip
-gogs_http_port: 10080

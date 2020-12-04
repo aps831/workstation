@@ -1,4 +1,0 @@
----
-pgadmin_container_name: pgadmin
-pgadmin_container_owner: "1000"
-pgadmin_container_group: "{{ pgadmin_container_owner }}"

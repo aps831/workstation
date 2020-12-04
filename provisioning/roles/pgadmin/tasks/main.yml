@@ -1,37 +1,24 @@
 ---
 
- - name: create directory for scripts
+ - name: add pgadmin signing key
    become: yes
-   file: 
-     path=/usr/share/systemd
-     state=directory
+   apt_key:
+     url: https://www.pgadmin.org/static/packages_pgadmin_org.pub
+     state: present
 
- - name: create script for service
+ - name: add google chrome repository
    become: yes
-   template:
-     src: pgadmin.sh.j2
-     dest: /usr/share/systemd/pgadmin.sh
-     mode: 0744
-   notify: restart pgadmin
+   apt_repository:
+     repo: deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }} pgadmin4 main
+     filename: pgadmin4
+     state: present
 
- - name: create directory for data
+ - name: install packages
    become: yes
-   file: 
-     path=/var/lib/pgadmin/data
-     state=directory
-     owner="{{ pgadmin_container_owner }}"
-     group="{{ pgadmin_container_group }}"
-
- - name: create systemd service
-   become: yes
-   template:
-     src: pgadmin.service.j2
-     dest: /etc/systemd/system/pgadmin.service
-   notify: restart pgadmin
-
- - name: enable service at boot
-   become: yes
-   systemd:
-     name: pgadmin
-     enabled: yes
-
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - pgadmin4
+     - pgadmin4-desktop

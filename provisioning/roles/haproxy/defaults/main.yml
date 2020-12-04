@@ -1,3 +1,0 @@
----
-haproxy_ip_address: "{{ ansible_default_ipv4.address }}"
-haproxy_container_name: haproxy

@@ -1,31 +1,30 @@
 ---
 
- - name: create directory for scripts
+ - name: install haproxy
    become: yes
-   file: 
-     path=/usr/share/systemd
-     state=directory
+   apt:
+     name: haproxy
+     state: present
 
- - name: create script for service
-   become: yes
-   template:
-     src: haproxy.sh.j2
-     dest: /usr/share/systemd/haproxy.sh
-     mode: 0744
-   notify: restart haproxy
+ - name: adding '{{ user }}' user to group ssl-cert
+   user:
+    name: '{{ haproxy_user }}'
+    groups: ssl-cert
+    append: yes
 
  - name: create directory for config
    become: yes
-   file: 
-     path=/usr/local/etc/haproxy/
-     state=directory
+   file:
+     path: /etc/haproxy
+     state: directory
 
  - name: create haproxy config
    become: yes
    template:
      src: haproxy.cfg.j2
-     dest: /usr/local/etc/haproxy/haproxy.cfg
+     dest: /etc/haproxy/haproxy.cfg
      mode: 0444
+     validate: haproxy -f %s -c -q
    notify: restart haproxy
 
  - name: create systemd service
@@ -40,6 +39,3 @@
    systemd:
      name: haproxy
      enabled: yes
-
-
-

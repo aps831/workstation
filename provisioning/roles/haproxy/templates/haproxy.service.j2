@@ -1,12 +1,14 @@
 [Unit]
 Description=haproxy
-After=docker.service
-Requires=docker.service
+After=syslog.target
+After=network.target
 
 [Service]
 Type=simple
-ExecStart=/bin/bash /usr/share/systemd/haproxy.sh
+User={{ haproxy_user }}
+Group={{ haproxy_group }}
+ExecStart=/usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
-
