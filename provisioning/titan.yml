@@ -100,10 +100,7 @@
      - role: jenkins
        vars:
          jenkins_http_port: 8989
-     - role: nexus
-       vars:
-         nexus_docker_internal_port: 5001
-         nexus_http_port: 18181
+     - role: nexus       
      - role: printserver
      - role: ssh
 

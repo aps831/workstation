@@ -1,32 +1,116 @@
 ---
 
- - name: create directory for scripts
+ - name: install packages
    become: yes
-   file: 
-     path=/usr/share/systemd
-     state=directory
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - unzip
+     - openjdk-8-jre
 
- - name: create script for service
+ - name: create nexus user
    become: yes
-   template:
-     src: nexus.sh.j2
-     dest: /usr/share/systemd/nexus.sh
-     mode: 0744
+   user:
+     name: "{{ nexus_user }}"
+     comment: Nexus
+     home: "{{ nexus_user_home }}"
+     system: true
+
+ - name: check if nexus is already installed
+   become: yes
+   stat:
+     path: /usr/local/bin/nexus
+   register: nexus_bin
+
+ - name: download nexus
+   become: yes
+   get_url:
+     url: "{{ nexus_binary_url }}"
+     dest: "{{ nexus_user_home }}/tmp.zip"
+     owner: "{{ nexus_user }}"
+     group: "{{ nexus_user }}"
+   when: nexus_bin.stat.islnk is not defined
+
+ - name: create temporary directory
+   become: yes
+   file:
+     path: "{{ nexus_user_home }}/tmp"
+     state: directory
+
+ - name: expand nexus
+   become: yes
+   unarchive:
+     src: "{{ nexus_user_home }}/tmp.zip"
+     dest: "{{ nexus_user_home }}/tmp"
+     group: "{{ nexus_user }}"
+     owner: "{{ nexus_user }}"
+     copy: false
+     mode: 0755
+   when: nexus_bin.stat.islnk is not defined
+
+ - name: delete nexus zip
+   become: yes
+   file:
+     path: "{{ nexus_user_home }}/tmp.zip"
+     state: absent
+
+ - name: check if nexus folder already exists
+   become: yes
+   stat:
+     path: "{{ nexus_user_home }}/nexus-{{ nexus_version }}"
+   register: nexus_folder
+
+ - name: copy nexus folder
+   become: yes
+   copy:
+     src: "{{ nexus_user_home }}/tmp/nexus-3.29.0-02"
+     dest: "{{ nexus_user_home }}/"
+     group: "{{ nexus_user }}"
+     owner: "{{ nexus_user }}"
+     remote_src: yes
+     directory_mode: yes
+   when: not nexus_folder.stat.exists
+
+ - name: check if sonatype-work folder already exists
+   become: yes
+   stat:
+     path: "{{ nexus_user_home }}/sonatype-work"
+   register: sonatype_work_folder
+
+ - name: copy sonatype-work folder
+   become: yes
+   copy:
+     src: "{{ nexus_user_home }}/tmp/sonatype-work"
+     dest: "{{ nexus_user_home }}"
+     group: "{{ nexus_user }}"
+     owner: "{{ nexus_user }}"
+     remote_src: yes
+     directory_mode: yes
+   when: not sonatype_work_folder.stat.exists
+
+ - name: delete temporary folder
+   become: yes
+   file:
+     path: "{{ nexus_user_home }}/tmp"
+     state: absent
+
+ - name: symlink nexus binary
+   become: yes
+   file:
+     src: "{{ nexus_user_home }}/nexus-{{ nexus_version }}/bin/nexus"
+     dest: "/usr/local/bin/nexus"
+     state: link
    notify: restart nexus
-
- - name: create directory for data
-   become: yes
-   file: 
-     path=/var/lib/sonatype/nexus-data
-     state=directory
-     owner="{{ nexus_container_owner }}"
-     group="{{ nexus_container_group }}"
 
  - name: create systemd service
    become: yes
    template:
      src: nexus.service.j2
      dest: /etc/systemd/system/nexus.service
+     owner: root
+     group: root
+     mode: 0755
    notify: restart nexus
 
  - name: enable service at boot
@@ -34,5 +118,3 @@
    systemd:
      name: nexus
      enabled: yes
-
-

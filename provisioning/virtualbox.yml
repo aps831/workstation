@@ -98,12 +98,9 @@
          haproxy_docker_external_port: 5000
          haproxy_docker_internal_port: 5001
      - role: jenkins
-       vars:         
-         jenkins_http_port: 8989
-     - role: nexus
        vars:
-         nexus_docker_internal_port: 5001
-         nexus_http_port: 18181
+         jenkins_http_port: 8989
+     - role: nexus       
      - role: printserver
      - role: sambashare
      - role: ssh

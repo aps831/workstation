@@ -1,5 +1,5 @@
 ---
-nexus_container_name: nexus3
-nexus_container_version: latest
-nexus_container_owner: "200"
-nexus_container_group: "{{ nexus_container_owner }}"
+nexus_user: nexus
+nexus_user_home: /home/nexus
+nexus_version: 3.29.0-02
+nexus_binary_url: https://download.sonatype.com/nexus/3/latest-unix.tar.gz

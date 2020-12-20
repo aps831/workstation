@@ -1,3 +1,0 @@
-/var/lib/docker
-/var/lib/dockerhub-mirror
-/var/lib/sonatype
