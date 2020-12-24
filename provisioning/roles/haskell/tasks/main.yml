@@ -37,14 +37,14 @@
      - libncursesw5-dev
      - coreutils
      - xz-utils
-     - libz-dev   
+     - libz-dev
 
  - name: workaround for libtinfo bug
    become: yes
    file:
      src: '/usr/lib/x86_64-linux-gnu/libtinfo.so'
      dest: '/usr/lib/x86_64-linux-gnu/libtinfo.so.6'
-     state: link  
+     state: link
 
  - name: download ghcup shell script
    get_url:
@@ -85,13 +85,3 @@
    with_items:
      - /home/{{ ansible_user }}/.ghcup
      - /home/{{ ansible_user }}/.cabal
-   
- - name: install development packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - libpq-dev
-   
-   
