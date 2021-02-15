@@ -23,6 +23,12 @@
    register: pip2_result
    changed_when: "not pip2_result.stdout is search('Found existing installation: pip')"
 
+ - name: download pip
+   get_url:
+     url: https://bootstrap.pypa.io/get-pip.py
+     dest: /tmp/get-pip.py
+   changed_when: False
+
  - name: "install pip3"
    become: yes
    command: python3 /tmp/get-pip.py
