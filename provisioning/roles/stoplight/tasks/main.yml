@@ -1,0 +1,9 @@
+---
+ - name: download stoplight
+   become: true
+   get_url:
+     url: "{{ stoplight_download_url }}"
+     dest: /usr/local/bin/stoplight
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
