@@ -93,6 +93,7 @@ The following roles have version numbers defined within the role:
 * mysql
 * nexus
 * operatorsdk
+* python
 * vagrant
 * vaultclient
 * vaultserver
