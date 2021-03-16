@@ -13,7 +13,7 @@
      - python-pip
      - python3-venv
      - python3-pip
-  
+
  - name: install virtualenv for python 2
    become: yes
    command: pip2 install virtualenv
@@ -25,6 +25,12 @@
    command: pip3 install virtualenv
    register: virtualenv_result
    changed_when: '"Requirement already satisfied" not in virtualenv_result.stdout'
+
+ - name: install setuptools
+   become: yes
+   command: pip2 install setuptools
+   register: setuptools_result
+   changed_when: '"Requirement already satisfied" not in setuptools_result.stdout'
 
  - name: install setuptools
    become: yes
