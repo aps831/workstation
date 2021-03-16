@@ -1,0 +1,6 @@
+
+ - name: install awscli
+   become: yes
+   apt:
+     name: awscli
+     state: present

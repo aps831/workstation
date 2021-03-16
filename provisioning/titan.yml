@@ -57,6 +57,7 @@
 
 # Programming Tools
      - role: atom
+     - role: aws
      - role: data
      - role: eclipse
      - role: intellij
