@@ -20,6 +20,6 @@
      state: present
    vars:
      packages:  
-     - chromium-browser
+     - chromium
      - firefox
      - google-chrome-stable
