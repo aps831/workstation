@@ -88,7 +88,7 @@ The following roles have version numbers defined within the role:
 * minikube
 * mysql
 * nexus
-* operatorsdk
+* operator-framework
 * python
 * vagrant
 * vaultclient

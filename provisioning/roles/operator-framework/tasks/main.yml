@@ -5,30 +5,42 @@
    register: tmp_dir
    changed_when: false
 
+ - name: download operator_sdk checksums
+   become: true
+   get_url:
+     url: "{{ operator_sdk_checksums_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: download operator_sdk checksums asc
+   become: true
+   get_url:
+     url: "{{ operator_sdk_checksums_asc_url }}"
+     dest: "{{ tmp_dir.path }}"
+
  - name: download operator_sdk
    become: true
    get_url:
      url: "{{ operator_sdk_download_url }}"
      dest: "{{ tmp_dir.path }}"
 
- - name: download operator_sdk asc
-   become: true
-   get_url:
-     url: "{{ operator_sdk_asc_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-
- - name: get keyid for gpg key
-   become: true
-   shell: gpg --list-packets <{{ tmp_dir.path }}/{{ operator_sdk_asc_file }} | awk '/keyid/{ print $6}'
-   register: operator_sdk_keyid
-
  - name: get gpg key
    become: true
-   shell: gpg --keyserver keyserver.ubuntu.com --recv-key {{ operator_sdk_keyid.stdout }}
+   shell: gpg --keyserver keyserver.ubuntu.com --recv-key {{ operator_sdk_key }}
 
- - name: verify operator_sdk file
+ - name: verify operator sdk signature
    become: true
-   shell: gpg --verify {{ tmp_dir.path }}/{{ operator_sdk_asc_file }}
+   shell: gpg -u "Operator SDK (release) <cncf-operator-sdk@cncf.io>" --verify {{ tmp_dir.path }}/{{ operator_sdk_checksums_asc_file }}
+
+ - name: verify operator sdk checksum
+   become: true
+   shell: grep {{ operator_sdk_file }} {{ tmp_dir.path }}/{{ operator_sdk_checksums_file }} | awk '{print $1}'
+   register: checksum_expected
+
+ - name: verify operator sdk checksum
+   become: true
+   shell: sha256sum {{ tmp_dir.path }}/{{ operator_sdk_file }} | awk '{print $1}'
+   register: checksum_actual
+   failed_when: "checksum_expected.stdout != checksum_actual.stdout"
 
  - name: copy operator_sdk to /usr/local/bin/
    become: yes
@@ -52,7 +64,7 @@
  - name: install opm
    become: yes
    get_url:
-     url: "{{ opm_url }}"     
+     url: "{{ opm_url }}"
      dest: /usr/local/bin/opm
      mode: 0755
      owner: "{{ ansible_user }}"
