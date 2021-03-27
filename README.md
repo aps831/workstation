@@ -16,8 +16,6 @@ ansible --ask-become localhost -m include_role -a name=<role_name> --extra-vars 
 ### Issues
 Note that once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
 
-There is an issue in the dropbox role with installing nemo-dropbox.  It is requesting an answer to a question which cannot be supplied by debconf. It is currently commented out.
-
 ## Production
 
 ### Pre Tasks

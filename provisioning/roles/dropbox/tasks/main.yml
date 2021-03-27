@@ -9,4 +9,4 @@
      packages:
      - python3-gpg
      - dropbox
-     # - nemo-dropbox this is causing problems with a prompt that debconf can't answer
+     - nemo-dropbox
