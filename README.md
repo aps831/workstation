@@ -18,8 +18,6 @@ Note that once Docker has been installed and the Vagrant machine has been restar
 
 There is an issue in the dropbox role with installing nemo-dropbox.  It is requesting an answer to a question which cannot be supplied by debconf. It is currently commented out.
 
-There is an issue with teamviewer and an expired certificate.  It is currently commented out.
-
 ## Production
 
 ### Pre Tasks
