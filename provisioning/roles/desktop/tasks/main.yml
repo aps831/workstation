@@ -10,17 +10,17 @@
      - redshift
      - redshift-gtk
 
- - name: set list view for new folders
-   become_user: "{{ ansible_user }}"
-   dconf: key="/org/nemo/preferences/default-folder-viewer" value="'list-view'"
+# - name: set list view for new folders
+#   become_user: "{{ ansible_user }}"
+#   dconf: key="/org/nemo/preferences/default-folder-viewer" value="'list-view'"
 
- - name: set wallpaper file
-   become_user: "{{ ansible_user }}"
-   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ ansible_user }}/.wallpaper.png'"
+# - name: set wallpaper file
+#   become_user: "{{ ansible_user }}"
+#   dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ ansible_user }}/.wallpaper.png'"
 
- - name: centre wallpaper
-   become_user: "{{ ansible_user }}"
-   dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
+# - name: centre wallpaper
+#   become_user: "{{ ansible_user }}"
+#   dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
 
  - name: create nemo action for shred
    become: yes
