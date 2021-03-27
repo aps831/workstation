@@ -9,7 +9,7 @@
  - name: install repo
    become: yes
    apt_repository:
-     repo: deb https://packages.cloud.google.com/apt cloud-sdk-{{ ubuntu_codename }} main
+     repo: deb https://packages.cloud.google.com/apt cloud-sdk main
      filename: gcloud
      state: present
 
