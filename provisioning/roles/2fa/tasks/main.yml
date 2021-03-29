@@ -8,14 +8,14 @@
 
  - name: install smart card packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages:  
+     packages:
      - libpth20
      - libccid
      - pcscd
      - scdaemon
      - libksba8
      - yubioath-desktop
-
+     - yubikey-manager
