@@ -39,13 +39,6 @@
      - xz-utils
      - libz-dev
 
- - name: workaround for libtinfo bug
-   become: yes
-   file:
-     src: '/usr/lib/x86_64-linux-gnu/libtinfo.so'
-     dest: '/usr/lib/x86_64-linux-gnu/libtinfo.so.6'
-     state: link
-
  - name: download ghcup shell script
    get_url:
      url: "{{ ghcup_script_url }}"
