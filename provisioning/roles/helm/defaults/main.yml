@@ -3,3 +3,4 @@ helm_download_url: https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.
 helm_download_tmp: /tmp/helm.tar.gz
 helmfile_version: 0.120.0
 helmfile_download_url: https://github.com/roboll/helmfile/releases/download/v{{ helmfile_version }}/helmfile_linux_amd64
+helm_secrets_version: v3.6.0 

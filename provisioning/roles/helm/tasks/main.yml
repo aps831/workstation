@@ -24,12 +24,10 @@
      mode: '0744'
 
  - name: install helm secrets
-   become: yes
-   command: helm plugin install https://github.com/futuresimple/helm-secrets
+   command: helm plugin install https://github.com/jkroepke/helm-secrets --version {{ helm_secrets_version }}
    ignore_errors: yes
 
- - name: install helm diff
-   become: yes
+ - name: install helm diff   
    command: helm plugin install https://github.com/databus23/helm-diff --version master
    ignore_errors: yes
 
