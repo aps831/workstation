@@ -1,9 +1,31 @@
 ---
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ stoplight_install_dir }}"
+     state: directory
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
  - name: download stoplight
    become: true
    get_url:
      url: "{{ stoplight_download_url }}"
-     dest: /usr/local/bin/stoplight
+     dest: "{{ stoplight_install_dir }}/stoplight"
      mode: 0755
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
+
+ - name: create symbolic link
+   become: yes
+   ansible.builtin.file:
+     src: "{{ stoplight_install_dir }}/stoplight"
+     path: "/usr/local/bin/stoplight"
+     state: link
+
+ - name: add stoplight shortcut
+   become: yes
+   template:
+     src=stoplight.desktop.j2
+     dest=/usr/share/applications/Stoplight.desktop
