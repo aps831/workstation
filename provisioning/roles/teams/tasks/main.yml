@@ -10,7 +10,7 @@
    become: yes
    apt_repository:
      repo:  deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main
-     filename: ms-teams
+     filename: teams
      state: present
 
  - name: install packages
