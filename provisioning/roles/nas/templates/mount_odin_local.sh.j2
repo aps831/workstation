@@ -1,6 +1,7 @@
 #! /bin/bash
 # This script requires a secret to be added to the login keychain.  This can be done by running:
 # secret-tool store --label='{{ nas_host }}' server {{ nas_host }} user {{ ansible_user }}
+# Special characters are best avoided
 PASSWD=$(secret-tool lookup server {{ nas_host }} user {{ ansible_user }})
 echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/homes >/dev/null 2>&1
 echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/music >/dev/null 2>&1
