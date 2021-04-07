@@ -33,7 +33,7 @@
      src: "bookmarks.{{ ansible_user }}.j2"
      dest: /home/{{ ansible_user }}/.config/gtk-3.0/bookmarks
 
- - name: add redshift shortcut
+ - name: add redshift autostart
    template:
      src=redshift-gtk.desktop.j2
      dest=/home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop
