@@ -85,11 +85,13 @@ The following roles have version numbers defined within the role:
 * gogs
 * helm
 * javascript
+* lens
 * minikube
 * mysql
 * nexus
 * operator-framework
 * python
+* stoplight
 * vagrant
 * vaultclient
 * vaultserver
