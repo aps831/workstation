@@ -1,5 +1,4 @@
 .bashrc
-.boto
 .dockercfg
 .emacs
 .gitconfig
@@ -7,7 +6,6 @@
 .npmrc
 .pypirc
 .selected_editor
-.smbcredentials
 .wallpaper.png
 
 .atom
@@ -17,6 +15,8 @@
 .config/Code
 .config/JetBrains
 .config/helm
+.config/pgadmin
+.config/pgadmin4
 .config/VirtualBox
 .docker
 .duply
