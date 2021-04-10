@@ -55,6 +55,30 @@
          backup_time_delay: "30min"
          backup_test_time_delay: "240min"
 
+     - role: backup2
+       vars:
+         backup_user: "andrew"
+         backup_time_delay: "30min"
+         backup_test_time_delay: "180min"
+
+     - role: backup2
+       vars:
+         backup_user: "git"
+         backup_time_delay: "90min"
+         backup_test_time_delay: "195min"
+
+     - role: backup2
+       vars:
+         backup_user: "jenkins"
+         backup_time_delay: "120min"
+         backup_test_time_delay: "210min"
+
+     - role: backup2
+       vars:
+         backup_user: "nexus"
+         backup_time_delay: "150min"
+         backup_test_time_delay: "225min"
+
 # Programming Tools
      - role: atom
      - role: aws

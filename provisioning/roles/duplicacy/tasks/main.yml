@@ -1,8 +1,0 @@
-- name: download duplicacy binary
-  become: yes
-  get_url:
-    url: "{{ duplicacy_download_url }}"
-    dest: /usr/local/bin/duplicacy
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0744

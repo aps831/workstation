@@ -54,6 +54,11 @@
          backup_description: "Odin"
          backup_time_delay: "70min" # update this
          backup_test_time_delay: "190min" # update this
+     - role: backup2
+       vars:
+         backup_user: "ansible"
+         backup_time_delay: "60min"
+         backup_test_time_delay: "240min"
 
 # Programming Tools
      - role: atom

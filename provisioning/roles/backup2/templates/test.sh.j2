@@ -1,0 +1,15 @@
+#! /bin/bash
+sudo -u {{ backup_user }} duplicacy check > /var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
+exit_status=$?
+
+if [ ${exit_status} -ne 0 ]; then
+    urgency="critical"
+    title="Backup Test Failed: {{ backup_user }} backup"
+    msg="The {{ backup_user }} backup failed"
+else
+    urgency="normal"
+    title="Backup Test Completed: {{ backup_user }} backup"
+    msg="The {{ backup_user }} backup was successful"
+fi
+
+su {{ ansible_user }} -c "/usr/bin/notify-send --urgency=$urgency --app-name='Backup Test Script: {{ backup_user }} backup' '$title' '$msg'"

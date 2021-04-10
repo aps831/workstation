@@ -1,0 +1,23 @@
+#! /bin/bash
+backup() {(
+  set -e
+  sudo -u {{ backup_user }} duplicacy backup -storage odin > /var/log/duplicacy/{{ backup_user }}_backup/backup.log 2>&1
+  sudo -u {{ backup_user }} duplicacy copy -from odin -to amazons3 >> /var/log/duplicacy/{{ backup_user }}_backup/backup.log 2>&1  
+  sudo -u {{ backup_user }} duplicacy prune -keep 0:360 -keep 30:180 -keep 7:30 -keep 1:7 -storage odin >> /var/log/duplicacy/{{ backup_user }}_backup/backup.log 2>&1
+  sudo -u {{ backup_user }} duplicacy prune -keep 0:360 -keep 30:180 -keep 7:30 -keep 1:7 -storage amazons3 >> /var/log/duplicacy/{{ backup_user }}_backup/backup.log 2>&1
+)}
+
+backup
+exit_status=$?
+
+if [ ${exit_status} -ne 0 ]; then
+    urgency="critical"
+    title="Backup Failed: {{ backup_user }} backup.  Do Not Ignore This Message"
+    msg="The {{ backup_user }} backup failed"
+else
+    urgency="normal"
+    title="Backup Completed: {{ backup_user }} backup"
+    msg="The {{ backup_user }} backup was successful"
+fi
+
+DISPLAY=:0 su {{ ansible_user }} -c "/usr/bin/notify-send --urgency=$urgency --app-name='Backup Script: {{ backup_user }} backup' '$title' '$msg'"

@@ -1,0 +1,136 @@
+---
+
+# Executables
+ - name: download duplicacy binary
+   become: yes
+   get_url:
+     url: "{{ duplicacy_download_url }}"
+     dest: /usr/local/bin/duplicacy
+     owner: "root"
+     group: "root"
+     mode: 0777
+
+ - name: install backup packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - cron
+     - timeshift
+
+# Log directories
+ - name: "create directory for backup logs"
+   become: yes
+   file:
+     path: "/var/log/duplicacy/"
+     state: directory
+     owner: "root"
+     group: "root"
+     mode: u=rwx,g=rwx,o=rwx
+     recurse: yes
+
+ - name: "create directory for {{ backup_user }} backup logs"
+   become: yes
+   file:
+     path: "/var/log/duplicacy/{{ backup_user }}_backup"
+     state: directory
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u=rwx,g=rwx,o=rwx
+     recurse: yes
+
+ - name: "create directory for {{ backup_user }} backup test logs"
+   become: yes
+   file:
+     path: "/var/log/duplicacy/{{ backup_user }}_backup_test"
+     state: directory
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u=rwx,g=rwx,o=rwx
+     recurse: yes
+
+# Scripts
+ - name: "install {{ backup_user }} backup script"
+   become: yes
+   template:
+     src: "backup.sh.j2"
+     dest: "/usr/local/sbin/{{ backup_user }}_backup.sh"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u+rwx,g-rwx,o-rwx
+
+ - name: "install {{ backup_user }} backup test script"
+   become: yes
+   template:
+     src: "test.sh.j2"
+     dest: "/usr/local/sbin/{{ backup_user }}_backup_test.sh"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u+rwx,g-rwx,o-rwx
+
+# Services
+ - name: "install {{ backup_user }} backup service"
+   become: yes
+   template:
+     src: "backup.service.j2"
+     dest: "/etc/systemd/system/{{ backup_user }}_backup.service"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: 0666
+
+ - name: "install {{ backup_user }} backup test service"
+   become: yes
+   template:
+     src: "test.service.j2"
+     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.service"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: 0666
+
+# Timers
+ - name: "install {{ backup_user }} backup timer"
+   become: yes
+   template:
+     src: "backup.timer.j2"
+     dest: "/etc/systemd/system/{{ backup_user }}_backup.timer"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: 0666
+
+ - name: "install {{ backup_user }} backup test timer"
+   become: yes
+   template:
+     src: "test.timer.j2"
+     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.timer"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: 0666
+
+# Disable services
+ - name: disable {{ backup_user }} backup service
+   become: yes
+   systemd:
+     name: "{{ backup_user }}_backup"
+     enabled: no
+
+ - name: disable {{ backup_user }} backup test service
+   become: yes
+   systemd:
+     name: "{{ backup_user }}_backup_test"
+     enabled: no
+
+# Enable timers
+ - name: enable {{ backup_user }} backup timer
+   become: yes
+   systemd:
+     name: "{{ backup_user }}_backup.timer"
+     state: started
+     enabled: yes
+
+ - name: enable {{ backup_user }} backup test timer
+   become: yes
+   systemd:
+     name: "{{ backup_user }}_backup_test.timer"
+     state: started
+     enabled: yes
