@@ -22,7 +22,6 @@
      - role: nas
        vars:
          nas_host: odin.local
-         nas_mounting: present
      - role: swappiness
 
 # Admin
