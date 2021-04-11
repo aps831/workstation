@@ -38,7 +38,7 @@
      - role: noson
      - role: shotwell
        vars:
-         shotwell_import_directory: "'/mnt/odin/photo/andrew'"
+         shotwell_import_directory: "'smb://odin.local/photo/andrew'" # Shotwell doesn't work with Samba,,,
      - role: webbrowsers
 
 # Backup
