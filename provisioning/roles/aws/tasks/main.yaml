@@ -4,3 +4,10 @@
    apt:
      name: awscli
      state: present
+
+ - name: download aws-vault
+   become: yes
+   get_url:
+     url: "{{ aws_vault_download_url }}"
+     dest: /usr/local/bin/aws-vault
+     mode: '0777'

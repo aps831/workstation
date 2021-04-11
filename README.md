@@ -78,6 +78,7 @@ The printer may be installed automatically for a local install but may need to b
 ### Specified Versions
 The following roles have version numbers defined within the role:
 
+* aws
 * docker
 * eclipse
 * elm
