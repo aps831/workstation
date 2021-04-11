@@ -75,8 +75,6 @@
      - role: helm
      - role: lens
      - role: minikube
-       vars:
-         minikube_docker_registry: titan.local:5000
      - role: operator-framework
      - role: pgadmin
      - role: stoplight
