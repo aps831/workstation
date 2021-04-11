@@ -23,12 +23,3 @@
      group: "{{ ansible_user }}"
      src: odin.desktop.j2
      dest: /home/{{ ansible_user }}/.config/autostart/odin.desktop
-
- - name: mount backups
-   become: yes
-   mount:
-     path: /mnt/odin/backups
-     src: //{{ nas_host }}/backups
-     fstype: cifs
-     opts: credentials=/home/{{ ansible_user }}/.smbcredentials,iocharset=utf8,sec=ntlm,vers=1.0
-     state: "{{ nas_mounting }}"
