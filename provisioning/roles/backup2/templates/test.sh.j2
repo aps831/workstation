@@ -1,5 +1,11 @@
 #! /bin/bash
-sudo -u {{ backup_user }} duplicacy check > /var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
+check() {(
+  set -e
+  sudo -u {{ backup_user }} duplicacy check -id {{ local_backup_name }} > /var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
+  sudo -u {{ backup_user }} duplicacy check -id {{ remote_backup_name }} >> /var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
+)}
+
+check
 exit_status=$?
 
 if [ ${exit_status} -ne 0 ]; then

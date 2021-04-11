@@ -57,6 +57,8 @@
      - role: backup2
        vars:
          backup_user: "ansible"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
          backup_time_delay: "60min"
          backup_test_time_delay: "240min"
 
