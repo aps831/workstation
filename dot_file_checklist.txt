@@ -28,9 +28,11 @@
 .gnupg
 .gradle
 .jspm
+.k8slens
 .kube
 .local/share/shotwell
 .local/share/JetBrains
+.local/share/keyrings
 .m2
 .minikube
 .mysql
