@@ -1,0 +1,6 @@
+---
+ - name: disable apache2 service
+   become: yes
+   systemd:
+     name: apache2
+     enabled: no
