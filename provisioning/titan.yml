@@ -41,7 +41,7 @@
      - role: webbrowsers
 
 # Backup
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "andrew"
          local_backup_name: "odin"
@@ -49,7 +49,7 @@
          backup_time_delay: "30min"
          backup_test_time_delay: "180min"
 
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "git"
          local_backup_name: "odin"
@@ -57,7 +57,7 @@
          backup_time_delay: "90min"
          backup_test_time_delay: "195min"
 
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "jenkins"
          local_backup_name: "odin"
@@ -65,7 +65,7 @@
          backup_time_delay: "120min"
          backup_test_time_delay: "210min"
 
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "nexus"
          local_backup_name: "odin"

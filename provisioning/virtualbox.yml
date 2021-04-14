@@ -40,8 +40,8 @@
          shotwell_import_directory: "'/home/ansible'"
      - role: webbrowsers
 
-# Backup     
-     - role: backup2
+# Backup
+     - role: backup
        vars:
          backup_user: "ansible"
          local_backup_name: "odin"

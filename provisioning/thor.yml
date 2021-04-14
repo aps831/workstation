@@ -41,7 +41,7 @@
      - role: webbrowsers
 
 # Backup
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "andrew"
          local_backup_name: "odin"

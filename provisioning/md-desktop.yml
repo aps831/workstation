@@ -32,7 +32,7 @@
      - role: webbrowsers
 
 # Backup
-     - role: backup2
+     - role: backup
        vars:
          backup_user: "m-d"
          local_backup_name: "internal"
