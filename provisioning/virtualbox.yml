@@ -7,7 +7,6 @@
    roles:
 
 # Security
-     - role: 2fa
      - role: encryption
      - role: firewall
        vars:

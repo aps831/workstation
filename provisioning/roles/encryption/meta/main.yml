@@ -1,3 +1,5 @@
 ---
  dependencies:
    - role: ansible
+   - role: codename
+   - role: ansible

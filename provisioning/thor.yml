@@ -6,8 +6,7 @@
      ansible_user: andrew
    roles:
 
-# Security
-     - role: 2fa
+# Security     
      - role: encryption
      - role: firewall
        vars:

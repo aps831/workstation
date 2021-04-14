@@ -1,16 +1,29 @@
 ---
 
+ - name: add ppa repository for yubico
+   become: yes
+   apt_repository:
+     repo: 'ppa:yubico/stable'
+     codename: "{{ ubuntu_codename }}"
+    
  - name: install encryption packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
      packages:
      - nemo-seahorse
-     - gnupg2 
+     - gnupg2
      - gnupg-agent
      - pinentry-curses
      - keychain
      - pass
      - xclip
      - xsel
+     - libpth20
+     - libccid
+     - pcscd
+     - scdaemon
+     - libksba8
+     - yubioath-desktop
+     - yubikey-manager
