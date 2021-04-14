@@ -19,7 +19,6 @@
 .config/pgadmin4
 .config/VirtualBox
 .docker
-.duply
 .duplicacy
 .elm
 .emacs.d
