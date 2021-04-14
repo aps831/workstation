@@ -1,9 +1,0 @@
-[Unit]
-Description=run {{ backup_name }} backup on boot
-
-[Timer]
-OnBootSec={{ backup_time_delay }}
-Persistent=true
-
-[Install]
-WantedBy=timers.target

@@ -21,7 +21,7 @@
          hosts_odin_ip_address: 192.168.1.190
      - role: nas
        vars:
-         nas_host: odin.local         
+         nas_host: odin.local
      - role: swappiness
 
 # Admin
@@ -40,19 +40,7 @@
          shotwell_import_directory: "'/home/ansible'"
      - role: webbrowsers
 
-# Backup
-     - role: backup
-       vars:
-         backup_name: amazons3
-         backup_description: "Amazon S3"
-         backup_time_delay: "40min" # update this
-         backup_test_time_delay: "140min" # update this
-     - role: backup
-       vars:
-         backup_name: odin
-         backup_description: "Odin"
-         backup_time_delay: "70min" # update this
-         backup_test_time_delay: "190min" # update this
+# Backup     
      - role: backup2
        vars:
          backup_user: "ansible"
