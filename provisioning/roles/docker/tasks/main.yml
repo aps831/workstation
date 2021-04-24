@@ -63,16 +63,6 @@
      name: docker
      enabled: yes
 
- - name: update grub for cgroups
-   become: yes
-   lineinfile:
-     state: present
-     dest: /etc/default/grub
-     backrefs: yes
-     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cgroup_enable=memory swapaccount=1)\"[^\"]*)(\".*)'
-     line: '\1 cgroup_enable=memory swapaccount=1\2'
-   notify: update grub
-
 #
 # Docker Compose
 #

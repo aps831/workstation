@@ -17,7 +17,3 @@
     become: yes
     ufw:
       state: reloaded
-
-  - name: update grub
-    become: yes
-    command: update-grub
