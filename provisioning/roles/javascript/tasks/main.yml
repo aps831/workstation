@@ -40,3 +40,6 @@
      executable: /bin/bash
    register: nvm_install_result
    changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
+
+ - name: install ngrok
+   command: nvm alias default node
