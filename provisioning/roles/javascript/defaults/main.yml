@@ -2,4 +2,4 @@
 nvm:
   dir: /home/{{ ansible_user }}/.nvm
   version: v0.34.0
-  node_version: v10.13.0
+  node_version: v14.15.3
