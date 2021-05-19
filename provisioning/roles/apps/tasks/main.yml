@@ -5,9 +5,10 @@
    apt:
      name: "{{ packages }}"
    vars:
-     packages:     
+     packages:
      - libreoffice
      - imagemagick
      - sound-juicer
      - inkscape
      - easytag
+     - brasero
