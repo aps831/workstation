@@ -76,6 +76,7 @@
      - role: haskell
 
 # Services
+     - role: apache2
      - role: certificate
        vars:
          certificate_host: titan.local

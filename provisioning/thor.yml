@@ -6,7 +6,7 @@
      ansible_user: andrew
    roles:
 
-# Security     
+# Security
      - role: encryption
      - role: firewall
        vars:
@@ -76,6 +76,7 @@
      - role: haskell
 
 # Services
+     - role: apache2
      - role: docker
      - role: ssh
 
