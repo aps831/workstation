@@ -19,8 +19,8 @@
  - name: check if gogs is already installed
    become: yes
    stat:
-     path: /usr/local/bin/gogs
-   register: gogs_bin
+     path: "{{ gogs_user_home }}/gogs"
+   register: gogs_dir
 
  - name: download gogs
    become: yes
@@ -29,7 +29,7 @@
      dest: "{{ gogs_user_home }}/gogs.zip"
      owner: "{{ gogs_user }}"
      group: "{{ gogs_user }}"
-   when: gogs_bin.stat.islnk is not defined
+   when: not gogs_dir.stat.exists
 
  - name: expand gogs
    become: yes
@@ -40,7 +40,7 @@
      owner: "{{ gogs_user }}"
      copy: false
      mode: 0755
-   when: gogs_bin.stat.islnk is not defined
+   when: not gogs_dir.stat.exists
 
  - name: delete gogs zip
    become: yes
