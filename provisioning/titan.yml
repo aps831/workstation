@@ -107,7 +107,7 @@
      - role: docker
      - role: gogs
        vars:
-         gogs_http_port: 10080
+         gogs_http_port: 10081
      - role: haproxy
        vars:
          haproxy_ip_address: "{{ hosts_titan_ip_address }}"
