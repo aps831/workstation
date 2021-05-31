@@ -64,7 +64,7 @@
  - name: copy nexus folder
    become: yes
    copy:
-     src: "{{ nexus_user_home }}/tmp/nexus-3.29.0-02"
+     src: "{{ nexus_user_home }}/tmp/nexus-{{ nexus_version }}"
      dest: "{{ nexus_user_home }}/"
      group: "{{ nexus_user }}"
      owner: "{{ nexus_user }}"
