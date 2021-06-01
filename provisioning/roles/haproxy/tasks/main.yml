@@ -6,7 +6,7 @@
      name: haproxy
      state: present
 
- - name: adding '{{ user }}' user to group ssl-cert
+ - name: adding '{{ haproxy_user }}' user to group ssl-cert
    become: yes
    user:
     name: '{{ haproxy_user }}'
