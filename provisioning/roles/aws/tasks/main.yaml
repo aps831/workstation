@@ -1,9 +1,53 @@
 
+ - name: Create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmpdir
+
+ - name: download awscli installer
+   become: yes
+   get_url:
+     url: "{{ awscli_download_url }}"
+     dest: "{{ tmpdir.path }}/awscliv2.zip"
+   changed_when: false
+
+ - name: extract awscli installer from archive
+   become: yes
+   unarchive:
+     src: "{{ tmpdir.path }}/awscliv2.zip"
+     dest: "{{ tmpdir.path }}"
+     remote_src: yes
+     mode: 0744
+
+ - name: test if awscli already installed
+   become: yes
+   stat:
+     path: "/usr/local/bin/aws"
+   register: awsclipath
+
  - name: install awscli
    become: yes
-   apt:
-     name: awscli
-     state: present
+   command: "{{ tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
+   when: not awsclipath.stat.exists
+
+ - name: update awscli
+   become: yes
+   command: "{{ tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
+   when: awsclipath.stat.exists
+
+ - name: set permissions on awscli binary
+   become: yes
+   file:
+     path: /usr/local/bin/aws
+     mode: 0777
+
+ - name: set permissions on awscli files
+   become: yes
+   file:
+     path: /usr/local/aws-cli
+     recurse: yes
+     mode: 0777
 
  - name: download aws-vault
    become: yes
