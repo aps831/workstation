@@ -34,9 +34,11 @@
      - role: dropbox
      - role: fonts
      - role: noson
+     - role: openshot
      - role: shotwell
        vars:
          shotwell_import_directory: "'/home/ansible'"
+     - role: teams     
      - role: webbrowsers
 
 # Backup
@@ -59,6 +61,7 @@
      - role: helm
      - role: lens
      - role: minikube
+     - role: ngrok
      - role: operator-framework
      - role: pgadmin
      - role: stoplight
