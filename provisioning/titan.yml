@@ -26,7 +26,7 @@
 # Admin
      - role: admin
      - role: smartctl
-     - role: teamviewer # this is causing problems with an expired certificate
+     - role: teamviewer
 
 # Desktop
      - role: apps
