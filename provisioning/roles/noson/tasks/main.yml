@@ -13,3 +13,21 @@
    apt:
      name: noson-app
      state: present
+
+ - name: add firewall rules
+   become: yes
+   template:
+     src: templates/noson.j2
+     dest: /etc/ufw/applications.d/noson
+     mode: '0644'
+
+ - name: update ufw
+   become: yes
+   command: ufw app update noson
+
+ - name: add rule firewal
+   become: yes
+   ufw:
+     rule: allow
+     name: noson
+     src: "192.168.1.0/24"
