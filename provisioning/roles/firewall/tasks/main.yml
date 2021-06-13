@@ -25,15 +25,3 @@
    ufw:
      policy: allow
      direction: outgoing
-
- - name: allow connections from within LAN 1
-   become: yes
-   ufw:
-     rule: allow
-     src: 192.168.1.0/24
-
- - name: allow connections from within LAN 2
-   become: yes
-   ufw:
-     rule: allow
-     src: 192.168.0.0/24

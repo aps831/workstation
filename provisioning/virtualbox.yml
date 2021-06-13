@@ -103,24 +103,32 @@
          gogs_http_port: 10080
          gogs_user: git
          gogs_user_home: /home/git
+         gogs_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: haproxy
        vars:
          haproxy_ip_address: "{{ hosts_titan_ip_address }}"
          haproxy_host: titan.local
          haproxy_docker_external_port: 5000
          haproxy_docker_internal_port: 5001
+         haproxy_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: jenkins
        vars:
          jenkins_http_port: 8989
          jenkins_user: jenkins
          jenkins_user_home: /home/jenkins
+         jenkins_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: nexus
        vars:
          nexus_user: nexus
          nexus_user_home: /home/nexus
+         nexus_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: printserver
+       vars:
+         printserver_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: sambashare
      - role: ssh
+       vars:
+         ssh_ufw_allow_host: "{{ hosts_thor_ip_address }}"
 
    pre_tasks:
      - name: update repository caches

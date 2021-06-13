@@ -40,3 +40,10 @@
    systemd:
      name: haproxy
      enabled: yes
+
+ - name: "allow connections from {{ haproxy_ufw_allow_host }}"
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ haproxy_ufw_allow_host }}"
+     port: "{{ haproxy_docker_external_port }}"

@@ -1,7 +1,7 @@
 ---
   - name: install ssh packages
     become: yes
-    apt: 
+    apt:
       name: "{{ packages }}"
     vars:
       packages:
@@ -32,4 +32,9 @@
       line: 'PasswordAuthentication no'
     notify: restart ssh
 
-
+  - name: "allow connections from {{ ssh_ufw_allow_host }}"
+    become: yes
+    ufw:
+      rule: allow
+      src: "{{ ssh_ufw_allow_host }}"
+      port: "22"    

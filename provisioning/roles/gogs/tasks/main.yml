@@ -72,3 +72,10 @@
    systemd:
      name: gogs
      enabled: yes
+
+ - name: "allow connections from {{ gogs_ufw_allow_host }}"
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ gogs_ufw_allow_host }}"
+     port: "{{ gogs_http_port }}"

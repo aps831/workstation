@@ -27,3 +27,10 @@
    notify:
      - restart smbd
      - restart nmbd
+
+ - name: "allow connections from {{ printserver_ufw_allow_host }}"
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ printserver_ufw_allow_host }}"
+     port: "139"

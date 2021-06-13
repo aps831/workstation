@@ -84,6 +84,8 @@
      - role: apache2
      - role: docker
      - role: ssh
+       vars:
+         ssh_ufw_allow_host: "{{ hosts_titan_ip_address }}"
 
    pre_tasks:
      - name: update repository caches

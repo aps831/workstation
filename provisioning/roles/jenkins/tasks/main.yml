@@ -80,3 +80,10 @@
    systemd:
      name: jenkins
      enabled: yes
+
+ - name: "allow connections from {{ jenkins_ufw_allow_host }}"
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ jenkins_ufw_allow_host }}"
+     port: "{{ jenkins_http_port }}"     

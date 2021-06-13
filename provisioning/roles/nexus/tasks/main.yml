@@ -110,3 +110,10 @@
    systemd:
      name: nexus
      enabled: yes
+
+ - name: "allow connections from {{ nexus_ufw_allow_host }}"
+   become: yes
+   ufw:
+     rule: allow
+     src: "{{ nexus_ufw_allow_host }}"
+     port: "18181"
