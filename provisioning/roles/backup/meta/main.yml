@@ -4,3 +4,6 @@
    - role: gogs
    - role: nexus
    - role: jenkins
+   - { role: user, create_user: git }
+   - { role: user, create_user: nexus }
+   - { role: user, create_user: jenkins }

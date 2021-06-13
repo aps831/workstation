@@ -8,14 +8,6 @@
      packages:
      - unzip
 
- - name: create gogs user
-   become: yes
-   user:
-     name: "{{ gogs_user }}"
-     comment: Gogs
-     home: "{{ gogs_user_home }}"
-     system: true
-
  - name: check if gogs is already installed
    become: yes
    stat:

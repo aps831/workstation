@@ -75,6 +75,11 @@
      - role: python
      - role: haskell
 
+# Users
+     - role: user
+       vars:
+         create_user: andrew
+
 # Services
      - role: apache2
      - role: docker

@@ -10,14 +10,6 @@
       - apt-transport-https
       - gnupg
 
- - name: create jenkins user
-   become: yes
-   user:
-     name: "{{ jenkins_user }}"
-     comment: Jenkins
-     home: "{{ jenkins_user_home }}"
-     system: true
-
  - name: create directory for scripts
    become: yes
    file:

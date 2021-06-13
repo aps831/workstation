@@ -1,0 +1,17 @@
+---
+
+ - name: "create {{ create_user }} user"
+   become: yes
+   user:
+     name: "{{ create_user }}"
+     home: "/home/{{ create_user }}"
+     system: true
+
+ - name: "update ownership for user {{ create_user }}"
+   become: yes
+   file:
+     state: directory
+     recurse: true
+     owner: "{{ create_user }}"
+     group: "{{ create_user }}"
+     path: /home/{{ create_user }}     
