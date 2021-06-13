@@ -14,4 +14,5 @@
      recurse: true
      owner: "{{ create_user }}"
      group: "{{ create_user }}"
-     path: /home/{{ create_user }}     
+     path: /home/{{ create_user }}
+   when: ansible_user != create_user       
