@@ -108,3 +108,8 @@
      url: "{{ aws_vault_download_url }}"
      dest: /usr/local/bin/aws-vault
      mode: '0777'
+
+# Localstack
+ - name: install localstack
+   pip:
+    name: localstack
