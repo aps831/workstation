@@ -99,6 +99,7 @@ The following roles have version numbers defined within the role:
 * operator-framework
 * python
 * stoplight
+* terraform
 * vagrant
 * vaultclient
 * vaultserver
