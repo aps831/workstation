@@ -87,6 +87,7 @@
      - role: pgadmin
      - role: stoplight
      - role: sublime
+     - role: terraform
      - role: vagrant
      - role: virtualbox
      - role: vscode
@@ -145,7 +146,7 @@
          nexus_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: printserver
        vars:
-         printserver_ufw_allow_host: "{{ hosts_thor_ip_address }}"         
+         printserver_ufw_allow_host: "{{ hosts_thor_ip_address }}"
      - role: ssh
        vars:
          ssh_ufw_allow_host: "{{ hosts_thor_ip_address }}"

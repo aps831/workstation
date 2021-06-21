@@ -63,6 +63,7 @@
      - role: pgadmin
      - role: stoplight
      - role: sublime
+     - role: terraform
      - role: vagrant
      - role: virtualbox
      - role: vscode
