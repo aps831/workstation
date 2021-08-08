@@ -1,5 +1,7 @@
 ---
  dependencies:
    - role: ansible
+   - role: duplicacy
+   - role: timeshift
    - role: user
      create_user: "{{ backup_user }}"

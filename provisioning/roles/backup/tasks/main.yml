@@ -1,15 +1,6 @@
 ---
 
-# Executables
- - name: download duplicacy binary
-   become: yes
-   get_url:
-     url: "{{ duplicacy_download_url }}"
-     dest: /usr/local/bin/duplicacy
-     owner: "root"
-     group: "root"
-     mode: 0777
-
+# Packages
  - name: install backup packages
    become: yes
    apt:
@@ -17,7 +8,6 @@
    vars:
      packages:
      - cron
-     - timeshift
 
 # Log directories
  - name: "create directory for backup logs"

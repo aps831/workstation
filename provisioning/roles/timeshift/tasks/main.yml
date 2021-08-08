@@ -1,0 +1,9 @@
+---
+
+ - name: install backup packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - timeshift
