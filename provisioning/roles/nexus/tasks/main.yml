@@ -29,6 +29,7 @@
    file:
      path: "{{ nexus_user_home }}/tmp"
      state: directory
+   when: nexus_bin.stat.islnk is not defined
 
  - name: expand nexus
    become: yes
@@ -62,7 +63,7 @@
      owner: "{{ nexus_user }}"
      remote_src: yes
      directory_mode: yes
-   when: not nexus_folder.stat.exists
+   when: not nexus_folder.stat.exists and nexus_bin.stat.islnk is not defined
 
  - name: check if sonatype-work folder already exists
    become: yes
@@ -79,7 +80,7 @@
      owner: "{{ nexus_user }}"
      remote_src: yes
      directory_mode: yes
-   when: not sonatype_work_folder.stat.exists
+   when: not sonatype_work_folder.stat.exists and nexus_bin.stat.islnk is not defined
 
  - name: delete temporary folder
    become: yes
