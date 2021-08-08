@@ -95,6 +95,7 @@
      dest: "/usr/local/bin/nexus"
      state: link
    notify: restart nexus
+   when: nexus_bin.stat.islnk is not defined
 
  - name: create systemd service
    become: yes
