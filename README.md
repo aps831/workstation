@@ -2,7 +2,13 @@
 Configuration of workstations via Ansible
 
 ## Testing
-To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have been created called `virtualbox.yml`, `thor.yml`, `titan.yml`, `md-desktop.yml` and `role.yml`. `virtualbox.yml` is designed to run through all the roles to test them by creating a Linux Mint instance in Virtualbox.  `role.yml` is designed to test a single role and can be selected by editing `Vagrantfile`.  However, the other playbooks can be tested by un-commenting the appropriate line in `Vagrantfile` and changing the `minikube_install` variable to `false` and `firewall_state` to `disabled` in the appropriate playbook.
+To test the Ansible provisioning using Vagrant run `vagrant up`.  Playbooks have been created called `virtualbox.yml`, `thor.yml`, `titan.yml`, `md-desktop.yml` `restore.yaml` and `role.yml`:
+
+* `virtualbox.yml` is designed to run through all the roles to test them by creating a Linux Mint instance in Virtualbox;
+* `restore.yml` is designed to install minimal dependencies in order to bootstrap a restore of thor or titan;
+* `role.yml` is designed to test a single role and can be selected by editing `Vagrantfile`.  
+
+Other playbooks can be tested by un-commenting the appropriate line in `Vagrantfile` and changing `firewall_state` to `disabled` in the appropriate playbook.
 
 If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  The password to the vagrant machine is `vagrant`.
 

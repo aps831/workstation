@@ -1,0 +1,17 @@
+---
+
+ - name: run playbook tasks
+   hosts: localhost
+   vars:
+     ansible_user: andrew
+   roles:
+     - role: encryption
+     - role: duplicacy
+     - role: aws
+     - role: git
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False
