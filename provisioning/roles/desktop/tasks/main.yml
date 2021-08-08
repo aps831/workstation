@@ -7,6 +7,7 @@
    vars:
      packages:
      - coreutils # shred
+     - secure-delete
      - redshift
      - redshift-gtk
 
