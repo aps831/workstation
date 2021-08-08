@@ -5,7 +5,7 @@
    apt_repository:
      repo: 'ppa:yubico/stable'
      codename: "{{ ubuntu_codename }}"
-    
+
  - name: install encryption packages
    become: yes
    apt:
@@ -15,6 +15,7 @@
      - nemo-seahorse
      - gnupg2
      - gnupg-agent
+     - gnupg-utils
      - pinentry-curses
      - keychain
      - pass
