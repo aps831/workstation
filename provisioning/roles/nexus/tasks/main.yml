@@ -106,6 +106,7 @@
      group: root
      mode: 0755
    notify: restart nexus
+   when: nexus_bin.stat.islnk is not defined
 
  - name: enable service at boot
    become: yes
