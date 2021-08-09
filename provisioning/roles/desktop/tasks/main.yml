@@ -8,6 +8,7 @@
      packages:
      - coreutils # shred
      - secure-delete
+     - testdisk
      - redshift
      - redshift-gtk
 
