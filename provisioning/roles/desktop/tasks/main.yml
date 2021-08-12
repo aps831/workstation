@@ -29,12 +29,6 @@
    become_user: "{{ ansible_user }}"
    dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
 
- - name: create nemo action for shred
-   become: yes
-   copy:
-     src: shred.nemo_action
-     dest: /usr/share/nemo/actions/shred.nemo_action
-
  - name: create bookmarks
    template:
      src: "bookmarks.{{ ansible_user }}.j2"

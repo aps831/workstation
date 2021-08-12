@@ -1,8 +1,0 @@
-[Nemo Action]
-Name=Shred File
-Comment=securely delete a file
-Exec=/usr/bin/shred --force --remove --verbose --zero %F
-Icon-Name=gtk-execute
-Selection=S
-Extensions=any;
-Quote=double
