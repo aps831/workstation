@@ -5,8 +5,7 @@
    apt:
      name: "{{ packages }}"
    vars:
-     packages:
-     - coreutils # shred
+     packages:     
      - secure-delete
      - testdisk
      - redshift
