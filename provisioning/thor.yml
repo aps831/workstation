@@ -33,7 +33,7 @@
      - role: dropbox
      - role: fonts
      - role: noson
-     - role: openshot     
+     - role: openshot
      - role: shotwell
        vars:
          shotwell_import_directory: "'smb://odin.local/photo/andrew'" # Shotwell doesn't work with Samba,,,
@@ -55,6 +55,7 @@
      - role: eclipse
      - role: intellij
      - role: git
+     - role: github
      - role: gcloud
      - role: helm
      - role: lens

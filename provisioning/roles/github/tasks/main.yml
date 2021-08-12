@@ -1,0 +1,23 @@
+---
+
+ - name: add github signing key
+   become: yes
+   apt_key:
+     url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+     state: present
+
+ - name: add github cli repository
+   become: yes
+   apt_repository:
+     repo: deb [arch=amd64] https://cli.github.com/packages stable main
+     filename: githubcli
+     state: present
+
+ - name: install packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - gh
