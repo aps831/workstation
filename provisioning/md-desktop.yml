@@ -15,8 +15,7 @@
 # Setup
      - role: swappiness
 
-# Admin
-     - role: admin
+# Admin     
      - role: smartctl
      - role: teamviewer
 

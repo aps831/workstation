@@ -24,7 +24,6 @@
      - role: swappiness
 
 # Admin
-     - role: admin
      - role: smartctl
      - role: teamviewer
 
@@ -66,7 +65,7 @@
      - role: pgadmin
      - role: stoplight
      - role: sublime
-     - role: terraform     
+     - role: terraform
      - role: vagrant
      - role: virtualbox
      - role: vscode

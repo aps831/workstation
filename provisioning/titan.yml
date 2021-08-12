@@ -24,7 +24,6 @@
      - role: swappiness
 
 # Admin
-     - role: admin
      - role: smartctl
      - role: teamviewer
 

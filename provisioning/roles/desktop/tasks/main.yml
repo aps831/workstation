@@ -5,11 +5,17 @@
    apt:
      name: "{{ packages }}"
    vars:
-     packages:     
+     packages:
      - secure-delete
      - testdisk
      - redshift
      - redshift-gtk
+     - synaptic
+     - wget
+     - curl
+     - gparted
+     - smartmontools
+     - nload
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"
