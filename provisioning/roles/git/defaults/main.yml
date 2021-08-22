@@ -1,0 +1,4 @@
+git_secrets_version: 1.3.0
+git_secrets_download_url: https://github.com/awslabs/git-secrets/archive/refs/tags/{{ git_secrets_version }}.tar.gz
+git_secrets_download_tmp: /tmp/git-secrets.tar.gz
+git_secrets_download_dir: /tmp/git-secrets

@@ -37,3 +37,30 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: 0444
+
+ - name: download git secrets
+   get_url:
+     url: "{{ git_secrets_download_url }}"
+     dest: "{{ git_secrets_download_tmp }}"
+   changed_when: false
+
+ - name: Create temporary build directory
+   ansible.builtin.tempfile:
+     state: directory
+     suffix: build
+   register: temp_dir
+
+ - name: extract from archive
+   become: yes
+   unarchive:
+     src: "{{ git_secrets_download_tmp }}"
+     dest: "{{ temp_dir.path }}"
+     remote_src: yes
+     extra_opts: [--strip-components=1]
+     mode: 0744
+
+ - name: install git secrets
+   become: yes
+   command: make install
+   args:
+     chdir: "{{ temp_dir.path }}"
