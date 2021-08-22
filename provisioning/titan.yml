@@ -29,6 +29,7 @@
 
 # Desktop
      - role: apps
+     - role: breaktimer
      - role: desktop
      - role: dropbox
      - role: fonts
@@ -79,7 +80,7 @@
      - role: eclipse
      - role: intellij
      - role: git
-     - role: github     
+     - role: github
      - role: gcloud
      - role: helm
      - role: lens

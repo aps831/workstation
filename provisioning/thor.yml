@@ -29,6 +29,7 @@
 
 # Desktop
      - role: apps
+     - role: breaktimer
      - role: desktop
      - role: dropbox
      - role: fonts
