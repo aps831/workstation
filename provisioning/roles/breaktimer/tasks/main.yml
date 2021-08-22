@@ -1,0 +1,31 @@
+---
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ breaktimer_install_dir }}"
+     state: directory
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: download breaktimer
+   become: true
+   get_url:
+     url: "{{ breaktimer_download_url }}"
+     dest: "{{ breaktimer_install_dir }}/breaktimer"
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: create symbolic link
+   become: yes
+   ansible.builtin.file:
+     src: "{{ breaktimer_install_dir }}/breaktimer"
+     path: "/usr/local/bin/breaktimer"
+     state: link
+
+ - name: add breaktimer shortcut
+   become: yes
+   template:
+     src=breaktimer.desktop.j2
+     dest=/usr/share/applications/Breaktimer.desktop
