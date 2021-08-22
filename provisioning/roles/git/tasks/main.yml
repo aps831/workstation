@@ -64,3 +64,9 @@
    command: make install
    args:
      chdir: "{{ temp_dir.path }}"
+
+ - name: set permissions on git secrets
+   become: yes
+   file:
+     path: /usr/local/bin/git-secrets
+     mode: 0777
