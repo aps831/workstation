@@ -27,5 +27,5 @@
  - name: add breaktimer shortcut
    become: yes
    template:
-     src=breaktimer.desktop.j2
-     dest=/usr/share/applications/Breaktimer.desktop
+     src=breaktimer.desktop.j2     
+     dest=/home/{{ ansible_user }}/.config/autostart/breaktimer.desktop
