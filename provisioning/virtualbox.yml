@@ -29,7 +29,7 @@
 
 # Desktop
      - role: apps
-     - role: breaktimer     
+     - role: breaktimer
      - role: desktop
      - role: dropbox
      - role: fonts
@@ -77,8 +77,9 @@
      - role: golang
      - role: javascript
      - role: jvm
-     - role: python
      - role: haskell
+     - role: python
+     - role: prolog
 
 # Users
      - role: user
