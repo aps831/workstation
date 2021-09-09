@@ -3,3 +3,4 @@
    - role: codename
    - role: ansible
    - role: firewall
+   - role: data
