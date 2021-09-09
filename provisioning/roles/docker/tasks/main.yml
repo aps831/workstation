@@ -126,7 +126,7 @@
    become: yes
    environment:
       DOCKER_INTERFACE_IP_ADDRESS: "{{ ip.stdout }}"
-      REGISTRY_MIRROR: "http://localhost:5002"
+      REGISTRY_MIRROR: "http://localhost:{{ dockerhub_mirror_container_port }}"
    shell: |
      set -e
      cp /etc/docker/daemon.json /etc/docker/daemon.json.bak

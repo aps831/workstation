@@ -8,7 +8,7 @@ if test "$LINES" = "2"; then
 else
     echo "Creating new container"
     docker run --restart=always \
-               --publish 5002:5000 \
+               --publish {{ dockerhub_mirror_container_port }}:5000 \
                --name {{ dockerhub_mirror_container_name }} \
                --volume /var/lib/dockerhub-mirror:/var/lib/registry \
                --detach \

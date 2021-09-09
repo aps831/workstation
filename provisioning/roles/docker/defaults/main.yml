@@ -2,6 +2,7 @@
 docker_compose_version: "1.24.0"
 docker_compose_path: /usr/local/bin/docker-compose
 dockerhub_mirror_container_name: dockerhub-mirror
+dockerhub_mirror_container_port: 5002
 docker_credential_helper_version: "0.6.3"
 docker_credential_helper_filename: docker-credential-pass-v{{ docker_credential_helper_version }}-amd64.tar.gz
 docker_credential_helper_url: https://github.com/docker/docker-credential-helpers/releases/download/v{{ docker_credential_helper_version }}/{{ docker_credential_helper_filename }}
