@@ -1,6 +1,6 @@
 
 # AWS
- - name: Create temporary build directory
+ - name: create temporary build directory for awscli
    tempfile:
      state: directory
      suffix: build
@@ -51,7 +51,7 @@
      mode: 0777
 
 # SAM
- - name: Create temporary build directory
+ - name: create temporary build directory for sam
    tempfile:
      state: directory
      suffix: build
@@ -120,3 +120,25 @@
  - name: install localstack
    pip:
     name: localstack
+
+# IAM Live
+ - name: create temporary build directory for iam live
+   tempfile:
+     state: directory
+     suffix: build
+   register: iam_live_tmpdir
+
+ - name: download iam live
+   become: yes
+   get_url:
+     url: "{{ iam_live_download_url }}"
+     dest: "{{ iam_live_tmpdir.path }}/iam_live.zip"
+   changed_when: false
+
+ - name: extract iamlive from archive
+   become: yes
+   unarchive:
+     src: "{{ iam_live_tmpdir.path }}/iam_live.zip"
+     dest: /usr/local/bin/
+     remote_src: yes
+     mode: 0777
