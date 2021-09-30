@@ -95,6 +95,7 @@
      - role: vscode
 
 # Programming Languages
+     - role: ddlog
      - role: elm
      - role: golang
      - role: javascript

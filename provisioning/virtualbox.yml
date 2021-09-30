@@ -73,6 +73,7 @@
      - role: vscode
 
 # Programming Languages
+     - role: ddlog
      - role: elm
      - role: golang
      - role: javascript
@@ -80,7 +81,7 @@
      - role: haskell
      - role: python
      - role: prolog
-     - role: rust     
+     - role: rust
 
 # Users
      - role: user

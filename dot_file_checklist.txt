@@ -19,6 +19,7 @@
 .config/pgadmin
 .config/pgadmin4
 .config/VirtualBox
+.ddlog
 .docker
 .duplicacy
 .elm

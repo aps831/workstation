@@ -1,0 +1,36 @@
+---
+ - name: test if ddlog already installed
+   stat:
+     path: /home/{{ ansible_user }}/.ddlog
+   register: ddlog_result
+
+ - name: create ddlog directory
+   file:
+    path: /home/{{ ansible_user }}/.ddlog/
+    state: directory
+    mode: '0755'
+
+ - name: download ddlog distribution
+   get_url:
+     url: "{{ ddlog_download_url }}"
+     dest: "{{ ddlog_download_tmp }}"
+   changed_when: false
+   when: not ddlog_result.stat.exists
+
+ - name: extract from archive
+   become: yes
+   unarchive:
+     src: "{{ ddlog_download_tmp }}"
+     dest: /home/{{ ansible_user }}/.ddlog
+     remote_src: yes
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0744
+   when: not ddlog_result.stat.exists
+
+ - name: define ddlog variables
+   become: yes
+   template:
+     src: ddlog.sh.j2
+     dest: /etc/profile.d/ddlog.sh
+     mode: 0777
