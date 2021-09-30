@@ -10,7 +10,6 @@
 
 .atom
 .aws
-.cabal
 .cargo
 .config/Atom
 .config/Code
@@ -25,7 +24,6 @@
 .elm
 .emacs.d
 .ghc
-.ghcup
 .git-templates
 .gnupg
 .gradle

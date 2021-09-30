@@ -1,4 +1,2 @@
 stack_script_url: https://get.haskellstack.org/
 stack_script_tmp: /tmp/haskell.sh
-ghcup_script_url: https://get-ghcup.haskell.org
-ghcup_script_tmp: /tmp/ghcup.sh
