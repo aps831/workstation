@@ -1,0 +1,4 @@
+#! /bin/bash
+export RUSTUP_HOME=/home/{{ ansible_user }}/.rustup
+export CARGO_HOME=/home/{{ ansible_user }}/.cargo
+export PATH=$PATH:$CARGO_HOME/bin

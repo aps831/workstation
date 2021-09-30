@@ -11,6 +11,7 @@
 .atom
 .aws
 .cabal
+.cargo
 .config/Atom
 .config/Code
 .config/JetBrains
@@ -42,6 +43,7 @@
 .password-store
 .password-store.git
 .pip
+.rustup
 .sdkman
 .ssh
 .stack

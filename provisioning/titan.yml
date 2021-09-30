@@ -101,7 +101,8 @@
      - role: jvm
      - role: haskell
      - role: python
-     - role: prolog        
+     - role: prolog
+     - role: rust
 
 # Users
      - role: user
