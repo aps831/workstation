@@ -115,6 +115,13 @@
      dest: /etc/profile.d/maven.sh
      mode: 0777
 
+ - name: define sdkman variables
+   become: yes
+   template:
+     src: sdkman.sh.j2
+     dest: /etc/profile.d/sdkman.sh
+     mode: 0777
+
  - name: install javafx packages
    become: yes
    apt:
@@ -135,7 +142,7 @@
      - libxtst-dev
 
  - name: install native image packages
-   become: yes 
+   become: yes
    apt:
      name: "{{ packages }}"
      state: present
