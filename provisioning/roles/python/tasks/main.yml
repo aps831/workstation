@@ -28,3 +28,10 @@
    command: pip3 install virtualenvwrapper
    register: virtualenvwrapper_result
    changed_when: '"Requirement already satisfied" not in virtualenvwrapper_result.stdout'
+
+ - name: define virtualenvs variables
+   become: yes
+   template:
+     src: virtualenvs.sh.j2
+     dest: /etc/profile.d/virtualenvs.sh
+     mode: 0777
