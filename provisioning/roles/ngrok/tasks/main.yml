@@ -1,6 +1,0 @@
----
-
- - name: install ngrok
-   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm use default && npm install ngrok -g"
-   args:
-     executable: /bin/bash

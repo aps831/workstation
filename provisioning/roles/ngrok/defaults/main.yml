@@ -1,3 +1,0 @@
----
-nvm:
-  dir: /home/{{ ansible_user }}/.nvm

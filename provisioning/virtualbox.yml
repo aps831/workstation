@@ -61,8 +61,7 @@
      - role: gcloud
      - role: helm
      - role: lens
-     - role: minikube
-     - role: ngrok
+     - role: minikube     
      - role: operator-framework
      - role: pgadmin
      - role: stoplight
