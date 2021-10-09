@@ -23,8 +23,16 @@
      - xsel
      - libpth20
      - libccid
+     - libu2f-udev
      - pcscd
      - scdaemon
      - libksba8
      - yubioath-desktop
      - yubikey-manager
+
+ - name: install u2f rules
+   become: yes
+   get_url:
+    url: https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules
+    dest: /etc/udev/rules.d/70-u2f.rules
+    mode: '0755'
