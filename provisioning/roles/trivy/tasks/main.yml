@@ -1,0 +1,4 @@
+ - name: install trivy
+   become: yes
+   apt:
+     deb: "{{ trivy_url }}"

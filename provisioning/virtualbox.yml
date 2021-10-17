@@ -61,12 +61,13 @@
      - role: gcloud
      - role: helm
      - role: lens
-     - role: minikube     
+     - role: minikube
      - role: operator-framework
      - role: pgadmin
      - role: stoplight
      - role: sublime
      - role: terraform
+     - role: trivy     
      - role: vagrant
      - role: virtualbox
      - role: vscode

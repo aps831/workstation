@@ -113,6 +113,7 @@ The following roles have version numbers defined within the role:
 * python
 * stoplight
 * terraform
+* trivy
 * vagrant
 * vaultclient
 * vaultserver
