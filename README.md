@@ -110,7 +110,6 @@ The following roles have version numbers defined within the role:
 * mysql
 * nexus
 * operator-framework
-* python
 * stoplight
 * terraform
 * vagrant
