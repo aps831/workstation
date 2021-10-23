@@ -1,4 +1,29 @@
+ - name: install packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - wget
+     - apt-transport-https
+     - gnupg
+     
+ - name: add aquasecurity signing key
+   become: yes
+   apt_key:
+     url: https://aquasecurity.github.io/trivy-repo/deb/public.key
+     state: present
+
+ - name: add google chrome repository
+   become: yes
+   apt_repository:
+     repo: deb https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main
+     filename: trivy
+     state: present
+
  - name: install trivy
    become: yes
    apt:
-     deb: "{{ trivy_url }}"
+     name: trivy
+     state: present
