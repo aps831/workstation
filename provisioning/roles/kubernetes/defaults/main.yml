@@ -4,7 +4,7 @@ minikube_checksum: "sha256:752d91414793b6a88b309c806b65841ffa62a3bf07383146bd54a
 minikube_download_url: http://storage.googleapis.com/minikube/releases/v
 lens_version: 5.2.5
 lens_install_dir: /opt/lens
-lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}-latest.20211001.2.x86_64.AppImage                   
+lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}-latest.20211001.2.x86_64.AppImage
 helm_version: 3.7.1
 helm_download_url: https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz
 helm_download_tmp: /tmp/helm.tar.gz
@@ -21,3 +21,7 @@ operator_sdk_checksums_asc_url: https://github.com/operator-framework/operator-s
 operator_sdk_key: 052996E2A20B5C7E
 opm_version: v1.19.1
 opm_url: https://github.com/operator-framework/operator-registry/releases/download/{{ opm_version }}/linux-amd64-opm
+kubeseal_version: 0.16.0
+kubeseal_download_url: https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-linux-amd64
+kind_version: 0.11.1
+kind_download_url: https://kind.sigs.k8s.io/dl/v{{ kind_version }}/kind-linux-amd64

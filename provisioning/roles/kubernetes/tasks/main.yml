@@ -162,3 +162,28 @@
      mode: 0755
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
+
+# Fluxcd
+ - name: install fluxcd
+   become: true
+   shell: curl -s https://fluxcd.io/install.sh | sudo bash
+
+# Kubeseal
+ - name: download kubeseal
+   become: yes
+   get_url:
+     url: "{{ kubeseal_download_url }}"
+     dest: "/usr/local/bin/kubeseal"
+     mode: 0777
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+# Kind
+ - name: download kind
+   become: yes
+   get_url:
+     url: "{{ kind_download_url }}"
+     dest: "/usr/local/bin/kind"
+     mode: 0777
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
