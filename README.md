@@ -103,13 +103,10 @@ The following roles have version numbers defined within the role:
 * elm
 * golang
 * gogs
-* helm
 * javascript
-* lens
-* minikube
+* kubernetes
 * mysql
 * nexus
-* operator-framework
 * stoplight
 * terraform
 * vagrant

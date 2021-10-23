@@ -59,15 +59,12 @@
      - role: git
      - role: github
      - role: gcloud
-     - role: helm
-     - role: lens
-     - role: minikube
-     - role: operator-framework
+     - role: kubernetes     
      - role: pgadmin
      - role: stoplight
      - role: sublime
      - role: terraform
-     - role: trivy     
+     - role: trivy
      - role: vagrant
      - role: virtualbox
      - role: vscode

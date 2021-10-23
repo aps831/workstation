@@ -1,4 +1,0 @@
----
-lens_version: 3.6.3
-lens_install_dir: /opt/lens
-lens_download_url: https://github.com/lensapp/lens/releases/download/v{{ lens_version }}/Lens-{{ lens_version }}.AppImage

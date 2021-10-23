@@ -1,0 +1,164 @@
+---
+# Minikube
+ - name: download minikube
+   become: true
+   get_url:
+     url: "{{ minikube_download_url }}{{ minikube_version }}/minikube-linux-amd64"
+     checksum: "{{ minikube_checksum }}"
+     dest: /usr/local/bin/minikube
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+# Lens
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ lens_install_dir }}"
+     state: directory
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: download lens
+   become: true
+   get_url:
+     url: "{{ lens_download_url }}"
+     dest: "{{ lens_install_dir }}/lens"
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: create symbolic link
+   become: yes
+   ansible.builtin.file:
+     src: "{{ lens_install_dir }}/lens"
+     path: "/usr/local/bin/lens"
+     state: link
+
+ - name: add lens shortcut
+   become: yes
+   template:
+     src=lens.desktop.j2
+     dest=/usr/share/applications/Lens.desktop
+
+# Helm
+ - name: download helm binary
+   get_url:
+     url: "{{ helm_download_url }}"
+     dest: "{{ helm_download_tmp }}"
+   changed_when: false
+
+ - name: extract from archive
+   become: yes
+   unarchive:
+     src: "{{ helm_download_tmp }}"
+     dest: /tmp
+     remote_src: yes
+
+ - name: copy helm file to bin
+   become: yes
+   copy:
+     src: /tmp/linux-amd64/helm
+     dest: /usr/local/bin
+     remote_src: yes
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: '0744'
+
+ - name: install helm secrets
+   command: helm plugin install https://github.com/jkroepke/helm-secrets --version {{ helm_secrets_version }}
+   ignore_errors: yes
+
+ - name: install helm diff
+   command: helm plugin install https://github.com/databus23/helm-diff --version master
+   ignore_errors: yes
+
+ - name: download helmfile binary
+   become: yes
+   get_url:
+     url: "{{ helmfile_download_url }}"
+     dest: /usr/local/bin/helmfile
+     mode: '0777'
+
+# Sops
+ - name: install sops
+   become: yes
+   apt:
+      deb: https://github.com/mozilla/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_amd64.deb
+
+# Operator Framework
+ - name: install ansible prerequisites
+   become: yes
+   command: pip3 install ansible-runner ansible-runner-http openshift
+
+ - name: create temporary directory
+   tempfile:
+     state: directory
+   register: tmp_dir
+   changed_when: false
+
+ - name: download operator_sdk checksums
+   become: true
+   get_url:
+     url: "{{ operator_sdk_checksums_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: download operator_sdk checksums asc
+   become: true
+   get_url:
+     url: "{{ operator_sdk_checksums_asc_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: download operator_sdk
+   become: true
+   get_url:
+     url: "{{ operator_sdk_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+
+ - name: get gpg key
+   become: true
+   shell: gpg --keyserver keyserver.ubuntu.com --recv-key {{ operator_sdk_key }}
+
+ - name: verify operator sdk signature
+   become: true
+   shell: gpg -u "Operator SDK (release) <cncf-operator-sdk@cncf.io>" --verify {{ tmp_dir.path }}/{{ operator_sdk_checksums_asc_file }}
+
+ - name: find operator sdk checksum
+   become: true
+   shell: grep {{ operator_sdk_file }} {{ tmp_dir.path }}/{{ operator_sdk_checksums_file }} | awk '{print $1}'
+   register: checksum_expected
+
+ - name: verify operator sdk checksum
+   become: true
+   shell: sha256sum {{ tmp_dir.path }}/{{ operator_sdk_file }} | awk '{print $1}'
+   register: checksum_actual
+   failed_when: "checksum_expected.stdout != checksum_actual.stdout"
+
+ - name: copy operator_sdk to /usr/local/bin/
+   become: yes
+   copy:
+     src: "{{ tmp_dir.path }}/{{ operator_sdk_file }}"
+     dest: /usr/local/bin/operator-sdk
+     remote_src: true
+
+ - name: make operator-sdk executable
+   become: yes
+   file:
+     path: /usr/local/bin/operator-sdk
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: a+x
+
+ - name: install operator-courier
+   become: yes
+   command: pip3 install operator-courier
+
+ - name: install opm
+   become: yes
+   get_url:
+     url: "{{ opm_url }}"
+     dest: /usr/local/bin/opm
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
