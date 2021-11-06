@@ -59,7 +59,7 @@
      - role: git
      - role: github
      - role: gcloud
-     - role: kubernetes     
+     - role: kubernetes
      - role: pgadmin
      - role: stoplight
      - role: sublime
@@ -79,6 +79,7 @@
      - role: python
      - role: prolog
      - role: rust
+     - role: latex
 
 # Users
      - role: user

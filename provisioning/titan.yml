@@ -102,6 +102,7 @@
      - role: python
      - role: prolog
      - role: rust
+     - role: latex
 
 # Users
      - role: user
