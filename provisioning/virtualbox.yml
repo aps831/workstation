@@ -60,6 +60,7 @@
      - role: github
      - role: gcloud
      - role: kubernetes
+     - role: owaspzap
      - role: pgadmin
      - role: stoplight
      - role: sublime

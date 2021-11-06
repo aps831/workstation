@@ -107,6 +107,7 @@ The following roles have version numbers defined within the role:
 * kubernetes
 * mysql
 * nexus
+* owaspzap
 * stoplight
 * terraform
 * vagrant

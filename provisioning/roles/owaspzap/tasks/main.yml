@@ -1,0 +1,52 @@
+---
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ owaspzap_install_dir }}"
+     state: directory
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: check if owasp zap is already installed
+   become: yes
+   stat:
+     path: /usr/local/bin/owaspzap
+   register: owasp_bin
+
+ - name: download owasp zap
+   become: true
+   get_url:
+     url: "{{ owasp_download_url }}"
+     dest: "{{ owaspzap_install_dir }}/owaspzap.tar.gz"
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+   when: owasp_bin.stat.islnk is not defined
+
+ - name: extract from archive
+   become: yes
+   unarchive:
+     src: "{{ owaspzap_install_dir }}/owaspzap.tar.gz"
+     dest: "{{ owaspzap_install_dir }}"
+     extra_opts: [--strip-components=1]
+     remote_src: yes
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0744
+   when: owasp_bin.stat.islnk is not defined
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "{{ owaspzap_install_dir }}/zap.sh"
+     path: /usr/local/bin/owaspzap
+     state: link
+     mode: 0777
+   when: owasp_bin.stat.islnk is not defined
+
+ - name: add owasp zap shortcut
+   become: yes
+   template:
+     src: owaspzap.desktop.j2
+     dest: /usr/share/applications/Owaspzap.desktop
