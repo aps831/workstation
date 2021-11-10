@@ -8,3 +8,5 @@
      packages:
      - texlive-latex-extra
      - texstudio
+     - pandoc
+     - graphviz

@@ -77,6 +77,7 @@
      - role: atom
      - role: aws
      - role: data
+     - role: docs
      - role: eclipse
      - role: intellij
      - role: git
@@ -103,7 +104,6 @@
      - role: python
      - role: prolog
      - role: rust
-     - role: latex
 
 # Users
      - role: user
