@@ -24,7 +24,9 @@
      - libpth20
      - libccid
      - libu2f-udev
+     - libyubikey-udev
      - pcscd
+     - pcsc-tools
      - scdaemon
      - libksba8
      - yubioath-desktop
