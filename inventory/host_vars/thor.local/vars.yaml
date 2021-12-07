@@ -1,0 +1,7 @@
+ansible_user: andrew
+
+# Shotwell
+shotwell_import_directory: "'smb://odin.local/photo/andrew'" # Shotwell doesn't work with Samba,,,
+
+# UFW
+ssh_ufw_allow_host: "{{ hosts_titan_ip_address }}"

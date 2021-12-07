@@ -1,0 +1,92 @@
+---
+
+ - name: run playbook tasks
+   hosts: titan.local
+   roles:
+
+# Security
+     - role: encryption
+     - role: firewall
+
+# Setup
+     - role: hosts
+     - role: nas
+     - role: swappiness
+
+# Admin
+     - role: smartctl
+     - role: teamviewer
+
+# Desktop
+     - role: apps
+     - role: breaktimer
+     - role: desktop
+     - role: dropbox
+     - role: fonts
+     - role: noson
+     - role: openshot
+     - role: shotwell
+     - role: webbrowsers
+
+# Programming Tools
+     - role: atom
+     - role: aws
+     - role: data
+     - role: docs
+     - role: eclipse
+     - role: intellij
+     - role: git
+     - role: github
+     - role: gcloud
+     - role: kubernetes
+     - role: owaspzap
+     - role: pgadmin
+     - role: stoplight
+     - role: sublime
+     - role: terraform
+     - role: trivy
+     - role: vagrant
+     - role: virtualbox
+     - role: vscode
+
+# Programming Languages
+     - role: ddlog
+     - role: elm
+     - role: golang
+     - role: javascript
+     - role: jvm
+     - role: haskell
+     - role: python
+     - role: prolog
+     - role: rust
+
+# Users
+     - role: user
+       vars:
+         create_user: andrew
+     - role: user
+       vars:
+         create_user: git
+     - role: user
+       vars:
+         create_user: jenkins
+     - role: user
+       vars:
+         create_user: nexus
+
+# Services
+     - role: apache2
+     - role: certificate
+     - role: docker
+     - role: gogs
+     - role: haproxy
+     - role: jenkins
+     - role: nexus
+     - role: printserver
+     - role: ssh
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

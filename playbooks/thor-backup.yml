@@ -1,0 +1,18 @@
+---
+
+ - name: run playbook tasks
+   hosts: thor.local
+   roles:
+     - role: backup
+       vars:
+         backup_user: "andrew"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
+         backup_time_delay: "60min"
+         backup_test_time_delay: "240min"
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

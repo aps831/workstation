@@ -1,14 +1,12 @@
 ---
 
  - name: run playbook tasks
-   hosts: local
-   vars:
-     ansible_user: ansible
+   hosts: thor.local
    roles:
-     - role: pgadmin
-     - role: jenkins
-       vars:
-         jenkins_http_port: 8989  
+     - role: encryption
+     - role: duplicacy
+     - role: aws
+     - role: git
 
    pre_tasks:
      - name: update repository caches

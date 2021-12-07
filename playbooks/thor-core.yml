@@ -1,26 +1,16 @@
 ---
 
  - name: run playbook tasks
-   hosts: localhost
-   vars:
-     ansible_user: andrew
+   hosts: thor.local
    roles:
 
 # Security
      - role: encryption
      - role: firewall
-       vars:
-         firewall_state: enabled
 
 # Setup
      - role: hosts
-       vars:
-         hosts_titan_ip_address: 192.168.1.101
-         hosts_thor_ip_address: 192.168.1.104
-         hosts_odin_ip_address: 192.168.1.190
      - role: nas
-       vars:
-         nas_host: odin.local
      - role: swappiness
 
 # Admin
@@ -36,18 +26,7 @@
      - role: noson
      - role: openshot
      - role: shotwell
-       vars:
-         shotwell_import_directory: "'smb://odin.local/photo/andrew'" # Shotwell doesn't work with Samba,,,
      - role: webbrowsers
-
-# Backup
-     - role: backup
-       vars:
-         backup_user: "andrew"
-         local_backup_name: "odin"
-         remote_backup_name: "amazons3"
-         backup_time_delay: "60min"
-         backup_test_time_delay: "240min"
 
 # Programming Tools
      - role: atom
@@ -81,7 +60,6 @@
      - role: prolog
      - role: rust
 
-
 # Users
      - role: user
        vars:
@@ -91,8 +69,6 @@
      - role: apache2
      - role: docker
      - role: ssh
-       vars:
-         ssh_ufw_allow_host: "{{ hosts_titan_ip_address }}"
 
    pre_tasks:
      - name: update repository caches

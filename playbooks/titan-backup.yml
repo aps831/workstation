@@ -1,0 +1,39 @@
+---
+
+ - name: run playbook tasks
+   hosts: titan.local
+   roles:
+     - role: backup
+       vars:
+         backup_user: "andrew"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
+         backup_time_delay: "30min"
+         backup_test_time_delay: "180min"
+     - role: backup
+       vars:
+         backup_user: "git"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
+         backup_time_delay: "90min"
+         backup_test_time_delay: "195min"
+     - role: backup
+       vars:
+         backup_user: "jenkins"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
+         backup_time_delay: "120min"
+         backup_test_time_delay: "210min"
+     - role: backup
+       vars:
+         backup_user: "nexus"
+         local_backup_name: "odin"
+         remote_backup_name: "amazons3"
+         backup_time_delay: "150min"
+         backup_test_time_delay: "225min"
+
+   pre_tasks:
+     - name: update repository caches
+       become: yes
+       apt: update_cache=yes
+       changed_when: False

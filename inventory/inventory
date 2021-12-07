@@ -1,0 +1,7 @@
+[testrig]
+ansible           ansible_connection=ssh ansible_host=127.0.0.1 ansible_port=2222
+
+[workstations]
+md-desktop.local  ansible_connection=local
+titan.local       ansible_connection=local
+thor.local        ansible_connection=local

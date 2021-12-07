@@ -16,4 +16,4 @@ echo "Enter playbook name including '.yml' extension:"
 read PLAYBOOK
 
 # Run ansible-pull
-ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation.git provisioning/"$PLAYBOOK"
+ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/"$PLAYBOOK"

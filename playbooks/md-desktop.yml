@@ -1,35 +1,19 @@
 ---
 
  - name: run playbook tasks
-   hosts: localhost
-   vars:
-     ansible_user: m-d
+   hosts: md-desktop.local
    roles:
-
-# Security
      - role: encryption
      - role: firewall
-       vars:
-         firewall_state: enabled
-
-# Setup
      - role: swappiness
-
-# Admin     
      - role: smartctl
      - role: teamviewer
-
-# Desktop
      - role: apps
      - role: desktop
      - role: dropbox
      - role: fonts
      - role: shotwell
-       vars:
-         shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"
      - role: webbrowsers
-
-# Backup
      - role: backup
        vars:
          backup_user: "m-d"
@@ -37,11 +21,7 @@
          remote_backup_name: "amazons3"
          backup_time_delay: "30min"
          backup_test_time_delay: "180min"
-
-# Programming Tools
      - role: virtualbox
-
-# Services
      - role: apache2
      - role: printserver
      - role: sambashare

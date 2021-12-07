@@ -2,7 +2,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "aaronvonawesome/linux-mint-20-cinnamon"
+  config.vm.box = "codeup/MintCinnamon"
+  #config.vm.box = "vimalkvn/linuxmint-20.1"
+  config.vm.box_version = "1.0"
   config.ssh.insert_key = false
 
   config.vm.provider :virtualbox do |v|
@@ -15,7 +17,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.hostname = "ansible"
-  config.vm.network :private_network, ip: "192.168.33.23"
 
   # Set the name of the VM
   config.vm.define :ansible do |ansible|
@@ -24,12 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
-    ansible.playbook = "provisioning/virtualbox.yml"
-#    ansible.playbook = "provisioning/role.yml"
-#    ansible.playbook = "provisioning/thor.yml"
-#    ansible.playbook = "provisioning/titan.yml"
-#    ansible.playbook = "provisioning/md-desktop.yml"
-    ansible.inventory_path = "provisioning/inventory"
+    ansible.playbook = "playbooks/virtualbox.yml"
+    ansible.inventory_path = "inventory/inventory"
   end
 
 end
