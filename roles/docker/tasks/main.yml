@@ -129,7 +129,7 @@
       REGISTRY_MIRROR: "http://localhost:{{ dockerhub_mirror_container_port }}"
    shell: |
      set -e
-     cp /etc/docker/daemon.json /etc/docker/daemon.json.bak
+     echo "{}" > /etc/docker/daemon.json
      cat /etc/docker/daemon.json   | jq --arg address "$DOCKER_INTERFACE_IP_ADDRESS" '.dns |= [ $address , "8.8.8.8", "8.8.4.4" ]' -- > /etc/docker/daemon.json.1
      cat /etc/docker/daemon.json.1 | jq --arg mirror  "$REGISTRY_MIRROR"             '."registry-mirrors" |= [ $mirror ]'          -- > /etc/docker/daemon.json.2
      cat /etc/docker/daemon.json.2 | jq                                              '.features.buildkit  |= true'                 -- > /etc/docker/daemon.json.3
