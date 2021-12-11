@@ -9,17 +9,17 @@
  - name: add google chrome repository
    become: yes
    apt_repository:
-     repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+     repo: deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main
      filename: google-chrome
      state: present
 
  - name: install packages
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
      state: present
    vars:
-     packages:  
+     packages:
      - chromium
      - firefox
      - google-chrome-stable
