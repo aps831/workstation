@@ -112,6 +112,7 @@
    become: yes
    systemd:
      name: nexus
+     daemon_reload: yes
      enabled: yes
 
  - name: "allow connections from {{ nexus_ufw_allow_host }}"

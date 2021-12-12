@@ -79,6 +79,7 @@
    become: yes
    systemd:
      name: jenkins
+     daemon_reload: yes
      enabled: yes
 
  - name: "allow connections from {{ jenkins_ufw_allow_host }}"
@@ -86,4 +87,4 @@
    ufw:
      rule: allow
      src: "{{ jenkins_ufw_allow_host }}"
-     port: "{{ jenkins_http_port }}"     
+     port: "{{ jenkins_http_port }}"

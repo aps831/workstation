@@ -39,6 +39,7 @@
    become: yes
    systemd:
      name: haproxy
+     daemon_reload: yes
      enabled: yes
 
  - name: "allow connections from {{ haproxy_ufw_allow_host }}"

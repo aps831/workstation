@@ -71,6 +71,7 @@
    become: yes
    systemd:
      name: gogs
+     daemon_reload: yes
      enabled: yes
 
  - name: "allow connections from {{ gogs_ufw_allow_host }}"
