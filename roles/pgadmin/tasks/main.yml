@@ -1,5 +1,11 @@
 ---
 
+ - name: install packages
+   become: yes
+   apt:
+     name: ca-certificates
+     state: present
+
  - name: add pgadmin signing key
    become: yes
    apt_key:
