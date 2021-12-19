@@ -6,5 +6,5 @@
      deb: "{{ vagrant_package_url }}"
      state: present
 
-
-
+ - name: install disksize plugin
+   command: vagrant plugin install vagrant-disksize
