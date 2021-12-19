@@ -29,6 +29,8 @@ If these commands do not work, then it may be possible to use `gparted` to incre
 
 If the Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using   `sudo rm /var/lib/dpkg/lock`.
 
+If the install of `pgadmin` fails, then update `ca-certificates` using the update manager.
+
 If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.
 
 Once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
