@@ -17,7 +17,21 @@ The following playbooks have been created:
 
 ## Testing
 
-To test the Ansible provisioning using Vagrant run `vagrant up`.  If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.  The password to the vagrant machine is `vagrant`.  Once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
+To test the Ansible provisioning using Vagrant run `vagrant up`.  The current image for Linux Mint has insufficient initial disk space.  Before the Ansible provisioning is run the partition must be expanded to fill the additional disk space that is created as part of the virtual machine provisioning.  The first step is to start the virtual machine but without the Ansible provisioning.  This can be done by commenting out the appropriate section in the Vagrantfile.  Then login to the virtual machine using the user and password `vagrant` and run:
+
+```
+sudo apt install cloud-guest-utils gparted
+sudo growpart /dev/sda 2
+sudo resize2fs /dev/sda5
+```
+
+If these commands do not work, then it may be possible to use `gparted` to increase the partition size.
+
+If the Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using   `sudo rm /var/lib/dpkg/lock`.
+
+If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.
+
+Once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address.  The work-around to this is to restart Docker with `sudo systemctl restart docker`.
 
 ## Run Role
 To run a single role:
@@ -28,7 +42,9 @@ ansible --ask-become <host_name> -m include_role -a name=<role_name> --extra-var
 
 ## Run Playbook
 
-A playbook can be run locally using `ansible-playbook --ask-become-pass playbooks/<name>.yml`  A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Running the script `bootstrap.sh` will install dependencies and then prompt for a playbook name to run.  
+A playbook can be run locally using `ansible-playbook --ask-become-pass playbooks/<name>.yml`.  
+
+A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Running the script `bootstrap.sh` will install dependencies and then prompt for a playbook name to run.  
 
 ## Clean Install
 
@@ -77,6 +93,4 @@ The following roles have version numbers defined within the role:
 * stoplight
 * terraform
 * vagrant
-* vaultclient
-* vaultserver
 * virtualbox

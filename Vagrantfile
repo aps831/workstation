@@ -2,9 +2,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  #config.vm.box = "codeup/MintCinnamon"
   config.vm.box = "vimalkvn/linuxmint-20.2"
   config.vm.box_version = "1.0"
+  config.disksize.size = '50GB'
   config.ssh.insert_key = false
 
   config.vm.provider :virtualbox do |v|
