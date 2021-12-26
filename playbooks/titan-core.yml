@@ -23,6 +23,7 @@
      - role: desktop
      - role: dropbox
      - role: fonts
+     - role: msteams
      - role: noson
      - role: openshot
      - role: shotwell

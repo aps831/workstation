@@ -1,0 +1,3 @@
+---
+teams_packages_gpg_key: https://packages.microsoft.com/keys/microsoft.asc
+teams_repo_name: teams
