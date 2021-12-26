@@ -1,0 +1,116 @@
+---
+- name: create download directory
+  file:
+    state: directory
+    mode: 'u=rwx,go=rx'
+    dest: '{{ postman_download_dir }}'
+
+- name: check for download version file
+  stat:
+    path: '{{ postman_download_version_path }}'
+  register: download_version_file_test
+
+- name: read download version file
+  slurp:
+    src: '{{ postman_download_version_path }}'
+  register: download_version_file
+  when: download_version_file_test.stat.exists
+
+- name: set existing download version fact
+  set_fact:
+    postman_existing_download_version: '{{ download_version_file.content | b64decode }}'
+  when: download_version_file_test.stat.exists
+
+- name: check latest remote Postman version
+  uri:
+    url: '{{ postman_redis_url }}'
+    method: HEAD
+    follow_redirects: safe
+  check_mode: no
+  register: head_query
+
+- name: set latest version fact
+  set_fact:
+    postman_latest_version: '{{ head_query.content_disposition }}'
+
+- name: download Postman
+  get_url:
+    url: '{{ postman_redis_url }}'
+    dest: '{{ postman_download_dir }}/{{ postman_redis_filename }}'
+    force: '{{ postman_latest_version != postman_existing_download_version }}'
+    use_proxy: yes
+    validate_certs: yes
+    mode: 'u=rw,go=r'
+
+- name: update download version file
+  copy:
+    content: '{{ postman_latest_version }}'
+    dest: '{{ postman_download_version_path }}'
+
+- name: check for installed version file
+  become: yes
+  stat:
+    path: '{{ postman_installed_version_path }}'
+  register: installed_version_file_test
+
+- name: read installed version file
+  become: yes
+  slurp:
+    src: '{{ postman_installed_version_path }}'
+  register: installed_version_file
+  when: installed_version_file_test.stat.exists
+
+- name: set existing installed version fact
+  set_fact:
+    postman_existing_installed_version: '{{ installed_version_file.content | b64decode }}'
+  when: installed_version_file_test.stat.exists
+
+- name: remove previously insalled version
+  become: yes
+  file:
+    state: absent
+    path: '{{ postman_install_dir }}'
+  when: (not installed_version_file_test.stat.exists) or postman_latest_version != postman_existing_installed_version
+
+- name: create Postman installation directory
+  become: yes
+  file:
+    state: directory
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+    dest: '{{ postman_install_dir }}'
+
+- name: install Postman
+  become: yes
+  unarchive:
+    src: '{{ postman_download_dir }}/{{ postman_redis_filename }}'
+    remote_src: yes
+    dest: '{{ postman_install_dir }}'
+    extra_opts:
+      - '--strip-components=1'
+    owner: root
+    group: root
+    creates: '{{ postman_install_dir }}/Postman'
+
+- name: write installed version file
+  become: yes
+  copy:
+    content: '{{ postman_latest_version }}'
+    dest: '{{ postman_installed_version_path }}'
+
+- name: install Postman link
+  become: yes
+  file:
+    state: link
+    src: '{{ postman_install_dir }}/Postman'
+    dest: '/usr/local/bin/Postman'
+
+- name: install Postman desktop file
+  become: yes
+  template:
+    src: Postman.desktop.j2
+    dest: '/usr/share/applications/Postman.desktop'
+    owner: root
+    group: root
+    mode: 'u=rw,go=r'

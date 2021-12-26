@@ -1,0 +1,6 @@
+---
+postman_redis_filename: 'Postman-linux-x64-latest.tar.gz'
+postman_download_version_path: '{{ postman_download_dir }}/{{ postman_redis_filename }}.version'
+postman_installed_version_path: '{{ postman_install_dir }}/.version'
+postman_existing_download_version: none
+postman_existing_installed_version: none
