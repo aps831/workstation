@@ -1,0 +1,35 @@
+[
+  {
+    "name": "odin",
+    "id": "backup",
+    "repository": "",
+    "storage": "sftp://backup@odin.local:10022/homes/backup/thor/andrew",
+    "encrypted": false,
+    "no_backup": false,
+    "no_restore": false,
+    "no_save_password": false,
+    "nobackup_file": "",
+    "keys": {
+      "ssh_key_file": "/home/andrew/.ssh/andrew_on_thor_for_backup_on_odin"
+    },
+    "filters": "",
+    "exclude_by_attribute": false
+  },
+  {
+    "name": "amazons3",
+    "id": "backup",
+    "repository": "",
+    "storage": "s3://eu-west-2@amazon.com/duplybackupofthor1/andrew/",
+    "encrypted": false,
+    "no_backup": false,
+    "no_restore": false,
+    "no_save_password": false,
+    "nobackup_file": "",
+    "keys": {
+      "s3_id": "{{ backup_s3_access_key_id }}",
+      "s3_secret": "{{ backup_s3_secret_key }}"
+    },
+    "filters": "",
+    "exclude_by_attribute": false
+  }
+]

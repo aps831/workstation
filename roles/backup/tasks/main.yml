@@ -9,6 +9,44 @@
      packages:
      - cron
 
+# Secrets
+ - name: lookup access_key_id 
+   set_fact: 
+     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/thor/andrew/s3/access_key_id', aws_profile='andrew-p-spratley') }}"
+
+ - name: lookup secret_key
+   set_fact: 
+     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/thor/andrew/s3/secret_key', aws_profile='andrew-p-spratley') }}"
+
+# Config
+ - name: "create config directory"
+   become: yes
+   file:
+     path: "/home/{{ backup_user }}/.duplicacy/"
+     state: directory
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u+rwx,g-rwx,o-rwx
+     recurse: yes
+
+ - name: "install {{ backup_user }} preferences"
+   become: yes
+   template:
+     src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
+     dest: "/home/{{ backup_user }}/.duplicacy/preferences"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u+rwx,g-rwx,o-rwx
+
+ - name: "install {{ backup_user }} filters"
+   become: yes
+   template:
+     src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
+     dest: "/home/{{ backup_user }}/.duplicacy/filters"
+     owner: "{{ backup_user }}"
+     group: "{{ backup_user }}"
+     mode: u+rwx,g-rwx,o-rwx
+
 # Log directories
  - name: "create directory for backup logs"
    become: yes

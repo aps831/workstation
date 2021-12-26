@@ -6,6 +6,7 @@
      - role: backup
        vars:
          backup_user: "andrew"
+         backup_host: "titan"
          local_backup_name: "odin"
          remote_backup_name: "amazons3"
          backup_time_delay: "30min"
@@ -13,6 +14,7 @@
      - role: backup
        vars:
          backup_user: "git"
+         backup_host: "titan"
          local_backup_name: "odin"
          remote_backup_name: "amazons3"
          backup_time_delay: "90min"
@@ -20,6 +22,7 @@
      - role: backup
        vars:
          backup_user: "jenkins"
+         backup_host: "titan"
          local_backup_name: "odin"
          remote_backup_name: "amazons3"
          backup_time_delay: "120min"
@@ -27,6 +30,7 @@
      - role: backup
        vars:
          backup_user: "nexus"
+         backup_host: "titan"
          local_backup_name: "odin"
          remote_backup_name: "amazons3"
          backup_time_delay: "150min"

@@ -17,6 +17,7 @@
      - role: backup
        vars:
          backup_user: "m-d"
+         backup_host: "md-desktop"
          local_backup_name: "internal"
          remote_backup_name: "amazons3"
          backup_time_delay: "30min"

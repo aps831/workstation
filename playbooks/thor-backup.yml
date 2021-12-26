@@ -6,6 +6,7 @@
      - role: backup
        vars:
          backup_user: "andrew"
+         backup_host: "thor"
          local_backup_name: "odin"
          remote_backup_name: "amazons3"
          backup_time_delay: "60min"
