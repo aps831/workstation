@@ -41,6 +41,7 @@
      - role: kubernetes
      - role: owaspzap
      - role: pgadmin
+     - role: postman
      - role: stoplight
      - role: sublime
      - role: terraform
