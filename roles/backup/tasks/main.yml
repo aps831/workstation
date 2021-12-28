@@ -7,16 +7,21 @@
      name: "{{ packages }}"
    vars:
      packages:
-     - cron
+     - cron 
 
-# Secrets
+# AWS info - these need to be together because of the Yubikey flakiness 
+ - name: get current caller identity information
+   amazon.aws.aws_caller_info:
+     profile: "{{ aws_profile_restore_backup }}"
+   register: caller_info
+
  - name: lookup access_key_id 
    set_fact: 
-     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/thor/andrew/s3/access_key_id', aws_profile='andrew-p-spratley') }}"
+     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/access_key_id', aws_profile=aws_profile_data_backup) }}"
 
  - name: lookup secret_key
    set_fact: 
-     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/thor/andrew/s3/secret_key', aws_profile='andrew-p-spratley') }}"
+     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/secret_key', aws_profile=aws_profile_data_backup) }}"
 
 # Config
  - name: "create config directory"
@@ -29,6 +34,17 @@
      mode: u+rwx,g-rwx,o-rwx
      recurse: yes
 
+ - name: create temporary directory for backup files
+   ansible.builtin.tempfile:
+     state: directory
+     suffix: restore
+   register: restore_tempdir
+
+ - name: create duplicacy directory for backup files
+   ansible.builtin.file:
+     path: "{{ restore_tempdir.path }}/duplicacy"
+     state: directory
+ 
  - name: "install {{ backup_user }} preferences"
    become: yes
    template:
@@ -37,6 +53,15 @@
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
      mode: u+rwx,g-rwx,o-rwx
+
+ - name: write duplicacy preferences to temporary directory
+   become: yes
+   template:
+    src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
+    dest: "{{ restore_tempdir.path }}/duplicacy/preferences"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
 
  - name: "install {{ backup_user }} filters"
    become: yes
@@ -47,6 +72,15 @@
      group: "{{ backup_user }}"
      mode: u+rwx,g-rwx,o-rwx
 
+ - name: write duplicacy filters to temporary directory
+   become: yes
+   template:
+    src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
+    dest: "{{ restore_tempdir.path }}/duplicacy/filters"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+ 
 # Log directories
  - name: "create directory for backup logs"
    become: yes
@@ -162,3 +196,33 @@
      name: "{{ backup_user }}_backup_test.timer"
      state: started
      enabled: yes
+
+# Restore Backup
+ - name: set aws bucket
+   set_fact: 
+     aws_restore_bucket: "{{ caller_info.account }}-account-restore"
+ 
+ - name: create aws directory for backup files
+   ansible.builtin.file:
+     path: "{{ restore_tempdir.path }}/aws"
+     state: directory     
+  
+ - name: copy aws to temporary directory
+   become: yes
+   ansible.builtin.copy:
+     src: "/home/{{ backup_user }}/.aws/"
+     dest: "{{ restore_tempdir.path }}/aws"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: '0600'
+   ignore_errors: yes 
+
+ - name: upload restore backup to s3
+   community.aws.s3_sync:
+     bucket: "{{ aws_restore_bucket }}"
+     key_prefix: "{{ backup_host }}/{{ backup_user }}"
+     file_root: "{{ restore_tempdir.path }}"
+     profile: "{{ aws_profile_restore_backup }}"
+     delete: true
+
+ 
