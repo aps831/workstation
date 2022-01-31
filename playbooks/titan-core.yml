@@ -12,6 +12,7 @@
      - role: hosts
      - role: nas
      - role: swappiness
+     - role: chezmoi     
 
 # Admin
      - role: smartctl

@@ -1,17 +1,20 @@
 # Dot Files
 
-* .bashrc
-* .dockercfg
-* .emacs
-* .gitconfig
-* .gitignore
-* .npmrc
-* .pypirc
-* .selected_editor
+The dot files in this document do not include those managed by Chezmoi.  To initialise, diff and apply the Chezmoi managed dot file run:
+
+```
+chezmoi init https://github.com/aps831/dotfiles.git
+chezmoi diff
+chezmoi apply
+```
+
+## Files
+
 * .wallpaper.png
 
+## Folders
+
 * .atom
-* .aws
 * .cargo
 * .config/Atom
 * .config/Code
@@ -21,15 +24,10 @@
 * .config/pgadmin4
 * .config/VirtualBox
 * .ddlog
-* .docker
+* .dropbox
 * .duplicacy
-* .elm
-* .emacs.d
-* .ghc
-* .git-templates
 * .gnupg
 * .gradle
-* .jspm
 * .k8slens
 * .kube
 * .local/share/shotwell
@@ -37,8 +35,8 @@
 * .local/share/keyrings
 * .m2
 * .minikube
+* .mozilla
 * .mysql
-* .netbeans
 * .npm
 * .nvm
 * .password-store
@@ -46,12 +44,9 @@
 * .rustup
 * .sdkman
 * .ssh
-* .stack
-* .vagrant
 * .vagrant.d
-* .vim
 * .virtualboxvms
-* .VirtualBox
 * .virtualenvs
 * .vscode
 * .WindowsXPShare
+* .ZAP

@@ -27,7 +27,7 @@ sudo resize2fs /dev/sda5
 
 If these commands do not work, then it may be possible to use `gparted` to increase the partition size.
 
-If the Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using   `sudo rm /var/lib/dpkg/lock`.
+If the Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using `sudo rm /var/lib/dpkg/lock`.
 
 If the install of `pgadmin` fails, then update `ca-certificates` using the update manager.
 
@@ -89,6 +89,7 @@ mega.io file syncing is not installed automatically.  The downloads are availabl
 The following roles have version numbers defined within the role:
 
 * aws
+* chezmoi
 * docker
 * duplicacy
 * eclipse

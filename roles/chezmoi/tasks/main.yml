@@ -1,0 +1,4 @@
+ - name: install chezmoi
+   become: yes
+   apt:
+      deb: "{{ chezmoi_download_url }}"
