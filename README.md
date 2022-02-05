@@ -15,9 +15,13 @@ The following playbooks have been created:
 * `titan-restore.yaml` -  install minimal dependencies in order to bootstrap a restore of titan;
 * `virtualbox.yml` - run through all the roles on a Linux Mint instance in Virtualbox.
 
+## Vault
+
+To update the vault with passwords store in `pass` run `vault.sh`.
+
 ## Testing
 
-To test the Ansible provisioning using Vagrant run `vagrant up`.  The current image for Linux Mint has insufficient initial disk space.  Before the Ansible provisioning is run the partition must be expanded to fill the additional disk space that is created as part of the virtual machine provisioning.  The first step is to start the virtual machine but without the Ansible provisioning.  This can be done by commenting out the appropriate section in the Vagrantfile.  Then login to the virtual machine using the user and password `vagrant` and run:
+To test the Ansible provisioning using Vagrant run `vagrant up`.  The current image for Linux Mint has insufficient initial disk space.  Before the Ansible provisioning is run the partition must be expanded to fill the additional disk space that is created as part of the virtual machine provisioning.  The first step is to start the virtual machine but without the Ansible provisioning.  This can be done by commenting out the appropriate section in the `Vagrantfile`.  Then login to the virtual machine using the user and password `vagrant` and run:
 
 ```
 sudo apt install cloud-guest-utils gparted
@@ -27,7 +31,7 @@ sudo resize2fs /dev/sda5
 
 If these commands do not work, then it may be possible to use `gparted` to increase the partition size.
 
-If the Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using `sudo rm /var/lib/dpkg/lock`.
+If Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain.  This can be removed using `sudo rm /var/lib/dpkg/lock`.
 
 If the install of `pgadmin` fails, then update `ca-certificates` using the update manager.
 
@@ -39,18 +43,20 @@ Once Docker has been installed and the Vagrant machine has been restarted, the n
 To run a single role:
 
 ```
-ansible --ask-become <host_name> -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>"
+ansible --ask-become --ask-vault-pass <host_name> -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>"
 ```
 
 ## Run Playbook
 
-A playbook can be run locally using `ansible-playbook --ask-become-pass playbooks/<name>.yml`.  
+A playbook can be run locally using `ansible-playbook --ask-become-pass --ask-vault-pass playbooks/<name>.yml`.  
 
-A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  Running the script `bootstrap.sh` will install dependencies and then prompt for a playbook name to run.  
+A playbook can be run from Bitbucket using `ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml`
+
+A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  The script `bootstrap.sh` will install the dependencies needed to run Ansible.  
 
 ## Clean Install
 
-After migrating files and folders as per the instructions in [migration](MIGRATION.md), the core and backup playbooks should be run.  The following steps are then required:
+After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run.  The `--ask-vault-pass` should not be passed when running the restore playbook, as the vault password will not be accessible.  The following steps are then required:
 
 * logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 * manually add icons on the panel;
@@ -69,7 +75,7 @@ To create a Samba user run `sudo smbpasswd -a <user_name>`.
 
 ### Printer
 
-The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.  Apparmor may still not play nicely with `/var` located on a different drive even with edits to `/etc/apparmor.d/usr.sbin.cupsd` listed in the migration instructions.  A workaround is to install apparmor-utils with `sudo apt install apparmor-utils`, then run `sudo aa-complain cupsd`, install the printer and then run `sudo aa-enforce cupsd`.  Details are on `https://wiki.ubuntu.com/DebuggingPrintingProblems`.
+The printer may be installed automatically for a local install but may need to be done manually for a network install.  `hp-setup -i` can be run for a full install, or `hp-plugin -i` to install just the driver for the printer.  To share the printer, go to the start menu and then `Printers -> Servers -> Settings -> Publish Shared Printer`.  Apparmor may still not play nicely with `/var` located on a different drive even with edits to `/etc/apparmor.d/usr.sbin.cupsd` listed in the migration instructions.  A workaround is to install `apparmor-utils` with `sudo apt install apparmor-utils`, then run `sudo aa-complain cupsd`, install the printer and then run `sudo aa-enforce cupsd`.  Details are on `https://wiki.ubuntu.com/DebuggingPrintingProblems`.
 
 If running `hp-setup -i` or `hp-plugin -i` results in an problem downloading the plugin, then it can be done manually:
 ```
