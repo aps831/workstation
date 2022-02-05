@@ -36,5 +36,19 @@
 
  - name: add redshift autostart
    template:
-     src=redshift-gtk.desktop.j2
-     dest=/home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop
+     src: redshift-gtk.desktop.j2
+     dest: /home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop
+
+ - name: create directory for cinnamon config
+   file:
+     path: /home/{{ ansible_user }}/.cinnamon/configs
+     state: directory
+     mode: '0755'
+
+ - name: copy cinnamon config
+   copy:
+    src: cinnamon/configs/
+    dest: /home/{{ ansible_user }}/.cinnamon/configs/
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'

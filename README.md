@@ -59,7 +59,6 @@ A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/work
 After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run.  The `--ask-vault-pass` should not be passed when running the restore playbook, as the vault password will not be accessible.  The following steps are then required:
 
 * logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
-* manually add icons on the panel;
 * configure Timeshift;
 * copy self-signed certificate from titan to thor (see below);
 * create a Samba user is a Samba share has been created for SyncMe Wireless app on Android (see below);
