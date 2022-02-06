@@ -1,0 +1,15 @@
+{
+	"image": "ghcr.io/aps831/devcontainers/ansible:latest",
+	"postCreateCommand": "ansible --version",
+	"remoteUser": "vscode",
+	"extensions": [		
+		"streetsidesoftware.code-spell-checker",
+		"eamodio.gitlens",
+		"redhat.ansible",
+		"redhat.vscode-xml",
+		"redhat.vscode-yaml",
+		"redhat.vscode-commons",
+		"redhat.fabric8-analytics",
+		"esbenp.prettier-vscode"
+	]		
+}
