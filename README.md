@@ -17,7 +17,7 @@ The following playbooks have been created:
 
 ## Vault
 
-To update the vault with passwords store in `pass` run `vault.sh`.
+To update the vault with passwords stored in `pass` run `vault.sh`.
 
 ## Testing
 
@@ -43,20 +43,32 @@ Once Docker has been installed and the Vagrant machine has been restarted, the n
 To run a single role:
 
 ```
-ansible --ask-become --ask-vault-pass <host_name> -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>"
+ansible --ask-become --ask-vault-pass -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>" --extra-vars "@inventory/vaulted_vars/vault.yml" <host_name>
 ```
+
+If the role does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted.
 
 ## Run Playbook
 
-A playbook can be run locally using `ansible-playbook --ask-become-pass --ask-vault-pass playbooks/<name>.yml`.  
+A playbook can be run locally using 
 
-A playbook can be run from Bitbucket using `ansible-pull --ask-become-pass --ask-vault-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml`
+```
+ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
+```  
 
-A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://bitbucket.org/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`.  
+A playbook can be run from Bitbucket using 
+
+```
+ansible-pull --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml
+```
+
+For both local and remote running, if the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted.
 
 ## Clean Install
 
-After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run.  The `--ask-vault-pass` should not be passed when running the restore playbook, as the vault password will not be accessible.  The following steps are then required:
+A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://bitbucket.org/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`.  This script will install the dependencies needed to run Ansible.
+
+After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run.  The `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` should not be passed when running the restore playbook, as the vault password will not be accessible at the time of running.  The following steps are then required:
 
 * logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 * configure Timeshift;
