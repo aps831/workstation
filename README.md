@@ -50,7 +50,7 @@ ansible --ask-become --ask-vault-pass <host_name> -m include_role -a name=<role_
 
 A playbook can be run locally using `ansible-playbook --ask-become-pass --ask-vault-pass playbooks/<name>.yml`.  
 
-A playbook can be run from Bitbucket using `ansible-pull --ask-become-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml`
+A playbook can be run from Bitbucket using `ansible-pull --ask-become-pass --ask-vault-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml`
 
 A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  The script `bootstrap.sh` will install the dependencies needed to run Ansible.  
 
