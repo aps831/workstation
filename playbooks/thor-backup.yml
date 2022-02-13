@@ -4,10 +4,12 @@
    hosts: thor
    vars_prompt:
      - name: aws_profile_data_backup
-       prompt: Enter AWS profile for location of data backups
+       prompt: "Enter AWS profile for location of data backups"
+       default: "andrew-p-spratley"
        private: no
      - name: aws_profile_restore_backup
-       prompt: Enter AWS profile for location of restore backups
+       prompt: "Enter AWS profile for location of restore backups"
+       default: "spratleyap"
        private: no  
    roles:   
      - role: backup
@@ -18,6 +20,8 @@
          remote_backup_name: "amazons3"
          backup_time_delay: "60min"
          backup_test_time_delay: "240min"
+         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
+         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
 
    pre_tasks:
      - name: update repository caches

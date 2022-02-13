@@ -9,19 +9,14 @@
      packages:
      - cron 
 
-# AWS info - these need to be together because of the Yubikey flakiness 
- - name: get current caller identity information
-   amazon.aws.aws_caller_info:
-     profile: "{{ aws_profile_restore_backup }}"
-   register: caller_info
-
+# AWS access and secret keys  
  - name: lookup access_key_id 
    set_fact: 
-     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/access_key_id', aws_profile=aws_profile_data_backup) }}"
+     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/access_key_id', aws_profile=backup_aws_profile_data) }}"
 
  - name: lookup secret_key
    set_fact: 
-     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/secret_key', aws_profile=aws_profile_data_backup) }}"
+     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/secret_key', aws_profile=backup_aws_profile_data) }}"
 
 # Config
  - name: "create config directory"
@@ -198,6 +193,11 @@
      enabled: yes
 
 # Restore Backup
+ - name: get current caller identity information
+   amazon.aws.aws_caller_info:
+     profile: "{{ backup_aws_profile_restore }}"
+   register: caller_info
+
  - name: set aws bucket
    set_fact: 
      aws_restore_bucket: "{{ caller_info.account }}-account-restore"
@@ -222,7 +222,7 @@
      bucket: "{{ aws_restore_bucket }}"
      key_prefix: "{{ backup_host }}/{{ backup_user }}"
      file_root: "{{ restore_tempdir.path }}"
-     profile: "{{ aws_profile_restore_backup }}"
+     profile: "{{ backup_aws_profile_restore }}"
      delete: true
 
  

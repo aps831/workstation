@@ -56,7 +56,7 @@ A playbook can be run locally using
 ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
 ```
 
-If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The script `run_ansible_core_update.sh` can also be used.  This pulls the latest version of the playbooks from Bitbucket.
+If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used.  These pull the latest version of the playbooks from Bitbucket.
 
 ## Clean Install
 
