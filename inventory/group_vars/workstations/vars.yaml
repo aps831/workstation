@@ -3,5 +3,4 @@ hosts_titan_ip_address: 192.168.1.101
 hosts_thor_ip_address: 192.168.1.104
 hosts_odin_ip_address: 192.168.1.190
 nas_host: odin.local
-nas_password: "{{ vault_nas_password }}"
 certificate_host: titan.local

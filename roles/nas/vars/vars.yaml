@@ -1,0 +1,1 @@
+nas_password: "{{ vault_nas_password }}"
