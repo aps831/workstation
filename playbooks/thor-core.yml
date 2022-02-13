@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: thor.local
+   hosts: thor
    roles:
 
 # Security

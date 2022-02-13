@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: titan.local
+   hosts: titan
    vars_prompt:
      - name: aws_profile_data_backup
        prompt: Enter AWS profile for location of data backups

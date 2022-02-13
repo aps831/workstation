@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: md-desktop.local
+   hosts: md-desktop
    roles:
      - role: encryption
      - role: firewall

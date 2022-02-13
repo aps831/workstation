@@ -1,7 +1,7 @@
 ---
 
  - name: run playbook tasks
-   hosts: titan.local
+   hosts: titan
    roles:
 
 # Security
