@@ -54,15 +54,9 @@ A playbook can be run locally using
 
 ```
 ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
-```  
-
-A playbook can be run from Bitbucket using 
-
-```
-ansible-pull --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml
 ```
 
-For both local and remote running, if the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted.
+If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The script `run_ansible_core_update.sh` can also be used.  This pulls the latest version of the playbooks from Bitbucket.
 
 ## Clean Install
 
