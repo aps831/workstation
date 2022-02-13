@@ -101,21 +101,6 @@
      recurse: yes
      mode: 0777
 
-# Vault
- - name: download aws-vault
-   become: yes
-   get_url:
-     url: "{{ aws_vault_download_url }}"
-     dest: /usr/local/bin/aws-vault
-     mode: '0777'
-
- - name: define aws-vault variables
-   become: yes
-   template:
-     src: aws_vault.sh.j2
-     dest: /etc/profile.d/aws_vault.sh
-     mode: 0777
-
 # Localstack
  - name: install localstack
    pip:
