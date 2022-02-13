@@ -12,11 +12,12 @@
      - role: hosts
      - role: nas
      - role: swappiness
-     - role: chezmoi
+     - role: chezmoi          
 
 # Admin
      - role: smartctl
      - role: teamviewer
+     - role: scripts
 
 # Desktop
      - role: apps

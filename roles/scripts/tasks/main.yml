@@ -1,0 +1,8 @@
+ - name: Create a DOS-style text file from a template
+   template:
+    src: run_ansible_update.{{ inventory_hostname }}.sh
+    dest: /home/{{ ansible_user }}/.local/bin/run_ansible_update.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0700'
+    

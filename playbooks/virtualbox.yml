@@ -17,6 +17,7 @@
 # Admin
      - role: smartctl
      - role: teamviewer
+     - role: scripts
 
 # Desktop
      - role: apps

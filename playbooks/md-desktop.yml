@@ -9,6 +9,7 @@
      - role: smartctl
      - role: teamviewer
      - role: apps
+     - role: scripts
      - role: desktop
      - role: dropbox
      - role: fonts
