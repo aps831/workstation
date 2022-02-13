@@ -52,7 +52,7 @@ A playbook can be run locally using `ansible-playbook --ask-become-pass --ask-va
 
 A playbook can be run from Bitbucket using `ansible-pull --ask-become-pass --ask-vault-pass -U https://aps831@bitbucket.org/aps831/workstation.git playbooks/<name>.yml`
 
-A bootstrapping script can be downloaded from `https://bitbucket.org/aps831/workstation`.  The script `bootstrap.sh` will install the dependencies needed to run Ansible.  
+A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://bitbucket.org/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`.  
 
 ## Clean Install
 
