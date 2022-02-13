@@ -1,0 +1,2 @@
+ - name: Install semgrep
+   command: python3 -m pip install semgrep

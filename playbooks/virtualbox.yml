@@ -54,6 +54,7 @@
      - role: owaspzap
      - role: pgadmin
      - role: postman
+     - role: semgrep     
      - role: stoplight
      - role: sublime
      - role: terraform
