@@ -122,6 +122,7 @@
      dest: /etc/profile.d/sdkman.sh
      mode: 0777
 
+# https://github.com/gluonhq/substrate/blob/master/README.md
  - name: install javafx packages
    become: yes
    apt:
@@ -141,6 +142,7 @@
      - libx11-dev
      - libxtst-dev
 
+# https://www.graalvm.org/22.0/reference-manual/native-image/
  - name: install native image packages
    become: yes
    apt:
