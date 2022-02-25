@@ -34,14 +34,14 @@
    register: nvm_dir
    changed_when: False
 
- - name: install node {{ nvm.node_version }}
-   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm install {{ nvm.node_version }}"
+ - name: install lts node version and latest npm version
+   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm install --lts --latest-npm"
    args:
      executable: /bin/bash
    register: nvm_install_result
    changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
 
- - name: alias default node {{ nvm.node_version }}
-   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm alias default {{ nvm.node_version }}"
+ - name: alias default node
+   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm alias default $(nvm current)"
    args:
      executable: /bin/bash
