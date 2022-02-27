@@ -48,6 +48,8 @@ ansible --ask-become --ask-vault-pass -m include_role -a name=<role_name> --extr
 
 If the role does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted.
 
+If the role requires a number of parameters to be passed to it, then it may be easier to run the playbook but filter the roles using tags.
+
 ## Run Playbook
 
 A playbook can be run locally using 
@@ -57,6 +59,8 @@ ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vau
 ```
 
 If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used.  These pull the latest version of the playbooks from Bitbucket.
+
+To run selected roles from a playbook, add tags to roles using the syntax: `tags: tagname` and append the `ansible-playbook` command with `--tags "tagname"`.
 
 ## Clean Install
 
