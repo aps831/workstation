@@ -1,10 +1,11 @@
 ---
- - name: download terraform
-   become: true
-   unarchive:
-     src: "{{ terraform_download_url }}"
-     dest: /usr/local/bin/
-     remote_src: yes
+ - name: create tfenv folder
+   file:
+     path: /home/{{ ansible_user }}/.tfenv
+     state: directory
      mode: 0755
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
+
+ - name: install tfenv
+   command: git clone https://github.com/tfutils/tfenv.git /home/{{ ansible_user }}/.tfenv
