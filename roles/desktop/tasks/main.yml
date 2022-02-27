@@ -6,16 +6,18 @@
      name: "{{ packages }}"
    vars:
      packages:
-     - secure-delete
-     - testdisk
      - redshift
      - redshift-gtk
+     - gddrescue
+     - dvdbackup
+     - secure-delete
+     - testdisk     
      - synaptic
      - wget
      - curl
      - gparted
      - smartmontools
-     - nload
+     - nload     
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"
