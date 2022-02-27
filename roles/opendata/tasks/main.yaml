@@ -1,0 +1,56 @@
+---
+  - name: install libsecret
+    become: yes
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - libsecret-tools
+
+  - name: add {{ opendata_download_username }} opendata password to keyring
+    shell: secret-tool store --label='{{ opendata_server }} -- {{ opendata_download_name }}' server {{ opendata_server }} user {{ opendata_download_username }}
+    args:
+      stdin: "{{ opendata_download_password }}"
+      stdin_add_newline: false
+    no_log: true
+
+  - name: "install {{ opendata_download_name }} opendata download script"
+    become: yes
+    template:
+      src: "opendata-download.sh.j2"
+      dest: "/usr/local/sbin/{{ opendata_download_name }}-opendata-download.sh"
+      owner: "root"
+      group: "root"
+      mode: 0700
+
+  - name: "install {{ opendata_download_name }} opendata download service"
+    become: yes
+    template:
+     src: "opendata-download.service.j2"
+     dest: "/etc/systemd/system/{{ opendata_download_name }}-opendata-download.service"
+     owner: "root"
+     group: "root"
+     mode: 0666
+
+  - name: "install {{ opendata_download_name }} opendata download timer"
+    become: yes
+    template:
+      src: "opendata-download.timer.j2"
+      dest: "/etc/systemd/system/{{ opendata_download_name }}-opendata-download.timer"
+      owner: "root"
+      group: "root"
+      mode: 0666
+
+  - name: disable {{ opendata_download_name }} opendata download service
+    become: yes
+    systemd:
+      name: "{{ opendata_download_name }}-opendata-download"
+      enabled: no
+
+  - name: enable {{ opendata_download_name }} opendata download timer
+    become: yes
+    systemd:
+      name: "{{ opendata_download_name }}-opendata-download.timer"
+      state: started
+      enabled: yes
+
