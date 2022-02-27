@@ -44,6 +44,7 @@ chezmoi apply
 * .rustup
 * .sdkman
 * .ssh
+* .tfenv
 * .vagrant.d
 * .virtualboxvms
 * .virtualenvs
