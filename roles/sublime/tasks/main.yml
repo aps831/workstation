@@ -13,8 +13,11 @@
      filename: sublime
 
  - name: install sublime
-   become: yes
+   become: yes   
    apt:
+     name: "{{ packages }}"
      state: present
-     pkg: sublime-text
-     update_cache: yes
+   vars:
+     packages:
+     - sublime-text
+     - sublime-merge
