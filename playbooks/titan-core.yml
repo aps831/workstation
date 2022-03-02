@@ -98,13 +98,15 @@
          opendata_download_name: "aps831"
          opendata_download_username: "aps831@yahoo.co.uk"
          opendata_download_password: "{{ vault_opendata_password_aps831 }}"
-         opendata_download_time_delay: "60min"              
+         opendata_download_time_delay: "60min"   
+       tags: test             
      - role: opendata
        vars:
-         opendata_download_name: "operations.reports.831"
+         opendata_download_name: "operations-reports-831"
          opendata_download_username: "operations.reports.831@gmail.com"
          opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
-         opendata_download_time_delay: "70min"       
+         opendata_download_time_delay: "70min" 
+       tags: test        
    pre_tasks:
      - name: update repository caches
        become: yes
