@@ -37,3 +37,6 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: 0444
+
+ - name: Install pre-commit
+   command: python3 -m pip install pre-commit
