@@ -1,11 +1,8 @@
 #! /bin/bash
+URL="{{ opendata_download_url }}"
+statuscode=$(curl --head --silent --location --user '{{ opendata_download_basic_auth | b64decode | trim }}' $URL | head -n 1 | awk -F' ' '{print $2}')
 
-URL="https://{{ opendata_server }}/ntrod/CifFileAuthenticate?type=CIF_HU_TOC_FULL_DAILY&day=toc-full"
-USERNAME="{{ opendata_download_username }}"
-PASSWORD="{{ opendata_download_password | b64decode | trim }}"
-statuscode=$(curl -I --silent --location --user "$USERNAME:$PASSWORD" "$URL" | head -n 1 | awk -F' ' '{print $2}')
-
-if [ $statuscode -ne 200 ]; then    
+if [ "$statuscode" != "200" ]; then    
     urgency="critical"
     title="Open Data Download Failed: {{ opendata_download_name }}.  Do Not Ignore This Message"
     msg="The {{ opendata_download_name }} open data download failed"

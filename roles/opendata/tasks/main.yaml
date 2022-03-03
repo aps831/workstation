@@ -1,19 +1,5 @@
 ---
-  - name: install libsecret
-    become: yes
-    apt:
-      name: "{{ packages }}"
-    vars:
-      packages:
-      - libsecret-tools
-
-  - name: add {{ opendata_download_username }} opendata password to keyring
-    shell: secret-tool store --label='{{ opendata_server }} -- {{ opendata_download_name }}' server {{ opendata_server }} user {{ opendata_download_username }}
-    args:
-      stdin: "{{ opendata_download_password }}"
-      stdin_add_newline: false
-    no_log: true
-
+  
   - name: "install {{ opendata_download_name }} opendata download script"
     become: yes
     template:
