@@ -1,11 +1,107 @@
 ---
+ # tfenv
  - name: create tfenv folder
    file:
-     path: /home/{{ ansible_user }}/.tfenv
+     path: "{{ tfenv_install_dir }}"
      state: directory
      mode: 0755
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
 
+ - name: test if tfenv already installed
+   stat:
+      path: "{{ tfenv_install_dir }}"
+   register: tfenv_install
+   changed_when: false    
+
  - name: install tfenv
-   command: git clone https://github.com/tfutils/tfenv.git /home/{{ ansible_user }}/.tfenv
+   command: git clone https://github.com/tfutils/tfenv.git "{{ tfenv_install_dir }}"
+   when: not tfenv_install.stat.exists 
+
+# tflint
+ - name: create temporary file for tflint download
+   tempfile:
+     state: file
+     suffix: temp
+   register: tflint_download_tmp
+
+ - name: download tflint binary
+   get_url:
+     url: "{{ tflint_url }}"
+     dest: "{{ tflint_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ - name: extract tflint from archive
+   become: yes
+   unarchive:
+     src: "{{ tflint_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0777
+
+# terraform docs
+ - name: create temporary file for terraform docs download
+   tempfile:
+     state: file
+     suffix: temp
+   register: terraform_docs_download_tmp
+
+ - name: download terraform docs binary
+   get_url:
+     url: "{{ terraform_docs_url }}"
+     dest: "{{ terraform_docs_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ - name: extract terraform doc from archive
+   become: yes
+   unarchive:
+     src: "{{ terraform_docs_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0777 
+
+# terraform docs
+ - name: create temporary file for terraform docs download
+   tempfile:
+     state: file
+     suffix: temp
+   register: terraform_docs_download_tmp
+
+ - name: download terraform docs binary
+   get_url:
+     url: "{{ terraform_docs_url }}"
+     dest: "{{ terraform_docs_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ - name: extract terraform doc from archive
+   become: yes
+   unarchive:
+     src: "{{ terraform_docs_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0777 
+
+# tfsec
+ - name: create temporary file for tfsec download
+   tempfile:
+     state: file
+     suffix: temp
+   register: tfsec_download_tmp
+
+ - name: download tfsec binary
+   become: yes
+   get_url:
+     url: "{{ tfsec_url }}"
+     dest: /usr/local/bin/tfsec
+     force: yes
+   changed_when: false
+
+ - name: make tfsec binary executable
+   become: yes
+   file:
+     path: /usr/local/bin/tfsec
+     state: file
+     mode: 0777     
