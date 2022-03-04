@@ -109,6 +109,7 @@ The following roles have version numbers defined within the role:
 * duplicacy
 * eclipse
 * elm
+* git
 * golang
 * gogs
 * javascript

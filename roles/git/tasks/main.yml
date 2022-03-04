@@ -38,5 +38,22 @@
      group: "{{ ansible_user }}"
      mode: 0444
 
- - name: Install pre-commit
+ - name: install pre-commit
    command: python3 -m pip install pre-commit
+
+ # git-mkver
+ - name: download git-mkver binary
+   get_url:
+     url: "{{ git_mkrev_url }}"
+     dest: "{{ git_mkrev_download_tmp }}"
+   changed_when: false
+
+ - name: extract git-mkver from archive
+   become: yes
+   unarchive:
+     src: "{{ git_mkrev_download_tmp }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0744

@@ -1,0 +1,3 @@
+git_mkrev_version: 1.2.2
+git_mkrev_url: https://github.com/idc101/git-mkver/releases/download/v{{ git_mkrev_version }}/git-mkver-linux-amd64-{{ git_mkrev_version }}.tar.gz
+git_mkrev_download_tmp: /tmp/git-mkrev.tar.gz
