@@ -105,3 +105,25 @@
      path: /usr/local/bin/tfsec
      state: file
      mode: 0777     
+
+# terragrunt
+ - name: create temporary file for terragrunt download
+   tempfile:
+     state: file
+     suffix: temp
+   register: terragrunt_download_tmp
+
+ - name: download terragrunt binary
+   become: yes
+   get_url:
+     url: "{{ terragrunt_url }}"
+     dest: /usr/local/bin/terragrunt
+     force: yes
+   changed_when: false
+
+ - name: make terragrunt binary executable
+   become: yes
+   file:
+     path: /usr/local/bin/terragrunt
+     state: file
+     mode: 0777  

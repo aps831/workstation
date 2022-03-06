@@ -50,7 +50,7 @@
      - role: semgrep     
      - role: stoplight
      - role: sublime
-     - role: terraform
+     - role: terraform       
      - role: trivy
      - role: vagrant
      - role: virtualbox

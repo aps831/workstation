@@ -5,3 +5,5 @@ terraform_docs_version: 0.16.0
 terraform_docs_url: https://github.com/terraform-docs/terraform-docs/releases/download/v{{ terraform_docs_version }}/terraform-docs-v{{ terraform_docs_version }}-linux-amd64.tar.gz
 tfsec_version: 1.6.0
 tfsec_url: https://github.com/aquasecurity/tfsec/releases/download/v{{ tfsec_version }}/tfsec-linux-amd64
+terragrunt_version: 0.36.3
+terragrunt_url: https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_linux_amd64
