@@ -19,7 +19,7 @@
 
  - name: download sdkman
    get_url:
-     url: https://get.sdkman.io
+     url: https://get.sdkman.io?rcupdate=false
      dest: "{{ sdkman_tmp_dir }}/sdkman_script"
    when: not sdkman_init.stat.exists
 
