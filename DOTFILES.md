@@ -36,7 +36,6 @@ chezmoi apply
 * .m2
 * .minikube
 * .mozilla
-* .mysql
 * .npm
 * .nvm
 * .password-store
