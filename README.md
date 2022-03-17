@@ -114,10 +114,21 @@ The following roles have version numbers defined within the role:
 * gogs
 * javascript
 * kubernetes
-* mysql
 * nexus
 * owaspzap
 * stoplight
 * terraform
 * vagrant
 * virtualbox
+
+New versions are tracked using [newreleases.io](https://newreleases.io/) except for the following:
+
+* eclipse
+* golang
+* kubernetes - minikube
+* kubernetes - lens
+* kubernetes - helm
+* kubernetes - kind
+* nexus
+* vagrant
+* virtualbox - extension pack
