@@ -42,18 +42,46 @@
    command: python3 -m pip install pre-commit
 
  # git-mkver
+ - name: create temporary file for git-mkver download
+   tempfile:
+     state: file
+     suffix: temp
+   register: git_mkrev_download_tmp
+
  - name: download git-mkver binary
    get_url:
      url: "{{ git_mkrev_url }}"
-     dest: "{{ git_mkrev_download_tmp }}"
+     dest: "{{ git_mkrev_download_tmp.path }}"
+     force: yes
    changed_when: false
 
  - name: extract git-mkver from archive
    become: yes
    unarchive:
-     src: "{{ git_mkrev_download_tmp }}"
+     src: "{{ git_mkrev_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0744
+     mode: 0777
+
+# Gitleaks
+ - name: create temporary file for gitleaks download
+   tempfile:
+     state: file
+     suffix: temp
+   register: gitleaks_download_tmp
+
+ - name: download gitleaks binary
+   become: yes
+   get_url:
+     url: "{{ gitleaks_url }}"
+     dest: "{{ gitleaks_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ - name: extract gitleaks from archive
+   become: yes
+   unarchive:
+     src: "{{ gitleaks_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0777
