@@ -84,13 +84,7 @@
      remote_src: yes
      mode: 0777 
 
-# tfsec
- - name: create temporary file for tfsec download
-   tempfile:
-     state: file
-     suffix: temp
-   register: tfsec_download_tmp
-
+# tfsec 
  - name: download tfsec binary
    become: yes
    get_url:
@@ -106,13 +100,7 @@
      state: file
      mode: 0777     
 
-# terragrunt
- - name: create temporary file for terragrunt download
-   tempfile:
-     state: file
-     suffix: temp
-   register: terragrunt_download_tmp
-
+# terragrunt 
  - name: download terragrunt binary
    become: yes
    get_url:
