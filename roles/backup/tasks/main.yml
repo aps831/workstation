@@ -7,15 +7,19 @@
      name: "{{ packages }}"
    vars:
      packages:
-     - cron 
+     - cron
 
-# AWS access and secret keys  
- - name: lookup access_key_id 
-   set_fact: 
+ - name: install dependencies
+   become: yes
+   command: pip3 install boto3 botocore
+
+# AWS access and secret keys
+ - name: lookup access_key_id
+   set_fact:
      backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/access_key_id', aws_profile=backup_aws_profile_data) }}"
 
  - name: lookup secret_key
-   set_fact: 
+   set_fact:
      backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/secret_key', aws_profile=backup_aws_profile_data) }}"
 
 # Config
@@ -39,7 +43,7 @@
    ansible.builtin.file:
      path: "{{ restore_tempdir.path }}/duplicacy"
      state: directory
- 
+
  - name: "install {{ backup_user }} preferences"
    become: yes
    template:
@@ -75,7 +79,7 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0600'
- 
+
 # Log directories
  - name: "create directory for backup logs"
    become: yes
@@ -199,14 +203,14 @@
    register: caller_info
 
  - name: set aws bucket
-   set_fact: 
+   set_fact:
      aws_restore_bucket: "{{ caller_info.account }}-account-restore"
- 
+
  - name: create aws directory for backup files
    ansible.builtin.file:
      path: "{{ restore_tempdir.path }}/aws"
-     state: directory     
-  
+     state: directory
+
  - name: copy aws to temporary directory
    become: yes
    ansible.builtin.copy:
@@ -215,7 +219,7 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: '0600'
-   ignore_errors: yes 
+   ignore_errors: yes
 
  - name: upload restore backup to s3
    community.aws.s3_sync:
@@ -225,4 +229,3 @@
      profile: "{{ backup_aws_profile_restore }}"
      delete: true
 
- 
