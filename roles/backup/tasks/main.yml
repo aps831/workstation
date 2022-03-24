@@ -10,7 +10,6 @@
      - cron
 
  - name: install dependencies
-   become: yes
    command: pip3 install boto3 botocore
 
 # AWS access and secret keys

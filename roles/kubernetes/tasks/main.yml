@@ -89,7 +89,6 @@
 
 # Operator Framework
  - name: install ansible prerequisites
-   become: yes
    command: pip3 install ansible-runner ansible-runner-http openshift
 
  - name: create temporary directory
@@ -151,7 +150,6 @@
      mode: a+x
 
  - name: install operator-courier
-   become: yes
    command: pip3 install operator-courier
 
  - name: install opm
