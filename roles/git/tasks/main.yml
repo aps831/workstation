@@ -11,8 +11,12 @@
  - name: install git
    become: yes
    apt:
-     name: git
+     name: "{{ packages }}"
      state: present
+   vars:
+     packages:
+     - git
+     - gitk
 
  - name: install bash-completion
    become: yes
