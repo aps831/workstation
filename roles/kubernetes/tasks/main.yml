@@ -7,27 +7,38 @@
      checksum: "{{ minikube_checksum }}"
      dest: /usr/local/bin/minikube
      mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
 
 # Lens
+ - name: ensure group lens exists
+   become: yes
+   ansible.builtin.group:
+    name: lens
+    state: present
+
+ - name: add the user {{ ansible_user }} to lens group
+   become: yes
+   ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: lens
+    append: true
+
  - name: create install directory
    become: true
    ansible.builtin.file:
      path: "{{ lens_install_dir }}"
      state: directory
+     owner: root
+     group: lens
      mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
 
  - name: download lens
    become: true
    get_url:
      url: "{{ lens_download_url }}"
      dest: "{{ lens_install_dir }}/lens"
-     mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
+     owner: root
+     group: lens
+     mode: 0775
 
  - name: create symbolic link
    become: yes
@@ -62,9 +73,7 @@
      src: /tmp/linux-amd64/helm
      dest: /usr/local/bin
      remote_src: yes
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: '0744'
+     mode: 0755
 
  - name: install helm secrets
    command: helm plugin install https://github.com/jkroepke/helm-secrets --version {{ helm_secrets_version }}
@@ -79,7 +88,7 @@
    get_url:
      url: "{{ helmfile_download_url }}"
      dest: /usr/local/bin/helmfile
-     mode: '0777'
+     mode: 0755
 
 # Sops
  - name: install sops
@@ -145,9 +154,7 @@
    become: yes
    file:
      path: /usr/local/bin/operator-sdk
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: a+x
+     mode: 0755
 
  - name: install operator-courier
    command: pip3 install operator-courier
@@ -158,8 +165,6 @@
      url: "{{ opm_url }}"
      dest: /usr/local/bin/opm
      mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
 
 # Fluxcd
  - name: install fluxcd
@@ -172,9 +177,7 @@
    get_url:
      url: "{{ kubeseal_download_url }}"
      dest: "/usr/local/bin/kubeseal"
-     mode: 0777
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
+     mode: 0755
 
 # Kind
  - name: download kind
@@ -182,6 +185,5 @@
    get_url:
      url: "{{ kind_download_url }}"
      dest: "/usr/local/bin/kind"
-     mode: 0777
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
+     mode: 0755
+

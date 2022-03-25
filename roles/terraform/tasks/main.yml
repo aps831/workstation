@@ -12,11 +12,11 @@
    stat:
       path: "{{ tfenv_install_dir }}"
    register: tfenv_install
-   changed_when: false    
+   changed_when: false
 
  - name: install tfenv
    command: git clone https://github.com/tfutils/tfenv.git "{{ tfenv_install_dir }}"
-   when: not tfenv_install.stat.exists 
+   when: not tfenv_install.stat.exists
 
 # tflint
  - name: create temporary file for tflint download
@@ -38,7 +38,7 @@
      src: "{{ tflint_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0777
+     mode: 0755
 
 # terraform docs
  - name: create temporary file for terraform docs download
@@ -60,7 +60,7 @@
      src: "{{ terraform_docs_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0777 
+     mode: 0755
 
 # terraform docs
  - name: create temporary file for terraform docs download
@@ -82,9 +82,9 @@
      src: "{{ terraform_docs_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0777 
+     mode: 0755
 
-# tfsec 
+# tfsec
  - name: download tfsec binary
    become: yes
    get_url:
@@ -98,9 +98,9 @@
    file:
      path: /usr/local/bin/tfsec
      state: file
-     mode: 0777     
+     mode: 0755
 
-# terragrunt 
+# terragrunt
  - name: download terragrunt binary
    become: yes
    get_url:
@@ -114,4 +114,4 @@
    file:
      path: /usr/local/bin/terragrunt
      state: file
-     mode: 0777  
+     mode: 0755

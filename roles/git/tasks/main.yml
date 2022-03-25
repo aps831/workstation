@@ -29,8 +29,6 @@
    get_url:
      url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
      dest: /etc/bash_completion.d/git-completion
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
      mode: 0444
 
  - name: download git-flow completion
@@ -38,8 +36,6 @@
    get_url:
      url: https://raw.githubusercontent.com/bobthecow/git-flow-completion/master/git-flow-completion.bash
      dest: /etc/bash_completion.d/git-flow-completion
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
      mode: 0444
 
  - name: install pre-commit
@@ -65,7 +61,7 @@
      src: "{{ git_mkrev_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0777
+     mode: 0755
 
 # Gitleaks
  - name: create temporary file for gitleaks download
@@ -88,4 +84,4 @@
      src: "{{ gitleaks_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0777
+     mode: 0755

@@ -1,8 +1,24 @@
 ---
+- name: ensure group postman exists
+  become: yes
+  ansible.builtin.group:
+    name: postman
+    state: present
+
+- name: add the user {{ ansible_user }} to postman group
+  become: yes
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: postman
+    append: true
+
 - name: create download directory
+  become: yes
   file:
     state: directory
-    mode: 'u=rwx,go=rx'
+    owner: root
+    group: postman
+    mode: 0755
     dest: '{{ postman_download_dir }}'
 
 - name: check for download version file
@@ -34,27 +50,27 @@
     postman_latest_version: '{{ head_query.content_disposition }}'
 
 - name: download Postman
+  become: yes
   get_url:
     url: '{{ postman_redis_url }}'
     dest: '{{ postman_download_dir }}/{{ postman_redis_filename }}'
     force: '{{ postman_latest_version != postman_existing_download_version }}'
     use_proxy: yes
     validate_certs: yes
-    mode: 'u=rw,go=r'
+    mode: 0755
 
 - name: update download version file
+  become: yes
   copy:
     content: '{{ postman_latest_version }}'
     dest: '{{ postman_download_version_path }}'
 
 - name: check for installed version file
-  become: yes
   stat:
     path: '{{ postman_installed_version_path }}'
   register: installed_version_file_test
 
 - name: read installed version file
-  become: yes
   slurp:
     src: '{{ postman_installed_version_path }}'
   register: installed_version_file
@@ -77,8 +93,8 @@
   file:
     state: directory
     owner: root
-    group: root
-    mode: 'u=rwx,go=rx'
+    group: postman
+    mode: 0755
     dest: '{{ postman_install_dir }}'
 
 - name: install Postman
@@ -90,7 +106,8 @@
     extra_opts:
       - '--strip-components=1'
     owner: root
-    group: root
+    group: postman
+    mode: 0755
     creates: '{{ postman_install_dir }}/Postman'
 
 - name: write installed version file

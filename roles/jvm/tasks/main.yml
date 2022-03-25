@@ -99,28 +99,28 @@
    template:
      src: java.sh.j2
      dest: /etc/profile.d/java.sh
-     mode: 0777
+     mode: 0755
 
  - name: define gradle variables
    become: yes
    template:
      src: gradle.sh.j2
      dest: /etc/profile.d/gradle.sh
-     mode: 0777
+     mode: 0755
 
  - name: define maven variables
    become: yes
    template:
      src: maven.sh.j2
      dest: /etc/profile.d/maven.sh
-     mode: 0777
+     mode: 0755
 
  - name: define sdkman variables
    become: yes
    template:
      src: sdkman.sh.j2
      dest: /etc/profile.d/sdkman.sh
-     mode: 0777
+     mode: 0755
 
 # https://github.com/gluonhq/substrate/blob/master/README.md
  - name: install javafx packages

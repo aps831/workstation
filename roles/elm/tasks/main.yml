@@ -12,7 +12,5 @@
      src: "{{ elm_download_tmp }}"
      dest: /usr/local/bin
      remote_src: yes
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0744
+     mode: 0755
 

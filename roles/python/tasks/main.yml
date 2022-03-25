@@ -31,4 +31,4 @@
    template:
      src: virtualenvs.sh.j2
      dest: /etc/profile.d/virtualenvs.sh
-     mode: 0777
+     mode: 0755

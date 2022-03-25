@@ -1,5 +1,18 @@
 ---
 
+ - name: ensure group intellij exists
+   become: yes
+   ansible.builtin.group:
+    name: intellij
+    state: present
+
+ - name: add the user {{ ansible_user }} to intellij group
+   become: yes
+   ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: intellij
+    append: true
+
  - name: determine if intellij already installed
    stat:
       path: "{{ intellij_install_dir }}"
@@ -39,17 +52,25 @@
    unarchive:
      src: "{{ intellij_download_url }}"
      dest: "{{ tmp_dir.path }}"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
      remote_src: yes
    changed_when: false
    when: not intellij_install.stat.exists
 
  - name: retreive intellij dir name
+   become: yes
    command: ls -t {{ tmp_dir.path }}
    register: result_intellij_folder_name
    changed_when: false
    when: not intellij_install.stat.exists
+
+ - name: create installation directory
+   become: yes
+   ansible.builtin.file:
+    path: "{{ intellij_install_dir }}"
+    state: directory
+    owner: root
+    group: intellij
+    mode: 0775
 
  - name: copy intellij to installation directory
    become: yes
@@ -60,6 +81,9 @@
      recursive: yes
      delete: yes
      times: no
+     owner: root
+     group: intellij
+     mode: 0775
    delegate_to: "{{ inventory_hostname }}"
    when: not intellij_install.stat.exists
 
@@ -77,12 +101,3 @@
    template:
      src=intellij.desktop.j2
      dest=/usr/share/applications/Intellij.desktop
-
- - name: update permissions on intellij folder
-   become: yes
-   file:
-     path: "{{ intellij_install_dir }}"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     recurse: true
-   changed_when: false

@@ -33,4 +33,4 @@
    template:
      src: ddlog.sh.j2
      dest: /etc/profile.d/ddlog.sh
-     mode: 0777
+     mode: 0755

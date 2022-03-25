@@ -4,12 +4,12 @@
     dest: /home/{{ ansible_user }}/.local/bin/run-ansible-core-update.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0700'
-    
+    mode: '0744'
+
  - name: Install run ansible backup update script
    template:
     src: run_ansible_backup_update.{{ inventory_hostname }}.sh
     dest: /home/{{ ansible_user }}/.local/bin/run-ansible-backup-update.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0700'    
+    mode: '0744'

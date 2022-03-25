@@ -187,8 +187,6 @@
    get_url:
      url: "{{ docker_credential_helper_url }}"
      dest: "{{ tmp_dir.path }}"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
 
  - name: unpack docker credential helper
    become: yes
@@ -196,6 +194,4 @@
      src: "{{ tmp_dir.path }}/{{ docker_credential_helper_filename }}"
      dest: "{{ docker_credential_helper_install_dir }}"
      mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
      remote_src: yes

@@ -41,14 +41,14 @@
    become: yes
    file:
      path: /usr/local/bin/aws
-     mode: 0777
+     mode: 0755
 
  - name: set permissions on awscli files
    become: yes
    file:
      path: /usr/local/aws-cli
      recurse: yes
-     mode: 0777
+     mode: 0755
 
 # SAM
  - name: create temporary build directory for sam
@@ -92,14 +92,14 @@
    become: yes
    file:
      path: /usr/local/bin/sam
-     mode: 0777
+     mode: 0755
 
  - name: set permissions on awssamcli files
    become: yes
    file:
      path: /usr/local/aws-sam-cli
      recurse: yes
-     mode: 0777
+     mode: 0755
 
 # Localstack
  - name: install localstack
@@ -126,4 +126,4 @@
      src: "{{ iam_live_tmpdir.path }}/iam_live.zip"
      dest: /usr/local/bin/
      remote_src: yes
-     mode: 0777
+     mode: 0755
