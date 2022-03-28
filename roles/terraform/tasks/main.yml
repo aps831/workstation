@@ -1,5 +1,11 @@
 ---
  # tfenv
+ - name: test if tfenv already installed
+   stat:
+      path: "{{ tfenv_install_dir }}"
+   register: tfenv_install
+   changed_when: false
+
  - name: create tfenv folder
    file:
      path: "{{ tfenv_install_dir }}"
@@ -7,12 +13,6 @@
      mode: 0755
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
-
- - name: test if tfenv already installed
-   stat:
-      path: "{{ tfenv_install_dir }}"
-   register: tfenv_install
-   changed_when: false
 
  - name: install tfenv
    command: git clone https://github.com/tfutils/tfenv.git "{{ tfenv_install_dir }}"
