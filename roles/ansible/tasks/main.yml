@@ -16,6 +16,8 @@
 
  - name: install ansible python dependencies
    pip:
-     name: psutil
+     name:
+      - psutil
+      - molecule
      state: latest
 
