@@ -1,0 +1,1 @@
+pyenv_install_dir: /home/{{ ansible_user }}/.pyenv
