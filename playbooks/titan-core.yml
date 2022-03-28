@@ -12,14 +12,14 @@
      - role: hosts
      - role: nas
        vars:
-         nas_password: "{{ vault_nas_password }}"       
+         nas_password: "{{ vault_nas_password }}"
      - role: swappiness
-     - role: chezmoi     
+     - role: chezmoi
 
 # Admin
      - role: smartctl
      - role: teamviewer
-     - role: scripts          
+     - role: scripts
 
 # Desktop
      - role: apps
@@ -40,17 +40,18 @@
      - role: docs
      - role: eclipse
      - role: intellij
-     - role: git       
+     - role: git
      - role: github
      - role: gcloud
      - role: kubernetes
      - role: owaspzap
      - role: pgadmin
+     - role: podman
      - role: postman
-     - role: semgrep     
+     - role: semgrep
      - role: stoplight
      - role: sublime
-     - role: terraform       
+     - role: terraform
      - role: trivy
      - role: vagrant
      - role: virtualbox
@@ -95,16 +96,16 @@
 # Maintenance
      - role: opendata
        vars:
-         opendata_download_name: "aps831"         
+         opendata_download_name: "aps831"
          opendata_download_user: "aps831@yahoo.co.uk"
          opendata_download_password: "{{ vault_opendata_password_aps831 }}"
-         opendata_download_time_delay: "60min"             
+         opendata_download_time_delay: "60min"
      - role: opendata
        vars:
-         opendata_download_name: "operations-reports-831"  
-         opendata_download_user: "operations.reports.831@gmail.com"       
+         opendata_download_name: "operations-reports-831"
+         opendata_download_user: "operations.reports.831@gmail.com"
          opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
-         opendata_download_time_delay: "70min"         
+         opendata_download_time_delay: "70min"
    pre_tasks:
      - name: update repository caches
        become: yes

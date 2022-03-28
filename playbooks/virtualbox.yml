@@ -6,7 +6,7 @@
 
 # Security
      - role: encryption
-     - role: firewall       
+     - role: firewall
 
 # Setup
      - role: hosts
@@ -54,8 +54,9 @@
      - role: kubernetes
      - role: owaspzap
      - role: pgadmin
+     - role: podman
      - role: postman
-     - role: semgrep     
+     - role: semgrep
      - role: stoplight
      - role: sublime
      - role: terraform
@@ -104,16 +105,16 @@
 # Maintenance
      - role: opendata
        vars:
-         opendata_download_name: "aps831"         
+         opendata_download_name: "aps831"
          opendata_download_user: "aps831@yahoo.co.uk"
          opendata_download_password: "{{ vault_opendata_password_aps831 }}"
-         opendata_download_time_delay: "60min"       
+         opendata_download_time_delay: "60min"
      - role: opendata
        vars:
-         opendata_download_name: "operations-reports-831"  
-         opendata_download_user: "operations.reports.831@gmail.com"       
+         opendata_download_name: "operations-reports-831"
+         opendata_download_user: "operations.reports.831@gmail.com"
          opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
-         opendata_download_time_delay: "70min"        
+         opendata_download_time_delay: "70min"
    pre_tasks:
      - name: update repository caches
        become: yes

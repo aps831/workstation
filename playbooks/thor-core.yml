@@ -12,7 +12,7 @@
      - role: hosts
      - role: nas
      - role: swappiness
-     - role: chezmoi          
+     - role: chezmoi
 
 # Admin
      - role: smartctl
@@ -44,6 +44,7 @@
      - role: kubernetes
      - role: owaspzap
      - role: pgadmin
+     - role: podman
      - role: postman
      - role: semgrep
      - role: stoplight
