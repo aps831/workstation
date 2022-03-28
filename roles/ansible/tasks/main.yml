@@ -2,10 +2,10 @@
 
  - name: install ansible dependencies
    become: yes
-   apt: 
+   apt:
      name: "{{ packages }}"
    vars:
-     packages:  
+     packages:
      - debconf
      - debconf-utils
      - apt-transport-https
@@ -15,8 +15,7 @@
      - unzip
 
  - name: install ansible python dependencies
-   become: yes
    pip:
      name: psutil
      state: latest
-  
+
