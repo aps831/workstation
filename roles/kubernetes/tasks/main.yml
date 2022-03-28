@@ -3,7 +3,7 @@
  - name: download minikube
    become: true
    get_url:
-     url: "{{ minikube_download_url }}{{ minikube_version }}/minikube-linux-amd64"
+     url: "{{ minikube_download_url }}"
      checksum: "{{ minikube_checksum }}"
      dest: /usr/local/bin/minikube
      mode: 0755
@@ -94,7 +94,7 @@
  - name: install sops
    become: yes
    apt:
-      deb: https://github.com/mozilla/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_amd64.deb
+      deb: "{{ sops_download_url }}"
 
 # Operator Framework
  - name: install ansible prerequisites
