@@ -1,5 +1,5 @@
 ---
-docker_compose_version: "1.29.2"
+docker_compose_version: "2.3.4"
 docker_compose_path: /usr/local/bin/docker-compose
 dockerhub_mirror_container_name: dockerhub-mirror
 dockerhub_mirror_container_port: 5002

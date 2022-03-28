@@ -76,7 +76,7 @@
      mode: 0755
 
  - name: install helm secrets
-   command: helm plugin install https://github.com/jkroepke/helm-secrets --version {{ helm_secrets_version }}
+   command: helm plugin install https://github.com/jkroepke/helm-secrets --version v{{ helm_secrets_version }}
    ignore_errors: yes
 
  - name: install helm diff

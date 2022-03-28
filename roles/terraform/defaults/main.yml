@@ -1,9 +1,9 @@
 tfenv_install_dir: /home/{{ ansible_user }}/.tfenv
-tflint_version: 0.34.1
+tflint_version: 0.35.0
 tflint_url: https://github.com/terraform-linters/tflint/releases/download/v{{ tflint_version }}/tflint_linux_amd64.zip
 terraform_docs_version: 0.16.0
 terraform_docs_url: https://github.com/terraform-docs/terraform-docs/releases/download/v{{ terraform_docs_version }}/terraform-docs-v{{ terraform_docs_version }}-linux-amd64.tar.gz
-tfsec_version: 1.12.0
+tfsec_version: 1.15.0
 tfsec_url: https://github.com/aquasecurity/tfsec/releases/download/v{{ tfsec_version }}/tfsec-linux-amd64
 terragrunt_version: 0.36.6
 terragrunt_url: https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_linux_amd64
