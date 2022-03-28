@@ -1,5 +1,6 @@
 ---
 
+# gh
  - name: add github signing key
    become: yes
    apt_key:
@@ -21,3 +22,27 @@
    vars:
      packages:
      - gh
+
+# act
+ - name: create temporary file for act download
+   tempfile:
+     state: file
+     suffix: temp
+   register: act_download_tmp
+
+ - name: download act binary
+   get_url:
+     url: "{{ act_download_url }}"
+     dest: "{{ act_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ - name: extract act from archive
+   become: yes
+   unarchive:
+     src: "{{ act_download_tmp.path }}"
+     dest: /usr/local/bin
+     include:
+       - act
+     remote_src: yes
+     mode: 0755

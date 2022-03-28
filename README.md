@@ -52,7 +52,7 @@ If the role requires a number of parameters to be passed to it, then it may be e
 
 ## Run Playbook
 
-A playbook can be run locally using 
+A playbook can be run locally using
 
 ```
 ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
@@ -76,7 +76,7 @@ After migrating files and folders as per the instructions in [migration](MIGRATI
 
 ### Certificate
 
-The self-signed certificate for Docker needs to be copied from `titan` to `thor`.  On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`.  On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.  
+The self-signed certificate for Docker needs to be copied from `titan` to `thor`.  On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`.  On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.
 
 ### Samba
 
@@ -110,6 +110,7 @@ The following roles have version numbers defined within the role:
 * eclipse
 * elm
 * git
+* github
 * golang
 * gogs
 * javascript
