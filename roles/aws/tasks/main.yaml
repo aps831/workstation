@@ -104,7 +104,7 @@
 # Localstack
  - name: install localstack
    pip:
-    name: localstack
+     name: localstack
 
 # IAM Live
  - name: create temporary build directory for iam live

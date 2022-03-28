@@ -39,7 +39,9 @@
      mode: 0444
 
  - name: install pre-commit
-   command: python3 -m pip install pre-commit
+   pip:
+     name: pre-commit
+     state: present
 
  # git-mkver
  - name: create temporary file for git-mkver download
