@@ -97,16 +97,49 @@
       deb: "{{ sops_download_url }}"
 
 # Fluxcd
- - name: install fluxcd
-   become: true
-   shell: curl -s https://fluxcd.io/install.sh | sudo bash
+ - name: create temporary file for fluxcd download
+   tempfile:
+     state: file
+     suffix: temp
+   register: fluxcd_download_tmp
+
+ - name: download fluxcd binary
+   get_url:
+     url: "{{ fluxcd_download_url }}"
+     dest: "{{ fluxcd_download_tmp.path }}"
+     checksum: "sha256:{{ fluxcd_checksum_url }}"
+     force: yes
+   changed_when: false
+
+ - name: extract fluxcd from archive
+   become: yes
+   unarchive:
+     src: "{{ fluxcd_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
+     mode: 0755
 
 # Kubeseal
- - name: download kubeseal
-   become: yes
+ - name: create temporary file for kubeseal download
+   tempfile:
+     state: file
+     suffix: temp
+   register: kubeseal_download_tmp
+
+ - name: download kubeseal binary
    get_url:
      url: "{{ kubeseal_download_url }}"
-     dest: "/usr/local/bin/kubeseal"
+     dest: "{{ kubeseal_download_tmp.path }}"
+     checksum: "sha256:{{ kubeseal_checksum_url }}"
+     force: yes
+   changed_when: false
+
+ - name: extract kubeseal from archive
+   become: yes
+   unarchive:
+     src: "{{ kubeseal_download_tmp.path }}"
+     dest: /usr/local/bin
+     remote_src: yes
      mode: 0755
 
 # Kind
