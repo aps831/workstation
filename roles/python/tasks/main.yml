@@ -58,3 +58,4 @@
    pip:
     name:
      - setuptools
+     - testresources
