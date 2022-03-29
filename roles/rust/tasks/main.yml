@@ -1,12 +1,12 @@
 ---
- - name: install rust
-   shell: "curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path"
-   args:
-     executable: /bin/bash
 
- - name: define rust variables
-   become: yes
-   template:
-     src: rust.sh.j2
-     dest: /etc/profile.d/rust.sh
-     mode: 0755
+ - name: fetch rustup
+   ansible.builtin.uri:
+     url: https://sh.rustup.rs
+     return_content: yes
+   register: rustup_installer
+
+ - name: run rustup installer
+   ansible.builtin.shell:
+     cmd: sh -s -- -y
+     stdin: "{{ rustup_installer.content }}"
