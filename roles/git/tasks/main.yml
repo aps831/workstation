@@ -40,7 +40,9 @@
 
  - name: install pre-commit
    pip:
-     name: pre-commit
+     name:
+      - pre-commit
+      - virtualenv
      state: present
 
  # git-mkver
