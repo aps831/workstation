@@ -9,49 +9,10 @@
      mode: 0755
 
 # Lens
- - name: ensure group lens exists
+ - name: install lens
    become: yes
-   ansible.builtin.group:
-    name: lens
-    state: present
-
- - name: add the user {{ ansible_user }} to lens group
-   become: yes
-   ansible.builtin.user:
-    name: "{{ ansible_user }}"
-    groups: lens
-    append: true
-
- - name: create install directory
-   become: true
-   ansible.builtin.file:
-     path: "{{ lens_install_dir }}"
-     state: directory
-     owner: root
-     group: lens
-     mode: 0755
-
- - name: download lens
-   become: true
-   get_url:
-     url: "{{ lens_download_url }}"
-     dest: "{{ lens_install_dir }}/lens"
-     owner: root
-     group: lens
-     mode: 0775
-
- - name: create symbolic link
-   become: yes
-   ansible.builtin.file:
-     src: "{{ lens_install_dir }}/lens"
-     path: "/usr/local/bin/lens"
-     state: link
-
- - name: add lens shortcut
-   become: yes
-   template:
-     src=lens.desktop.j2
-     dest=/usr/share/applications/Lens.desktop
+   apt:
+      deb: "{{ lens_download_url }}"
 
 # Helm
  - name: download helm binary

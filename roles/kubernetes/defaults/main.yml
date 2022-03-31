@@ -2,9 +2,8 @@
 minikube_version: 1.23.2
 minikube_checksum: "sha256:752d91414793b6a88b309c806b65841ffa62a3bf07383146bd54afbf15de80b4"
 minikube_download_url: http://storage.googleapis.com/minikube/releases/v{{ minikube_version }}/minikube-linux-amd64
-lens_version: 5.4.4
-lens_install_dir: /opt/lens
-lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}-latest.20211001.2.x86_64.AppImage
+lens_version: 5.4.4-latest.20220325.1 # https://k8slens.dev/
+lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}.amd64.deb
 helm_version: 3.7.1
 helm_download_url: https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz
 helm_download_tmp: /tmp/helm.tar.gz
