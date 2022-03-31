@@ -90,3 +90,9 @@
      dest: /usr/local/bin
      remote_src: yes
      mode: 0755
+
+# delta
+ - name: install delta
+   become: yes
+   apt:
+      deb: "{{ delta_download_url }}"

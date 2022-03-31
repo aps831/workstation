@@ -2,3 +2,5 @@ git_mkrev_version: 1.2.2
 git_mkrev_url: https://github.com/idc101/git-mkver/releases/download/v{{ git_mkrev_version }}/git-mkver-linux-amd64-{{ git_mkrev_version }}.tar.gz
 gitleaks_version: 8.5.1
 gitleaks_url: https://github.com/zricethezav/gitleaks/releases/download/v{{ gitleaks_version }}/gitleaks_{{ gitleaks_version }}_linux_x64.tar.gz
+delta_version: 0.12.1
+delta_download_url: https://github.com/dandavison/delta/releases/download/{{ delta_version }}/git-delta_{{ delta_version }}_amd64.deb
