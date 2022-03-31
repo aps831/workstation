@@ -8,6 +8,7 @@
    vars:
      packages:
      - cron
+     - timeshift
 
  - name: install dependencies
    pip:

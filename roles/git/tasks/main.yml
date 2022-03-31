@@ -8,7 +8,7 @@
      state: present
      update_cache: yes
 
- - name: install git
+ - name: install packages
    become: yes
    apt:
      name: "{{ packages }}"
@@ -17,6 +17,7 @@
      packages:
      - git
      - gitk
+     - meld
 
  - name: install bash-completion
    become: yes

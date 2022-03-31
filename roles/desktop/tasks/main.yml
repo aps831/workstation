@@ -1,6 +1,6 @@
 ---
 
- - name: install desktop packages
+ - name: install redshift
    become: yes
    apt:
      name: "{{ packages }}"
@@ -8,17 +8,6 @@
      packages:
      - redshift
      - redshift-gtk
-     - gddrescue
-     - dvdbackup
-     - secure-delete
-     - testdisk
-     - synaptic
-     - wget
-     - curl
-     - gparted
-     - smartmontools
-     - nload
-     - fzf
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"

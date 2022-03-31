@@ -5,16 +5,15 @@
    roles:
      - role: encryption
      - role: firewall
-     - role: swappiness
-     - role: smartctl
+     - role: maintenance
      - role: teamviewer
-     - role: apps
      - role: scripts
      - role: desktop
+     - role: multimedia
      - role: dropbox
      - role: fonts
      - role: shotwell
-     - role: webbrowsers
+     - role: web
      - role: virtualbox
      - role: apache2
      - role: printserver

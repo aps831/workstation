@@ -13,6 +13,7 @@
      - curl
      - gnupg-agent
      - software-properties-common
+     - jq
 
  - name: add docker apt key
    become: yes

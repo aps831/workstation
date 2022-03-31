@@ -13,30 +13,27 @@
      - role: nas
        vars:
          nas_password: "{{ vault_nas_password }}"
-     - role: swappiness
      - role: chezmoi
 
 # Admin
-     - role: smartctl
+     - role: maintenance
      - role: teamviewer
      - role: scripts
 
 # Desktop
-     - role: apps
      - role: breaktimer
      - role: desktop
      - role: dropbox
      - role: fonts
+     - role: multimedia
      - role: msteams
      - role: noson
-     - role: openshot
      - role: shotwell
-     - role: webbrowsers
+     - role: web
 
 # Programming Tools
      - role: atom
      - role: aws
-     - role: data
      - role: docs
      - role: eclipse
      - role: intellij

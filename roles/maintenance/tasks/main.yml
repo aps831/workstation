@@ -1,0 +1,25 @@
+---
+ - name: install packages
+   become: yes
+   apt:
+     name: "{{ packages }}"
+     state: present
+   vars:
+     packages:
+     - smartmontools
+     - gsmartcontrol
+     - synaptic
+     - gparted
+     - gddrescue
+     - dvdbackup
+     - testdisk
+     - smartmontools
+     - nload
+
+ - name: set value for swappiness
+   become: yes
+   blockinfile:
+     path: /etc/sysctl.conf
+     block: |
+       # Reduce the swap tendency
+       vm.swappiness = 10

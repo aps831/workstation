@@ -1,9 +1,0 @@
----
-
- - name: install openshot
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - openshot

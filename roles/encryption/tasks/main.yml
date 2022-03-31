@@ -12,6 +12,7 @@
      name: "{{ packages }}"
    vars:
      packages:
+     - secure-delete
      - nemo-seahorse
      - gnupg2
      - gnupg-agent
