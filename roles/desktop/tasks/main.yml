@@ -11,13 +11,14 @@
      - gddrescue
      - dvdbackup
      - secure-delete
-     - testdisk     
+     - testdisk
      - synaptic
      - wget
      - curl
      - gparted
      - smartmontools
-     - nload     
+     - nload
+     - fzf
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"
