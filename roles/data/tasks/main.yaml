@@ -15,7 +15,7 @@
      mode: 0666
      update_cache: yes
 
- - name: install packages
+ - name: install apt packages
    become: yes
    apt:
      name: "{{ packages }}"
@@ -23,3 +23,8 @@
      packages:
      - yq
      - jq
+
+ - name: install python packages
+   pip:
+     name: http-prompt
+     state: present
