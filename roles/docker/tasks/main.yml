@@ -67,34 +67,28 @@
 #
 # Docker Compose
 #
- - name: check current docker-compose version
-   command: docker-compose --version
-   register: docker_compose_current_version
-   changed_when: false
-   failed_when: false
 
- - name: delete existing docker-compose version if it is different
+ - name: ensure docker plugins parent directory exists
    become: yes
-   file:
-     path: "{{ docker_compose_path }}"
-     state: absent
-   when: >
-     docker_compose_current_version.stdout is defined
-     and docker_compose_version not in docker_compose_current_version.stdout
+   ansible.builtin.file:
+     path: "/usr/local/lib/docker"
+     state: directory
+     mode: '0755'
+
+ - name: ensure docker plugins directory exists
+   become: yes
+   ansible.builtin.file:
+     path: "/usr/local/lib/docker/cli-plugins"
+     state: directory
+     mode: '0755'
 
  - name: install docker compose
    become: yes
    get_url:
-     url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
-     dest: "{{ docker_compose_path }}"
-     mode: 0755
-
- - name: install docker compose bash completion
-   become: yes
-   get_url:
-     url: https://raw.githubusercontent.com/docker/compose/{{ docker_compose_version }}/contrib/completion/bash/docker-compose
-     dest: /etc/bash_completion.d/docker-compose
-     mode: 0755
+     url: "{{ docker_compose_download_url }}"
+     dest: "/usr/local/lib/docker/cli-plugins/docker-compose"
+     checksum: "sha256:{{ docker_compose_sha256_url }}"
+     mode: '0755'
 
 #
 # Firewall
