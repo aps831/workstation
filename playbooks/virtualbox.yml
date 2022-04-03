@@ -27,7 +27,6 @@
      - role: msteams
      - role: noson
      - role: shotwell
-     - role: teams
      - role: web
 
 # Backup

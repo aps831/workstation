@@ -1,4 +1,5 @@
 ---
+
  - name: set gpg key
    become: yes
    apt_key:
@@ -14,6 +15,6 @@
 
  - name: install teams
    become: yes
-   apt:     
+   apt:
      name: teams
      state: present
