@@ -1,32 +1,49 @@
 ---
+
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
  - name: test if ddlog already installed
    stat:
-     path: /home/{{ ansible_user }}/.ddlog
+     path: /home/{{ ansible_user }}/.ddlog/ddlog-{{ ddlog_version }}
    register: ddlog_result
 
  - name: create ddlog directory
    file:
-    path: /home/{{ ansible_user }}/.ddlog/
+    path: /home/{{ ansible_user }}/.ddlog/ddlog-{{ ddlog_version }}
     state: directory
     mode: '0755'
 
  - name: download ddlog distribution
    get_url:
      url: "{{ ddlog_download_url }}"
-     dest: "{{ ddlog_download_tmp }}"
+     dest: "{{ tmp_dir.path }}"
    changed_when: false
    when: not ddlog_result.stat.exists
 
  - name: extract from archive
    become: yes
    unarchive:
-     src: "{{ ddlog_download_tmp }}"
-     dest: /home/{{ ansible_user }}/.ddlog
+     src: "{{ tmp_dir.path }}/{{ ddlog_filename }}"
+     dest: /home/{{ ansible_user }}/.ddlog/ddlog-{{ ddlog_version }}
+     extra_opts: [--strip-components=1]
      remote_src: yes
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: 0744
    when: not ddlog_result.stat.exists
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "/home/{{ ansible_user }}/.ddlog/ddlog-{{ ddlog_version }}"
+     dest: "/home/{{ ansible_user }}/.ddlog/ddlog"
+     state: link
+     mode: '0755'
 
  - name: ensure user profile directory exists
    become: yes

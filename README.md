@@ -105,6 +105,7 @@ The following roles have version numbers defined within the role:
 
 * aws
 * chezmoi
+* ddlog
 * docker
 * duplicacy
 * eclipse

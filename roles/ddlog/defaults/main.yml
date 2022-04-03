@@ -1,3 +1,5 @@
 ---
-ddlog_download_url: https://github.com/vmware/differential-datalog/releases/download/v0.48.2/ddlog-v0.48.2-20210913164823-Linux.tar.gz
-ddlog_download_tmp: /tmp/ddlog.tar.gz
+ddlog_version: 1.2.3
+ddlog_timestamp: 20211213235218
+ddlog_filename: ddlog-v{{ ddlog_version }}-{{ ddlog_timestamp }}-Linux.tar.gz
+ddlog_download_url: https://github.com/vmware/differential-datalog/releases/download/v{{ ddlog_version }}/{{ ddlog_filename }}
