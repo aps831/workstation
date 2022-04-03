@@ -52,6 +52,8 @@
      src: "{{ tflint_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # terraform docs
@@ -74,28 +76,8 @@
      src: "{{ terraform_docs_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
-     mode: 0755
-
-# terraform docs
- - name: create temporary file for terraform docs download
-   tempfile:
-     state: file
-     suffix: temp
-   register: terraform_docs_download_tmp
-
- - name: download terraform docs binary
-   get_url:
-     url: "{{ terraform_docs_url }}"
-     dest: "{{ terraform_docs_download_tmp.path }}"
-     force: yes
-   changed_when: false
-
- - name: extract terraform doc from archive
-   become: yes
-   unarchive:
-     src: "{{ terraform_docs_download_tmp.path }}"
-     dest: /usr/local/bin
-     remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # tfsec
@@ -112,6 +94,8 @@
    file:
      path: /usr/local/bin/tfsec
      state: file
+     owner: root
+     group: root
      mode: 0755
 
 # terragrunt
@@ -128,4 +112,6 @@
    file:
      path: /usr/local/bin/terragrunt
      state: file
+     owner: root
+     group: root
      mode: 0755
