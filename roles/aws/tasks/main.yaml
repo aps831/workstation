@@ -10,16 +10,17 @@
    become: yes
    get_url:
      url: "{{ awscli_download_url }}"
-     dest: "{{ aws_tmpdir.path }}/awscliv2.zip"
+     dest: "{{ aws_tmpdir.path }}"
    changed_when: false
 
  - name: extract awscli installer from archive
    become: yes
    unarchive:
-     src: "{{ aws_tmpdir.path }}/awscliv2.zip"
+     src: "{{ aws_tmpdir.path }}/{{ awscli_filename }}"
      dest: "{{ aws_tmpdir.path }}"
      remote_src: yes
-     mode: 0744
+     owner: root
+     group: root
 
  - name: test if awscli already installed
    become: yes
@@ -70,7 +71,9 @@
      src: "{{ aws_sam_tmpdir.path }}/aws-sam-cli-linux-x86_64.zip"
      dest: "{{ aws_sam_tmpdir.path }}"
      remote_src: yes
-     mode: 0744
+     owner: root
+     group: root
+     mode: 0755
 
  - name: test if aws sam cli already installed
    become: yes
@@ -117,13 +120,15 @@
    become: yes
    get_url:
      url: "{{ iam_live_download_url }}"
-     dest: "{{ iam_live_tmpdir.path }}/iam_live.zip"
+     dest: "{{ iam_live_tmpdir.path }}"
    changed_when: false
 
  - name: extract iamlive from archive
    become: yes
    unarchive:
-     src: "{{ iam_live_tmpdir.path }}/iam_live.zip"
+     src: "{{ iam_live_tmpdir.path }}/{{ iam_live_filename }}"
      dest: /usr/local/bin/
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
