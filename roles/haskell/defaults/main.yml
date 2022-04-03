@@ -1,2 +1,1 @@
-stack_script_url: https://get.haskellstack.org/
-stack_script_tmp: /tmp/haskell.sh
+stack_version: 2.7.5
