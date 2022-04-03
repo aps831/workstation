@@ -45,4 +45,6 @@
      include:
        - act
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
