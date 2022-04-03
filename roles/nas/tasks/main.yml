@@ -9,20 +9,20 @@
      - libsecret-tools
 
  - name: install script for mounting
-   become: yes
    template:
+     src: mount_odin_local.sh.j2
+     dest: /home/{{ ansible_user }}/.local/bin/mount-odin-local.sh
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
-     mode: a+x
-     src: mount_odin_local.sh.j2
-     dest: /usr/local/bin/mount_odin_local.sh
+     mode: '0755'
 
  - name: add odin autostart
    template:
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
      src: odin.desktop.j2
      dest: /home/{{ ansible_user }}/.config/autostart/odin.desktop
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: '0755'
 
  - name: add {{ nas_host }} password to keyring
    shell: secret-tool store --label='{{ nas_host }}' server {{ nas_host }} user {{ ansible_user }}
