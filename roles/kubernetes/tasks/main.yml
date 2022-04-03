@@ -34,6 +34,8 @@
    unarchive:
      src: "{{ tmp_dir.path }}/{{ helm_filename }}"
      dest: "{{ tmp_dir.path }}"
+     owner: root
+     group: root
      remote_src: yes
 
  - name: copy helm file to bin
@@ -41,6 +43,8 @@
    copy:
      src: "{{ tmp_dir.path }}/linux-amd64/helm"
      dest: /usr/local/bin
+     owner: root
+     group: root
      mode: 0755
 
  - name: install helm secrets

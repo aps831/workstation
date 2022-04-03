@@ -188,5 +188,7 @@
    unarchive:
      src: "{{ tmp_dir.path }}/{{ docker_credential_helper_filename }}"
      dest: "{{ docker_credential_helper_install_dir }}"
+     owner: root
+     group: root
      mode: 0755
      remote_src: yes

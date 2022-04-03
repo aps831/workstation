@@ -48,7 +48,6 @@
    get_url:
      url: "{{ owasp_download_url }}"
      dest: "{{ tmp_dir.path }}"
-     mode: 0755
    when: not owasp_install.stat.exists
 
  - name: extract from archive

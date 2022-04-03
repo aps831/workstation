@@ -34,7 +34,7 @@
      state: directory
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u+rwx,g-rwx,o-rwx
+     mode: '0700'
      recurse: yes
 
  - name: create temporary directory for backup files
@@ -55,7 +55,7 @@
      dest: "/home/{{ backup_user }}/.duplicacy/preferences"
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u+rwx,g-rwx,o-rwx
+     mode: '0600'
 
  - name: write duplicacy preferences to temporary directory
    become: yes
@@ -73,7 +73,7 @@
      dest: "/home/{{ backup_user }}/.duplicacy/filters"
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u+rwx,g-rwx,o-rwx
+     mode: '0600'
 
  - name: write duplicacy filters to temporary directory
    become: yes
@@ -92,7 +92,7 @@
      state: directory
      owner: "root"
      group: "root"
-     mode: u=rwx,g=rwx,o=rwx
+     mode: '0755'
      recurse: yes
 
  - name: "create directory for {{ backup_user }} backup logs"
@@ -102,7 +102,7 @@
      state: directory
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u=rwx,g=rwx,o=rwx
+     mode: '0755'
      recurse: yes
 
  - name: "create directory for {{ backup_user }} backup test logs"
@@ -112,7 +112,7 @@
      state: directory
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u=rwx,g=rwx,o=rwx
+     mode: '0755'
      recurse: yes
 
 # Scripts
@@ -123,7 +123,7 @@
      dest: "/usr/local/sbin/{{ backup_user }}_backup.sh"
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u+rwx,g-rwx,o-rwx
+     mode: '0700'
 
  - name: "install {{ backup_user }} backup test script"
    become: yes
@@ -132,7 +132,7 @@
      dest: "/usr/local/sbin/{{ backup_user }}_backup_test.sh"
      owner: "{{ backup_user }}"
      group: "{{ backup_user }}"
-     mode: u+rwx,g-rwx,o-rwx
+     mode: '0700'
 
 # Services
  - name: "install {{ backup_user }} backup service"

@@ -20,7 +20,6 @@
      url: "{{ golang_download_url }}"
      checksum: "sha256:{{ golang_checksum }}"
      dest: "{{ tmp_dir.path }}"
-     mode: 0755
    when: golang_install_dir.stat.isdir is not defined
 
  - name: create directory for installation
@@ -36,6 +35,9 @@
      src: "{{ tmp_dir.path }}/{{ golang_download_filename }}"
      dest: "/usr/local/go-{{ golang_version }}"
      remote_src: yes
+     owner: root
+     group: root
+     mode: 0755
    when: golang_install_dir.stat.isdir is not defined
 
  - name: create symbolic link
