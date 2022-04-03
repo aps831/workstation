@@ -1,6 +1,6 @@
 ---
-golang_version: 1.14.2
-golang_checksum: "sha256:6272d6e940ecb71ea5636ddb5fab3933e087c1356173c61f4a803895e947ebb3"
+golang_version: 1.18
 golang_download_filename: go{{ golang_version }}.linux-amd64.tar.gz
-golang_download_url: https://dl.google.com/go/{{ golang_download_filename }}
-golang_install_dir: /usr/local/
+golang_download_url: https://go.dev/dl/{{ golang_download_filename }}
+# https://go.dev/dl/
+golang_checksum: "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f" #pragma: allowlist secret

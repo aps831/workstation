@@ -1,25 +1,50 @@
 ---
+
+ - name: test if version already installed
+   become: yes
+   ansible.builtin.stat:
+     path: "/usr/local/go-{{ golang_version }}"
+   register: golang_install_dir
+
  - name: create temporary build directory
    tempfile:
      state: directory
      suffix: build
    register: tmp_dir
+   when: golang_install_dir.stat.isdir is not defined
    changed_when: false
 
  - name: download golang
    become: yes
    get_url:
      url: "{{ golang_download_url }}"
-     checksum: "{{ golang_checksum }}"
+     checksum: "sha256:{{ golang_checksum }}"
      dest: "{{ tmp_dir.path }}"
      mode: 0755
+   when: golang_install_dir.stat.isdir is not defined
+
+ - name: create directory for installation
+   become: yes
+   ansible.builtin.file:
+    path: "/usr/local/go-{{ golang_version }}"
+    state: directory
+    mode: '0755'
 
  - name: unpack golang
    become: yes
    unarchive:
      src: "{{ tmp_dir.path }}/{{ golang_download_filename }}"
-     dest: "{{ golang_install_dir }}"
+     dest: "/usr/local/go-{{ golang_version }}"
      remote_src: yes
+   when: golang_install_dir.stat.isdir is not defined
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "/usr/local/go-{{ golang_version }}/go"
+     dest: "/usr/local/go"
+     state: link
+     mode: '0755'
 
  - name: define global golang variables
    become: yes
