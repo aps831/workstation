@@ -6,6 +6,8 @@
      url: "{{ minikube_download_url }}"
      checksum: "{{ minikube_checksum }}"
      dest: /usr/local/bin/minikube
+     owner: root
+     group: root
      mode: 0755
 
 # Lens
@@ -15,25 +17,30 @@
       deb: "{{ lens_download_url }}"
 
 # Helm
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
  - name: download helm binary
    get_url:
      url: "{{ helm_download_url }}"
-     dest: "{{ helm_download_tmp }}"
+     dest: "{{ tmp_dir.path }}"
    changed_when: false
 
  - name: extract from archive
-   become: yes
    unarchive:
-     src: "{{ helm_download_tmp }}"
-     dest: /tmp
+     src: "{{ tmp_dir.path }}/{{ helm_filename }}"
+     dest: "{{ tmp_dir.path }}"
      remote_src: yes
 
  - name: copy helm file to bin
    become: yes
    copy:
-     src: /tmp/linux-amd64/helm
+     src: "{{ tmp_dir.path }}/linux-amd64/helm"
      dest: /usr/local/bin
-     remote_src: yes
      mode: 0755
 
  - name: install helm secrets
@@ -49,6 +56,8 @@
    get_url:
      url: "{{ helmfile_download_url }}"
      dest: /usr/local/bin/helmfile
+     owner: root
+     group: root
      mode: 0755
 
 # Sops
@@ -76,8 +85,11 @@
    become: yes
    unarchive:
      src: "{{ fluxcd_download_tmp.path }}"
+     include: flux
      dest: /usr/local/bin
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # Kubeseal
@@ -99,8 +111,11 @@
    become: yes
    unarchive:
      src: "{{ kubeseal_download_tmp.path }}"
+     include: kubeseal
      dest: /usr/local/bin
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # Kind
@@ -109,5 +124,7 @@
    get_url:
      url: "{{ kind_download_url }}"
      dest: "/usr/local/bin/kind"
+     owner: root
+     group: root
      mode: 0755
 

@@ -5,8 +5,8 @@ minikube_download_url: http://storage.googleapis.com/minikube/releases/v{{ minik
 lens_version: 5.4.4-latest.20220325.1 # https://k8slens.dev/
 lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}.amd64.deb
 helm_version: 3.7.1
-helm_download_url: https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz
-helm_download_tmp: /tmp/helm.tar.gz
+helm_filename: helm-v{{ helm_version }}-linux-amd64.tar.gz
+helm_download_url: https://get.helm.sh/{{ helm_filename }}
 helmfile_version: 0.143.5
 helmfile_download_url: https://github.com/roboll/helmfile/releases/download/v{{ helmfile_version }}/helmfile_linux_amd64
 helm_secrets_version: 3.9.1
