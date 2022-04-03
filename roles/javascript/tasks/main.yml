@@ -45,3 +45,21 @@
    shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm alias default $(nvm current)"
    args:
      executable: /bin/bash
+
+ - name: ensure user profile directory exists
+   become: yes
+   ansible.builtin.file:
+     dest: /home/{{ ansible_user }}/.profile.d
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0755
+
+ - name: define user nvm variables
+   become: yes
+   template:
+     src: user_nvm.sh.j2
+     dest: /home/{{ ansible_user }}/.profile.d/nvm.sh
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0755

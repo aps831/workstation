@@ -21,9 +21,27 @@
      dest: "{{ golang_install_dir }}"
      remote_src: yes
 
- - name: define golang variables
+ - name: define global golang variables
    become: yes
    template:
-     src: golang.sh.j2
+     src: etc_golang.sh.j2
      dest: /etc/profile.d/golang.sh
+     mode: 0755
+
+ - name: ensure user profile directory exists
+   become: yes
+   ansible.builtin.file:
+     dest: /home/{{ ansible_user }}/.profile.d
+     state: directory
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0755
+
+ - name: define user golang variables
+   become: yes
+   template:
+     src: user_golang.sh.j2
+     dest: /home/{{ ansible_user }}/.profile.d/golang.sh
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
      mode: 0755

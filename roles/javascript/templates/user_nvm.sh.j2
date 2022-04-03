@@ -1,0 +1,23 @@
+#! /bin/bash
+if [ ! "$(type -t __init_nvm)" = function ]; then
+
+  # NVM doesn't like the symbolic link from /home
+  export NVM_DIR=$( readlink -f $HOME/.nvm/ )
+
+  # Bash completion
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+  # Define commands
+  declare -a __node_commands=('nvm' 'node' 'npm' 'npx' 'yarn' 'gulp' 'grunt' 'webpack' 'git')
+
+  # Definie initialisation function
+  function __init_nvm() {
+    for i in "${__node_commands[@]}"; do unalias $i; done
+    . "$NVM_DIR"/nvm.sh
+    unset __node_commands
+    unset -f __init_nvm
+  }
+
+  # Alias commands to initialisation function
+  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
+fi
