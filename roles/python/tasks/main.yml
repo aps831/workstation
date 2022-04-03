@@ -30,12 +30,6 @@
      - liblzma-dev
 
 # pyenv
- - name: test if pyenv already installed
-   stat:
-      path: "{{ pyenv_install_dir }}"
-   register: pyenv_install
-   changed_when: false
-
  - name: create pyenv folder
    become: yes
    file:
@@ -46,12 +40,16 @@
      group: "{{ ansible_user }}"
 
  - name: install pyenv
-   command: git clone https://github.com/pyenv/pyenv.git "{{ pyenv_install_dir }}"
-   when: not pyenv_install.stat.exists
+   git:
+   args:
+     repo: "https://github.com/pyenv/pyenv.git"
+     dest: "{{ pyenv_install_dir }}"
 
  - name: install pyenv-virtualenv
-   command: git clone https://github.com/pyenv/pyenv-virtualenv.git {{ pyenv_install_dir }}/plugins/pyenv-virtualenv
-   when: not pyenv_install.stat.exists
+   git:
+   args:
+     repo: "https://github.com/pyenv/pyenv-virtualenv.git"
+     dest: "{{ pyenv_install_dir }}/plugins/pyenv-virtualenv"
 
 # python dependencies
  - name: install python dependencies
