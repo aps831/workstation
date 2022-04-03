@@ -1,15 +1,22 @@
 ---
 
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
  - name: download binary
    get_url:
      url: "{{ elm_download_url }}"
-     dest: "{{ elm_download_tmp }}"
+     dest: "{{ tmp_dir.path }}"
    changed_when: false
 
  - name: extract from archive
    become: yes
    unarchive:
-     src: "{{ elm_download_tmp }}"
+     src: "{{ tmp_dir.path }}/{{ elm_filename }}"
      dest: /usr/local/bin
      remote_src: yes
      mode: 0755
