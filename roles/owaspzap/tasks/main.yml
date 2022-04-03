@@ -12,49 +12,72 @@
     groups: owaspzap
     append: true
 
- - name: create install directory
+ - name: check if owasp zap is already installed
+   become: yes
+   stat:
+     path: "{{ owasp_install_dir }}"
+   register: owasp_install
+
+ - name: create parent of install directory
    become: true
    ansible.builtin.file:
-     path: "{{ owaspzap_install_dir }}"
+     path: "{{ owasp_install_parent_dir }}"
      state: directory
      owner: root
      group: owaspzap
      mode: 0755
 
- - name: check if owasp zap is already installed
-   become: yes
-   stat:
-     path: /usr/local/bin/owaspzap
-   register: owasp_bin
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ owasp_install_dir }}"
+     state: directory
+     owner: root
+     group: owaspzap
+     mode: 0755
+
+ - name: create temporary build directory
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
 
  - name: download owasp zap
    become: true
    get_url:
      url: "{{ owasp_download_url }}"
-     dest: "{{ owaspzap_install_dir }}/owaspzap.tar.gz"
+     dest: "{{ tmp_dir.path }}"
      mode: 0755
-   when: owasp_bin.stat.islnk is not defined
+   when: not owasp_install.stat.exists
 
  - name: extract from archive
    become: yes
    unarchive:
-     src: "{{ owaspzap_install_dir }}/owaspzap.tar.gz"
-     dest: "{{ owaspzap_install_dir }}"
+     src: "{{ tmp_dir.path }}/{{ owasp_filename }}"
+     dest: "{{ owasp_install_dir }}"
      extra_opts: [--strip-components=1]
      remote_src: yes
      owner: root
      group: owaspzap
      mode: 0755
-   when: owasp_bin.stat.islnk is not defined
+   when: not owasp_install.stat.exists
 
  - name: create symbolic link
    become: yes
    file:
-     src: "{{ owaspzap_install_dir }}/zap.sh"
-     path: /usr/local/bin/owaspzap
+     src: "{{ owasp_install_dir }}"
+     path: "/opt/owaspzap"
      state: link
      mode: 0755
-   when: owasp_bin.stat.islnk is not defined
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "/opt/owaspzap/zap.sh"
+     path: "/usr/local/bin/owaspzap"
+     state: link
+     mode: 0755
 
  - name: add owasp zap shortcut
    become: yes
