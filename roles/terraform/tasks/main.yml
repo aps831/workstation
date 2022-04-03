@@ -74,6 +74,7 @@
    become: yes
    unarchive:
      src: "{{ terraform_docs_download_tmp.path }}"
+     include: "terraform-docs"
      dest: /usr/local/bin
      remote_src: yes
      owner: root
