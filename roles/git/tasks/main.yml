@@ -66,6 +66,8 @@
      src: "{{ git_mkrev_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # Gitleaks
@@ -89,6 +91,8 @@
      src: "{{ gitleaks_download_tmp.path }}"
      dest: /usr/local/bin
      remote_src: yes
+     owner: root
+     group: root
      mode: 0755
 
 # delta
