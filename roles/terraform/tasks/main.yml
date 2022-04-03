@@ -1,11 +1,5 @@
 ---
  # tfenv
- - name: test if tfenv already installed
-   stat:
-      path: "{{ tfenv_install_dir }}"
-   register: tfenv_install
-   changed_when: false
-
  - name: create tfenv folder
    file:
      path: "{{ tfenv_install_dir }}"
@@ -15,8 +9,10 @@
      group: "{{ ansible_user }}"
 
  - name: install tfenv
-   command: git clone https://github.com/tfutils/tfenv.git "{{ tfenv_install_dir }}"
-   when: not tfenv_install.stat.exists
+   git:
+   args:
+     repo: "https://github.com/tfutils/tfenv.git"
+     dest: "{{ tfenv_install_dir }}"
 
  - name: ensure user profile directory exists
    become: yes
