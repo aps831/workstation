@@ -1,4 +1,4 @@
  - name: Install semgrep
    pip:
-     name: semgrep
+     name: semgrep=={{ semgrep_version }}
      state: present
