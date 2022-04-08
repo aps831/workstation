@@ -1,15 +1,15 @@
  - name: Install run ansible core update script
    template:
-    src: run_ansible_core_update.{{ inventory_hostname }}.sh
-    dest: /home/{{ ansible_user }}/.local/bin/run-ansible-core-update.sh
+    src: run-ansible-core-update.{{ inventory_hostname }}
+    dest: /home/{{ ansible_user }}/.local/bin/run-ansible-core-update
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0744'
 
  - name: Install run ansible backup update script
    template:
-    src: run_ansible_backup_update.{{ inventory_hostname }}.sh
-    dest: /home/{{ ansible_user }}/.local/bin/run-ansible-backup-update.sh
+    src: run-ansible-backup-update.{{ inventory_hostname }}
+    dest: /home/{{ ansible_user }}/.local/bin/run-ansible-backup-update
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0744'
