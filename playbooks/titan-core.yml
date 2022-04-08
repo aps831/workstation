@@ -17,6 +17,7 @@
 
 # Admin
      - role: maintenance
+     - role: nvchecker
      - role: teamviewer
      - role: scripts
 

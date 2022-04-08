@@ -1,0 +1,61 @@
+# Github Releases
+tfsec_version: 1.15.0
+terraform_docs_version: 0.16.0
+tflint_version: 0.35.0
+terragrunt_version: 0.36.6
+gitleaks_version: 8.5.1
+git_mkrev_version: 1.2.2
+delta_version: 0.12.1
+owasp_version: 2.11.1
+docker_compose_version: 2.4.0
+docker_credential_helper_version: 0.6.4
+chezmoi_version: 2.10.1
+minikube_version: 1.23.2
+minikube_checksum: "sha256:752d91414793b6a88b309c806b65841ffa62a3bf07383146bd54afbf15de80b4"
+lens_version: 5.4.4-latest.20220325.1
+helm_version: 3.7.1
+kind_version: 0.11.1
+kubeseal_version: 0.17.3
+helmfile_version: 0.143.5
+sops_version: 3.7.1
+fluxcd_version: 0.28.4
+act_version: 0.2.26
+gogs_version: 0.12.6
+iam_live_version: 0.42.0
+ddlog_version: 1.2.3
+ddlog_timestamp: 20211213235218
+duplicacy_version: 2.7.2
+elm_version: 0.19.0
+jenkins_version: 2.249.3
+nexus_version: 3.33.0-01
+vagrant_version: 2.2.19
+
+# Git Installs
+nvm_version: 0.39.1
+tfenv_version: 2.2.3
+pyenv_version: 2.2.5
+pyenv_virtualenv_version: 1.1.5
+
+# Pip Installs
+psutil_version: 5.9.0
+molecule_version: 3.6.1
+localstack_version: 0.12.12
+boto3_version: 1.17.97
+botocore_version: 1.20.97
+pre_commit_version: 2.17.0
+virtualenv_version: 20.14.0
+nvchecker_version: 2.7
+structlog_version: 21.5.0
+tomli_version: 2.0.1
+appdirs_version: 1.4.4
+tornado_version: 6.1
+pycurl_version: 7.43.0.2
+setuptools_version: 61.2.0
+testresources_version: 2.0.1
+semgrep_version: 0.86.5
+http_prompt_version: 2.1.0
+
+# Other Installs
+eclipse_version: 2021-12
+intellij_version: 2021.3.3
+vbox_version: 6.1

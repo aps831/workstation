@@ -1,0 +1,12 @@
+#! /bin/bash
+TMPFILE=$(mktemp)
+trap 'rm "$TMPFILE"' EXIT
+
+read -sp 'Github personal access token with repo:public_repo permissions: ' GITHUB_TOKEN
+echo ""
+
+echo "[keys]" > $TMPFILE
+echo "github = \"$GITHUB_TOKEN\"" >> $TMPFILE
+
+nvchecker -c /etc/nvchecker/config_file.toml --logging warning --keyfile $TMPFILE
+nvcmp -c /etc/nvchecker/config_file.toml

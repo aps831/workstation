@@ -1,0 +1,37 @@
+ - name: install nvchecker
+   pip:
+     name:
+      - nvchecker=={{ nvchecker_version }}
+      - structlog=={{ structlog_version }}
+      - tomli=={{ tomli_version }}
+      - appdirs=={{ appdirs_version }}
+      - tornado=={{ tornado_version }}
+      - pycurl=={{ pycurl_version }}
+
+ - name: create config directory
+   become: yes
+   file:
+     path: "/etc/nvchecker"
+     mode: 0755
+     state: directory
+
+ - name: install script
+   become: yes
+   copy:
+     src: "new-version-check"
+     dest: "/home/{{ ansible_user }}/.local/bin/new-version-check"
+     mode: '0755'
+
+ - name: install config
+   become: yes
+   copy:
+     src: "config_file.toml"
+     dest: "/etc/nvchecker/config_file.toml"
+     mode: '0644'
+
+ - name: install old versions
+   become: yes
+   template:
+     src: "old_versions.json.j2"
+     dest: "/etc/nvchecker/old_versions.json"
+     mode: '0644'

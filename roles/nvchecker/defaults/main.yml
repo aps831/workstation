@@ -1,0 +1,6 @@
+nvchecker_version: 2.7
+structlog_version: 21.5.0
+tomli_version: 2.0.1
+appdirs_version: 1.4.4
+tornado_version: 6.1
+pycurl_version: 7.43.0.2

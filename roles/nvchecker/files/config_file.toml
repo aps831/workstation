@@ -1,0 +1,251 @@
+[__config__]
+oldver = "/etc/nvchecker/old_versions.json"
+newver = "/tmp/new_versions.json"
+
+# Github Releases
+
+[tfsec]
+source = "github"
+github = "aquasecurity/tfsec"
+use_latest_release = true
+
+[terraform-docs]
+source = "github"
+github = "terraform-docs/terraform-docs"
+use_latest_release = true
+
+[tflint]
+source = "github"
+github = "terraform-linters/tflint"
+use_latest_release = true
+
+[terragrunt]
+source = "github"
+github = "gruntwork-io/terragrunt"
+use_latest_release = true
+
+[gitleaks]
+source = "github"
+github = "zricethezav/gitleaks"
+use_latest_release = true
+
+[git-mkver]
+source = "github"
+github = "idc101/git-mkver"
+use_latest_release = true
+
+[delta]
+source = "github"
+github = "dandavison/delta"
+use_latest_release = true
+
+[zaproxy]
+source = "github"
+github = "zaproxy/zaproxy"
+use_latest_release = true
+
+[compose]
+source = "github"
+github = "docker/compose"
+use_latest_release = true
+
+[docker-credential-helpers]
+source = "github"
+github = "docker/docker-credential-helpers"
+use_latest_release = true
+
+[chezmoi]
+source = "github"
+github = "twpayne/chezmoi"
+use_latest_release = true
+
+[minikube]
+source = "github"
+github = "kubernetes/minikube"
+use_latest_release = true
+
+[lens]
+source = "github"
+github = "lensapp/lens"
+use_latest_release = true
+
+[helm]
+source = "github"
+github = "helm/helm"
+use_latest_release = true
+
+[kind]
+source = "github"
+github = "kubernetes-sigs/kind"
+use_latest_release = true
+
+[sealed-secrets]
+source = "github"
+github = "bitnami-labs/sealed-secrets"
+use_latest_release = true
+
+[helmfile]
+source = "github"
+github = "roboll/helmfile"
+use_latest_release = true
+
+[sops]
+source = "github"
+github = "mozilla/sops"
+use_latest_release = true
+
+[flux2]
+source = "github"
+github = "fluxcd/flux2"
+use_latest_release = true
+
+[act]
+source = "github"
+github = "nektos/act"
+use_latest_release = true
+
+[gogs]
+source = "github"
+github = "gogs/gogs"
+use_latest_release = true
+
+[iamlive]
+source = "github"
+github = "iann0036/iamlive"
+use_latest_release = true
+
+[differential-datalog]
+source = "github"
+github = "vmware/differential-datalog"
+use_latest_release = true
+
+[duplicacy]
+source = "github"
+github = "gilbertchen/duplicacy"
+use_latest_release = true
+
+[elm]
+source = "github"
+github = "elm/compiler"
+use_latest_release = true
+
+[jenkins]
+source = "github"
+github = "jenkinsci/jenkins"
+use_latest_release = true
+
+[nexus]
+source = "github"
+github = "sonatype/nexus-public"
+use_latest_release = true
+
+[vagrant]
+source = "github"
+github = "hashicorp/vagrant"
+use_max_tag = true
+
+# Git Installs
+
+[nvm]
+source = "github"
+github = "nvm-sh/nvm"
+use_latest_release = true
+
+[tfenv]
+source = "github"
+github = "tfutils/tfenv"
+use_latest_release = true
+
+[pyenv]
+source = "github"
+github = "pyenv/pyenv"
+use_latest_release = true
+
+[pyenv-virtualenv]
+source = "github"
+github = "pyenv/pyenv-virtualenv"
+use_latest_release = true
+
+# Pip Installs
+
+[psutil]
+source = "pypi"
+pypi = "psutil"
+
+[molecule]
+source = "pypi"
+pypi = "molecule"
+
+[localstack]
+source = "pypi"
+pypi = "localstack"
+
+[boto3]
+source = "pypi"
+pypi = "boto3"
+
+[botocore]
+source = "pypi"
+pypi = "botocore"
+
+[pre-commit]
+source = "pypi"
+pypi = "pre-commit"
+
+[virtualenv]
+source = "pypi"
+pypi = "virtualenv"
+
+[nvchecker]
+source = "pypi"
+pypi = "nvchecker"
+
+[structlog]
+source = "pypi"
+pypi = "structlog"
+
+[tomli]
+source = "pypi"
+pypi = "tomli"
+
+[appdirs]
+source = "pypi"
+pypi = "appdirs"
+
+[tornado]
+source = "pypi"
+pypi = "tornado"
+
+[pycurl]
+source = "pypi"
+pypi = "pycurl"
+
+[setuptools]
+source = "pypi"
+pypi = "setuptools"
+
+[testresources]
+source = "pypi"
+pypi = "testresources"
+
+[semgrep]
+source = "pypi"
+pypi = "semgrep"
+
+[http-prompt]
+source = "pypi"
+pypi = "http-prompt"
+
+# Other Installs
+
+[eclipse]
+source = "cmd"
+cmd = "wget -q -O - http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/technology/epp/downloads/release/release.xml | grep -Po '(?<=<present>).*(?=/R</present>)'"
+
+[intellij]
+source = "cmd"
+cmd = "wget -q -O - \"https://data.services.jetbrains.com/products/releases?code=IIU%2CIIC&latest=true&type=release\" | jq --raw-output '.IIC[0].version'"
+
+[vbox]
+source = "cmd"
+cmd = "wget -q -O - http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT | grep -Po '\\d+\\.\\d+(?=\\.)'"
