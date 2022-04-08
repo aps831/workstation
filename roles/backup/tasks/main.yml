@@ -13,8 +13,8 @@
  - name: install dependencies
    pip:
      name:
-       - boto3
-       - botocore
+       - boto3=={{ boto3_version }}
+       - botocore=={{ botocore_version }}
      state: present
 
 # AWS access and secret keys
