@@ -52,7 +52,7 @@
    ignore_errors: yes
 
  - name: install helm diff
-   command: helm plugin install https://github.com/databus23/helm-diff --version master
+   command: helm plugin install https://github.com/databus23/helm-diff --version v{{ helm_diff_version }}
    ignore_errors: yes
 
  - name: download helmfile binary
