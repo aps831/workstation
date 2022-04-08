@@ -44,14 +44,14 @@
    args:
      repo: "{{ pyenv_download_url }}"
      dest: "{{ pyenv_install_dir }}"
-     version: "{{ pyenv_version }}"
+     version: "v{{ pyenv_version }}"
 
  - name: install pyenv-virtualenv
    git:
    args:
      repo: "{{ pyenv_virtualenv_download_url }}"
      dest: "{{ pyenv_install_dir }}/plugins/pyenv-virtualenv"
-     version: "{{ pyenv_virtualenv_version }}"
+     version: "v{{ pyenv_virtualenv_version }}"
 
 # python dependencies
  - name: install python dependencies
