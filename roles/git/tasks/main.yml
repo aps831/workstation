@@ -42,8 +42,8 @@
  - name: install pre-commit
    pip:
      name:
-      - pre-commit
-      - virtualenv
+      - pre-commit=={{ pre_commit_version }}
+      - virtualenv=={{ virtualenv_version }}
      state: present
 
  # git-mkver
