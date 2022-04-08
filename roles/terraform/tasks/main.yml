@@ -11,8 +11,9 @@
  - name: install tfenv
    git:
    args:
-     repo: "https://github.com/tfutils/tfenv.git"
+     repo: "{{ tfenv_download_url }}"
      dest: "{{ tfenv_install_dir }}"
+     version: "{{ tfenv_version }}"
 
  - name: ensure user profile directory exists
    become: yes
