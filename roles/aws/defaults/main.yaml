@@ -1,3 +1,4 @@
+localstack_version: 0.12.12
 awscli_filename: awscli-exe-linux-x86_64.zip
 awscli_download_url: https://awscli.amazonaws.com/{{ awscli_filename }}
 awssamcli_download_url: https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip

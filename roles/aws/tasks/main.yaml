@@ -107,7 +107,7 @@
 # Localstack
  - name: install localstack
    pip:
-     name: localstack
+     name: localstack=={{ localstack_version }}
 
 # IAM Live
  - name: create temporary build directory for iam live
