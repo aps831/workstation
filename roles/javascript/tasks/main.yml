@@ -16,13 +16,13 @@
    git:
    args:
      repo: https://github.com/nvm-sh/nvm.git
-     dest: "{{ nvm.dir }}"
-     version: "{{ nvm.version }}"
+     dest: "{{ nvm_dir }}"
+     version: "v{{ nvm_version }}"
 
  - name: set permissions on nvm directory
    become: yes
    file:
-     path: "{{ nvm.dir }}"
+     path: "{{ nvm_dir }}"
      state: directory
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
@@ -30,19 +30,19 @@
    changed_when: False
 
  - name: follow symlink to nvm directory
-   shell: readlink -f {{ nvm.dir }}
-   register: nvm_dir
+   shell: readlink -f {{ nvm_dir }}
+   register: nvm_dir_install
    changed_when: False
 
  - name: install lts node version and latest npm version
-   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm install --lts --latest-npm"
+   shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm install --lts --latest-npm"
    args:
      executable: /bin/bash
    register: nvm_install_result
    changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
 
  - name: alias default node
-   shell: "source {{ nvm_dir.stdout }}/nvm.sh && nvm alias default $(nvm current)"
+   shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm alias default $(nvm current)"
    args:
      executable: /bin/bash
 
