@@ -10,8 +10,8 @@
 
  - name: install script for mounting
    template:
-     src: mount_odin_local.sh.j2
-     dest: /home/{{ ansible_user }}/.local/bin/mount-odin-local.sh
+     src: mount-odin-local.j2
+     dest: /home/{{ ansible_user }}/.local/bin/mount-odin-local
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: '0755'
