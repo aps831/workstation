@@ -1,3 +1,4 @@
 ---
+stoplight_version: 2.8.0-stable.7260.git-04f3365
 stoplight_install_dir: /opt/stoplight
-stoplight_download_url: https://github.com/stoplightio/studio/releases/latest/download/stoplight-studio-linux-x86_64.AppImage
+stoplight_download_url: https://github.com/stoplightio/studio/releases/download/v{{ stoplight_version }}/stoplight-studio-linux-x86_64.AppImage
