@@ -42,21 +42,23 @@
  - name: install pyenv
    git:
    args:
-     repo: "https://github.com/pyenv/pyenv.git"
+     repo: "{{ pyenv_download_url }}"
      dest: "{{ pyenv_install_dir }}"
+     version: "{{ pyenv_version }}"
 
  - name: install pyenv-virtualenv
    git:
    args:
-     repo: "https://github.com/pyenv/pyenv-virtualenv.git"
+     repo: "{{ pyenv_virtualenv_download_url }}"
      dest: "{{ pyenv_install_dir }}/plugins/pyenv-virtualenv"
+     version: "{{ pyenv_virtualenv_version }}"
 
 # python dependencies
  - name: install python dependencies
    pip:
     name:
-     - setuptools
-     - testresources
+     - setuptools=={{ setuptools_version }}
+     - testresources=={{ testresources_version }}
 
  - name: ensure user profile directory exists
    become: yes
