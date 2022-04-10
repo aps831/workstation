@@ -200,7 +200,7 @@
      state: started
      enabled: yes
 
-# Restore Backup
+# Config Backup
  - name: get current caller identity information
    amazon.aws.aws_caller_info:
      profile: "{{ backup_aws_profile_restore }}"
@@ -233,3 +233,11 @@
      profile: "{{ backup_aws_profile_restore }}"
      delete: true
 
+# Restore scripts
+ - name: Install restore backup script
+   ansible.builtin.copy:
+     src: restore-backup-from-odin.{{ inventory_hostname }}
+     dest: /home/{{ ansible_user }}/.local/bin/restore-backup-from-odin
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: '0744'
