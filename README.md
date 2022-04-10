@@ -103,7 +103,9 @@ mega.io file syncing is not installed automatically.  The downloads are availabl
 ## Specified Versions
 The following roles have version numbers defined within the role:
 
+* ansible
 * aws
+* backup
 * chezmoi
 * ddlog
 * docker
@@ -112,25 +114,28 @@ The following roles have version numbers defined within the role:
 * elm
 * git
 * github
-* golang
 * gogs
+* haskell
+* intellij
 * javascript
+* jenkins
 * kubernetes
 * nexus
+* nvchecker
 * owaspzap
-* stoplight
+* python
+* semgrep
 * terraform
 * vagrant
 * virtualbox
+* web
 
 New versions are tracked using [newreleases.io](https://newreleases.io/) except for the following:
 
 * eclipse
-* golang
-* kubernetes - minikube
-* kubernetes - lens
-* kubernetes - helm
-* kubernetes - kind
-* nexus
-* vagrant
-* virtualbox - extension pack
+* intellij
+* virtualbox
+
+Version numbers are also defined centrally in `inventory/group_vars/all/vars.yaml`.  These take precedence over the default values in the roles.
+
+A check for new versions can be performed by running `new-version-check`.
