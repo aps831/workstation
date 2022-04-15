@@ -1,0 +1,17 @@
+---
+ - name: install commitizen
+   become: yes
+   community.general.npm:
+     name: commitizen
+     production: yes
+     global: yes
+     state: latest
+
+ - name: install conventional-changelog
+   become: yes
+   community.general.npm:
+     name: cz-conventional-changelog
+     production: yes
+     global: yes
+     state: latest
+
