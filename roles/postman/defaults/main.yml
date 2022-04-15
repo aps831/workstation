@@ -1,4 +1,4 @@
 ---
-postman_redis_url: 'https://dl.pstmn.io/download/latest/linux64'
+postman_download_url: 'https://dl.pstmn.io/download/latest/linux64'
+postman_redis_filename: 'Postman-linux-x64-latest.tar.gz'
 postman_install_dir: '/opt/postman'
-postman_download_dir: "/tmp/postman"
