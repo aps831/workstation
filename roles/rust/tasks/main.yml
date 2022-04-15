@@ -10,6 +10,16 @@
    ansible.builtin.shell:
      cmd: sh -s -- -y --no-modify-path
      stdin: "{{ rustup_installer.content }}"
+   register: rustup_installer
+   changed_when: '"unchanged" not in rustup_installer.stdout'
+
+ - name: run rustup update
+   ansible.builtin.shell:
+     cmd: rustup self update
+   args:
+     executable: /bin/bash
+   register: rustup_selfupdate
+   changed_when: '"rustup unchanged" not in rustup_selfupdate.stdout'
 
  - name: ensure user profile directory exists
    become: yes
