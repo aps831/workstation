@@ -253,3 +253,7 @@ cmd = "wget -q -O - http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT 
 [node]
 source = "cmd"
 cmd = "wget -q -O - https://nodejs.org/download/release/index.json | jq -r -c 'map( select( .lts != false ) ) | .[0].version' | awk -F. '{ print $1 }' | cut -c 2-"
+
+[golang]
+source = "cmd"
+cmd = "wget -q -O - https://go.dev/VERSION?m=text | grep -Po '(?<=go)\\d+\\.\\d+'"

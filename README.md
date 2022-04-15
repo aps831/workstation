@@ -133,6 +133,7 @@ The following roles have version numbers defined within the role:
 New versions are tracked using [newreleases.io](https://newreleases.io/) except for the following:
 
 * eclipse
+* golang
 * intellij
 * node
 * virtualbox
