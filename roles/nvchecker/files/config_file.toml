@@ -166,6 +166,11 @@ source = "github"
 github = "pyenv/pyenv-virtualenv"
 use_latest_release = true
 
+[goenv]
+source = "github"
+github = "syndbg/goenv"
+use_latest_release = true
+
 # Pip Installs
 
 [psutil]

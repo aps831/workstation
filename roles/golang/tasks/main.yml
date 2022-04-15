@@ -1,5 +1,8 @@
 ---
 
+#
+# System Go
+#
  - name: test if version already installed
    become: yes
    ansible.builtin.stat:
@@ -55,6 +58,26 @@
      dest: /etc/profile.d/golang.sh
      mode: 0755
 
+#
+# Goenv
+#
+
+ - name: create goenv folder
+   become: yes
+   file:
+     path: "{{ goenv_install_dir }}"
+     state: directory
+     mode: 0755
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+
+ - name: install goenv
+   git:
+   args:
+     repo: "{{ goenv_download_url }}"
+     dest: "{{ goenv_install_dir }}"
+     version: "{{ goenv_version }}"
+
  - name: ensure user profile directory exists
    become: yes
    ansible.builtin.file:
@@ -72,3 +95,11 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: 0755
+
+ - name: set system as global version
+   copy:
+     src: "version"
+     dest: "{{ goenv_install_dir }}/version"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0644

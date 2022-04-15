@@ -1,3 +1,9 @@
 #! /bin/bash
+export GOENV_ROOT="$HOME/.goenv"
+PATH=$GOENV_ROOT/bin:$PATH
+
+eval "$(goenv init -)"
+
 export GOPATH=$HOME/.go
-PATH=$PATH:$GOPATH/bin
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
