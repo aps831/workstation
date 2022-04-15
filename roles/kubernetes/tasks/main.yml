@@ -1,23 +1,78 @@
 ---
 # Minikube
+
+ - name: download minikube checksum
+   ansible.builtin.uri:
+     url: "{{ minikube_checksum_url }}"
+     return_content: yes
+   register: minikube_checksum
+
  - name: download minikube
    become: true
    get_url:
      url: "{{ minikube_download_url }}"
-     checksum: "{{ minikube_checksum }}"
      dest: /usr/local/bin/minikube
+     checksum: "sha256:{{ minikube_checksum.content }}"
      owner: root
      group: root
      mode: 0755
 
 # Lens
- - name: install lens
+ - name: ensure group lens exists
    become: yes
-   apt:
-      deb: "{{ lens_download_url }}"
+   ansible.builtin.group:
+     name: lens
+     state: present
+
+ - name: add the user {{ ansible_user }} to lens group
+   become: yes
+   ansible.builtin.user:
+     name: "{{ ansible_user }}"
+     groups: lens
+     append: true
+
+ - name: check if lens is already installed
+   become: yes
+   stat:
+     path: "{{ lens_install_dir }}"
+   register: lens_dir
+
+ - name: create install directory
+   become: true
+   ansible.builtin.file:
+     path: "{{ lens_install_dir }}"
+     state: directory
+     owner: root
+     group: lens
+     mode: 0755
+   when: not lens_dir.stat.exists
+
+ - name: download lens
+   become: true
+   get_url:
+     url: "{{ lens_download_url }}"
+     dest: "{{ lens_install_dir }}/lens"
+     owner: root
+     group: lens
+     mode: 0755
+   when: not lens_dir.stat.exists
+
+ - name: create symbolic link
+   become: yes
+   ansible.builtin.file:
+     src: "{{ lens_install_dir }}/lens"
+     path: "/usr/local/bin/lens"
+     state: link
+
+ - name: add lens shortcut
+   become: yes
+   template:
+     src: lens.desktop.j2
+     dest: /usr/share/applications/lens.desktop
 
 # Helm
  - name: create temporary build directory
+   become: yes
    tempfile:
      state: directory
      suffix: build
@@ -25,12 +80,15 @@
    changed_when: false
 
  - name: download helm binary
+   become: yes
    get_url:
      url: "{{ helm_download_url }}"
      dest: "{{ tmp_dir.path }}"
+     checksum: "sha256:{{ helm_checksum_url }}"
    changed_when: false
 
  - name: extract from archive
+   become: yes
    unarchive:
      src: "{{ tmp_dir.path }}/{{ helm_filename }}"
      dest: "{{ tmp_dir.path }}"
@@ -46,6 +104,7 @@
      owner: root
      group: root
      mode: 0755
+     remote_src: yes
 
  - name: install helm secrets
    command: helm plugin install https://github.com/jkroepke/helm-secrets --version v{{ helm_secrets_version }}
@@ -128,6 +187,7 @@
    get_url:
      url: "{{ kind_download_url }}"
      dest: "/usr/local/bin/kind"
+     checksum: "sha256:{{ kind_checksum_url }}"
      owner: root
      group: root
      mode: 0755

@@ -10,11 +10,9 @@ owasp_version: 2.11.1
 docker_compose_version: 2.4.0
 docker_credential_helper_version: 0.6.4
 chezmoi_version: 2.10.1
-minikube_version: 1.23.2
-minikube_checksum: "sha256:752d91414793b6a88b309c806b65841ffa62a3bf07383146bd54afbf15de80b4"
-lens_version: 5.4.4-latest.20220325.1
+minikube_version: 1.25.2
 helm_version: 3.7.1
-kind_version: 0.11.1
+kind_version: 0.12.0
 kubeseal_version: 0.17.3
 helmfile_version: 0.143.5
 sops_version: 3.7.1

@@ -1,12 +1,13 @@
 ---
-minikube_version: 1.23.2
-minikube_checksum: "sha256:752d91414793b6a88b309c806b65841ffa62a3bf07383146bd54afbf15de80b4"
-minikube_download_url: http://storage.googleapis.com/minikube/releases/v{{ minikube_version }}/minikube-linux-amd64
-lens_version: 5.4.4-latest.20220325.1 # https://k8slens.dev/
-lens_download_url: https://api.k8slens.dev/binaries/Lens-{{ lens_version }}.amd64.deb
+minikube_version: 1.25.2
+minikube_checksum_url: https://github.com/kubernetes/minikube/releases/download/v{{ minikube_version }}/minikube-linux-amd64.sha256
+minikube_download_url: https://github.com/kubernetes/minikube/releases/download/v{{ minikube_version }}/minikube-linux-amd64
+lens_download_url: https://api.k8slens.dev/binaries/Lens-5.4.5-latest.20220405.1.x86_64.AppImage
+lens_install_dir: /opt/lens
 helm_version: 3.7.1
 helm_filename: helm-v{{ helm_version }}-linux-amd64.tar.gz
 helm_download_url: https://get.helm.sh/{{ helm_filename }}
+helm_checksum_url: https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz.sha256sum
 helmfile_version: 0.143.5
 helmfile_download_url: https://github.com/roboll/helmfile/releases/download/v{{ helmfile_version }}/helmfile_linux_amd64
 helm_secrets_version: 3.9.1
@@ -16,8 +17,9 @@ sops_download_url: https://github.com/mozilla/sops/releases/download/v{{ sops_ve
 kubeseal_version: 0.17.3
 kubeseal_download_url: https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-linux-amd64.tar.gz
 kubeseal_checksum_url: https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/sealed-secrets_{{ kubeseal_version }}_checksums.txt
-kind_version: 0.11.1
-kind_download_url: https://kind.sigs.k8s.io/dl/v{{ kind_version }}/kind-linux-amd64
+kind_version: 0.12.0
+kind_download_url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64
+kind_checksum_url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64.sha256sum
 fluxcd_version: 0.28.4
 fluxcd_download_url: https://github.com/fluxcd/flux2/releases/download/v{{ fluxcd_version }}/flux_{{ fluxcd_version }}_linux_amd64.tar.gz
 fluxcd_checksum_url: https://github.com/fluxcd/flux2/releases/download/v{{ fluxcd_version }}/flux_{{ fluxcd_version }}_checksums.txt

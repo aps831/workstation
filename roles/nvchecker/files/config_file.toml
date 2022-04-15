@@ -64,11 +64,6 @@ source = "github"
 github = "kubernetes/minikube"
 use_latest_release = true
 
-[lens]
-source = "github"
-github = "lensapp/lens"
-use_latest_release = true
-
 [helm]
 source = "github"
 github = "helm/helm"
