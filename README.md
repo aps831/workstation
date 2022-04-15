@@ -134,6 +134,7 @@ New versions are tracked using [newreleases.io](https://newreleases.io/) except 
 
 * eclipse
 * intellij
+* node
 * virtualbox
 
 Version numbers are also defined centrally in `inventory/group_vars/all/vars.yaml`.  These take precedence over the default values in the roles.

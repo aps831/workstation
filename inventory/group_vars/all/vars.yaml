@@ -59,3 +59,4 @@ http_prompt_version: 2.1.0
 eclipse_version: 2021-12
 intellij_version: 2021.3.3
 vbox_version: 6.1
+node_version: 16

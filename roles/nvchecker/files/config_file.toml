@@ -249,3 +249,7 @@ cmd = "wget -q -O - \"https://data.services.jetbrains.com/products/releases?code
 [vbox]
 source = "cmd"
 cmd = "wget -q -O - http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT | grep -Po '\\d+\\.\\d+(?=\\.)'"
+
+[node]
+source = "cmd"
+cmd = "wget -q -O - https://nodejs.org/download/release/index.json | jq -r -c 'map( select( .lts != false ) ) | .[0].version' | awk -F. '{ print $1 }' | cut -c 2-"

@@ -1,3 +1,4 @@
 ---
 nvm_dir: /home/{{ ansible_user }}/.nvm
 nvm_version: 0.39.1
+node_version: 16
