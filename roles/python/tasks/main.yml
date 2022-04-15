@@ -46,12 +46,13 @@
      dest: "{{ pyenv_install_dir }}"
      version: "v{{ pyenv_version }}"
 
- - name: install pyenv-virtualenv
-   git:
-   args:
-     repo: "{{ pyenv_virtualenv_download_url }}"
-     dest: "{{ pyenv_install_dir }}/plugins/pyenv-virtualenv"
-     version: "v{{ pyenv_virtualenv_version }}"
+ - name: set system as global version
+   copy:
+     src: "version"
+     dest: "{{ pyenv_install_dir }}/version"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0644
 
 # python dependencies
  - name: install python dependencies
@@ -59,6 +60,12 @@
     name:
      - setuptools=={{ setuptools_version }}
      - testresources=={{ testresources_version }}
+
+# pipenv
+ - name: install pipenv
+   pip:
+     name: pipenv
+     version: "{{ pipenv_version }}"
 
  - name: ensure user profile directory exists
    become: yes

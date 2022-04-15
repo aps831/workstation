@@ -161,11 +161,6 @@ source = "github"
 github = "pyenv/pyenv"
 use_latest_release = true
 
-[pyenv-virtualenv]
-source = "github"
-github = "pyenv/pyenv-virtualenv"
-use_latest_release = true
-
 [goenv]
 source = "github"
 github = "syndbg/goenv"
@@ -240,6 +235,10 @@ pypi = "semgrep"
 [http-prompt]
 source = "pypi"
 pypi = "http-prompt"
+
+[pipenv]
+source = "pypi"
+pypi = "pipenv"
 
 # Other Installs
 
