@@ -11,5 +11,8 @@
 
  - name: upgrade stack
    become: yes
-   shell: stack upgrade --binary-only --binary-version {{ stack_version }}
-
+   shell: stack upgrade
+   args:
+     executable: /bin/bash
+   register: stack_upgrade
+   changed_when: '"Version" in stack_upgrade.stdout'
