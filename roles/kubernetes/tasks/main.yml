@@ -107,13 +107,20 @@
      remote_src: yes
 
  - name: install helm secrets
-   command: helm plugin install https://github.com/jkroepke/helm-secrets --version v{{ helm_secrets_version }}
+   command: helm plugin install https://github.com/jkroepke/helm-secrets
    ignore_errors: yes
+
+ - name: update helm secrets
+   command: helm plugin update secrets
 
  - name: install helm diff
-   command: helm plugin install https://github.com/databus23/helm-diff --version v{{ helm_diff_version }}
+   command: helm plugin install https://github.com/databus23/helm-diff
    ignore_errors: yes
 
+ - name: update helm diff
+   command: helm plugin update diff
+
+# Helmfile
  - name: download helmfile binary
    become: yes
    get_url:
