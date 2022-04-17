@@ -10,6 +10,7 @@
       - apt-transport-https
       - gnupg
 
+ #  Systemd
  - name: create directory for scripts
    become: yes
    file:
@@ -26,11 +27,26 @@
      mode: 0744
    notify: restart jenkins
 
+ - name: create systemd service
+   become: yes
+   template:
+     src: jenkins.service.j2
+     dest: /etc/systemd/system/jenkins.service
+   notify: restart jenkins
+
+ - name: enable service at boot
+   become: yes
+   systemd:
+     name: jenkins
+     daemon_reload: yes
+     enabled: yes
+
+# Install
  - name: check if jenkins is already installed
    become: yes
    stat:
-     path: "{{ jenkins_user_home }}/jenkins/jenkins.war"
-   register: jenkins_war
+     path: "{{ jenkins_user_home }}/jenkins-versions/{{ jenkins_version }}"
+   register: jenkins_installed
 
  - name: create jenkins folder
    become: yes
@@ -41,15 +57,46 @@
      group: "{{ jenkins_user }}"
      mode: 0755
 
+ - name: create jenkins versions folder
+   become: yes
+   file:
+     path: "{{ jenkins_user_home }}/jenkins-versions/{{ jenkins_version }}"
+     state: directory
+     owner: "{{ jenkins_user }}"
+     group: "{{ jenkins_user }}"
+     mode: 0755
+
  - name: download jenkins
    become: yes
    get_url:
      url: "{{ jenkins_war_url }}"
-     dest: "{{ jenkins_user_home }}/jenkins"
+     dest: "{{ jenkins_user_home }}/jenkins-versions/{{ jenkins_version }}"
      owner: "{{ jenkins_user }}"
      group: "{{ jenkins_user }}"
-   when: not jenkins_war.stat.exists
+   when: not jenkins_installed.stat.exists
 
+ - name: stop service
+   become: yes
+   systemd:
+     name: jenkins
+     state: stopped
+   when: not jenkins_installed.stat.exists
+
+ - name: install link
+   become: yes
+   file:
+     state: link
+     src: "{{ jenkins_user_home }}/jenkins-versions/{{ jenkins_version }}/jenkins.war"
+     dest: "{{ jenkins_user_home }}/jenkins/jenkins.war"
+
+ - name: restart service
+   become: yes
+   systemd:
+     name: jenkins
+     state: started
+   when: not jenkins_installed.stat.exists
+
+# Log and cache
  - name: create jenkins log folder
    become: yes
    file:
@@ -68,20 +115,7 @@
      group: "{{ jenkins_user }}"
      mode: 0755
 
- - name: create systemd service
-   become: yes
-   template:
-     src: jenkins.service.j2
-     dest: /etc/systemd/system/jenkins.service
-   notify: restart jenkins
-
- - name: enable service at boot
-   become: yes
-   systemd:
-     name: jenkins
-     daemon_reload: yes
-     enabled: yes
-
+# Firewall
  - name: "allow connections from {{ jenkins_ufw_allow_host }}"
    become: yes
    ufw:

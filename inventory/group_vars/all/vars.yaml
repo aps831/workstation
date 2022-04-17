@@ -25,7 +25,7 @@ ddlog_version: 1.2.3
 ddlog_timestamp: 20211213235218
 duplicacy_version: 2.7.2
 elm_version: 0.19.0
-jenkins_version: 2.249.3
+jenkins_version: 2.343
 nexus_version: 3.33.0-01
 vagrant_version: 2.2.19
 
