@@ -94,6 +94,11 @@ source = "github"
 github = "fluxcd/flux2"
 use_latest_release = true
 
+[istio]
+source = "github"
+github = "istio/istio"
+use_latest_release = true
+
 [act]
 source = "github"
 github = "nektos/act"
