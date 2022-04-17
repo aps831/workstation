@@ -9,94 +9,7 @@
      - unzip
      - openjdk-8-jre
 
- - name: check if nexus is already installed
-   become: yes
-   stat:
-     path: /usr/local/bin/nexus
-   register: nexus_bin
-
- - name: download nexus
-   become: yes
-   get_url:
-     url: "{{ nexus_binary_url }}"
-     dest: "{{ nexus_user_home }}/tmp.zip"
-     owner: "{{ nexus_user }}"
-     group: "{{ nexus_user }}"
-   when: nexus_bin.stat.islnk is not defined
-
- - name: create temporary directory
-   become: yes
-   file:
-     path: "{{ nexus_user_home }}/tmp"
-     state: directory
-   when: nexus_bin.stat.islnk is not defined
-
- - name: expand nexus
-   become: yes
-   unarchive:
-     src: "{{ nexus_user_home }}/tmp.zip"
-     dest: "{{ nexus_user_home }}/tmp"
-     group: "{{ nexus_user }}"
-     owner: "{{ nexus_user }}"
-     copy: false
-     mode: 0755
-   when: nexus_bin.stat.islnk is not defined
-
- - name: delete nexus zip
-   become: yes
-   file:
-     path: "{{ nexus_user_home }}/tmp.zip"
-     state: absent
-
- - name: check if nexus folder already exists
-   become: yes
-   stat:
-     path: "{{ nexus_user_home }}/nexus-{{ nexus_version }}"
-   register: nexus_folder
-
- - name: copy nexus folder
-   become: yes
-   copy:
-     src: "{{ nexus_user_home }}/tmp/nexus-{{ nexus_version }}"
-     dest: "{{ nexus_user_home }}/"
-     group: "{{ nexus_user }}"
-     owner: "{{ nexus_user }}"
-     remote_src: yes
-     directory_mode: yes
-   when: not nexus_folder.stat.exists and nexus_bin.stat.islnk is not defined
-
- - name: check if sonatype-work folder already exists
-   become: yes
-   stat:
-     path: "{{ nexus_user_home }}/sonatype-work"
-   register: sonatype_work_folder
-
- - name: copy sonatype-work folder
-   become: yes
-   copy:
-     src: "{{ nexus_user_home }}/tmp/sonatype-work"
-     dest: "{{ nexus_user_home }}"
-     group: "{{ nexus_user }}"
-     owner: "{{ nexus_user }}"
-     remote_src: yes
-     directory_mode: yes
-   when: not sonatype_work_folder.stat.exists and nexus_bin.stat.islnk is not defined
-
- - name: delete temporary folder
-   become: yes
-   file:
-     path: "{{ nexus_user_home }}/tmp"
-     state: absent
-
- - name: symlink nexus binary
-   become: yes
-   file:
-     src: "{{ nexus_user_home }}/nexus-{{ nexus_version }}/bin/nexus"
-     dest: "/usr/local/bin/nexus"
-     state: link
-   notify: restart nexus
-   when: nexus_bin.stat.islnk is not defined
-
+# Systemd
  - name: create systemd service
    become: yes
    template:
@@ -115,6 +28,69 @@
      daemon_reload: yes
      enabled: yes
 
+# Install
+ - name: check if nexus is already installed
+   become: yes
+   stat:
+     path: "{{ nexus_user_home }}/nexus-versions/nexus-{{ nexus_version }}"
+   register: nexus_installed
+
+ - name: create temporary build directory
+   become: yes
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
+ - name: download nexus
+   become: yes
+   get_url:
+     url: "{{ nexus_download_url }}"
+     dest: "{{ tmp_dir.path }}"
+   when: not nexus_installed.stat.exists
+
+ - name: expand nexus
+   become: yes
+   unarchive:
+     src: "{{ tmp_dir.path }}/{{ nexus_filename }}"
+     dest: "{{ tmp_dir.path }}"
+     mode: 0755
+     remote_src: yes
+   when: not nexus_installed.stat.exists
+
+ - name: copy nexus folder
+   become: yes
+   copy:
+     src: "{{ tmp_dir.path }}/nexus-{{ nexus_version }}/"
+     dest: "{{ nexus_user_home }}/nexus-{{ nexus_version }}"
+     group: "{{ nexus_user }}"
+     owner: "{{ nexus_user }}"
+     remote_src: yes
+   when: not nexus_installed.stat.exists
+
+ - name: stop service
+   become: yes
+   systemd:
+     name: nexus
+     state: stopped
+   when: not nexus_installed.stat.exists
+
+ - name: symlink nexus binary
+   become: yes
+   file:
+     src: "{{ nexus_user_home }}/nexus-{{ nexus_version }}/bin/nexus"
+     dest: "/usr/local/bin/nexus"
+     state: link
+
+ - name: restart service
+   become: yes
+   systemd:
+     name: nexus
+     state: started
+   when: not nexus_installed.stat.exists
+
+# Firewall
  - name: "allow connections from {{ nexus_ufw_allow_host }}"
    become: yes
    ufw:
