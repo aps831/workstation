@@ -1,0 +1,67 @@
+BRAND_NAME = Gogs
+RUN_USER   = git
+RUN_MODE   = prod
+
+[server]
+DOMAIN           = {{ gogs_host }}
+HTTP_PORT        = {{ gogs_http_port }}
+EXTERNAL_URL     = http://{{ gogs_host }}:{{ gogs_http_port }}/
+DISABLE_SSH      = false
+SSH_PORT         = 22
+START_SSH_SERVER = false
+OFFLINE_MODE     = false
+
+APP_DATA_PATH    = /home/git/gogs-data
+
+[repository]
+ROOT = /home/git/gogs-repositories
+
+[repository.upload]
+ENABLED = true
+TEMP_PATH = /home/git/gogs-data/tmp/uploads
+
+[database]
+TYPE     = sqlite3
+HOST     = 127.0.0.1:5432
+NAME     = gogs
+USER     = gogs
+PASSWORD =
+SSL_MODE = disable
+PATH     = /home/git/gogs-data/gogs.db
+
+[mailer]
+ENABLED = false
+
+[service]
+REGISTER_EMAIL_CONFIRM = false
+ENABLE_NOTIFY_MAIL     = false
+DISABLE_REGISTRATION   = false
+ENABLE_CAPTCHA         = true
+REQUIRE_SIGNIN_VIEW    = false
+
+[session]
+PROVIDER        = file
+PROVIDER_CONFIG = /home/git/gogs-data/sessions
+
+[lfs]
+STORAGE      = local
+OBJECTS_PATH = /home/git/gogs-data/lfs-objects
+
+[attachment]
+ENABLED = true
+PATH    = /home/git/gogs-data/attachments
+
+[picture]
+AVATAR_UPLOAD_PATH            = /home/git/gogs-data/avatars
+REPOSITORY_AVATAR_UPLOAD_PATH = /home/git/gogs-data/repo-avatars
+DISABLE_GRAVATAR              = false
+ENABLE_FEDERATED_AVATAR       = false
+
+[log]
+MODE      = file
+LEVEL     = Info
+ROOT_PATH = /home/git/gogs-log
+
+[security]
+INSTALL_LOCK = true
+SECRET_KEY   = {{ vault_gogs_secret | b64decode | trim }}

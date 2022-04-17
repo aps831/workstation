@@ -9,6 +9,8 @@ printserver_ufw_allow_host: "{{ hosts_thor_ip_address }}"
 
 # Gogs
 gogs_http_port: 10081
+gogs_host: titan.local
+# gogs_secret: defined in vaulted_vars/vault.yml
 gogs_user: git
 gogs_user_home: /home/git
 gogs_ufw_allow_host: "{{ hosts_thor_ip_address }}"

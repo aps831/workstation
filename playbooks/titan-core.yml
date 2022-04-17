@@ -87,6 +87,8 @@
      - role: certificate
      - role: docker
      - role: gogs
+       vars:
+         gogs_secret: "{{ vault_gogs_secret }}"
      - role: haproxy
      - role: jenkins
      - role: nexus
