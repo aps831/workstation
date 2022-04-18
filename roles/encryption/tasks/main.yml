@@ -39,3 +39,11 @@
     url: https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules
     dest: /etc/udev/rules.d/70-u2f.rules
     mode: '0755'
+
+ - name: install switch smartcard script
+   ansible.builtin.copy:
+     src: switch-smartcard
+     dest: /home/{{ ansible_user }}/.local/bin
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0744
