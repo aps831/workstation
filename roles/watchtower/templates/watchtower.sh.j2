@@ -1,0 +1,14 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ watchtower_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ watchtower_container_name }}
+else
+    echo "Creating new container"
+    docker run --restart=always \
+               --name {{ watchtower_container_name }} \
+               --volume /var/run/docker.sock:/var/run/docker.sock \
+               containrrr/watchtower
+fi

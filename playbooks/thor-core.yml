@@ -77,6 +77,7 @@
      - role: apache2
      - role: docker
      - role: ssh
+     - role: watchtower
 
    pre_tasks:
      - name: update repository caches

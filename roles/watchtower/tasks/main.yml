@@ -1,0 +1,20 @@
+---
+
+ - name: create script for watchtower service
+   become: yes
+   template:
+     src: watchtower.sh.j2
+     dest: /usr/share/systemd/watchtower.sh
+     mode: 0744
+
+ - name: create watchtower service
+   become: yes
+   template:
+     src: watchtower.service.j2
+     dest: /etc/systemd/system/watchtower.service
+
+ - name: enable watchtower service at boot
+   become: yes
+   systemd:
+     name: watchtower
+     enabled: yes

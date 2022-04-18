@@ -96,6 +96,7 @@
      - role: nexus
      - role: printserver
      - role: ssh
+     - role: watchtower
 
 # Maintenance
      - role: opendata

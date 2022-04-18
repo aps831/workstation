@@ -104,6 +104,7 @@
      - role: printserver
      - role: sambashare
      - role: ssh
+     - role: watchtower
 
 # Maintenance
      - role: opendata
