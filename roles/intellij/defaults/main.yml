@@ -1,6 +1,5 @@
 ---
-intellij_tmp: /tmp/ideaIC-{{intellij_version}}.tar.gz
-intellij_install_dir: /opt/intellij
-intellij_download_url: "http://download.jetbrains.com/idea/ideaIC-{{intellij_version}}.tar.gz"
-intellij_version: latest
-intellij_version_url: https://data.services.jetbrains.com/products/releases?code=IIU%2CIIC&latest=true&type=release
+intellij_version: "2021.3.3"
+intellij_filename: "ideaIC-{{intellij_version}}.tar.gz"
+intellij_install_dir: "/opt/intellij-versions"
+intellij_download_url: "http://download.jetbrains.com/idea/{{ intellij_filename }}"

@@ -15,89 +15,54 @@
 
  - name: determine if intellij already installed
    stat:
-      path: "{{ intellij_install_dir }}"
-   register: intellij_install
+      path: "{{ intellij_install_dir }}/{{ intellij_version }}"
+   register: intellij_installed
    changed_when: false
-
- - name: create temporary build directory
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
-   when: not intellij_install.stat.exists
-
- - name: find latest version
-   uri:
-     url: "{{ intellij_version_url }}"
-     return_content: yes
-     validate_certs: no
-     body_format: json
-   register: intellij_releases_response
-   when:
-     - intellij_version == 'latest'
-     - not intellij_install.stat.exists
-   changed_when: false
-
- - name: extract release version from response
-   set_fact:
-     intellij_version: "{{ intellij_releases_response.json.IIC.0.version }}"
-   when:
-     - intellij_version == 'latest'
-     - not intellij_install.stat.exists
-   changed_when: false
-
- - name: download and unpack intellij
-   become: yes
-   unarchive:
-     src: "{{ intellij_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-     remote_src: yes
-   changed_when: false
-   when: not intellij_install.stat.exists
-
- - name: retreive intellij dir name
-   become: yes
-   command: ls -t {{ tmp_dir.path }}
-   register: result_intellij_folder_name
-   changed_when: false
-   when: not intellij_install.stat.exists
 
  - name: create installation directory
    become: yes
    ansible.builtin.file:
-    path: "{{ intellij_install_dir }}"
+    path: "{{ intellij_install_dir }}/{{ intellij_version }}"
     state: directory
     owner: root
     group: intellij
     mode: 0775
 
- - name: copy intellij to installation directory
+ - name: download and unpack intellij
    become: yes
-   synchronize:
-     src: "{{ tmp_dir.path }}/{{ result_intellij_folder_name.stdout }}/"
-     dest: "{{ intellij_install_dir }}"
-     checksum: yes
-     recursive: yes
-     delete: yes
-     times: no
+   unarchive:
+     src: "{{ intellij_download_url }}"
+     dest: "{{ intellij_install_dir }}/{{ intellij_version }}"
+     extra_opts: [--strip-components=1]
      owner: root
      group: intellij
      mode: 0775
-   delegate_to: "{{ inventory_hostname }}"
-   when: not intellij_install.stat.exists
+     remote_src: yes
+   changed_when: false
+   when: not intellij_installed.stat.exists
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "{{ intellij_install_dir }}/{{ intellij_version }}"
+     path: "/opt/intellij"
+     owner: root
+     group: intellij
+     state: link
+     mode: 0755
+   when: not intellij_installed.stat.exists
 
  - name: add intellij to bin folder
    become: yes
    template:
-     src=intellij.j2
-     dest=/usr/bin/intellij
-     mode=755
-   when: not intellij_install.stat.exists
-   changed_when: false
+     src: intellij.j2
+     dest: /usr/bin/intellij
+     owner: root
+     group: intellij
+     mode: 0755
 
  - name: add intellij shortcut
    become: yes
    template:
-     src=intellij.desktop.j2
-     dest=/usr/share/applications/Intellij.desktop
+     src: intellij.desktop.j2
+     dest: /usr/share/applications/Intellij.desktop
