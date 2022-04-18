@@ -31,7 +31,7 @@
    get_url:
      url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
      dest: /etc/bash_completion.d/git-completion
-     mode: 0444
+     mode: 0644
 
  - name: install pre-commit
    pip:
