@@ -18,6 +18,7 @@
      - git
      - gitk
      - meld
+     - git-gui
 
  - name: install bash-completion
    become: yes
