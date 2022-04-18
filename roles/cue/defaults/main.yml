@@ -1,0 +1,4 @@
+cue_version: 0.4.3-beta.2
+cue_filename: cue_v{{ cue_version }}_linux_amd64.tar.gz
+cue_download_url: https://github.com/cue-lang/cue/releases/download/v{{ cue_version }}/{{ cue_filename }}
+cue_checksum_url: https://github.com/cue-lang/cue/releases/download/v{{ cue_version }}/checksums.txt

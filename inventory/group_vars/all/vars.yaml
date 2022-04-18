@@ -28,6 +28,7 @@ elm_version: 0.19.0
 jenkins_version: 2.343
 nexus_version: 3.33.0-01
 vagrant_version: 2.2.19
+cue_version: 0.4.3-beta.2
 
 # Git Installs
 nvm_version: 0.39.1

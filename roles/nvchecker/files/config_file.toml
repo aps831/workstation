@@ -144,6 +144,11 @@ source = "github"
 github = "hashicorp/vagrant"
 use_max_tag = true
 
+[cue]
+source = "github"
+github = "cue-lang/cue"
+use_max_tag = true
+
 # Git Installs
 
 [nvm]
