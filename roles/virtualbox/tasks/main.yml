@@ -32,15 +32,47 @@
    register: extpack_list
    changed_when: false
 
+ - name: get extension version
+   uri:
+     url: "{{ vbox_version_url }}"
+     return_content: yes
+   register: vbox_version_response
+   changed_when: false
+
+ - name: extract release version from response
+   set_fact:
+     vbox_extpack_version: "{{ vbox_version_response.content | trim }}"
+   changed_when: false
+
+ - debug:
+     msg: "{{ vbox_version_response }}"
+
+ - name: set extension pack filename
+   set_fact:
+     vbox_extpack_filename: "Oracle_VM_VirtualBox_Extension_Pack-{{ vbox_extpack_version }}.vbox-extpack"
+
+ - name: set extension pack url
+   set_fact:
+     vbox_extpack_url: "https://download.virtualbox.org/virtualbox/{{ vbox_extpack_version }}/{{ vbox_extpack_filename }}"
+
+ - name: create temporary build directory
+   become: yes
+   tempfile:
+     state: directory
+     suffix: build
+   register: tmp_dir
+   changed_when: false
+
  - name: download extension pack
+   become: yes
    get_url:
      url: "{{ vbox_extpack_url }}"
-     dest: /tmp/{{ vbox_extpack_filename }}
+     dest: "{{ tmp_dir.path }}/{{ vbox_extpack_filename }}"
    when: 'extpack_list.stdout == "Extension Packs: 0"'
 
  - name: install extension pack
    become: yes
-   shell: "echo 'y' | vboxmanage extpack install /tmp/{{ vbox_extpack_filename }}"
+   shell: "echo 'y' | vboxmanage extpack install {{ tmp_dir.path }}/{{ vbox_extpack_filename }}"
    args:
      executable: /bin/bash
    when: 'extpack_list.stdout == "Extension Packs: 0"'
@@ -54,10 +86,10 @@
 
  - name: create shared folder
    file:
-     path="{{ share_dir }}"
-     state=directory
+     path: "{{ vbox_share_dir }}"
+     state: directory
 
  - name: add usershare
    become: yes
-   command: net usershare add {{ share_name }} {{ share_dir }} "virtual box share" everyone:F guest_ok=n
+   command: net usershare add {{ vbox_share_name }} {{ vbox_share_dir }} "virtual box share" everyone:F guest_ok=n
    changed_when: false
