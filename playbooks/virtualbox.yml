@@ -44,6 +44,7 @@
      - role: aws
      - role: commitizen
      - role: cue
+     - role: dagger
      - role: docs
      - role: eclipse
      - role: intellij

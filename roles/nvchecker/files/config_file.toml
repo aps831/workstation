@@ -149,6 +149,11 @@ source = "github"
 github = "cue-lang/cue"
 use_max_tag = true
 
+[dagger]
+source = "github"
+github = "dagger/dagger"
+use_max_tag = true
+
 # Git Installs
 
 [nvm]
