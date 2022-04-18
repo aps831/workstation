@@ -23,10 +23,6 @@
      packages:
      - gh
 
- - name: get shell completion
-   become: yes
-   shell: gh completion -s bash > /etc/bash_completion.d/github-completion
-
  - name: add bash completion
    become: yes
    ansible.builtin.file:
@@ -35,12 +31,35 @@
      group: root
      mode: 0644
 
+ - name: create temp file for github completion
+   become: yes
+   ansible.builtin.tempfile:
+     state: file
+   register: github_completion_file
+   changed_when: false
+
+ - name: create github shell completion
+   become: yes
+   shell: gh completion -s bash > {{ github_completion_file.path  }}
+   changed_when: false
+
+ - name: install github completion
+   become: yes
+   ansible.builtin.copy:
+     src: "{{ github_completion_file.path }}"
+     dest: /etc/bash_completion.d/github-completion
+     owner: root
+     group: root
+     mode: 0644
+     remote_src: yes
+
 # act
  - name: create temporary file for act download
    tempfile:
      state: file
      suffix: temp
    register: act_download_tmp
+   changed_when: false
 
  - name: download act binary
    get_url:
