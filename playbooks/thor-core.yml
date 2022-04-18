@@ -9,6 +9,7 @@
      - role: firewall
 
 # Setup
+     - role: ansible
      - role: hosts
      - role: nas
      - role: chezmoi
@@ -17,7 +18,6 @@
      - role: maintenance
      - role: nvchecker
      - role: teamviewer
-     - role: scripts
 
 # Desktop
      - role: breaktimer

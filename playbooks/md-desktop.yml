@@ -3,11 +3,11 @@
  - name: run playbook tasks
    hosts: md-desktop
    roles:
+     - role: ansible
      - role: encryption
      - role: firewall
      - role: maintenance
      - role: teamviewer
-     - role: scripts
      - role: desktop
      - role: multimedia
      - role: dropbox

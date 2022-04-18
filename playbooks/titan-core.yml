@@ -9,6 +9,7 @@
      - role: firewall
 
 # Setup
+     - role: ansible
      - role: hosts
      - role: nas
        vars:
@@ -19,7 +20,6 @@
      - role: maintenance
      - role: nvchecker
      - role: teamviewer
-     - role: scripts
 
 # Desktop
      - role: breaktimer
