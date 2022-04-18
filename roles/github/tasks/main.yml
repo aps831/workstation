@@ -23,6 +23,15 @@
      packages:
      - gh
 
+ - name: add bash completion
+   become: yes
+   ansible.builtin.copy:
+     src: gh.sh
+     dest: "/home/{{ ansible_user }}/.profile.d/"
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0755
+
 # act
  - name: create temporary file for act download
    tempfile:
