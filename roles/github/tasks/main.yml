@@ -23,14 +23,17 @@
      packages:
      - gh
 
+ - name: get shell completion
+   become: yes
+   shell: gh completion -s bash > /etc/bash_completion.d/github-completion
+
  - name: add bash completion
    become: yes
-   ansible.builtin.copy:
-     src: gh.sh
-     dest: "/home/{{ ansible_user }}/.profile.d/"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+   ansible.builtin.file:
+     path: "/etc/bash_completion.d/github-completion"
+     owner: root
+     group: root
+     mode: 0644
 
 # act
  - name: create temporary file for act download
