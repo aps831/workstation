@@ -32,13 +32,6 @@
      dest: /etc/bash_completion.d/git-completion
      mode: 0444
 
- - name: download git-flow completion
-   become: yes
-   get_url:
-     url: https://raw.githubusercontent.com/bobthecow/git-flow-completion/master/git-flow-completion.bash
-     dest: /etc/bash_completion.d/git-flow-completion
-     mode: 0444
-
  - name: install pre-commit
    pip:
      name:
