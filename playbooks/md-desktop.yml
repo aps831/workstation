@@ -15,7 +15,6 @@
      - role: shotwell
      - role: web
      - role: virtualbox
-     - role: apache2
      - role: printserver
      - role: sambashare
 
