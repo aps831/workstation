@@ -1,6 +1,6 @@
 ---
 
- - name: install redshift
+ - name: install packages
    become: yes
    apt:
      name: "{{ packages }}"
@@ -8,6 +8,7 @@
      packages:
      - redshift
      - redshift-gtk
+     - hplip
 
  - name: set list view for new folders
    become_user: "{{ ansible_user }}"

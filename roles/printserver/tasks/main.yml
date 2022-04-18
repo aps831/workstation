@@ -1,11 +1,5 @@
 ---
 
- - name: install packages
-   become: yes
-   apt:
-     name: hplip
-     state: present
-
  - name: make printers browseable on samba share
    become: yes
    ini_file:
