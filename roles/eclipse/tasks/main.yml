@@ -15,83 +15,69 @@
 
  - name: determine if eclipse already installed
    stat:
-      path: "{{ eclipse_install_dir }}"
-   register: eclipse_install
+      path: "{{ eclipse_install_dir }}/{{ eclipse_version }}"
+   register: eclipse_installed
    changed_when: false
-
- - name: create temporary build directory
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
-   when: not eclipse_install.stat.exists
-
- - name: download and unpack eclipse
-   become: yes
-   unarchive:
-     src: "{{ eclipse_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-     remote_src: yes
-   changed_when: false
-   when: not eclipse_install.stat.exists
-
- - name: install features
-   shell: "{{ tmp_dir.path }}/eclipse/eclipse -application org.eclipse.equinox.p2.director -noSplash -repository {{ item.repo }} -installIUs {{ item.feature }}"
-   with_items:
-#     - { repo: 'http://download.eclipse.org/releases/{{ eclipse_version }}', feature: 'org.eclipse.buildship.feature.group'}
-     - { repo: 'http://dadacoalition.org/yedit', feature: 'org.dadacoalition.yedit.feature.feature.group'}
-#     - { repo: 'https://devstudio.redhat.com/{{ eclipse_devstudio_version }}/stable/updates', feature: 'com.jboss.devstudio.core.feature.feature.group'}
-#     - { repo: 'http://jbehave.org/reference/eclipse/updates/', feature: 'org.jbehave.eclipse.feature.feature.group'}
-#     - { repo: 'https://dl.bintray.com/jetbrains/kotlin/eclipse-plugin/last', feature: 'org.jetbrains.kotlin.feature.feature.group'}
-   changed_when: false
-   when: not eclipse_install.stat.exists
 
  - name: create installation directory
    become: yes
    ansible.builtin.file:
-    path: "{{ eclipse_install_dir }}"
+    path: "{{ eclipse_install_dir }}/{{ eclipse_version }}"
     state: directory
     owner: root
     group: eclipse
     mode: 0775
 
- - name: copy eclipse to installation directory
+ - name: download and unpack eclipse
    become: yes
-   synchronize:
-     src: "{{ tmp_dir.path }}/eclipse/"
-     dest: "{{ eclipse_install_dir }}"
-     checksum: yes
-     recursive: yes
-     delete: yes
-     times: no
+   unarchive:
+     src: "{{ eclipse_download_url }}"
+     dest: "{{ eclipse_install_dir }}/{{ eclipse_version }}"
+     extra_opts: [--strip-components=1]
      owner: root
      group: eclipse
      mode: 0775
-   delegate_to: "{{ inventory_hostname }}"
-   when: not eclipse_install.stat.exists
+     remote_src: yes
+   changed_when: false
+   when: not eclipse_installed.stat.exists
+
+ - name: create symbolic link
+   become: yes
+   file:
+     src: "{{ eclipse_install_dir }}/{{ eclipse_version }}"
+     path: "/opt/eclipse"
+     owner: root
+     group: eclipse
+     state: link
+     mode: 0755
+   when: not eclipse_installed.stat.exists
 
  - name: Set Xms value in ini file
+   become: yes
    lineinfile:
-     dest: "{{ eclipse_install_dir }}/eclipse.ini"
+     dest: "/opt/eclipse/eclipse.ini"
      regexp: "^-Xms"
      line: "-Xms512m"
 
  - name: Set Xmx value in ini file
+   become: yes
    lineinfile:
-     dest: "{{ eclipse_install_dir }}/eclipse.ini"
+     dest: "/opt/eclipse/eclipse.ini"
      regexp: "^-Xmx"
      line: "-Xmx2048m"
 
  - name: create symbolic link
    become: yes
    file:
-     src: "{{ eclipse_install_dir }}/eclipse"
+     src: "/opt/eclipse/eclipse"
      path: "/usr/local/sbin/eclipse"
+     owner: root
+     group: eclipse
      state: link
+     mode: 0755
 
  - name: add eclipse shortcut
    become: yes
    template:
-     src=eclipse.desktop.j2
-     dest=/usr/share/applications/Eclipse.desktop
+     src: eclipse.desktop.j2
+     dest: /usr/share/applications/Eclipse.desktop
