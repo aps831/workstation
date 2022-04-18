@@ -1,8 +1,7 @@
 #! /bin/bash
 trap 'rm -rf "$TMPDIR"' EXIT
 
-aws sso login --profile "andrew-p-spratley"
-aws sso login --profile "spratleyap"
+aws sso login
 
 TMPDIR=$(mktemp -d)
 cd "$TMPDIR"
