@@ -24,15 +24,27 @@
      - kubectl
      - bash-completion
 
- - name: install bash completion for kubectl
+ - name: create temp file for kubectl completion
    become: yes
-   shell: /usr/bin/kubectl completion bash > /etc/bash_completion.d/kubectl
+   ansible.builtin.tempfile:
+     state: file
+   register: kubectl_completion_file
+   changed_when: false
 
- - name: set permissions on bash completion for kubectl
+ - name: create kubectl shell completion
    become: yes
-   file:
-     path: /etc/bash_completion.d/kubectl
-     mode: 0444
+   shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
+   changed_when: false
+
+ - name: install kubectl completion
+   become: yes
+   ansible.builtin.copy:
+     src: "{{ kubectl_completion_file.path }}"
+     dest: /etc/bash_completion.d/kubectl
+     owner: root
+     group: root
+     mode: 0644
+     remote_src: yes
 
  - name: configure docker
    become: yes
