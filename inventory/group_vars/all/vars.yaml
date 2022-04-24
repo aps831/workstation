@@ -34,7 +34,6 @@ dagger_version: 0.2.6
 # Git Installs
 nvm_version: 0.39.1
 tfenv_version: 2.2.3
-goenv_version: 2.0.0beta11
 
 # Pip Installs
 psutil_version: 5.9.0

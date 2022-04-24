@@ -76,7 +76,6 @@
    args:
      repo: "{{ goenv_download_url }}"
      dest: "{{ goenv_install_dir }}"
-     version: "{{ goenv_version }}"
 
  - name: ensure user profile directory exists
    become: yes

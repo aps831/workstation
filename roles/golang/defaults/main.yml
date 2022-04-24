@@ -6,4 +6,3 @@ golang_download_url: https://go.dev/dl/{{ golang_download_filename }}
 golang_checksum: "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f" #pragma: allowlist secret
 goenv_install_dir: /home/{{ ansible_user }}/.goenv
 goenv_download_url: https://github.com/syndbg/goenv
-goenv_version: 2.0.0beta11

@@ -166,11 +166,6 @@ source = "github"
 github = "tfutils/tfenv"
 use_latest_release = true
 
-[goenv]
-source = "github"
-github = "syndbg/goenv"
-use_latest_release = true
-
 # Pip Installs
 
 [psutil]
