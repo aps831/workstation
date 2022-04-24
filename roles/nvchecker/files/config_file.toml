@@ -161,11 +161,6 @@ source = "github"
 github = "nvm-sh/nvm"
 use_latest_release = true
 
-[tfenv]
-source = "github"
-github = "tfutils/tfenv"
-use_latest_release = true
-
 # Pip Installs
 
 [psutil]
