@@ -166,11 +166,6 @@ source = "github"
 github = "tfutils/tfenv"
 use_latest_release = true
 
-[pyenv]
-source = "github"
-github = "pyenv/pyenv"
-use_latest_release = true
-
 [goenv]
 source = "github"
 github = "syndbg/goenv"

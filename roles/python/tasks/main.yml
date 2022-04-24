@@ -44,7 +44,6 @@
    args:
      repo: "{{ pyenv_download_url }}"
      dest: "{{ pyenv_install_dir }}"
-     version: "v{{ pyenv_version }}"
 
  - name: set system as global version
    copy:
