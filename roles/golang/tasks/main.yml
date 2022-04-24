@@ -51,13 +51,6 @@
      state: link
      mode: '0755'
 
- - name: define global golang variables
-   become: yes
-   template:
-     src: etc_golang.sh.j2
-     dest: /etc/profile.d/golang.sh
-     mode: 0755
-
 #
 # Goenv
 #
