@@ -1,6 +1,5 @@
 pyenv_version: 2.2.5
 pyenv_download_url: "https://github.com/pyenv/pyenv.git"
-pyenv_virtualenv_download_url: "https://github.com/pyenv/pyenv-virtualenv.git"
 pyenv_install_dir: /home/{{ ansible_user }}/.pyenv
 setuptools_version: 61.2.0
 testresources_version: 2.0.1
