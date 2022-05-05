@@ -17,6 +17,7 @@
      packages:
      - git
      - gitk
+     - gitg
      - meld
      - git-gui
 
