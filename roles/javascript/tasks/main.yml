@@ -107,6 +107,7 @@
    args:
      executable: /bin/bash
 
+# Profile
  - name: ensure user profile directory exists
    become: yes
    ansible.builtin.file:
@@ -124,3 +125,11 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
      mode: 0755
+
+# asdf
+ - name: install asdf plugin
+   ansible.builtin.command: asdf plugin add nodejs {{ asdf_node_plugin_url }}
+   ignore_errors: true
+
+ - name: install latest node version
+   ansible.builtin.command: asdf install nodejs latest
