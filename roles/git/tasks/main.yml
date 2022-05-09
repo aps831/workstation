@@ -95,3 +95,49 @@
    become: yes
    apt:
       deb: "{{ delta_download_url }}"
+
+# git filter repo
+ - name: create temporary file for git filter repo download
+   tempfile:
+     state: directory
+     suffix: temp
+   register: git_filter_repo_download_tmp
+
+ - name: download git filter repo binary
+   become: yes
+   get_url:
+     url: "{{ git_filter_repo_url }}"
+     dest: "{{ git_filter_repo_download_tmp.path }}"
+     force: yes
+   changed_when: false
+
+ # unarchive doesn't work for some reason
+ - name: extract git filter repo from archive
+   become: yes
+   command: "tar -xvf {{ git_filter_repo_filename }}"
+   args:
+     chdir: "{{ git_filter_repo_download_tmp.path }}"
+
+ - name: copy git filter repo
+   become: yes
+   copy:
+     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/git-filter-repo"
+     dest: /usr/local/bin
+     owner: root
+     group: root
+     mode: '0777'
+     remote_src: true
+
+ - name: get location for man files
+   command: "git --man-path"
+   register: man_path
+
+ - name: copy git filter repo man documentation
+   become: yes
+   copy:
+     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/Documentation/man1/git-filter-repo.1"
+     dest: "{{ man_path.stdout }}/man1"
+     owner: root
+     group: root
+     mode: '0644'
+     remote_src: true

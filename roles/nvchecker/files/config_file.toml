@@ -154,6 +154,11 @@ source = "github"
 github = "dagger/dagger"
 use_max_tag = true
 
+[git-filter-repo]
+source = "github"
+github = "newren/git-filter-repo"
+use_max_tag = true
+
 # Git Installs
 
 [nvm]

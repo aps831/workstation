@@ -30,6 +30,7 @@ nexus_version: 3.33.0-01
 vagrant_version: 2.2.19
 cue_version: 0.4.3-beta.2
 dagger_version: 0.2.6
+git_filter_repo_version: 2.34.0
 
 # Git Installs
 nvm_version: 0.39.1
