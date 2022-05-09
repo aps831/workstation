@@ -73,23 +73,22 @@
      - libssl-dev
      - curl
 
+ - name: get latest tag name
+   uri:
+     url: "{{ nvm_latest_tag_url }}"
+     return_content: yes
+   register: release_content
+
+ - name: output version
+   ansible.builtin.debug:
+     msg: "Using version {{ release_content.json.tag_name }}"
+
  - name: install nvm
-   become: yes
    git:
    args:
-     repo: https://github.com/nvm-sh/nvm.git
+     repo: "{{ nvm_download_url }}"
      dest: "{{ nvm_dir }}"
-     version: "v{{ nvm_version }}"
-
- - name: set permissions on nvm directory
-   become: yes
-   file:
-     path: "{{ nvm_dir }}"
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     recurse: true
-   changed_when: False
+     version: "{{ release_content.json.tag_name }}"
 
  - name: follow symlink to nvm directory
    shell: readlink -f {{ nvm_dir }}

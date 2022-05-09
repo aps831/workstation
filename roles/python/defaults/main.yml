@@ -1,5 +1,6 @@
-pyenv_download_url: "https://github.com/pyenv/pyenv.git"
 pyenv_install_dir: /home/{{ ansible_user }}/.pyenv
+pyenv_download_url: "https://github.com/pyenv/pyenv.git"
+pyenv_latest_tag_url: "https://api.github.com/repos/pyenv/pyenv/releases/latest"
 setuptools_version: 61.2.0
 testresources_version: 2.0.1
 pipenv_version: 2022.4.8

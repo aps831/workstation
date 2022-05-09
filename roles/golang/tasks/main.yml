@@ -64,11 +64,22 @@
      owner: "{{ ansible_user }}"
      group: "{{ ansible_user }}"
 
+ - name: get latest tag name
+   uri:
+     url: "{{ goenv_latest_tag_url }}"
+     return_content: yes
+   register: release_content
+
+ - name: output version
+   ansible.builtin.debug:
+     msg: "Using version {{ release_content.json.tag_name }}"
+
  - name: install goenv
    git:
    args:
      repo: "{{ goenv_download_url }}"
      dest: "{{ goenv_install_dir }}"
+     version: "{{ release_content.json.tag_name }}"
 
  - name: ensure user profile directory exists
    become: yes

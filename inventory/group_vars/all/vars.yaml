@@ -32,9 +32,6 @@ cue_version: 0.4.3-beta.2
 dagger_version: 0.2.6
 git_filter_repo_version: 2.34.0
 
-# Git Installs
-nvm_version: 0.39.1
-
 # Pip Installs
 psutil_version: 5.9.0
 molecule_version: 3.6.1

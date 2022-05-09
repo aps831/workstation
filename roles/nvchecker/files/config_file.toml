@@ -159,13 +159,6 @@ source = "github"
 github = "newren/git-filter-repo"
 use_max_tag = true
 
-# Git Installs
-
-[nvm]
-source = "github"
-github = "nvm-sh/nvm"
-use_latest_release = true
-
 # Pip Installs
 
 [psutil]
