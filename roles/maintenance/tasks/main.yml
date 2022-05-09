@@ -15,6 +15,7 @@
      - testdisk
      - smartmontools
      - nload
+     - ncdu
 
  - name: set value for swappiness
    become: yes
