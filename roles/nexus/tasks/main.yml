@@ -1,99 +1,98 @@
 ---
-
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - unzip
-     - openjdk-8-jre
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - unzip
+      - openjdk-8-jre
 
 # Systemd
- - name: create systemd service
-   become: yes
-   template:
-     src: nexus.service.j2
-     dest: /etc/systemd/system/nexus.service
-     owner: root
-     group: root
-     mode: 0755
-   notify: restart nexus
-   when: nexus_bin.stat.islnk is not defined
+- name: create systemd service
+  become: yes
+  template:
+    src: nexus.service.j2
+    dest: /etc/systemd/system/nexus.service
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart nexus
+  when: nexus_bin.stat.islnk is not defined
 
- - name: enable service at boot
-   become: yes
-   systemd:
-     name: nexus
-     daemon_reload: yes
-     enabled: yes
+- name: enable service at boot
+  become: yes
+  systemd:
+    name: nexus
+    daemon_reload: yes
+    enabled: no
 
 # Install
- - name: check if nexus is already installed
-   become: yes
-   stat:
-     path: "{{ nexus_user_home }}/nexus-versions/nexus-{{ nexus_version }}"
-   register: nexus_installed
+- name: check if nexus is already installed
+  become: yes
+  stat:
+    path: "{{ nexus_user_home }}/nexus-versions/nexus-{{ nexus_version }}"
+  register: nexus_installed
 
- - name: create temporary build directory
-   become: yes
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
 
- - name: download nexus
-   become: yes
-   get_url:
-     url: "{{ nexus_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-   when: not nexus_installed.stat.exists
+- name: download nexus
+  become: yes
+  get_url:
+    url: "{{ nexus_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  when: not nexus_installed.stat.exists
 
- - name: expand nexus
-   become: yes
-   unarchive:
-     src: "{{ tmp_dir.path }}/{{ nexus_filename }}"
-     dest: "{{ tmp_dir.path }}"
-     mode: 0755
-     remote_src: yes
-   when: not nexus_installed.stat.exists
+- name: expand nexus
+  become: yes
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ nexus_filename }}"
+    dest: "{{ tmp_dir.path }}"
+    mode: 0755
+    remote_src: yes
+  when: not nexus_installed.stat.exists
 
- - name: copy nexus folder
-   become: yes
-   copy:
-     src: "{{ tmp_dir.path }}/nexus-{{ nexus_version }}/"
-     dest: "{{ nexus_user_home }}/nexus-{{ nexus_version }}"
-     group: "{{ nexus_user }}"
-     owner: "{{ nexus_user }}"
-     remote_src: yes
-   when: not nexus_installed.stat.exists
+- name: copy nexus folder
+  become: yes
+  copy:
+    src: "{{ tmp_dir.path }}/nexus-{{ nexus_version }}/"
+    dest: "{{ nexus_user_home }}/nexus-{{ nexus_version }}"
+    group: "{{ nexus_user }}"
+    owner: "{{ nexus_user }}"
+    remote_src: yes
+  when: not nexus_installed.stat.exists
 
- - name: stop service
-   become: yes
-   systemd:
-     name: nexus
-     state: stopped
-   when: not nexus_installed.stat.exists
+- name: stop service
+  become: yes
+  systemd:
+    name: nexus
+    state: stopped
+  when: not nexus_installed.stat.exists
 
- - name: symlink nexus binary
-   become: yes
-   file:
-     src: "{{ nexus_user_home }}/nexus-{{ nexus_version }}/bin/nexus"
-     dest: "/usr/local/bin/nexus"
-     state: link
+- name: symlink nexus binary
+  become: yes
+  file:
+    src: "{{ nexus_user_home }}/nexus-{{ nexus_version }}/bin/nexus"
+    dest: "/usr/local/bin/nexus"
+    state: link
 
- - name: restart service
-   become: yes
-   systemd:
-     name: nexus
-     state: started
-   when: not nexus_installed.stat.exists
+- name: restart service
+  become: yes
+  systemd:
+    name: nexus
+    state: started
+  when: not nexus_installed.stat.exists
 
 # Firewall
- - name: "allow connections from {{ nexus_ufw_allow_host }}"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ nexus_ufw_allow_host }}"
-     port: "18181"
+- name: "allow connections from {{ nexus_ufw_allow_host }}"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ nexus_ufw_allow_host }}"
+    port: "18181"
