@@ -1,60 +1,61 @@
 ---
+- name: run playbook tasks
+  hosts: titan
+  vars_prompt:
+    - name: aws_profile_data_backup
+      prompt: "Enter AWS profile for location of data backups"
+      default: "andrew-p-spratley"
+      private: no
+    - name: aws_profile_restore_backup
+      prompt: "Enter AWS profile for location of restore backups"
+      default: "spratleyap"
+      private: no
+  roles:
+    - role: backup
+      vars:
+        backup_user: "andrew"
+        backup_host: "titan"
+        local_backup_name: "odin"
+        remote_backup_name: "amazons3"
+        backup_time_delay: "30min"
+        backup_test_time_delay: "180min"
+        backup_aws_profile_data: "{{ aws_profile_data_backup }}"
+        backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
+    - role: backup
+      vars:
+        backup_user: "git"
+        backup_host: "titan"
+        local_backup_name: "odin"
+        remote_backup_name: "amazons3"
+        backup_time_delay: "90min"
+        backup_test_time_delay: "195min"
+        backup_aws_profile_data: "{{ aws_profile_data_backup }}"
+        backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
+    - role: backup
+      when: false
+      vars:
+        backup_user: "jenkins"
+        backup_host: "titan"
+        local_backup_name: "odin"
+        remote_backup_name: "amazons3"
+        backup_time_delay: "120min"
+        backup_test_time_delay: "210min"
+        backup_aws_profile_data: "{{ aws_profile_data_backup }}"
+        backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
+    - role: backup
+      when: false
+      vars:
+        backup_user: "nexus"
+        backup_host: "titan"
+        local_backup_name: "odin"
+        remote_backup_name: "amazons3"
+        backup_time_delay: "150min"
+        backup_test_time_delay: "225min"
+        backup_aws_profile_data: "{{ aws_profile_data_backup }}"
+        backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
 
- - name: run playbook tasks
-   hosts: titan
-   vars_prompt:
-     - name: aws_profile_data_backup
-       prompt: "Enter AWS profile for location of data backups"
-       default: "andrew-p-spratley"
-       private: no
-     - name: aws_profile_restore_backup
-       prompt: "Enter AWS profile for location of restore backups"
-       default: "spratleyap"
-       private: no  
-   roles:
-     - role: backup
-       vars:
-         backup_user: "andrew"
-         backup_host: "titan"
-         local_backup_name: "odin"
-         remote_backup_name: "amazons3"
-         backup_time_delay: "30min"
-         backup_test_time_delay: "180min"
-         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
-         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"         
-     - role: backup
-       vars:
-         backup_user: "git"
-         backup_host: "titan"
-         local_backup_name: "odin"
-         remote_backup_name: "amazons3"
-         backup_time_delay: "90min"
-         backup_test_time_delay: "195min"
-         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
-         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"         
-     - role: backup
-       vars:
-         backup_user: "jenkins"
-         backup_host: "titan"
-         local_backup_name: "odin"
-         remote_backup_name: "amazons3"
-         backup_time_delay: "120min"
-         backup_test_time_delay: "210min"
-         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
-         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"         
-     - role: backup
-       vars:
-         backup_user: "nexus"
-         backup_host: "titan"
-         local_backup_name: "odin"
-         remote_backup_name: "amazons3"
-         backup_time_delay: "150min"
-         backup_test_time_delay: "225min"
-         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
-         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"         
-
-   pre_tasks:
-     - name: update repository caches
-       become: yes
-       apt: update_cache=yes
-       changed_when: False
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False
