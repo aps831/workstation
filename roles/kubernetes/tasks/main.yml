@@ -1,236 +1,254 @@
 ---
 # Minikube
 
- - name: download minikube checksum
-   ansible.builtin.uri:
-     url: "{{ minikube_checksum_url }}"
-     return_content: yes
-   register: minikube_checksum
+- name: download minikube checksum
+  ansible.builtin.uri:
+    url: "{{ minikube_checksum_url }}"
+    return_content: yes
+  register: minikube_checksum
 
- - name: download minikube
-   become: true
-   get_url:
-     url: "{{ minikube_download_url }}"
-     dest: /usr/local/bin/minikube
-     checksum: "sha256:{{ minikube_checksum.content }}"
-     owner: root
-     group: root
-     mode: 0755
+- name: download minikube
+  become: true
+  get_url:
+    url: "{{ minikube_download_url }}"
+    dest: /usr/local/bin/minikube
+    checksum: "sha256:{{ minikube_checksum.content }}"
+    owner: root
+    group: root
+    mode: 0755
 
 # Lens
- - name: ensure group lens exists
-   become: yes
-   ansible.builtin.group:
-     name: lens
-     state: present
+- name: ensure group lens exists
+  become: yes
+  ansible.builtin.group:
+    name: lens
+    state: present
 
- - name: add the user {{ ansible_user }} to lens group
-   become: yes
-   ansible.builtin.user:
-     name: "{{ ansible_user }}"
-     groups: lens
-     append: true
+- name: add the user {{ ansible_user }} to lens group
+  become: yes
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: lens
+    append: true
 
- - name: check if lens is already installed
-   become: yes
-   stat:
-     path: "{{ lens_install_dir }}"
-   register: lens_dir
+- name: check if lens is already installed
+  become: yes
+  stat:
+    path: "{{ lens_install_dir }}"
+  register: lens_dir
 
- - name: create install directory
-   become: true
-   ansible.builtin.file:
-     path: "{{ lens_install_dir }}"
-     state: directory
-     owner: root
-     group: lens
-     mode: 0755
-   when: not lens_dir.stat.exists
+- name: create install directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ lens_install_dir }}"
+    state: directory
+    owner: root
+    group: lens
+    mode: 0755
+  when: not lens_dir.stat.exists
 
- - name: download lens
-   become: true
-   get_url:
-     url: "{{ lens_download_url }}"
-     dest: "{{ lens_install_dir }}/lens"
-     owner: root
-     group: lens
-     mode: 0755
-   when: not lens_dir.stat.exists
+- name: download lens
+  become: true
+  get_url:
+    url: "{{ lens_download_url }}"
+    dest: "{{ lens_install_dir }}/lens"
+    owner: root
+    group: lens
+    mode: 0755
+  when: not lens_dir.stat.exists
 
- - name: create symbolic link
-   become: yes
-   ansible.builtin.file:
-     src: "{{ lens_install_dir }}/lens"
-     path: "/usr/local/bin/lens"
-     state: link
+- name: create symbolic link
+  become: yes
+  ansible.builtin.file:
+    src: "{{ lens_install_dir }}/lens"
+    path: "/usr/local/bin/lens"
+    state: link
 
- - name: add lens shortcut
-   become: yes
-   template:
-     src: lens.desktop.j2
-     dest: /usr/share/applications/lens.desktop
+- name: add lens shortcut
+  become: yes
+  template:
+    src: lens.desktop.j2
+    dest: /usr/share/applications/lens.desktop
 
 # Helm
- - name: create temporary build directory
-   become: yes
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
 
- - name: download helm binary
-   become: yes
-   get_url:
-     url: "{{ helm_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-     checksum: "sha256:{{ helm_checksum_url }}"
-   changed_when: false
+- name: download helm binary
+  become: yes
+  get_url:
+    url: "{{ helm_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ helm_checksum_url }}"
+  changed_when: false
 
- - name: extract from archive
-   become: yes
-   unarchive:
-     src: "{{ tmp_dir.path }}/{{ helm_filename }}"
-     dest: "{{ tmp_dir.path }}"
-     owner: root
-     group: root
-     remote_src: yes
+- name: extract from archive
+  become: yes
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ helm_filename }}"
+    dest: "{{ tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: yes
 
- - name: copy helm file to bin
-   become: yes
-   copy:
-     src: "{{ tmp_dir.path }}/linux-amd64/helm"
-     dest: /usr/local/bin
-     owner: root
-     group: root
-     mode: 0755
-     remote_src: yes
+- name: copy helm file to bin
+  become: yes
+  copy:
+    src: "{{ tmp_dir.path }}/linux-amd64/helm"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: yes
 
- - name: install helm secrets
-   command: helm plugin install https://github.com/jkroepke/helm-secrets
-   ignore_errors: yes
+- name: install helm secrets
+  command: helm plugin install https://github.com/jkroepke/helm-secrets
+  ignore_errors: yes
 
- - name: update helm secrets
-   command: helm plugin update secrets
+- name: update helm secrets
+  command: helm plugin update secrets
 
- - name: install helm diff
-   command: helm plugin install https://github.com/databus23/helm-diff
-   ignore_errors: yes
+- name: install helm diff
+  command: helm plugin install https://github.com/databus23/helm-diff
+  ignore_errors: yes
 
- - name: update helm diff
-   command: helm plugin update diff
+- name: update helm diff
+  command: helm plugin update diff
 
 # Helmfile
- - name: download helmfile binary
-   become: yes
-   get_url:
-     url: "{{ helmfile_download_url }}"
-     dest: /usr/local/bin/helmfile
-     owner: root
-     group: root
-     mode: 0755
+- name: download helmfile binary
+  become: yes
+  get_url:
+    url: "{{ helmfile_download_url }}"
+    dest: /usr/local/bin/helmfile
+    owner: root
+    group: root
+    mode: 0755
 
 # Sops
- - name: install sops
-   become: yes
-   apt:
-      deb: "{{ sops_download_url }}"
+- name: install sops
+  become: yes
+  apt:
+    deb: "{{ sops_download_url }}"
 
 # Fluxcd
- - name: create temporary file for fluxcd download
-   tempfile:
-     state: file
-     suffix: temp
-   register: fluxcd_download_tmp
+- name: create temporary file for fluxcd download
+  tempfile:
+    state: file
+    suffix: temp
+  register: fluxcd_download_tmp
 
- - name: download fluxcd binary
-   get_url:
-     url: "{{ fluxcd_download_url }}"
-     dest: "{{ fluxcd_download_tmp.path }}"
-     checksum: "sha256:{{ fluxcd_checksum_url }}"
-     force: yes
-   changed_when: false
+- name: download fluxcd binary
+  get_url:
+    url: "{{ fluxcd_download_url }}"
+    dest: "{{ fluxcd_download_tmp.path }}"
+    checksum: "sha256:{{ fluxcd_checksum_url }}"
+    force: yes
+  changed_when: false
 
- - name: extract fluxcd from archive
-   become: yes
-   unarchive:
-     src: "{{ fluxcd_download_tmp.path }}"
-     include: flux
-     dest: /usr/local/bin
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
+- name: extract fluxcd from archive
+  become: yes
+  unarchive:
+    src: "{{ fluxcd_download_tmp.path }}"
+    include: flux
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: ensure user profile directory exists
+  become: yes
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: add flux auto completion
+  become: yes
+  template:
+    src: flux.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/flux.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
 # Kubeseal
- - name: create temporary file for kubeseal download
-   tempfile:
-     state: file
-     suffix: temp
-   register: kubeseal_download_tmp
+- name: create temporary file for kubeseal download
+  tempfile:
+    state: file
+    suffix: temp
+  register: kubeseal_download_tmp
 
- - name: download kubeseal binary
-   get_url:
-     url: "{{ kubeseal_download_url }}"
-     dest: "{{ kubeseal_download_tmp.path }}"
-     checksum: "sha256:{{ kubeseal_checksum_url }}"
-     force: yes
-   changed_when: false
+- name: download kubeseal binary
+  get_url:
+    url: "{{ kubeseal_download_url }}"
+    dest: "{{ kubeseal_download_tmp.path }}"
+    checksum: "sha256:{{ kubeseal_checksum_url }}"
+    force: yes
+  changed_when: false
 
- - name: extract kubeseal from archive
-   become: yes
-   unarchive:
-     src: "{{ kubeseal_download_tmp.path }}"
-     include: kubeseal
-     dest: /usr/local/bin
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
+- name: extract kubeseal from archive
+  become: yes
+  unarchive:
+    src: "{{ kubeseal_download_tmp.path }}"
+    include: kubeseal
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
 
 # Kind
- - name: download kind
-   become: yes
-   get_url:
-     url: "{{ kind_download_url }}"
-     dest: "/usr/local/bin/kind"
-     checksum: "sha256:{{ kind_checksum_url }}"
-     owner: root
-     group: root
-     mode: 0755
+- name: download kind
+  become: yes
+  get_url:
+    url: "{{ kind_download_url }}"
+    dest: "/usr/local/bin/kind"
+    checksum: "sha256:{{ kind_checksum_url }}"
+    owner: root
+    group: root
+    mode: 0755
 
 # Istio
- - name: create temporary build directory
-   become: yes
-   tempfile:
-     state: directory
-     suffix: build
-   register: istio_tmp_dir
-   changed_when: false
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: istio_tmp_dir
+  changed_when: false
 
- - name: download istio binary
-   become: yes
-   get_url:
-     url: "{{ istio_download_url }}"
-     dest: "{{ istio_tmp_dir.path }}"
-     checksum: "sha256:{{ istio_checksum_url }}"
-   changed_when: false
+- name: download istio binary
+  become: yes
+  get_url:
+    url: "{{ istio_download_url }}"
+    dest: "{{ istio_tmp_dir.path }}"
+    checksum: "sha256:{{ istio_checksum_url }}"
+  changed_when: false
 
- - name: extract from archive
-   become: yes
-   unarchive:
-     src: "{{ istio_tmp_dir.path }}/{{ istio_filename }}"
-     dest: "{{ istio_tmp_dir.path }}"
-     owner: root
-     group: root
-     remote_src: yes
+- name: extract from archive
+  become: yes
+  unarchive:
+    src: "{{ istio_tmp_dir.path }}/{{ istio_filename }}"
+    dest: "{{ istio_tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: yes
 
- - name: copy istio file to bin
-   become: yes
-   copy:
-     src: "{{ istio_tmp_dir.path }}/istio-{{ istio_version }}/bin/istioctl"
-     dest: /usr/local/bin
-     owner: root
-     group: root
-     mode: 0755
-     remote_src: yes
+- name: copy istio file to bin
+  become: yes
+  copy:
+    src: "{{ istio_tmp_dir.path }}/istio-{{ istio_version }}/bin/istioctl"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: yes
