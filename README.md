@@ -59,13 +59,13 @@ A playbook can be run locally using
 ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
 ```
 
-If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used. These pull the latest version of the playbooks from Bitbucket.
+If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used. These pull the latest version of the playbooks from Github.
 
 To run selected roles from a playbook, add tags to roles using the syntax: `tags: tagname` and append the `ansible-playbook` command with `--tags "tagname"`.
 
 ## Clean Install
 
-A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://bitbucket.org/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`. This script will install the dependencies needed to run Ansible.
+A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://github.com/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`. This script will install the dependencies needed to run Ansible.
 
 After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run. The `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` should not be passed when running the restore playbook, as the vault password will not be accessible at the time of running. The following steps are then required:
 
