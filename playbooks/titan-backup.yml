@@ -22,6 +22,7 @@
         backup_aws_profile_data: "{{ aws_profile_data_backup }}"
         backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
     - role: backup
+      when: false
       vars:
         backup_user: "git"
         backup_host: "titan"
