@@ -25,3 +25,16 @@ istio_version: 1.12.6
 istio_filename: istio-{{ istio_version }}-linux-amd64.tar.gz
 istio_download_url: https://github.com/istio/istio/releases/download/{{ istio_version }}/{{ istio_filename }}
 istio_checksum_url: https://github.com/istio/istio/releases/download/{{ istio_version }}/{{ istio_filename }}.sha256
+kubeconform_version: 0.4.13
+kubeconform_filename: kubeconform-linux-amd64.tar.gz
+kubeconform_download_url: https://github.com/yannh/kubeconform/releases/download/v{{ kubeconform_version }}/{{ kubeconform_filename }}
+kubeconform_checksum_url: https://github.com/yannh/kubeconform/releases/download/v{{ kubeconform_version }}/CHECKSUMS
+kustomize_version: 4.5.5
+kustomize_filename: kustomize_v{{ kustomize_version}}_linux_amd64.tar.gz
+kustomize_download_url: https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv{{ kustomize_version }}/{{ kustomize_filename }}
+kustomize_checksum_url: https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv{{ kustomize_version }}/checksums.txt
+
+krew_version: 0.4.3
+krew_filename: krew-linux_amd64.tar.gz
+krew_download_url: https://github.com/kubernetes-sigs/krew/releases/download/v{{ krew_version }}/krew-linux_amd64.tar.gz
+krew_checksum_url: https://github.com/kubernetes-sigs/krew/releases/download/v{{ krew_version }}/krew-linux_amd64.tar.gz.sha256

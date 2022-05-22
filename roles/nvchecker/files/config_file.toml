@@ -159,6 +159,21 @@ source = "github"
 github = "newren/git-filter-repo"
 use_max_tag = true
 
+[kubeconform]
+source = "github"
+github = "yannh/kubeconform"
+use_max_tag = true
+
+[kustomize]
+source = "github"
+github = "kubernetes-sigs/kustomize"
+use_max_tag = true
+
+[krew]
+source = "github"
+github = "kubernetes-sigs/krew"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

@@ -1,6 +1,5 @@
 ---
 # Minikube
-
 - name: download minikube checksum
   ansible.builtin.uri:
     url: "{{ minikube_checksum_url }}"
@@ -76,22 +75,22 @@
   tempfile:
     state: directory
     suffix: build
-  register: tmp_dir
+  register: helm_tmp_dir
   changed_when: false
 
 - name: download helm binary
   become: yes
   get_url:
     url: "{{ helm_download_url }}"
-    dest: "{{ tmp_dir.path }}"
+    dest: "{{ helm_tmp_dir.path }}"
     checksum: "sha256:{{ helm_checksum_url }}"
   changed_when: false
 
 - name: extract from archive
   become: yes
   unarchive:
-    src: "{{ tmp_dir.path }}/{{ helm_filename }}"
-    dest: "{{ tmp_dir.path }}"
+    src: "{{ helm_tmp_dir.path }}/{{ helm_filename }}"
+    dest: "{{ helm_tmp_dir.path }}"
     owner: root
     group: root
     remote_src: yes
@@ -99,7 +98,7 @@
 - name: copy helm file to bin
   become: yes
   copy:
-    src: "{{ tmp_dir.path }}/linux-amd64/helm"
+    src: "{{ helm_tmp_dir.path }}/linux-amd64/helm"
     dest: /usr/local/bin
     owner: root
     group: root
@@ -252,3 +251,133 @@
     group: root
     mode: 0755
     remote_src: yes
+
+# Kubeconform
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: kubeconform_tmp_dir
+  changed_when: false
+
+- name: download Kubeconform binary
+  become: yes
+  get_url:
+    url: "{{ kubeconform_download_url }}"
+    dest: "{{ kubeconform_tmp_dir.path }}"
+    checksum: "sha256:{{ kubeconform_checksum_url }}"
+  changed_when: false
+
+- name: extract from archive
+  become: yes
+  unarchive:
+    src: "{{ kubeconform_tmp_dir.path }}/{{ kubeconform_filename }}"
+    dest: "{{ kubeconform_tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: copy kubeconform file to bin
+  become: yes
+  copy:
+    src: "{{ kubeconform_tmp_dir.path }}/kubeconform"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: yes
+
+# Kustomize
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: kustomize_tmp_dir
+  changed_when: false
+
+- name: download kustomize binary
+  become: yes
+  get_url:
+    url: "{{ kustomize_download_url }}"
+    dest: "{{ kustomize_tmp_dir.path }}"
+    checksum: "sha256:{{ kustomize_checksum_url }}"
+  changed_when: false
+
+- name: extract from archive
+  become: yes
+  unarchive:
+    src: "{{ kustomize_tmp_dir.path }}/{{ kustomize_filename }}"
+    dest: "{{ kustomize_tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: copy kustomize file to bin
+  become: yes
+  copy:
+    src: "{{ kustomize_tmp_dir.path }}/kustomize"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: yes
+
+# Krew
+- name: create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: krew_tmp_dir
+  changed_when: false
+
+- name: download minikube checksum
+  ansible.builtin.uri:
+    url: "{{ krew_checksum_url }}"
+    return_content: yes
+  register: krew_checksum
+
+- name: download kustomize binary
+  get_url:
+    url: "{{ krew_download_url }}"
+    dest: "{{ krew_tmp_dir.path }}"
+    checksum: "sha256:{{ krew_checksum.content }}"
+  changed_when: false
+
+- name: extract from archive
+  unarchive:
+    src: "{{ krew_tmp_dir.path }}/{{ krew_filename }}"
+    dest: "{{ krew_tmp_dir.path }}"
+    remote_src: yes
+
+- name: install krew
+  command: "{{ krew_tmp_dir.path }}/krew-linux_amd64 install krew"
+
+- name: ensure user profile directory exists
+  become: yes
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: define krew variables
+  become: yes
+  template:
+    src: user_krew.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/krew.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: install kubectx
+  ansible.builtin.shell: "source /home/{{ ansible_user }}/.profile.d/krew.sh && kubectl krew install ctx"
+  args:
+    executable: /bin/bash
+
+- name: install kubens
+  ansible.builtin.shell: "source /home/{{ ansible_user }}/.profile.d/krew.sh && kubectl krew install ns"
+  args:
+    executable: /bin/bash
