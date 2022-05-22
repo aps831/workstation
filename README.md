@@ -147,4 +147,4 @@ A check for new versions can be performed by running `new-version-check`.
 
 ## Temporary Changes
 
-Currently Jenkins and Nexus are not in use and so the systemd tasks in `roles/jenkins/tasks/main.yaml` and `roles/nexus/tasks/main.yaml` are not enabled. Similarly the Jenkins and Nexus backups defined in `playbooks/titan-backup.yml` have been disabled by adding the condition `when: false`. The respective systemd timers defined by the backup role have been manually disabled to prevent the backup jobs running.
+Currently Gogs, Jenkins and Nexus are not in use and so the systemd tasks in `roles/gogs/tasks/main.yaml`, `roles/jenkins/tasks/main.yaml` and `roles/nexus/tasks/main.yaml` are not enabled. Similarly the Gogs, Jenkins and Nexus backups defined in `playbooks/titan-backup.yml` have been disabled by adding the condition `when: false`. The respective systemd timers defined by the backup role have been manually disabled to prevent the backup jobs running.
