@@ -1,106 +1,145 @@
 ---
- - name: install python
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - python3-apt
-     - python3-distutils
-     - python3-dev
-     - python3-venv
-     - python3-pip
-     # pyenv dependencies
-     - make
-     - build-essential
-     - libssl-dev
-     - zlib1g-dev
-     - libbz2-dev
-     - libreadline-dev
-     - libsqlite3-dev
-     - wget
-     - curl
-     - llvm
-     - libncursesw5-dev
-     - xz-utils
-     - tk-dev
-     - libxml2-dev
-     - libxmlsec1-dev
-     - libffi-dev
-     - liblzma-dev
+- name: install python
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - python3-apt
+      - python3-distutils
+      - python3-dev
+      - python3-venv
+      - python3-pip
+      # pyenv dependencies
+      - make
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - wget
+      - curl
+      - llvm
+      - libncursesw5-dev
+      - xz-utils
+      - tk-dev
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libffi-dev
+      - liblzma-dev
 
 # pyenv
- - name: create pyenv folder
-   become: yes
-   file:
-     path: "{{ pyenv_install_dir }}"
-     state: directory
-     mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
+- name: create pyenv folder
+  become: yes
+  file:
+    path: "{{ pyenv_install_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
- - name: get latest tag name
-   uri:
-     url: "{{ pyenv_latest_tag_url }}"
-     return_content: yes
-   register: release_content
+- name: get latest tag name
+  uri:
+    url: "{{ pyenv_latest_tag_url }}"
+    return_content: yes
+  register: release_content
 
- - name: output version
-   ansible.builtin.debug:
-     msg: "Using version {{ release_content.json.tag_name }}"
+- name: output version
+  ansible.builtin.debug:
+    msg: "Using version {{ release_content.json.tag_name }}"
 
- - name: install pyenv
-   git:
-   args:
-     repo: "{{ pyenv_download_url }}"
-     dest: "{{ pyenv_install_dir }}"
-     version: "{{ release_content.json.tag_name }}"
+- name: install pyenv
+  git:
+  args:
+    repo: "{{ pyenv_download_url }}"
+    dest: "{{ pyenv_install_dir }}"
+    version: "{{ release_content.json.tag_name }}"
 
- - name: set system as global version
-   copy:
-     src: "version"
-     dest: "{{ pyenv_install_dir }}/version"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0644
+- name: set system as global version
+  copy:
+    src: "version"
+    dest: "{{ pyenv_install_dir }}/version"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
 
 # python dependencies
- - name: install python dependencies
-   pip:
+- name: install python dependencies
+  pip:
     name:
-     - setuptools=={{ setuptools_version }}
-     - testresources=={{ testresources_version }}
+      - setuptools=={{ setuptools_version }}
+      - testresources=={{ testresources_version }}
 
 # pipenv
- - name: install pipenv
-   pip:
-     name: pipenv
-     version: "{{ pipenv_version }}"
+- name: install pipenv
+  pip:
+    name: pipenv
+    version: "{{ pipenv_version }}"
+
+# poetry
+- name: check if poetry is installed
+  command: "/home/{{ ansible_user }}/.local/bin/poetry"
+  register: poetry_cmd
+  changed_when: false
+  ignore_errors: true
+
+- name: create temporary file for poetry installer
+  tempfile:
+    state: file
+    suffix: temp
+  register: poetry_download_tmp
+  when: poetry_cmd is failed
+
+- name: download poetry installer
+  get_url:
+    url: "{{ poetry_download_url }}"
+    dest: "{{ poetry_download_tmp.path }}"
+    mode: "0400"
+    timeout: 20
+  when: poetry_cmd is failed
+
+- name: install poetry
+  command: "python3 {{ poetry_download_tmp.path }}"
+  when: poetry_cmd is failed
+
+- name: update poetry
+  command: poetry self update
+  when: poetry_cmd is not failed
 
 # profile
- - name: ensure user profile directory exists
-   become: yes
-   ansible.builtin.file:
-     dest: /home/{{ ansible_user }}/.profile.d
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: ensure user profile directory exists
+  become: yes
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: define pyenv variables
-   become: yes
-   template:
-     src: user_pyenv.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/pyenv.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: define pyenv variables
+  become: yes
+  template:
+    src: user_pyenv.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/pyenv.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: define pipenv variables
-   become: yes
-   template:
-     src: user_pipenv.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/pipenv.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: create temporary file for poetry bash completion
+  tempfile:
+    state: file
+    suffix: temp
+  register: poetry_completion_tmp
+
+- name: create poetry bash completion
+  shell: "poetry completions bash > {{ poetry_completion_tmp.path }}"
+  changed_when: false
+
+- name: define pipenv variables
+  copy:
+    src: "{{ poetry_completion_tmp.path }}"
+    dest: "/home/{{ ansible_user }}/.profile.d/poetry.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
