@@ -58,7 +58,8 @@
 
 - name: set system as global version
   copy:
-    src: "version"
+    content: |
+      system
     dest: "{{ pyenv_install_dir }}/version"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
