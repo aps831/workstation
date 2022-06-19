@@ -1,24 +1,24 @@
 ---
+- name: run playbook tasks
+  hosts: md-desktop
+  roles:
+    - role: ansible
+    - role: encryption
+    - role: firewall
+    - role: maintenance
+    - role: teamviewer
+    - role: desktop
+    - role: multimedia
+    - role: dropbox
+    - role: fonts
+    - role: shotwell
+    - role: web
+    - role: virtualbox
+    - role: sambashare
+    - role: shutdown
 
- - name: run playbook tasks
-   hosts: md-desktop
-   roles:
-     - role: ansible
-     - role: encryption
-     - role: firewall
-     - role: maintenance
-     - role: teamviewer
-     - role: desktop
-     - role: multimedia
-     - role: dropbox
-     - role: fonts
-     - role: shotwell
-     - role: web
-     - role: virtualbox
-     - role: sambashare
-
-   pre_tasks:
-     - name: update repository caches
-       become: yes
-       apt: update_cache=yes
-       changed_when: False
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False

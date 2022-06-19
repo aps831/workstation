@@ -1,119 +1,118 @@
 ---
+- name: run playbook tasks
+  hosts: titan
+  roles:
+    # Security
+    - role: encryption
+    - role: firewall
 
- - name: run playbook tasks
-   hosts: titan
-   roles:
+    # Setup
+    - role: ansible
+    - role: hosts
+    - role: nas
+      vars:
+        nas_password: "{{ vault_nas_password }}"
+    - role: chezmoi
 
-# Security
-     - role: encryption
-     - role: firewall
+    # Admin
+    - role: maintenance
+    - role: nvchecker
+    - role: teamviewer
+    - role: shutdown
 
-# Setup
-     - role: ansible
-     - role: hosts
-     - role: nas
-       vars:
-         nas_password: "{{ vault_nas_password }}"
-     - role: chezmoi
+    # Desktop
+    - role: breaktimer
+    - role: desktop
+    - role: dropbox
+    - role: fonts
+    - role: multimedia
+    - role: msteams
+    - role: noson
+    - role: shotwell
+    - role: web
 
-# Admin
-     - role: maintenance
-     - role: nvchecker
-     - role: teamviewer
+    # Programming Tools
+    - role: asdf
+    - role: atom
+    - role: aws
+    - role: commitizen
+    - role: cue
+    - role: dagger
+    - role: docs
+    - role: eclipse
+    - role: intellij
+    - role: git
+    - role: github
+    - role: gcloud
+    - role: kubernetes
+    - role: owaspzap
+    - role: pgadmin
+    - role: podman
+    - role: postman
+    - role: semgrep
+    - role: stoplight
+    - role: sublime
+    - role: terraform
+    - role: trivy
+    - role: trunk
+    - role: vagrant
+    - role: virtualbox
+    - role: vscode
 
-# Desktop
-     - role: breaktimer
-     - role: desktop
-     - role: dropbox
-     - role: fonts
-     - role: multimedia
-     - role: msteams
-     - role: noson
-     - role: shotwell
-     - role: web
+    # Programming Languages
+    - role: ddlog
+    - role: elm
+    - role: golang
+    - role: javascript
+    - role: jvm
+    - role: haskell
+    - role: python
+    - role: prolog
+    - role: rust
 
-# Programming Tools
-     - role: asdf
-     - role: atom
-     - role: aws
-     - role: commitizen
-     - role: cue
-     - role: dagger
-     - role: docs
-     - role: eclipse
-     - role: intellij
-     - role: git
-     - role: github
-     - role: gcloud
-     - role: kubernetes
-     - role: owaspzap
-     - role: pgadmin
-     - role: podman
-     - role: postman
-     - role: semgrep
-     - role: stoplight
-     - role: sublime
-     - role: terraform
-     - role: trivy
-     - role: trunk
-     - role: vagrant
-     - role: virtualbox
-     - role: vscode
+    # Users
+    - role: user
+      vars:
+        create_user: andrew
+    - role: user
+      vars:
+        create_user: git
+    - role: user
+      vars:
+        create_user: jenkins
+    - role: user
+      vars:
+        create_user: nexus
 
-# Programming Languages
-     - role: ddlog
-     - role: elm
-     - role: golang
-     - role: javascript
-     - role: jvm
-     - role: haskell
-     - role: python
-     - role: prolog
-     - role: rust
+    # Services
+    - role: apache2
+    - role: certificate
+    - role: docker
+    - role: gogs
+      vars:
+        gogs_secret: "{{ vault_gogs_secret }}"
+    - role: haproxy
+    - role: jenkins
+    - role: nexus
+    - role: printserver
+    - role: ssh
+    - role: watchtower
 
-# Users
-     - role: user
-       vars:
-         create_user: andrew
-     - role: user
-       vars:
-         create_user: git
-     - role: user
-       vars:
-         create_user: jenkins
-     - role: user
-       vars:
-         create_user: nexus
-
-# Services
-     - role: apache2
-     - role: certificate
-     - role: docker
-     - role: gogs
-       vars:
-         gogs_secret: "{{ vault_gogs_secret }}"
-     - role: haproxy
-     - role: jenkins
-     - role: nexus
-     - role: printserver
-     - role: ssh
-     - role: watchtower
-
-# Maintenance
-     - role: opendata
-       vars:
-         opendata_download_name: "aps831"
-         opendata_download_user: "aps831@yahoo.co.uk"
-         opendata_download_password: "{{ vault_opendata_password_aps831 }}"
-         opendata_download_time_delay: "60min"
-     - role: opendata
-       vars:
-         opendata_download_name: "operations-reports-831"
-         opendata_download_user: "operations.reports.831@gmail.com"
-         opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
-         opendata_download_time_delay: "70min"
-   pre_tasks:
-     - name: update repository caches
-       become: yes
-       apt: update_cache=yes
-       changed_when: False
+    # Maintenance
+    - role: opendata
+      vars:
+        opendata_download_name: "aps831"
+        opendata_download_user: "aps831@yahoo.co.uk"
+        opendata_download_password: "{{ vault_opendata_password_aps831 }}"
+        opendata_download_time_delay: "60min"
+    - role: opendata
+      vars:
+        opendata_download_name: "operations-reports-831"
+        opendata_download_user: "operations.reports.831@gmail.com"
+        opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
+        opendata_download_time_delay: "70min"
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False

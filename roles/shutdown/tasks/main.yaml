@@ -1,0 +1,24 @@
+---
+- name: mask sleep service
+  become: yes
+  systemd:
+    name: sleep.target
+    masked: yes
+
+- name: mask suspend service
+  become: yes
+  systemd:
+    name: suspend.target
+    masked: yes
+
+- name: mask hibernate service
+  become: yes
+  systemd:
+    name: hibernate.target
+    masked: yes
+
+- name: mask hybrid-sleep service
+  become: yes
+  systemd:
+    name: hybrid-sleep.target
+    masked: yes
