@@ -1,16 +1,16 @@
 ---
-
- - name: install application packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - libreoffice
-     - imagemagick
-     - sound-juicer
-     - inkscape
-     - easytag
-     - brasero
-     - vlc
-     - openshot
+- name: install application packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libreoffice
+      - imagemagick
+      - sound-juicer
+      - inkscape
+      - easytag
+      - brasero
+      - vlc
+      - openshot
+      - blueman
