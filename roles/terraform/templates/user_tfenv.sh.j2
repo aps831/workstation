@@ -1,2 +1,4 @@
 #! /bin/bash
-PATH="$HOME/.tfenv/bin:$PATH"
+PATH="${HOME}/.tfenv/bin:${PATH}"
+VERSION=$(tfenv version-name)
+complete -C /hdd/home/andrew/.tfenv/versions/"${VERSION}"/terraform terraform
