@@ -4,6 +4,4 @@ golang_download_filename: go{{ golang_version }}.linux-amd64.tar.gz
 golang_download_url: https://go.dev/dl/{{ golang_download_filename }}
 # https://go.dev/dl/
 golang_checksum: "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f" #pragma: allowlist secret
-goenv_install_dir: /home/{{ ansible_user }}/.goenv
-goenv_download_url: https://github.com/syndbg/goenv
-goenv_latest_tag_url: "https://api.github.com/repos/syndbg/goenv/releases/latest"
+golang_asdf_plugin_url: https://github.com/kennyp/asdf-golang.git

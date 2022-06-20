@@ -1,3 +1,5 @@
 ---
- dependencies:
-   - role: ansible
+dependencies:
+  - role: ansible
+  - role: asdf
+  - role: git

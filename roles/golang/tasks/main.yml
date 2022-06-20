@@ -50,35 +50,21 @@
     state: link
     mode: "0755"
 
-#
-# Goenv
-#
-
-- name: create goenv folder
+# asdf
+- name: install packages
   become: yes
-  file:
-    path: "{{ goenv_install_dir }}"
-    state: directory
-    mode: 0755
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - curl
 
-- name: get latest tag name
-  uri:
-    url: "{{ goenv_latest_tag_url }}"
-    return_content: yes
-  register: release_content
+- name: install asdf plugin
+  ansible.builtin.command: asdf plugin add golang {{ golang_asdf_plugin_url }}
+  ignore_errors: true
 
-- name: output version
-  ansible.builtin.debug:
-    msg: "Using version {{ release_content.json.tag_name }}"
-
-- name: install goenv
-  git:
-  args:
-    repo: "{{ goenv_download_url }}"
-    dest: "{{ goenv_install_dir }}"
-    version: "{{ release_content.json.tag_name }}"
+- name: set global golang version to system
+  ansible.builtin.command: asdf global golang system
 
 - name: ensure user profile directory exists
   become: yes
@@ -97,12 +83,3 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
-
-- name: set system as global version
-  copy:
-    content: |
-      system
-    dest: "{{ goenv_install_dir }}/version"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0644
