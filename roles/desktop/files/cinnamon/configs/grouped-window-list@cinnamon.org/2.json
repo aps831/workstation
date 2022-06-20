@@ -10,32 +10,22 @@
         "generalPage": {
             "type": "page",
             "title": "General",
-            "sections": [
-                "generalSection",
-                "hotKeysSection"
-            ]
+            "sections": ["generalSection", "hotKeysSection"]
         },
         "panelPage": {
             "type": "page",
             "title": "Panel",
-            "sections": [
-                "appButtonsSection"
-            ]
+            "sections": ["appButtonsSection"]
         },
         "thumbnailsPage": {
             "type": "page",
             "title": "Thumbnails",
-            "sections": [
-                "thumbnailsSection",
-                "hoverPeekSection"
-            ]
+            "sections": ["thumbnailsSection", "hoverPeekSection"]
         },
         "contextMenuPage": {
             "type": "page",
             "title": "Context Menu",
-            "sections": [
-                "contextMenuSection"
-            ]
+            "sections": ["contextMenuSection"]
         },
         "generalSection": {
             "type": "section",
@@ -179,7 +169,8 @@
             "com.yubico.yubioath.desktop",
             "code.desktop",
             "io.github.janbar.noson.desktop",
-            "org.gnome.Screenshot.desktop"
+            "org.gnome.Screenshot.desktop",
+            "thunderbird.desktop"
         ]
     },
     "group-apps": {
