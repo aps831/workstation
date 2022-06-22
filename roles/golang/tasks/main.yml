@@ -83,3 +83,39 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
+
+# nancy
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: nancy_tmp_dir
+  changed_when: false
+
+- name: download nancy binary
+  become: yes
+  get_url:
+    url: "{{ nancy_download_url }}"
+    dest: "{{ nancy_tmp_dir.path }}"
+    checksum: "sha256:{{ nancy_checksum_url }}"
+  changed_when: false
+
+- name: extract from archive
+  become: yes
+  unarchive:
+    src: "{{ nancy_tmp_dir.path }}/{{ nancy_filename }}"
+    dest: "{{ nancy_tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: copy nancy file to bin
+  become: yes
+  copy:
+    src: "{{ nancy_tmp_dir.path }}/nancy"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: yes

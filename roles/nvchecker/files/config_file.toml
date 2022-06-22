@@ -179,6 +179,11 @@ source = "github"
 github = "derailed/k9s"
 use_max_tag = true
 
+[nancy]
+source = "github"
+github = "sonatype-nexus-community/nancy"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

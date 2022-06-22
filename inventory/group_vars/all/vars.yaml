@@ -35,6 +35,7 @@ kubeconform_version: 0.4.13
 kustomize_version: 4.5.5
 krew_version: 0.4.3
 k9s_version: 0.25.18
+nancy_version: 1.0.36
 
 # Pip Installs
 psutil_version: 5.9.0
