@@ -409,7 +409,7 @@
     group: root
     remote_src: yes
 
-- name: copy kubeconform file to bin
+- name: copy k9s file to bin
   become: yes
   copy:
     src: "{{ k9s_tmp_dir.path }}/k9s"
