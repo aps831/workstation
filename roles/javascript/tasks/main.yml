@@ -1,135 +1,137 @@
 ---
-
 #
 # System Node
 #
 
- - name: create temporary file for key
-   become: yes
-   ansible.builtin.tempfile:
-     state: file
-     suffix: temp
-   register: key_temp_file
-   changed_when: False
+- name: create temporary file for key
+  become: yes
+  ansible.builtin.tempfile:
+    state: file
+    suffix: temp
+  register: key_temp_file
+  changed_when: False
 
- - name: download key
-   become: yes
-   ansible.builtin.get_url:
-     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-     dest: "{{ key_temp_file.path }}"
-     force: yes
+- name: download key
+  become: yes
+  ansible.builtin.get_url:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    dest: "{{ key_temp_file.path }}"
+    force: yes
 
- - name: dearmor key
-   become: yes
-   ansible.builtin.shell:
-     cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/nodesource.gpg
+- name: dearmor key
+  become: yes
+  ansible.builtin.shell:
+    cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/nodesource.gpg
 
- - name: get debian distro
-   shell:
-     cmd: cat /etc/debian_version | awk -F/ '{ print $1 }'
-   register: debian_distro
-   changed_when: False
+- name: get debian distro
+  shell:
+    cmd: cat /etc/debian_version | awk -F/ '{ print $1 }'
+  register: debian_distro
+  changed_when: False
 
- - name: add nodesource repository
-   become: yes
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
-     filename: "nodesource"
-     state: present
+- name: add nodesource repository
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
+    filename: "nodesource"
+    state: present
 
- - name: add nodesource src repository
-   become: yes
-   apt_repository:
-     repo: "deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
-     filename: "nodesource"
-     state: present
+- name: add nodesource src repository
+  become: yes
+  apt_repository:
+    repo: "deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
+    filename: "nodesource"
+    state: present
 
- - name: install nodejs
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - nodejs
+- name: install nodejs
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - nodejs
 
- - name: upgrade npm
-   community.general.npm:
-     name: npm
-     global: yes
+- name: upgrade npm
+  community.general.npm:
+    name: npm
+    global: yes
 
 #
 # Nvm
 #
 
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - build-essential
-     - libssl-dev
-     - curl
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - build-essential
+      - libssl-dev
+      - curl
 
- - name: get latest tag name
-   uri:
-     url: "{{ nvm_latest_tag_url }}"
-     return_content: yes
-   register: release_content
+- name: get latest tag name
+  uri:
+    url: "{{ nvm_latest_tag_url }}"
+    return_content: yes
+  register: release_content
 
- - name: output version
-   ansible.builtin.debug:
-     msg: "Using version {{ release_content.json.tag_name }}"
+- name: output version
+  ansible.builtin.debug:
+    msg: "Using version {{ release_content.json.tag_name }}"
 
- - name: install nvm
-   git:
-   args:
-     repo: "{{ nvm_download_url }}"
-     dest: "{{ nvm_dir }}"
-     version: "{{ release_content.json.tag_name }}"
+- name: install nvm
+  git:
+  args:
+    repo: "{{ nvm_download_url }}"
+    dest: "{{ nvm_dir }}"
+    version: "{{ release_content.json.tag_name }}"
 
- - name: follow symlink to nvm directory
-   shell: readlink -f {{ nvm_dir }}
-   register: nvm_dir_install
-   changed_when: False
+- name: follow symlink to nvm directory
+  shell: readlink -f {{ nvm_dir }}
+  register: nvm_dir_install
+  changed_when: False
 
- - name: install lts node version and latest npm version
-   shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm install --lts --latest-npm"
-   args:
-     executable: /bin/bash
-   register: nvm_install_result
-   changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
+- name: install lts node version and latest npm version
+  shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm install --lts --latest-npm"
+  args:
+    executable: /bin/bash
+  register: nvm_install_result
+  changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
 
- - name: alias default node to system
-   shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm alias default system"
-   args:
-     executable: /bin/bash
+- name: alias default node to system
+  shell: "source {{ nvm_dir_install.stdout }}/nvm.sh && nvm alias default system"
+  args:
+    executable: /bin/bash
 
 # Profile
- - name: ensure user profile directory exists
-   become: yes
-   ansible.builtin.file:
-     dest: /home/{{ ansible_user }}/.profile.d
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: ensure user profile directory exists
+  become: yes
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: define user nvm variables
-   become: yes
-   template:
-     src: user_nvm.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/nvm.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: define user nvm variables
+  become: yes
+  template:
+    src: user_nvm.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/nvm.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
 # asdf
- - name: install asdf plugin
-   ansible.builtin.command: asdf plugin add nodejs {{ asdf_node_plugin_url }}
-   ignore_errors: true
+- name: install asdf plugin
+  ansible.builtin.command: asdf plugin add nodejs {{ node_asdf_plugin_url }}
+  ignore_errors: true
 
- - name: install latest node version
-   ansible.builtin.command: asdf install nodejs latest
+- name: install latest node version
+  ansible.builtin.command: asdf install nodejs latest
+
+- name: set global nodejs version to system
+  ansible.builtin.command: asdf global nodejs system
