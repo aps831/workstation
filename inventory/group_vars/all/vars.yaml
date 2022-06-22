@@ -34,6 +34,7 @@ git_filter_repo_version: 2.34.0
 kubeconform_version: 0.4.13
 kustomize_version: 4.5.5
 krew_version: 0.4.3
+k9s_version: 0.25.18
 
 # Pip Installs
 psutil_version: 5.9.0

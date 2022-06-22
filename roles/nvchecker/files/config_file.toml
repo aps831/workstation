@@ -174,6 +174,11 @@ source = "github"
 github = "kubernetes-sigs/krew"
 use_max_tag = true
 
+[k9s]
+source = "github"
+github = "derailed/k9s"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]
