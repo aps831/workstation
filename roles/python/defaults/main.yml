@@ -4,3 +4,4 @@ pyenv_latest_tag_url: "https://api.github.com/repos/pyenv/pyenv/releases/latest"
 poetry_download_url: "https://install.python-poetry.org"
 setuptools_version: 61.2.0
 testresources_version: 2.0.1
+safety_version: 2.0b5

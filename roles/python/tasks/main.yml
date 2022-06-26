@@ -71,6 +71,7 @@
     name:
       - setuptools=={{ setuptools_version }}
       - testresources=={{ testresources_version }}
+      - safety=={{ safety_version }}
 
 # poetry
 - name: check if poetry is installed

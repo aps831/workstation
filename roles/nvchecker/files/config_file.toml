@@ -254,6 +254,10 @@ pypi = "semgrep"
 source = "pypi"
 pypi = "http-prompt"
 
+[safety]
+source = "pypi"
+pypi = "safety"
+
 # Other Installs
 
 [eclipse]
