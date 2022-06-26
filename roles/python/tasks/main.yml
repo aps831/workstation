@@ -72,12 +72,6 @@
       - setuptools=={{ setuptools_version }}
       - testresources=={{ testresources_version }}
 
-# pipenv
-- name: install pipenv
-  pip:
-    name: pipenv
-    version: "{{ pipenv_version }}"
-
 # poetry
 - name: check if poetry is installed
   command: "/home/{{ ansible_user }}/.local/bin/poetry"
@@ -137,7 +131,7 @@
   shell: "poetry completions bash > {{ poetry_completion_tmp.path }}"
   changed_when: false
 
-- name: define pipenv variables
+- name: define poetry variables
   copy:
     src: "{{ poetry_completion_tmp.path }}"
     dest: "/home/{{ ansible_user }}/.profile.d/poetry.sh"
