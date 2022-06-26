@@ -254,10 +254,6 @@ pypi = "semgrep"
 source = "pypi"
 pypi = "http-prompt"
 
-[pipenv]
-source = "pypi"
-pypi = "pipenv"
-
 # Other Installs
 
 [eclipse]
