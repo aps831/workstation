@@ -1,3 +1,2 @@
 vagrant_version: 2.2.19
 vagrant_package_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
-vagrant_package_tmp: "/tmp/vagrant_x86_64.deb"
