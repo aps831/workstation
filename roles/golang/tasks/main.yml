@@ -5,7 +5,7 @@
 - name: test if version already installed
   become: yes
   ansible.builtin.stat:
-    path: "/usr/local/go-{{ golang_version }}"
+    path: "/usr/local/bin/go-{{ golang_version }}"
   register: golang_install_dir
 
 - name: create temporary build directory
@@ -27,7 +27,7 @@
 - name: create directory for installation
   become: yes
   ansible.builtin.file:
-    path: "/usr/local/go-{{ golang_version }}"
+    path: "/usr/local/bin/go-{{ golang_version }}"
     state: directory
     mode: "0755"
 
@@ -35,7 +35,7 @@
   become: yes
   unarchive:
     src: "{{ tmp_dir.path }}/{{ golang_download_filename }}"
-    dest: "/usr/local/go-{{ golang_version }}"
+    dest: "/usr/local/bin/go-{{ golang_version }}"
     remote_src: yes
     owner: root
     group: root
@@ -45,8 +45,16 @@
 - name: create symbolic link
   become: yes
   file:
-    src: "/usr/local/go-{{ golang_version }}/go"
-    dest: "/usr/local/go"
+    src: "/usr/local/bin/go-{{ golang_version }}/go/bin/go"
+    dest: "/usr/local/bin/go"
+    state: link
+    mode: "0755"
+
+- name: create symbolic link
+  become: yes
+  file:
+    src: "/usr/local/bin/go-{{ golang_version }}/go/bin/gofmt"
+    dest: "/usr/local/bin/gofmt"
     state: link
     mode: "0755"
 
