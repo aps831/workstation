@@ -1,0 +1,4 @@
+task_version: 3.13.0
+task_filename: task_linux_amd64.deb
+task_download_url: https://github.com/go-task/task/releases/download/v{{ task_version }}/{{ task_filename }}
+task_checksum_url: https://github.com/go-task/task/releases/download/v{{ task_version }}/task_checksums.txt

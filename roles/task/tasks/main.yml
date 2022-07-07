@@ -1,0 +1,21 @@
+- name: create temporary build directory
+  become: yes
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
+
+- name: download cue binary
+  become: yes
+  get_url:
+    url: "{{ task_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ task_checksum_url }}"
+  changed_when: false
+
+- name: install task
+  become: yes
+  apt:
+    deb: "{{ tmp_dir.path }}/{{ task_filename }}"
+    state: present

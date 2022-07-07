@@ -184,6 +184,11 @@ source = "github"
 github = "sonatype-nexus-community/nancy"
 use_max_tag = true
 
+[task]
+source = "github"
+github = "go-task/task"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

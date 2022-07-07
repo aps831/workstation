@@ -50,6 +50,7 @@
     - role: semgrep
     - role: stoplight
     - role: sublime
+    - role: task
     - role: terraform
     - role: trivy
     - role: trunk
