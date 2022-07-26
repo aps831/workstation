@@ -15,7 +15,6 @@
     - role: web
     - role: virtualbox
     - role: sambashare
-    - role: shutdown
 
   pre_tasks:
     - name: update repository caches
