@@ -33,7 +33,6 @@
 
     # Programming Tools
     - role: asdf
-    - role: atom
     - role: aws
     - role: commitizen
     - role: cue
