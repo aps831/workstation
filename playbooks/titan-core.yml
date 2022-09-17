@@ -26,7 +26,6 @@
     - role: dropbox
     - role: fonts
     - role: multimedia
-    - role: msteams
     - role: noson
     - role: shotwell
     - role: web
