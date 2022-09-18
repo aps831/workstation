@@ -12,6 +12,7 @@
     - role: dropbox
     - role: fonts
     - role: shotwell
+    - role: shutdown
     - role: web
     - role: virtualbox
     - role: sambashare
