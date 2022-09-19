@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Trunk Check
-        uses: trunk-io/trunk-action@v1.0.2
+        uses: trunk-io/trunk-action@v1.0.4
