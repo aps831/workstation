@@ -15,6 +15,7 @@ chezmoi apply
 ## Folders
 
 -   .cargo
+-   .cloudflared
 -   .config/Code
 -   .config/JetBrains
 -   .config/helm

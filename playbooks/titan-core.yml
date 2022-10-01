@@ -33,6 +33,7 @@
     # Programming Tools
     - role: asdf
     - role: aws
+    - role: cloudflared
     - role: commitizen
     - role: cue
     - role: dagger

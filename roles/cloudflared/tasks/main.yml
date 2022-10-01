@@ -1,0 +1,4 @@
+- name: install cloudflared
+  become: yes
+  apt:
+    deb: "{{ cloudflared_download_url }}"
