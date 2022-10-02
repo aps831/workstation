@@ -14,6 +14,7 @@ chezmoi apply
 
 ## Folders
 
+-   .akeyless
 -   .cargo
 -   .cloudflared
 -   .config/Code

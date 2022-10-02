@@ -1,0 +1,10 @@
+---
+- name: download akeyless binary
+  become: yes
+  get_url:
+    url: "{{ akeyless_download_url }}"
+    dest: "/usr/local/bin/akeyless"
+    owner: root
+    group: root
+    mode: 0755
+  changed_when: false

@@ -38,6 +38,7 @@
         backup_test_time_delay: "240min"
 
     # Programming Tools
+    - role: akeyless
     - role: asdf
     - role: aws
     - role: cloudflared
