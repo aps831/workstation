@@ -52,6 +52,7 @@
     - role: github
     - role: gcloud
     - role: kubernetes
+    - role: mdbook
     - role: owaspzap
     - role: pgadmin
     - role: podman

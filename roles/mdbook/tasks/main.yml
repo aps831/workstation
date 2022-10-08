@@ -1,0 +1,57 @@
+---
+- name: create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
+
+- name: download mdbook binary
+  get_url:
+    url: "{{ mdbook_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  changed_when: false
+
+- name: extract mdbook from archive
+  become: yes
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ mdbook_filename }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: create temporary file for mdbook bash completion
+  tempfile:
+    state: file
+    suffix: temp
+  register: mdbook_completion_tmp
+
+- name: create mdbook bash completion
+  shell: "mdbook completions bash > {{ mdbook_completion_tmp.path }}"
+  changed_when: false
+
+- name: define mdbook variables
+  copy:
+    src: "{{ mdbook_completion_tmp.path }}"
+    dest: "/home/{{ ansible_user }}/.profile.d/mdbook.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: download mdbook-mermaid binary
+  get_url:
+    url: "{{ mdbook_mermaid_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  changed_when: false
+
+- name: extract mdbook-mermaid from archive
+  become: yes
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ mdbook_mermaid_filename }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755

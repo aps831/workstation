@@ -189,6 +189,16 @@ source = "github"
 github = "go-task/task"
 use_max_tag = true
 
+[mdbook]
+source = "github"
+github = "rust-lang/mdBook"
+use_max_tag = true
+
+[mdbook-mermaid]
+source = "github"
+github = "badboy/mdbook-mermaid"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]
