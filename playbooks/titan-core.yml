@@ -15,7 +15,7 @@
     - role: chezmoi
 
     # Admin
-    - role: maintenance
+    - role: system
     - role: nvchecker
     - role: teamviewer
     - role: shutdown
@@ -100,7 +100,7 @@
     - role: ssh
     - role: watchtower
 
-    # Maintenance
+    # system
     - role: opendata
       vars:
         opendata_download_name: "aps831"

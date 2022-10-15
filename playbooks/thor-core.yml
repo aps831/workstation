@@ -13,7 +13,7 @@
     - role: chezmoi
 
     # Admin
-    - role: maintenance
+    - role: system
     - role: nvchecker
     - role: teamviewer
     - role: shutdown
