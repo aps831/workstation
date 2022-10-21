@@ -1,0 +1,52 @@
+#! /bin/bash
+
+export MERMAID_BIN="/usr/bin/mmdc"
+
+LINE_BREAK_FILE=$(mktemp)
+
+trap 'rm -f ${LINE_BREAK_FILE}' EXIT
+
+cat <<EOF >"${LINE_BREAK_FILE}"
+function RawInline (el)
+  if el.format:match '^html' and el.text:match '%<br ?/?%>' then
+    return pandoc.LineBreak()
+  end
+end
+EOF
+
+for FILE; do
+
+    [[ -e ${FILE} ]] || continue
+
+    FILENAME=${FILE%.*}
+
+    if [[ -f ${FILENAME}.md && -f ${FILENAME}.pdf ]]; then
+
+        read -p "The file ${FILENAME}.pdf already exists. Do you want to overwrite? [yN] " -n 1 -r
+        echo
+
+        if [[ ${REPLY} =~ ^[Yy]$ ]]; then
+
+            PROCESS="Y"
+
+        else
+            PROCESS="N"
+        fi
+
+    elif [[ -f ${FILENAME}.md ]]; then
+
+        PROCESS="Y"
+
+    else
+
+        PROCESS="N"
+
+    fi
+
+    if [[ ${PROCESS} == "Y" ]]; then
+
+        pandoc -o "${FILENAME}.pdf" --lua-filter "${LINE_BREAK_FILE}" --filter pandoc-plantuml --filter pandoc-mermaid --pdf-engine=pdflatex "${FILENAME}.md"
+
+    fi
+
+done

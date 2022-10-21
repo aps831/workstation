@@ -26,3 +26,51 @@
     production: yes
     global: yes
     state: latest
+
+- name: install md2pdf script
+  ansible.builtin.copy:
+    src: md2pdf
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: install md2word script
+  ansible.builtin.copy:
+    src: md2word
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: install mmd2png script
+  ansible.builtin.copy:
+    src: mmd2png
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: install mmd2svg script
+  ansible.builtin.copy:
+    src: mmd2svg
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: install puml2png script
+  ansible.builtin.copy:
+    src: puml2png
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: install puml2svg script
+  ansible.builtin.copy:
+    src: puml2svg
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744

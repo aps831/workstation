@@ -1,0 +1,38 @@
+#! /bin/bash
+
+for FILE; do
+
+    [[ -e ${FILE} ]] || continue
+
+    FILENAME=${FILE%.*}
+
+    if [[ -f ${FILENAME}.puml && -f ${FILENAME}.svg ]]; then
+
+        read -p "The file ${FILENAME}.svg already exists. Do you want to overwrite? [yN] " -n 1 -r
+        echo
+
+        if [[ ${REPLY} =~ ^[Yy]$ ]]; then
+
+            PROCESS="Y"
+
+        else
+            PROCESS="N"
+        fi
+
+    elif [[ -f ${FILENAME}.puml ]]; then
+
+        PROCESS="Y"
+
+    else
+
+        PROCESS="N"
+
+    fi
+
+    if [[ ${PROCESS} == "Y" ]]; then
+
+        plantuml -tsvg "${FILENAME}.puml"
+
+    fi
+
+done
