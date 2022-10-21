@@ -12,3 +12,17 @@
       - graphviz
       - pandoc-plantuml-filter
       - plantuml
+
+- name: install ansible python dependencies
+  pip:
+    name:
+      - pandoc-mermaid-filter
+    state: present
+
+- name: install mermaid
+  become: yes
+  community.general.npm:
+    name: "@mermaid-js/mermaid-cli"
+    production: yes
+    global: yes
+    state: latest
