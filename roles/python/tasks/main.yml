@@ -1,6 +1,6 @@
 ---
 - name: install python
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
   vars:
@@ -31,7 +31,7 @@
 
 # pyenv
 - name: create pyenv folder
-  become: yes
+  become: true
   file:
     path: "{{ pyenv_install_dir }}"
     state: directory
@@ -99,13 +99,14 @@
   command: "python3 {{ poetry_download_tmp.path }}"
   when: poetry_cmd is failed
 
+# If this hangs, try deleting the cache ~/.cache/pypoetry
 - name: update poetry
-  command: poetry self update
+  command: poetry self update --no-interaction
   when: poetry_cmd is not failed
 
 # profile
 - name: ensure user profile directory exists
-  become: yes
+  become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
@@ -114,7 +115,7 @@
     mode: 0755
 
 - name: define pyenv variables
-  become: yes
+  become: true
   template:
     src: user_pyenv.sh.j2
     dest: /home/{{ ansible_user }}/.profile.d/pyenv.sh
