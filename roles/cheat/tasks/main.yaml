@@ -1,0 +1,27 @@
+---
+- name: Download cht.sh
+  ansible.builtin.get_url:
+    url: https://cht.sh/:cht.sh
+    dest: /home/{{ ansible_user }}/.local/bin/cht.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: Download cht.sh bash completion
+  ansible.builtin.get_url:
+    url: https://cheat.sh/:bash_completion
+    headers:
+      user-agent: curl/7.55.1
+    dest: /home/{{ ansible_user }}/.profile.d/cht.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
