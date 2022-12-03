@@ -1,0 +1,13 @@
+- name: install kvm dependencies
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - bridge-utils
+      - cpu-checker
+      - libvirt-clients
+      - libvirt-daemon
+      - qemu
+      - qemu-kvm
+      - virt-manager

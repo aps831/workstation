@@ -46,6 +46,7 @@
     - role: github
     - role: gcloud
     - role: kubernetes
+    - role: kvm
     - role: mdbook
     - role: owaspzap
     - role: pgadmin

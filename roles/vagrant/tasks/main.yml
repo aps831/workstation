@@ -1,10 +1,33 @@
 ---
+- name: install package
+  become: true
+  apt:
+    deb: "{{ vagrant_package_url }}"
+    state: present
 
- - name: install package
-   become: true
-   apt:
-     deb: "{{ vagrant_package_url }}"
-     state: present
+- name: install libvirt dependencies
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - dnsmasq-base
+      - ebtables
+      - libvirt-daemon-system
+      - libvirt-clients
+      - libxslt-dev
+      - libxml2-dev
+      - libvirt-dev
+      - qemu
+      - ruby-dev
+      - ruby-libvirt
+      - zlib1g-dev
 
- - name: install disksize plugin
-   command: vagrant plugin install vagrant-disksize
+- name: install disksize plugin
+  command: vagrant plugin install vagrant-disksize
+
+- name: install libvirt plugin
+  command: vagrant plugin install vagrant-libvirt
+
+- name: install mutate plugin
+  command: vagrant plugin install vagrant-mutate
