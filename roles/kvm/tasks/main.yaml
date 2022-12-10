@@ -11,3 +11,17 @@
       - qemu
       - qemu-kvm
       - virt-manager
+
+- name: Enable audio
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/qemu.conf
+    regexp: ".*vnc_allow_host_audio = [01].*"
+    line: vnc_allow_host_audio = 1
+
+- name: Restart service
+  become: true
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes
+    name: libvirtd
