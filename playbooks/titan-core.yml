@@ -78,15 +78,6 @@
     - role: user
       vars:
         create_user: andrew
-    - role: user
-      vars:
-        create_user: git
-    - role: user
-      vars:
-        create_user: jenkins
-    - role: user
-      vars:
-        create_user: nexus
 
     # Services
     - role: apache2
