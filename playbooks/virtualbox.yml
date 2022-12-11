@@ -91,7 +91,6 @@
     - role: certificate
     - role: docker
     - role: haproxy
-    - role: nexus
     - role: printserver
     - role: sambashare
     - role: ssh
