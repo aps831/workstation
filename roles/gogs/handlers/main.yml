@@ -1,9 +1,0 @@
----
-
-  - name: restart gogs
-    become: yes
-    systemd:
-      name: gogs
-      daemon_reload: yes
-      state: restarted
-

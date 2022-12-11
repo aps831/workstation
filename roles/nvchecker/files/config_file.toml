@@ -104,11 +104,6 @@ source = "github"
 github = "nektos/act"
 use_latest_release = true
 
-[gogs]
-source = "github"
-github = "gogs/gogs"
-use_latest_release = true
-
 [iamlive]
 source = "github"
 github = "iann0036/iamlive"

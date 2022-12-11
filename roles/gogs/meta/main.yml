@@ -1,5 +1,0 @@
----
- dependencies:
-   - role: git
-   - role: ssh
-   - { role: user, create_user: git }

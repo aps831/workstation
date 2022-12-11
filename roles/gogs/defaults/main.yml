@@ -1,4 +1,0 @@
----
-gogs_version: 0.12.6
-gogs_filename: gogs_{{ gogs_version }}_linux_amd64.zip
-gogs_download_url: https://github.com/gogs/gogs/releases/download/v{{ gogs_version }}/{{ gogs_filename }}

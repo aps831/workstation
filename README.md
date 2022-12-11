@@ -23,7 +23,7 @@ To update the vault with passwords stored in `pass` run `vault.sh`.
 
 To test the Ansible provisioning using Vagrant run `vagrant up`. The current image for Linux Mint has insufficient initial disk space. Before the Ansible provisioning is run the partition must be expanded to fill the additional disk space that is created as part of the virtual machine provisioning. The first step is to start the virtual machine but without the Ansible provisioning. This can be done by commenting out the appropriate section in the `Vagrantfile`. Then login to the virtual machine using the user and password `vagrant` and run:
 
-```
+```bash
 sudo apt install cloud-guest-utils gparted
 sudo growpart /dev/sda 2
 sudo resize2fs /dev/sda5
@@ -43,7 +43,7 @@ Once Docker has been installed and the Vagrant machine has been restarted, the n
 
 To run a single role:
 
-```
+```bash
 ansible --ask-become --ask-vault-pass -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>" --extra-vars "@inventory/vaulted_vars/vault.yml" <host_name>
 ```
 
@@ -55,7 +55,7 @@ If the role requires a number of parameters to be passed to it, then it may be e
 
 A playbook can be run locally using
 
-```
+```bash
 ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
 ```
 
@@ -89,7 +89,7 @@ The printer may be installed automatically for a local install but may need to b
 
 If running `hp-setup -i` or `hp-plugin -i` results in an problem downloading the plugin, then it can be done manually:
 
-```
+```bash
 wget https://developers.hp.com/sites/default/files/hplip-3.20.11-plugin.run
 hp-plugin -i -p .
 ```
@@ -117,7 +117,6 @@ The following roles have version numbers defined within the role:
 -   elm
 -   git
 -   github
--   gogs
 -   haskell
 -   intellij
 -   javascript
@@ -144,7 +143,3 @@ New versions are tracked using [newreleases.io](https://newreleases.io/) except 
 Version numbers are also defined centrally in `inventory/group_vars/all/vars.yaml`. These take precedence over the default values in the roles.
 
 A check for new versions can be performed by running `new-version-check`.
-
-## Temporary Changes
-
-Currently Gogs, Jenkins and Nexus are not in use and so the systemd tasks in `roles/gogs/tasks/main.yaml`, `roles/jenkins/tasks/main.yaml` and `roles/nexus/tasks/main.yaml` are not enabled. Similarly the Gogs, Jenkins and Nexus backups defined in `playbooks/titan-backup.yml` have been disabled by adding the condition `when: false`. The respective systemd timers defined by the backup role have been manually disabled to prevent the backup jobs running.
