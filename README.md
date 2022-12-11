@@ -120,7 +120,6 @@ The following roles have version numbers defined within the role:
 -   haskell
 -   intellij
 -   javascript
--   jenkins
 -   kubernetes
 -   nvchecker
 -   owaspzap

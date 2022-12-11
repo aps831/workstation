@@ -13,9 +13,3 @@ haproxy_host: titan.local
 haproxy_docker_external_port: 5000
 haproxy_docker_internal_port: 5001
 haproxy_ufw_allow_host: "{{ hosts_thor_ip_address }}"
-
-# Jenkins
-jenkins_http_port: 8989
-jenkins_user: jenkins
-jenkins_user_home: /home/jenkins
-jenkins_ufw_allow_host: "{{ hosts_thor_ip_address }}"

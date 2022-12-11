@@ -124,11 +124,6 @@ source = "github"
 github = "elm/compiler"
 use_latest_release = true
 
-[jenkins]
-source = "github"
-github = "jenkinsci/jenkins"
-use_latest_release = true
-
 [vagrant]
 source = "github"
 github = "hashicorp/vagrant"
