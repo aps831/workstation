@@ -19,8 +19,3 @@ jenkins_http_port: 8989
 jenkins_user: jenkins
 jenkins_user_home: /home/jenkins
 jenkins_ufw_allow_host: "{{ hosts_thor_ip_address }}"
-
-# Nexus
-nexus_user: nexus
-nexus_user_home: /home/nexus
-nexus_ufw_allow_host: "{{ hosts_thor_ip_address }}"

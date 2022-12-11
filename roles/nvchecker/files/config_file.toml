@@ -129,11 +129,6 @@ source = "github"
 github = "jenkinsci/jenkins"
 use_latest_release = true
 
-[nexus]
-source = "github"
-github = "sonatype/nexus-public"
-use_latest_release = true
-
 [vagrant]
 source = "github"
 github = "hashicorp/vagrant"

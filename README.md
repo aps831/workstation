@@ -122,7 +122,6 @@ The following roles have version numbers defined within the role:
 -   javascript
 -   jenkins
 -   kubernetes
--   nexus
 -   nvchecker
 -   owaspzap
 -   python
