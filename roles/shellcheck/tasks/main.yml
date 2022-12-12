@@ -1,8 +1,7 @@
-
- - name: install packages
-   become: true
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - shellcheck
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - shellcheck
