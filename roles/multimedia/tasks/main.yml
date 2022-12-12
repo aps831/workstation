@@ -1,6 +1,6 @@
 ---
 - name: install application packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
   vars:
@@ -17,3 +17,5 @@
       - lsp-plugins
       - pulseeffects
       - cheese
+      - heif-gdk-pixbuf
+      - libheif-examples
