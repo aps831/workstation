@@ -10,22 +10,32 @@
         "generalPage": {
             "type": "page",
             "title": "General",
-            "sections": ["generalSection", "hotKeysSection"]
+            "sections": [
+                "generalSection",
+                "hotKeysSection"
+            ]
         },
         "panelPage": {
             "type": "page",
             "title": "Panel",
-            "sections": ["appButtonsSection"]
+            "sections": [
+                "appButtonsSection"
+            ]
         },
         "thumbnailsPage": {
             "type": "page",
             "title": "Thumbnails",
-            "sections": ["thumbnailsSection", "hoverPeekSection"]
+            "sections": [
+                "thumbnailsSection",
+                "hoverPeekSection"
+            ]
         },
         "contextMenuPage": {
             "type": "page",
             "title": "Context Menu",
-            "sections": ["contextMenuSection"]
+            "sections": [
+                "contextMenuSection"
+            ]
         },
         "generalSection": {
             "type": "section",
@@ -157,6 +167,7 @@
             "firefox.desktop",
             "nemo.desktop",
             "virtualbox.desktop",
+            "virt-manager.desktop",
             "org.gnome.Terminal.desktop",
             "Eclipse.desktop",
             "shotwell.desktop",
