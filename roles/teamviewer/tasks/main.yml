@@ -1,21 +1,20 @@
 ---
+
 - name: apt-key add
-  become: yes
-  ansible.builtin.apt_key:
-    keyring: "/etc/apt/trusted.gpg.d/teamviewer.gpg"
-    url: "https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc"
-    id: "8CAE012EBFAC38B17A937CD8C5E224500C1289C0"
-    state: "present"
+  become: true
+  apt_key:
+    url: https://linux.teamviewer.com/pubkey/currentkey.asc
+    state: present
 
 - name: apt-add-repository
-  become: yes
+  become: true
   ansible.builtin.apt_repository:
     filename: "teamviewer"
     repo: "deb https://linux.teamviewer.com/deb stable main"
     state: "present"
 
 - name: apt-get install
-  become: yes
+  become: true
   ansible.builtin.apt:
     name: "teamviewer"
     state: "latest"
