@@ -1,2 +1,2 @@
-duplicacy_version: 2.7.2
+duplicacy_version: 3.0.1
 duplicacy_download_url: https://github.com/gilbertchen/duplicacy/releases/download/v{{ duplicacy_version }}/duplicacy_linux_x64_{{ duplicacy_version }}
