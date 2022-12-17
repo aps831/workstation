@@ -1,243 +1,246 @@
 ---
-
 # Packages
- - name: install backup packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - cron
-     - timeshift
+- name: install backup packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - cron
+      - timeshift
 
- - name: install dependencies
-   pip:
-     name:
-       - boto3=={{ boto3_version }}
-       - botocore=={{ botocore_version }}
-     state: present
+- name: install dependencies
+  pip:
+    name:
+      - boto3=={{ boto3_version }}
+      - botocore=={{ botocore_version }}
+    state: present
 
-# AWS access and secret keys
- - name: lookup access_key_id
-   set_fact:
-     backup_s3_access_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/access_key_id', aws_profile=backup_aws_profile_data) }}"
+# B2 application key id and key
+- name: lookup application key id
+  set_fact:
+    backup_application_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/b2/application_key_id', aws_profile=backup_aws_profile_data) }}"
 
- - name: lookup secret_key
-   set_fact:
-     backup_s3_secret_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/s3/secret_key', aws_profile=backup_aws_profile_data) }}"
+- name: lookup application key
+  set_fact:
+    backup_application_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/b2/application_key', aws_profile=backup_aws_profile_data) }}"
+
+- name: lookup bucket name
+  set_fact:
+    backup_bucket_name: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/b2/bucket_name', aws_profile=backup_aws_profile_data) }}"
 
 # Config
- - name: "create config directory"
-   become: yes
-   file:
-     path: "/home/{{ backup_user }}/.duplicacy/"
-     state: directory
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0700'
-     recurse: yes
+- name: "create config directory"
+  become: true
+  file:
+    path: "/home/{{ backup_user }}/.duplicacy/"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0700"
+    recurse: yes
 
- - name: create temporary directory for backup files
-   ansible.builtin.tempfile:
-     state: directory
-     suffix: restore
-   register: restore_tempdir
+- name: create temporary directory for backup files
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: restore
+  register: restore_tempdir
 
- - name: create duplicacy directory for backup files
-   ansible.builtin.file:
-     path: "{{ restore_tempdir.path }}/duplicacy"
-     state: directory
+- name: create duplicacy directory for backup files
+  ansible.builtin.file:
+    path: "{{ restore_tempdir.path }}/duplicacy"
+    state: directory
 
- - name: "install {{ backup_user }} preferences"
-   become: yes
-   template:
-     src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
-     dest: "/home/{{ backup_user }}/.duplicacy/preferences"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0600'
+- name: "install {{ backup_user }} preferences"
+  become: true
+  template:
+    src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
+    dest: "/home/{{ backup_user }}/.duplicacy/preferences"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0600"
 
- - name: write duplicacy preferences to temporary directory
-   become: yes
-   template:
+- name: write duplicacy preferences to temporary directory
+  become: true
+  template:
     src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
     dest: "{{ restore_tempdir.path }}/duplicacy/preferences"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0600'
+    mode: "0600"
 
- - name: "install {{ backup_user }} filters"
-   become: yes
-   template:
-     src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
-     dest: "/home/{{ backup_user }}/.duplicacy/filters"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0600'
+- name: "install {{ backup_user }} filters"
+  become: true
+  template:
+    src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
+    dest: "/home/{{ backup_user }}/.duplicacy/filters"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0600"
 
- - name: write duplicacy filters to temporary directory
-   become: yes
-   template:
+- name: write duplicacy filters to temporary directory
+  become: true
+  template:
     src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
     dest: "{{ restore_tempdir.path }}/duplicacy/filters"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0600'
+    mode: "0600"
 
 # Log directories
- - name: "create directory for backup logs"
-   become: yes
-   file:
-     path: "/var/log/duplicacy/"
-     state: directory
-     owner: "root"
-     group: "root"
-     mode: '0755'
-     recurse: yes
+- name: "create directory for backup logs"
+  become: true
+  file:
+    path: "/var/log/duplicacy/"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+    recurse: yes
 
- - name: "create directory for {{ backup_user }} backup logs"
-   become: yes
-   file:
-     path: "/var/log/duplicacy/{{ backup_user }}_backup"
-     state: directory
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0755'
-     recurse: yes
+- name: "create directory for {{ backup_user }} backup logs"
+  become: true
+  file:
+    path: "/var/log/duplicacy/{{ backup_user }}_backup"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0755"
+    recurse: yes
 
- - name: "create directory for {{ backup_user }} backup test logs"
-   become: yes
-   file:
-     path: "/var/log/duplicacy/{{ backup_user }}_backup_test"
-     state: directory
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0755'
-     recurse: yes
+- name: "create directory for {{ backup_user }} backup test logs"
+  become: true
+  file:
+    path: "/var/log/duplicacy/{{ backup_user }}_backup_test"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0755"
+    recurse: yes
 
 # Scripts
- - name: "install {{ backup_user }} backup script"
-   become: yes
-   template:
-     src: "backup.sh.j2"
-     dest: "/usr/local/sbin/{{ backup_user }}_backup.sh"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0700'
+- name: "install {{ backup_user }} backup script"
+  become: true
+  template:
+    src: "backup.sh.j2"
+    dest: "/usr/local/sbin/{{ backup_user }}_backup.sh"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0700"
 
- - name: "install {{ backup_user }} backup test script"
-   become: yes
-   template:
-     src: "test.sh.j2"
-     dest: "/usr/local/sbin/{{ backup_user }}_backup_test.sh"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: '0700'
+- name: "install {{ backup_user }} backup test script"
+  become: true
+  template:
+    src: "test.sh.j2"
+    dest: "/usr/local/sbin/{{ backup_user }}_backup_test.sh"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0700"
 
 # Services
- - name: "install {{ backup_user }} backup service"
-   become: yes
-   template:
-     src: "backup.service.j2"
-     dest: "/etc/systemd/system/{{ backup_user }}_backup.service"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: 0666
+- name: "install {{ backup_user }} backup service"
+  become: true
+  template:
+    src: "backup.service.j2"
+    dest: "/etc/systemd/system/{{ backup_user }}_backup.service"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0666
 
- - name: "install {{ backup_user }} backup test service"
-   become: yes
-   template:
-     src: "test.service.j2"
-     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.service"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: 0666
+- name: "install {{ backup_user }} backup test service"
+  become: true
+  template:
+    src: "test.service.j2"
+    dest: "/etc/systemd/system/{{ backup_user }}_backup_test.service"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0666
 
 # Timers
- - name: "install {{ backup_user }} backup timer"
-   become: yes
-   template:
-     src: "backup.timer.j2"
-     dest: "/etc/systemd/system/{{ backup_user }}_backup.timer"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: 0666
+- name: "install {{ backup_user }} backup timer"
+  become: true
+  template:
+    src: "backup.timer.j2"
+    dest: "/etc/systemd/system/{{ backup_user }}_backup.timer"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0666
 
- - name: "install {{ backup_user }} backup test timer"
-   become: yes
-   template:
-     src: "test.timer.j2"
-     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.timer"
-     owner: "{{ backup_user }}"
-     group: "{{ backup_user }}"
-     mode: 0666
+- name: "install {{ backup_user }} backup test timer"
+  become: true
+  template:
+    src: "test.timer.j2"
+    dest: "/etc/systemd/system/{{ backup_user }}_backup_test.timer"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0666
 
 # Disable services
- - name: disable {{ backup_user }} backup service
-   become: yes
-   systemd:
-     name: "{{ backup_user }}_backup"
-     enabled: no
+- name: disable {{ backup_user }} backup service
+  become: true
+  systemd:
+    name: "{{ backup_user }}_backup"
+    enabled: no
 
- - name: disable {{ backup_user }} backup test service
-   become: yes
-   systemd:
-     name: "{{ backup_user }}_backup_test"
-     enabled: no
+- name: disable {{ backup_user }} backup test service
+  become: true
+  systemd:
+    name: "{{ backup_user }}_backup_test"
+    enabled: no
 
 # Enable timers
- - name: enable {{ backup_user }} backup timer
-   become: yes
-   systemd:
-     name: "{{ backup_user }}_backup.timer"
-     state: started
-     enabled: yes
+- name: enable {{ backup_user }} backup timer
+  become: true
+  systemd:
+    name: "{{ backup_user }}_backup.timer"
+    state: started
+    enabled: yes
 
- - name: enable {{ backup_user }} backup test timer
-   become: yes
-   systemd:
-     name: "{{ backup_user }}_backup_test.timer"
-     state: started
-     enabled: yes
+- name: enable {{ backup_user }} backup test timer
+  become: true
+  systemd:
+    name: "{{ backup_user }}_backup_test.timer"
+    state: started
+    enabled: yes
 
 # Config Backup
- - name: get current caller identity information
-   amazon.aws.aws_caller_info:
-     profile: "{{ backup_aws_profile_restore }}"
-   register: caller_info
+- name: get current caller identity information
+  amazon.aws.aws_caller_info:
+    profile: "{{ backup_aws_profile_restore }}"
+  register: caller_info
 
- - name: set aws bucket
-   set_fact:
-     aws_restore_bucket: "{{ caller_info.account }}-account-restore"
+- name: set aws bucket
+  set_fact:
+    aws_restore_bucket: "{{ caller_info.account }}-account-restore"
 
- - name: create aws directory for backup files
-   ansible.builtin.file:
-     path: "{{ restore_tempdir.path }}/aws"
-     state: directory
+- name: create aws directory for backup files
+  ansible.builtin.file:
+    path: "{{ restore_tempdir.path }}/aws"
+    state: directory
 
- - name: copy aws to temporary directory
-   become: yes
-   ansible.builtin.copy:
-     src: "/home/{{ backup_user }}/.aws/"
-     dest: "{{ restore_tempdir.path }}/aws"
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: '0600'
-   ignore_errors: yes
+- name: copy aws to temporary directory
+  become: true
+  ansible.builtin.copy:
+    src: "/home/{{ backup_user }}/.aws/"
+    dest: "{{ restore_tempdir.path }}/aws"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+  ignore_errors: true
 
- - name: upload restore backup to s3
-   community.aws.s3_sync:
-     bucket: "{{ aws_restore_bucket }}"
-     key_prefix: "{{ backup_host }}/{{ backup_user }}"
-     file_root: "{{ restore_tempdir.path }}"
-     profile: "{{ backup_aws_profile_restore }}"
-     delete: true
+- name: upload restore backup to s3
+  community.aws.s3_sync:
+    bucket: "{{ aws_restore_bucket }}"
+    key_prefix: "{{ backup_host }}/{{ backup_user }}"
+    file_root: "{{ restore_tempdir.path }}"
+    profile: "{{ backup_aws_profile_restore }}"
+    delete: true
 
 # Restore scripts
- - name: Install restore backup script
-   ansible.builtin.copy:
-     src: restore-backup-from-odin.{{ inventory_hostname }}
-     dest: /home/{{ ansible_user }}/.local/bin/restore-backup-from-odin
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: '0744'
+- name: Install restore backup script
+  ansible.builtin.copy:
+    src: restore-backup-from-odin.{{ inventory_hostname }}
+    dest: /home/{{ ansible_user }}/.local/bin/restore-backup-from-odin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0744"

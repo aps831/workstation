@@ -1,5 +1,4 @@
 ---
-
 - name: apt-key add
   become: true
   apt_key:

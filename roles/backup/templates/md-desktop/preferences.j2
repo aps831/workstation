@@ -1,0 +1,33 @@
+[
+    {
+        "name": "{{ local_backup_name }}",
+        "id": "backup",
+        "repository": "",
+        "storage": "/backup/duplicacay/md",
+        "encrypted": false,
+        "no_backup": false,
+        "no_restore": false,
+        "no_save_password": false,
+        "nobackup_file": "",
+        "keys": null,
+        "filters": "",
+        "exclude_by_attribute": false
+    },
+    {
+        "name": "{{ remote_backup_name }}",
+        "id": "backup",
+        "repository": "",
+        "storage": "b2://{{ backup_bucket_name }}/md/",
+        "encrypted": false,
+        "no_backup": false,
+        "no_restore": false,
+        "no_save_password": false,
+        "nobackup_file": "",
+        "keys": {
+            "b2_id": "{{ backup_application_key_id }}",
+            "b2_key": "{{ backup_application_key }}"
+        },
+        "filters": "",
+        "exclude_by_attribute": false
+    }
+]

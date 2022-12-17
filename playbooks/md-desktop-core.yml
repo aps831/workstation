@@ -3,6 +3,7 @@
   hosts: md-desktop
   roles:
     - role: ansible
+    - role: aws
     - role: encryption
     - role: firewall
     - role: system

@@ -1,6 +1,6 @@
 [
   {
-    "name": "odin",
+    "name": "{{ local_backup_name }}",
     "id": "backup",
     "repository": "",
     "storage": "sftp://backup@odin.local:10022/homes/backup/thor/andrew",
@@ -16,18 +16,18 @@
     "exclude_by_attribute": false
   },
   {
-    "name": "amazons3",
+    "name": "{{ remote_backup_name }}",
     "id": "backup",
     "repository": "",
-    "storage": "s3://eu-west-2@amazon.com/duplybackupofthor1/andrew/",
+    "storage": "b2://{{ backup_bucket_name }}/andrew/",
     "encrypted": false,
     "no_backup": false,
     "no_restore": false,
     "no_save_password": false,
     "nobackup_file": "",
     "keys": {
-      "s3_id": "{{ backup_s3_access_key_id }}",
-      "s3_secret": "{{ backup_s3_secret_key }}"
+      "b2_id": "{{ backup_application_key_id }}",
+      "b2_key": "{{ backup_application_key }}"
     },
     "filters": "",
     "exclude_by_attribute": false

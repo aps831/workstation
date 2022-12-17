@@ -1,6 +1,6 @@
 ---
 - name: run playbook tasks
-  hosts: thor
+  hosts: md-desktop
   vars_prompt:
     - name: aws_profile_data_backup
       prompt: "Enter AWS profile for location of application keys"
@@ -13,9 +13,9 @@
   roles:
     - role: backup
       vars:
-        backup_user: "andrew"
-        backup_host: "thor"
-        local_backup_name: "odin"
+        backup_user: "md"
+        backup_host: "md-desktop"
+        local_backup_name: "internal"
         remote_backup_name: "backblaze"
         backup_time_delay: "60min"
         backup_test_time_delay: "240min"
