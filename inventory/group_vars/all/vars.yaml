@@ -40,7 +40,7 @@ mdbook_mermaid_version: 0.11.2
 # Pip Installs
 psutil_version: 5.9.0
 molecule_version: 3.6.1
-localstack_version: 0.12.12
+localstack_version: 1.3.1
 boto3_version: 1.17.97
 botocore_version: 1.20.97
 pre_commit_version: 2.17.0
