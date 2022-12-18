@@ -46,13 +46,14 @@
             "type": "section",
             "title": "Layout and content",
             "keys": [
+                "restrict-menu-height",
+                "menu-height",
                 "show-category-icons",
                 "category-icon-size",
                 "show-application-icons",
                 "application-icon-size",
                 "favbox-show",
                 "fav-icon-size",
-                "favbox-min-height",
                 "show-places",
                 "show-recents",
                 "menu-editor-button"
@@ -62,6 +63,7 @@
             "type": "section",
             "title": "Behavior",
             "keys": [
+                "category-hover",
                 "enable-autoscroll",
                 "search-filesystem"
             ]
@@ -87,7 +89,6 @@
         "tooltip": "Select an icon to show in the panel.",
         "default_icon": "linuxmint-logo-ring-symbolic",
         "dependency": "menu-custom",
-        "indent": true,
         "icon_categories": [
             {
                 "name": "Linux Mint",
@@ -127,7 +128,6 @@
         "units": "px",
         "description": "Icon size",
         "dependency": "menu-custom",
-        "indent": true,
         "value": 32
     },
     "menu-label": {
@@ -136,20 +136,25 @@
         "description": "Text",
         "tooltip": "Enter custom text to show in the panel.",
         "dependency": "menu-custom",
-        "indent": true,
         "value": ""
     },
-    "favbox-min-height": {
+    "restrict-menu-height": {
+        "type": "switch",
+        "default": false,
+        "description": "Use a fixed menu height",
+        "tooltip": "Keep the size of the menu the same no matter how many favorites or categories there are.",
+        "value": false
+    },
+    "menu-height": {
         "type": "spinbutton",
-        "default": 300,
-        "min": 50,
-        "max": 1000,
+        "default": 550,
+        "min": 300,
+        "max": 2000,
         "step": 10,
         "units": "px",
-        "dependency": "favbox-show",
-        "description": "Minimum height of the favorites section",
-        "tooltip": "The minimum size allocated for the favorites section (this has an impact on the overall height of the menu).",
-        "value": 300
+        "description": "Menu height",
+        "dependency": "restrict-menu-height",
+        "value": 550
     },
     "show-category-icons": {
         "type": "switch",
@@ -167,7 +172,6 @@
         "units": "px",
         "description": "Categories icon size",
         "dependency": "show-category-icons",
-        "indent": true,
         "value": 22
     },
     "show-application-icons": {
@@ -186,7 +190,6 @@
         "units": "px",
         "description": "Applications icon size",
         "dependency": "show-application-icons",
-        "indent": true,
         "value": 22
     },
     "favbox-show": {
@@ -205,7 +208,6 @@
         "units": "px",
         "description": "Favorites icon size",
         "dependency": "favbox-show",
-        "indent": true,
         "value": 32
     },
     "show-favorites": {
@@ -227,6 +229,13 @@
         "default": true,
         "description": "Show recents",
         "tooltip": "Choose whether or not to show recents in the menu.",
+        "value": true
+    },
+    "category-hover": {
+        "type": "switch",
+        "default": true,
+        "description": "Change categories on hover",
+        "tooltip": "Choose whether or not to change categories by hovering.",
         "value": true
     },
     "enable-autoscroll": {
@@ -282,5 +291,5 @@
         "callback": "_launch_editor",
         "tooltip": "Press this button to customize your menu entries."
     },
-    "__md5__": "c4b27da93411965126569249b61793d70a188a8ff9c3d3f4fa2c1cd14fe0d0a0"
+    "__md5__": "38c9122e36f6267fae12706a694ac35f0a188a8ff9c3d3f4fa2c1cd14fe0d0a0"
 }
