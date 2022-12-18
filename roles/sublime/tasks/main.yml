@@ -13,10 +13,10 @@
      filename: sublime
 
  - name: install sublime
-   become: yes   
+   become: yes
    apt:
      name: "{{ packages }}"
-     state: present
+     state: latest
    vars:
      packages:
      - sublime-text
