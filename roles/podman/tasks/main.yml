@@ -1,17 +1,4 @@
 
- - name: add libcontainers signing key
-   become: yes
-   apt_key:
-     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key
-     state: present
-
- - name: add libcontainers repository
-   become: yes
-   apt_repository:
-     repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /
-     filename: devel:kubic:libcontainers:stable
-     state: present
-
  - name: install packages
    become: yes
    apt:
