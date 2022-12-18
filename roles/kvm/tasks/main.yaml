@@ -4,13 +4,13 @@
     name: "{{ packages }}"
   vars:
     packages:
-      - bridge-utils
-      - cpu-checker
       - libvirt-clients
+      - libvirt-daemon-system
       - libvirt-daemon
+      - virtinst
+      - bridge-utils
       - qemu
-      - qemu-kvm
-      - virt-manager
+#      - qemu-kvm # no installation candidate error
 
 - name: Enable audio
   become: true
