@@ -47,7 +47,7 @@
   become: yes
   apt:
     name: "{{ packages }}"
-    state: present
+    state: latest
   vars:
     packages:
       - nodejs
