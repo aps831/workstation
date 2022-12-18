@@ -15,7 +15,7 @@
       - tomli=={{ tomli_version }}
       - appdirs=={{ appdirs_version }}
       - tornado=={{ tornado_version }}
-      - pycurl=={{ pycurl_version }}
+      # - pycurl=={{ pycurl_version }} already installed in site
 
  - name: create config directory
    become: yes
