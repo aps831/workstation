@@ -1,40 +1,39 @@
 ---
+- name: Add jlbarriere68 signing key
+  become: true
+  get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5A51B8923E86E1DFE821F2E69A2637B6931207CE"
+    dest: /usr/share/keyrings/jlbarriere68-keyring.asc
+    mode: 0644
+    force: true
 
- - name: Add jlbarriere68 signing key
-   become: true
-   get_url:
-     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5A51B8923E86E1DFE821F2E69A2637B6931207CE"
-     dest: /usr/share/keyrings/jlbarriere68-keyring.asc
-     mode: 0644
-     force: true
+- name: add jlbarriere68/noson-app repository
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/jlbarriere68-keyring.asc] https://ppa.launchpadcontent.net/jlbarriere68/noson-app/ubuntu {{ ubuntu_codename }} main"
+    filename: jlbarriere68
+    state: present
 
- - name: add jlbarriere68/noson-app repository
-   become: yes
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/jlbarriere68-keyring.asc] https://ppa.launchpadcontent.net/jlbarriere68/noson-app/ubuntu {{ ubuntu_codename }} main"
-     filename: jlbarriere68
-     state: present
+- name: install noson
+  become: yes
+  apt:
+    name: noson-app
+    state: present
 
- - name: install noson
-   become: yes
-   apt:
-     name: noson-app
-     state: present
+- name: add firewall rules
+  become: yes
+  template:
+    src: templates/noson.j2
+    dest: /etc/ufw/applications.d/noson
+    mode: "0644"
 
- - name: add firewall rules
-   become: yes
-   template:
-     src: templates/noson.j2
-     dest: /etc/ufw/applications.d/noson
-     mode: '0644'
+- name: update ufw
+  become: yes
+  command: ufw app update noson
 
- - name: update ufw
-   become: yes
-   command: ufw app update noson
-
- - name: add rule firewal
-   become: yes
-   ufw:
-     rule: allow
-     name: noson
-     src: "192.168.1.0/24"
+- name: add rule firewal
+  become: yes
+  ufw:
+    rule: allow
+    name: noson
+    src: "192.168.1.0/24"

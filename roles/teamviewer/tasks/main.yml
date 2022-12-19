@@ -1,5 +1,4 @@
 ---
-
 - name: Add teamviewer signing key
   become: true
   get_url:

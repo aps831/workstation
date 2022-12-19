@@ -1,49 +1,48 @@
 ---
+- name: Add gcloud signing key
+  become: true
+  get_url:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    dest: /usr/share/keyrings/gcloud-keyring.gpg
+    mode: 0644
+    force: true
 
- - name: Add gcloud signing key
-   become: true
-   get_url:
-     url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
-     dest: /usr/share/keyrings/gcloud-keyring.gpg
-     mode: 0644
-     force: true
+- name: Add gcloud repo
+  become: true
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/gcloud-keyring.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    filename: gcloud
+    state: present
 
- - name: Add gcloud repo
-   become: true
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/gcloud-keyring.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
-     filename: gcloud
-     state: present
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - google-cloud-sdk
+      - kubectl
+      - bash-completion
 
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - google-cloud-sdk
-     - kubectl
-     - bash-completion
+- name: create temp file for kubectl completion
+  become: yes
+  ansible.builtin.tempfile:
+    state: file
+  register: kubectl_completion_file
+  changed_when: false
 
- - name: create temp file for kubectl completion
-   become: yes
-   ansible.builtin.tempfile:
-     state: file
-   register: kubectl_completion_file
-   changed_when: false
+- name: create kubectl shell completion
+  become: yes
+  shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
+  changed_when: false
 
- - name: create kubectl shell completion
-   become: yes
-   shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
-   changed_when: false
-
- - name: install kubectl completion
-   become: yes
-   ansible.builtin.copy:
-     src: "{{ kubectl_completion_file.path }}"
-     dest: /etc/bash_completion.d/kubectl
-     owner: root
-     group: root
-     mode: 0644
-     remote_src: yes
+- name: install kubectl completion
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ kubectl_completion_file.path }}"
+    dest: /etc/bash_completion.d/kubectl
+    owner: root
+    group: root
+    mode: 0644
+    remote_src: yes

@@ -1,5 +1,4 @@
 ---
-
 - name: Add sublimehq signing key
   become: true
   get_url:

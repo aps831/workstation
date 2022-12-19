@@ -1,150 +1,149 @@
 ---
+- name: add git-core signing key
+  become: true
+  get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24"
+    dest: /usr/share/keyrings/git-core-keyring.asc
+    mode: 0644
+    force: true
 
- - name: add git-core signing key
-   become: true
-   get_url:
-     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24"
-     dest: /usr/share/keyrings/git-core-keyring.asc
-     mode: 0644
-     force: true
+- name: add git-core/ppa repository
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/git-core-keyring.asc] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu {{ ubuntu_codename }} main"
+    filename: git-core
+    state: present
 
- - name: add git-core/ppa repository
-   become: yes
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/git-core-keyring.asc] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu {{ ubuntu_codename }} main"
-     filename: git-core
-     state: present
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - git
+      - gitk
+      - gitg
+      - meld
+      - git-gui
 
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - git
-     - gitk
-     - gitg
-     - meld
-     - git-gui
+- name: install bash-completion
+  become: yes
+  apt:
+    name: bash-completion
+    state: present
 
- - name: install bash-completion
-   become: yes
-   apt:
-     name: bash-completion
-     state: present
+- name: download git completion
+  become: yes
+  get_url:
+    url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+    dest: /etc/bash_completion.d/git-completion
+    mode: 0644
 
- - name: download git completion
-   become: yes
-   get_url:
-     url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
-     dest: /etc/bash_completion.d/git-completion
-     mode: 0644
-
- - name: install pre-commit
-   pip:
-     name:
+- name: install pre-commit
+  pip:
+    name:
       - pre-commit=={{ pre_commit_version }}
       - virtualenv=={{ virtualenv_version }}
-     state: present
+    state: present
 
- # git-mkver
- - name: create temporary file for git-mkver download
-   tempfile:
-     state: file
-     suffix: temp
-   register: git_mkrev_download_tmp
+# git-mkver
+- name: create temporary file for git-mkver download
+  tempfile:
+    state: file
+    suffix: temp
+  register: git_mkrev_download_tmp
 
- - name: download git-mkver binary
-   get_url:
-     url: "{{ git_mkrev_url }}"
-     dest: "{{ git_mkrev_download_tmp.path }}"
-     force: yes
-   changed_when: false
+- name: download git-mkver binary
+  get_url:
+    url: "{{ git_mkrev_url }}"
+    dest: "{{ git_mkrev_download_tmp.path }}"
+    force: yes
+  changed_when: false
 
- - name: extract git-mkver from archive
-   become: yes
-   unarchive:
-     src: "{{ git_mkrev_download_tmp.path }}"
-     dest: /usr/local/bin
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
+- name: extract git-mkver from archive
+  become: yes
+  unarchive:
+    src: "{{ git_mkrev_download_tmp.path }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
 
 # Gitleaks
- - name: create temporary file for gitleaks download
-   tempfile:
-     state: file
-     suffix: temp
-   register: gitleaks_download_tmp
+- name: create temporary file for gitleaks download
+  tempfile:
+    state: file
+    suffix: temp
+  register: gitleaks_download_tmp
 
- - name: download gitleaks binary
-   become: yes
-   get_url:
-     url: "{{ gitleaks_url }}"
-     dest: "{{ gitleaks_download_tmp.path }}"
-     force: yes
-   changed_when: false
+- name: download gitleaks binary
+  become: yes
+  get_url:
+    url: "{{ gitleaks_url }}"
+    dest: "{{ gitleaks_download_tmp.path }}"
+    force: yes
+  changed_when: false
 
- - name: extract gitleaks from archive
-   become: yes
-   unarchive:
-     src: "{{ gitleaks_download_tmp.path }}"
-     dest: /usr/local/bin
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
+- name: extract gitleaks from archive
+  become: yes
+  unarchive:
+    src: "{{ gitleaks_download_tmp.path }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
 
 # delta
- - name: install delta
-   become: yes
-   apt:
-      deb: "{{ delta_download_url }}"
+- name: install delta
+  become: yes
+  apt:
+    deb: "{{ delta_download_url }}"
 
 # git filter repo
- - name: create temporary file for git filter repo download
-   tempfile:
-     state: directory
-     suffix: temp
-   register: git_filter_repo_download_tmp
+- name: create temporary file for git filter repo download
+  tempfile:
+    state: directory
+    suffix: temp
+  register: git_filter_repo_download_tmp
 
- - name: download git filter repo binary
-   become: yes
-   get_url:
-     url: "{{ git_filter_repo_url }}"
-     dest: "{{ git_filter_repo_download_tmp.path }}"
-     force: yes
-   changed_when: false
+- name: download git filter repo binary
+  become: yes
+  get_url:
+    url: "{{ git_filter_repo_url }}"
+    dest: "{{ git_filter_repo_download_tmp.path }}"
+    force: yes
+  changed_when: false
 
- # unarchive doesn't work for some reason
- - name: extract git filter repo from archive
-   become: yes
-   command: "tar -xvf {{ git_filter_repo_filename }}"
-   args:
-     chdir: "{{ git_filter_repo_download_tmp.path }}"
+# unarchive doesn't work for some reason
+- name: extract git filter repo from archive
+  become: yes
+  command: "tar -xvf {{ git_filter_repo_filename }}"
+  args:
+    chdir: "{{ git_filter_repo_download_tmp.path }}"
 
- - name: copy git filter repo
-   become: yes
-   copy:
-     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/git-filter-repo"
-     dest: /usr/local/bin
-     owner: root
-     group: root
-     mode: '0777'
-     remote_src: true
+- name: copy git filter repo
+  become: yes
+  copy:
+    src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/git-filter-repo"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: "0777"
+    remote_src: true
 
- - name: get location for man files
-   command: "git --man-path"
-   register: man_path
+- name: get location for man files
+  command: "git --man-path"
+  register: man_path
 
- - name: copy git filter repo man documentation
-   become: yes
-   copy:
-     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/Documentation/man1/git-filter-repo.1"
-     dest: "{{ man_path.stdout }}/man1"
-     owner: root
-     group: root
-     mode: '0644'
-     remote_src: true
+- name: copy git filter repo man documentation
+  become: yes
+  copy:
+    src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/Documentation/man1/git-filter-repo.1"
+    dest: "{{ man_path.stdout }}/man1"
+    owner: root
+    group: root
+    mode: "0644"
+    remote_src: true

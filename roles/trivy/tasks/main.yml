@@ -1,31 +1,31 @@
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - wget
-     - apt-transport-https
-     - gnupg
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - wget
+      - apt-transport-https
+      - gnupg
 
- - name: Add trivy signing key
-   become: true
-   get_url:
-     url: "https://aquasecurity.github.io/trivy-repo/deb/public.key"
-     dest: /usr/share/keyrings/trivy-keyring.asc
-     mode: 0644
-     force: true
+- name: Add trivy signing key
+  become: true
+  get_url:
+    url: "https://aquasecurity.github.io/trivy-repo/deb/public.key"
+    dest: /usr/share/keyrings/trivy-keyring.asc
+    mode: 0644
+    force: true
 
- - name: Add trivy repo
-   become: true
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/trivy-keyring.asc] https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main"
-     filename: trivy
-     state: present
+- name: Add trivy repo
+  become: true
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/trivy-keyring.asc] https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main"
+    filename: trivy
+    state: present
 
- - name: install trivy
-   become: yes
-   apt:
-     name: trivy
-     state: present
+- name: install trivy
+  become: yes
+  apt:
+    name: trivy
+    state: present

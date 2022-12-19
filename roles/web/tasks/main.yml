@@ -1,54 +1,51 @@
 ---
+- name: Add google linux signing key
+  become: true
+  get_url:
+    url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
+    dest: /usr/share/keyrings/google-linux-keyring.asc
+    mode: 0644
+    force: true
 
- - name: Add google linux signing key
-   become: true
-   get_url:
-     url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
-     dest: /usr/share/keyrings/google-linux-keyring.asc
-     mode: 0644
-     force: true
+- name: Add chrome repo
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.asc] https://dl.google.com/linux/chrome/deb/ stable main"
+    filename: google-chrome
+    state: present
 
- - name: Add chrome repo
-   become: true
-   apt_repository:
-     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.asc] https://dl.google.com/linux/chrome/deb/ stable main"
-     filename: google-chrome
-     state: present
+- name: Add rmescandon signing key
+  become: true
+  get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9A2D61F6BB03CED7522B8E7D6657DBE0CC86BB64"
+    dest: /usr/share/keyrings/rmescandon-keyring.asc
+    mode: 0644
+    force: true
 
- - name: Add rmescandon signing key
-   become: true
-   get_url:
-     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9A2D61F6BB03CED7522B8E7D6657DBE0CC86BB64"
-     dest: /usr/share/keyrings/rmescandon-keyring.asc
-     mode: 0644
-     force: true
+- name: add rmescandon/yq repository
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/rmescandon-keyring.asc] https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu {{ ubuntu_codename }} main"
+    filename: rmescandon
+    state: present
 
- - name: add rmescandon/yq repository
-   become: yes
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/rmescandon-keyring.asc] https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu {{ ubuntu_codename }} main"
-     filename: rmescandon
-     state: present
+- name: install python packages
+  pip:
+    name: http-prompt=={{ http_prompt_version }}
+    state: present
 
- - name: install python packages
-   pip:
-     name: http-prompt=={{ http_prompt_version }}
-     state: present
-
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - wget
-     - curl
-     - fzf
-     - yq
-     - jq
-     - chromium
-     - firefox
-     - google-chrome-stable
-
-
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - wget
+      - curl
+      - fzf
+      - yq
+      - jq
+      - chromium
+      - firefox
+      - google-chrome-stable

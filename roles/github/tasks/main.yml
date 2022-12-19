@@ -1,84 +1,83 @@
 ---
-
 # gh
 
- - name: Add githubcli signing key
-   become: true
-   get_url:
-     url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
-     dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
-     mode: 0644
-     force: true
+- name: Add githubcli signing key
+  become: true
+  get_url:
+    url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
+    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    mode: 0644
+    force: true
 
- - name: Add gcloud repo
-   become: true
-   apt_repository:
-     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
-     filename: githubcli
-     state: present
+- name: Add gcloud repo
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    filename: githubcli
+    state: present
 
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - gh
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - gh
 
- - name: add bash completion
-   become: yes
-   ansible.builtin.file:
-     path: "/etc/bash_completion.d/github-completion"
-     owner: root
-     group: root
-     mode: 0644
+- name: add bash completion
+  become: yes
+  ansible.builtin.file:
+    path: "/etc/bash_completion.d/github-completion"
+    owner: root
+    group: root
+    mode: 0644
 
- - name: create temp file for github completion
-   become: yes
-   ansible.builtin.tempfile:
-     state: file
-   register: github_completion_file
-   changed_when: false
+- name: create temp file for github completion
+  become: yes
+  ansible.builtin.tempfile:
+    state: file
+  register: github_completion_file
+  changed_when: false
 
- - name: create github shell completion
-   become: yes
-   shell: gh completion -s bash > {{ github_completion_file.path  }}
-   changed_when: false
+- name: create github shell completion
+  become: yes
+  shell: gh completion -s bash > {{ github_completion_file.path  }}
+  changed_when: false
 
- - name: install github completion
-   become: yes
-   ansible.builtin.copy:
-     src: "{{ github_completion_file.path }}"
-     dest: /etc/bash_completion.d/github-completion
-     owner: root
-     group: root
-     mode: 0644
-     remote_src: yes
+- name: install github completion
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ github_completion_file.path }}"
+    dest: /etc/bash_completion.d/github-completion
+    owner: root
+    group: root
+    mode: 0644
+    remote_src: yes
 
 # act
- - name: create temporary file for act download
-   tempfile:
-     state: file
-     suffix: temp
-   register: act_download_tmp
-   changed_when: false
+- name: create temporary file for act download
+  tempfile:
+    state: file
+    suffix: temp
+  register: act_download_tmp
+  changed_when: false
 
- - name: download act binary
-   get_url:
-     url: "{{ act_download_url }}"
-     dest: "{{ act_download_tmp.path }}"
-     force: yes
-   changed_when: false
+- name: download act binary
+  get_url:
+    url: "{{ act_download_url }}"
+    dest: "{{ act_download_tmp.path }}"
+    force: yes
+  changed_when: false
 
- - name: extract act from archive
-   become: yes
-   unarchive:
-     src: "{{ act_download_tmp.path }}"
-     dest: /usr/local/bin
-     include:
-       - act
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
+- name: extract act from archive
+  become: yes
+  unarchive:
+    src: "{{ act_download_tmp.path }}"
+    dest: /usr/local/bin
+    include:
+      - act
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755

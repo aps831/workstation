@@ -1,58 +1,57 @@
 ---
+- name: Add yubico signing key
+  become: true
+  get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3653E21064B19D134466702E43D5C49532CBA1A9"
+    dest: /usr/share/keyrings/yubico-keyring.asc
+    mode: 0644
+    force: true
 
- - name: Add yubico signing key
-   become: true
-   get_url:
-     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3653E21064B19D134466702E43D5C49532CBA1A9"
-     dest: /usr/share/keyrings/yubico-keyring.asc
-     mode: 0644
-     force: true
+- name: add yubico/stable repository
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/yubico-keyring.asc] https://ppa.launchpadcontent.net/yubico/stable/ubuntu {{ ubuntu_codename }} main"
+    filename: jlbarriere68
+    state: present
 
- - name: add yubico/stable repository
-   become: yes
-   apt_repository:
-     repo: "deb [signed-by=/usr/share/keyrings/yubico-keyring.asc] https://ppa.launchpadcontent.net/yubico/stable/ubuntu {{ ubuntu_codename }} main"
-     filename: jlbarriere68
-     state: present
+- name: install encryption packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - secure-delete
+      - nemo-seahorse
+      - gnupg2
+      - gnupg-agent
+      - gnupg-utils
+      - pinentry-curses
+      - keychain
+      - pass
+      - xclip
+      - xsel
+      - libpth20
+      - libccid
+      - libu2f-udev
+      - libyubikey-udev
+      - pcscd
+      - pcsc-tools
+      - scdaemon
+      - libksba8
+      - yubioath-desktop
+      - yubikey-manager
 
- - name: install encryption packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - secure-delete
-     - nemo-seahorse
-     - gnupg2
-     - gnupg-agent
-     - gnupg-utils
-     - pinentry-curses
-     - keychain
-     - pass
-     - xclip
-     - xsel
-     - libpth20
-     - libccid
-     - libu2f-udev
-     - libyubikey-udev
-     - pcscd
-     - pcsc-tools
-     - scdaemon
-     - libksba8
-     - yubioath-desktop
-     - yubikey-manager
-
- - name: install u2f rules
-   become: yes
-   get_url:
+- name: install u2f rules
+  become: yes
+  get_url:
     url: https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules
     dest: /etc/udev/rules.d/70-u2f.rules
-    mode: '0755'
+    mode: "0755"
 
- - name: install switch smartcard script
-   ansible.builtin.copy:
-     src: switch-smartcard
-     dest: /home/{{ ansible_user }}/.local/bin
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0744
+- name: install switch smartcard script
+  ansible.builtin.copy:
+    src: switch-smartcard
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
