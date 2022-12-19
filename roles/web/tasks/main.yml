@@ -1,23 +1,18 @@
 ---
 
- - name: add google linux signing key
-   become: yes
-   apt_key:
-     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
-     state: present
+ - name: Add google linux signing key
+   become: true
+   get_url:
+     url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
+     dest: /usr/share/keyrings/google-linux-keyring.asc
+     mode: 0644
+     force: true
 
- - name: add google chrome repository
-   become: yes
+ - name: Add chrome repo
+   become: true
    apt_repository:
-     repo: deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main
+     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.asc] https://dl.google.com/linux/chrome/deb/ stable main"
      filename: google-chrome
-     state: present
-
- - name: add apt key for rmescandon/yq
-   become: yes
-   apt_key:
-     keyserver: keyserver.ubuntu.com
-     id: CC86BB64
      state: present
 
  - name: add rmescandon/yq repository
@@ -27,7 +22,6 @@
      codename: "{{ ubuntu_codename }}"
      state: present
      mode: 0666
-     update_cache: yes
 
  - name: install python packages
    pip:
