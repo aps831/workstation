@@ -15,19 +15,20 @@
       - software-properties-common
       - jq
 
-- name: add docker apt key
-  become: yes
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-    state: present
+- name: Add docker signing key
+  become: true
+  get_url:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    dest: /usr/share/keyrings/docker-keyring.asc
+    mode: 0644
+    force: true
 
-- name: add docker repository
-  become: yes
+- name: Add docker repo
+  become: true
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-keyring.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
+    filename: docker
     state: present
-    update_cache: yes
 
 - name: install docker
   become: yes
