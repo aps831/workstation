@@ -24,7 +24,7 @@ ddlog_version: 1.2.3
 ddlog_timestamp: 20211213235218
 duplicacy_version: 3.0.1
 elm_version: 0.19.0
-vagrant_version: 2.2.19
+vagrant_version: 2.3.4
 cue_version: 0.4.3-beta.2
 dagger_version: 0.2.6
 git_filter_repo_version: 2.34.0
