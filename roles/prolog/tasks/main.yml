@@ -1,10 +1,19 @@
 ---
 
- - name: add ppa repository for swi-prolog
+ - name: add swi-prolog signing key
+   become: true
+   get_url:
+     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x73E75048FF27533C0D8DC521EF8406856DBFCA18"
+     dest: /usr/share/keyrings/swi-prolog-keyring.asc
+     mode: 0644
+     force: true
+
+ - name: add swi-prolog/stable repository
    become: yes
    apt_repository:
-     repo: 'ppa:swi-prolog/stable'
-     codename: "{{ ubuntu_codename }}"
+     repo: "deb [signed-by=/usr/share/keyrings/swi-prolog-keyring.asc] https://ppa.launchpadcontent.net/swi-prolog/stable/ubuntu/ {{ ubuntu_codename }} main"
+     filename: swi-prolog
+     state: present
 
  - name: install encryption packages
    become: yes
