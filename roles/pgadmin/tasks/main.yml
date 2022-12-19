@@ -6,17 +6,19 @@
      name: ca-certificates
      state: present
 
- - name: add pgadmin signing key
-   become: yes
-   apt_key:
-     url: "{{ pgadmin4_apt_key_url }}"
-     state: present
+ - name: Add pgadmin signing key
+   become: true
+   get_url:
+     url: "https://www.pgadmin.org/static/packages_pgadmin_org.pub"
+     dest: /usr/share/keyrings/pgadmin-keyring.asc
+     mode: 0644
+     force: true
 
- - name: add pgadmin repository
-   become: yes
+ - name: Add pgadmin repo
+   become: true
    apt_repository:
-     repo: "{{ pgadmin4_apt_url }}"
-     filename: pgadmin4
+     repo: "deb [signed-by=/usr/share/keyrings/pgadmin-keyring.asc] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }} pgadmin4 main"
+     filename: pgadmin
      state: present
 
  - name: install packages
