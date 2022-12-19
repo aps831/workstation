@@ -1,16 +1,19 @@
 ---
 
 # gh
- - name: add github signing key
-   become: yes
-   apt_key:
-     url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-     state: present
 
- - name: add github cli repository
-   become: yes
+ - name: Add githubcli signing key
+   become: true
+   get_url:
+     url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
+     dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+     mode: 0644
+     force: true
+
+ - name: Add gcloud repo
+   become: true
    apt_repository:
-     repo: deb [arch=amd64] https://cli.github.com/packages stable main
+     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
      filename: githubcli
      state: present
 
