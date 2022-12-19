@@ -1,35 +1,21 @@
 {
     "layout": {
         "type": "layout",
-        "pages": [
-            "panel",
-            "menu"
-        ],
+        "pages": ["panel", "menu"],
         "panel": {
             "type": "page",
             "title": "Panel",
-            "sections": [
-                "panel-appear",
-                "panel-behave"
-            ]
+            "sections": ["panel-appear", "panel-behave"]
         },
         "menu": {
             "type": "page",
             "title": "Menu",
-            "sections": [
-                "menu-layout",
-                "menu-behave"
-            ]
+            "sections": ["menu-layout", "menu-behave"]
         },
         "panel-appear": {
             "type": "section",
             "title": "Appearance",
-            "keys": [
-                "menu-custom",
-                "menu-icon",
-                "menu-icon-size",
-                "menu-label"
-            ]
+            "keys": ["menu-custom", "menu-icon", "menu-icon-size", "menu-label"]
         },
         "panel-behave": {
             "type": "section",
@@ -62,11 +48,7 @@
         "menu-behave": {
             "type": "section",
             "title": "Behavior",
-            "keys": [
-                "category-hover",
-                "enable-autoscroll",
-                "search-filesystem"
-            ]
+            "keys": ["category-hover", "enable-autoscroll", "search-filesystem"]
         }
     },
     "overlay-key": {

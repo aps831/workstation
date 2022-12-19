@@ -25,11 +25,7 @@
     },
     "_knownPlayers": {
         "type": "generic",
-        "default": [
-            "banshee",
-            "vlc",
-            "rhythmbox"
-        ],
+        "default": ["banshee", "vlc", "rhythmbox"],
         "value": [
             "banshee",
             "vlc",
