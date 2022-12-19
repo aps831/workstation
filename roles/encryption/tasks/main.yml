@@ -1,10 +1,19 @@
 ---
 
- - name: add ppa repository for yubico
+ - name: Add yubico signing key
+   become: true
+   get_url:
+     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3653E21064B19D134466702E43D5C49532CBA1A9"
+     dest: /usr/share/keyrings/yubico-keyring.asc
+     mode: 0644
+     force: true
+
+ - name: add yubico/stable repository
    become: yes
    apt_repository:
-     repo: 'ppa:yubico/stable'
-     codename: "{{ ubuntu_codename }}"
+     repo: "deb [signed-by=/usr/share/keyrings/yubico-keyring.asc] https://ppa.launchpadcontent.net/yubico/stable/ubuntu {{ ubuntu_codename }} main"
+     filename: jlbarriere68
+     state: present
 
  - name: install encryption packages
    become: yes
