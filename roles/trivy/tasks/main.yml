@@ -8,17 +8,19 @@
      - wget
      - apt-transport-https
      - gnupg
-     
- - name: add aquasecurity signing key
-   become: yes
-   apt_key:
-     url: https://aquasecurity.github.io/trivy-repo/deb/public.key
-     state: present
 
- - name: add google chrome repository
-   become: yes
+ - name: Add trivy signing key
+   become: true
+   get_url:
+     url: "https://aquasecurity.github.io/trivy-repo/deb/public.key"
+     dest: /usr/share/keyrings/trivy-keyring.asc
+     mode: 0644
+     force: true
+
+ - name: Add trivy repo
+   become: true
    apt_repository:
-     repo: deb https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main
+     repo: "deb [signed-by=/usr/share/keyrings/trivy-keyring.asc] https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main"
      filename: trivy
      state: present
 
