@@ -1,12 +1,19 @@
 ---
 
- - name: add repository
+ - name: Add jlbarriere68 signing key
+   become: true
+   get_url:
+     url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5A51B8923E86E1DFE821F2E69A2637B6931207CE"
+     dest: /usr/share/keyrings/jlbarriere68-keyring.asc
+     mode: 0644
+     force: true
+
+ - name: add jlbarriere68/noson-app repository
    become: yes
    apt_repository:
-     repo: ppa:jlbarriere68/noson-app
-     codename: "{{ ubuntu_codename }}"
+     repo: "deb [signed-by=/usr/share/keyrings/jlbarriere68-keyring.asc] https://ppa.launchpadcontent.net/jlbarriere68/noson-app/ubuntu {{ ubuntu_codename }} main"
+     filename: jlbarriere68
      state: present
-     update_cache: yes
 
  - name: install noson
    become: yes
