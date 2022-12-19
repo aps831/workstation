@@ -1,16 +1,19 @@
 ---
- - name: install key for microsoft
-   become: yes
-   apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    state: present
 
- - name: add vscode repository
-   become: yes
+ - name: Add microsoft signing key
+   become: true
+   get_url:
+     url: "https://packages.microsoft.com/keys/microsoft.asc"
+     dest: /usr/share/keyrings/microsoft-keyring.asc
+     mode: 0644
+     force: true
+
+ - name: Add vscode repo
+   become: true
    apt_repository:
-     repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
-     state: present
+     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-keyring.asc] https://packages.microsoft.com/repos/vscode stable main"
      filename: vscode
+     state: present
 
  - name: install vscode
    become: yes
