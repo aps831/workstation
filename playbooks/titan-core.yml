@@ -15,6 +15,7 @@
     - role: chezmoi
 
     # Admin
+    - role: backblaze
     - role: system
     - role: nvchecker
     - role: teamviewer
