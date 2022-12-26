@@ -9,3 +9,4 @@ tfsec_version: 1.15.0
 tfsec_url: https://github.com/aquasecurity/tfsec/releases/download/v{{ tfsec_version }}/tfsec-linux-amd64
 terragrunt_version: 0.36.6
 terragrunt_url: https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_linux_amd64
+terraform_asdf_plugin_url: https://github.com/asdf-community/asdf-hashicorp.git
