@@ -18,7 +18,7 @@ kubeseal_checksum_url: https://github.com/bitnami-labs/sealed-secrets/releases/d
 kind_version: 0.12.0
 kind_download_url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64
 kind_checksum_url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64.sha256sum
-fluxcd_version: 0.28.4
+fluxcd_version: 0.38.2
 fluxcd_download_url: https://github.com/fluxcd/flux2/releases/download/v{{ fluxcd_version }}/flux_{{ fluxcd_version }}_linux_amd64.tar.gz
 fluxcd_checksum_url: https://github.com/fluxcd/flux2/releases/download/v{{ fluxcd_version }}/flux_{{ fluxcd_version }}_checksums.txt
 istio_version: 1.16.1
