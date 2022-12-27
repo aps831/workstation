@@ -169,7 +169,8 @@
             "code.desktop",
             "io.github.janbar.noson.desktop",
             "org.gnome.Screenshot.desktop",
-            "thunderbird.desktop"
+            "thunderbird.desktop",
+            "libreoffice-writer.desktop"
         ]
     },
     "group-apps": {
