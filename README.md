@@ -6,7 +6,8 @@ Configuration of workstations via Ansible.
 
 The following playbooks have been created:
 
--   `md-desktop.yml` - install dependencies for m-d;
+-   `md-desktop-backup.yml` - install backup dependencies for m-d;
+-   `md-desktop-core.yml` - install core dependencies for m-d;
 -   `thor-backup.yml` - install backup dependencies for thor;
 -   `thor-core.yml` - install core dependencies for thor;
 -   `thor-restore.yaml` - install minimal dependencies in order to bootstrap a restore of thor;
