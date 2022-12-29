@@ -54,7 +54,7 @@ pycurl_version: 7.43.0.2
 setuptools_version: 61.2.0
 testresources_version: 2.0.1
 semgrep_version: 1.2.0
-http_prompt_version: 2.1.0
+commitizen_version: 2.38.0
 safety_version: 2.0b5
 
 # Other Installs

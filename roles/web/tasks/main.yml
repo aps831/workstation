@@ -29,11 +29,6 @@
     filename: rmescandon
     state: present
 
-- name: install python packages
-  pip:
-    name: http-prompt=={{ http_prompt_version }}
-    state: present
-
 - name: install packages
   become: yes
   apt:

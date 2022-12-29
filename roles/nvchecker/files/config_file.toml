@@ -250,9 +250,9 @@ pypi = "testresources"
 source = "pypi"
 pypi = "semgrep"
 
-[http-prompt]
+[commitizen]
 source = "pypi"
-pypi = "http-prompt"
+pypi = "commitizen"
 
 [safety]
 source = "pypi"
