@@ -40,13 +40,6 @@
     dest: /etc/bash_completion.d/git-completion
     mode: 0644
 
-- name: install pre-commit
-  pip:
-    name:
-      - pre-commit=={{ pre_commit_version }}
-      - virtualenv=={{ virtualenv_version }}
-    state: present
-
 # git-mkver
 - name: create temporary file for git-mkver download
   tempfile:
