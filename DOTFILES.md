@@ -37,7 +37,6 @@ chezmoi apply
 -   .minikube
 -   .mozilla
 -   .npm
--   .nvm
 -   .password-store
 -   .pip
 -   .rustup
