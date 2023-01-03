@@ -30,41 +30,16 @@
       - libffi-dev
       - liblzma-dev
 
-# pyenv
-- name: create pyenv folder
-  become: true
-  file:
-    path: "{{ pyenv_install_dir }}"
-    state: directory
-    mode: 0755
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+# asdf
+- name: install asdf plugin
+  ansible.builtin.command: asdf plugin add python
+  ignore_errors: true
 
-- name: get latest tag name
-  uri:
-    url: "{{ pyenv_latest_tag_url }}"
-    return_content: yes
-  register: release_content
+- name: install latest python version
+  ansible.builtin.command: asdf install python latest
 
-- name: output version
-  ansible.builtin.debug:
-    msg: "Using version {{ release_content.json.tag_name }}"
-
-- name: install pyenv
-  git:
-  args:
-    repo: "{{ pyenv_download_url }}"
-    dest: "{{ pyenv_install_dir }}"
-    version: "{{ release_content.json.tag_name }}"
-
-- name: set system as global version
-  copy:
-    content: |
-      system
-    dest: "{{ pyenv_install_dir }}/version"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0644
+- name: set global python version to system
+  ansible.builtin.command: asdf global python system
 
 # python dependencies
 - name: install python dependencies
@@ -73,6 +48,9 @@
       - setuptools=={{ setuptools_version }}
       - testresources=={{ testresources_version }}
       - safety=={{ safety_version }}
+
+- name: reshim asdf
+  command: asdf reshim
 
 # poetry
 - name: check if poetry is installed
@@ -105,21 +83,16 @@
   command: poetry self update --no-interaction
   when: poetry_cmd is not failed
 
+- name: configure poetry
+  command: poetry config virtualenvs.prefer-active-python true
+  when: poetry_cmd is not failed
+
 # profile
 - name: ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0755
-
-- name: define pyenv variables
-  become: true
-  template:
-    src: user_pyenv.sh.j2
-    dest: /home/{{ ansible_user }}/.profile.d/pyenv.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
