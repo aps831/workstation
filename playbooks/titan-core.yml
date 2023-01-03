@@ -54,6 +54,7 @@
     - role: pgadmin
     - role: podman
     - role: postman
+    - role: prettier
     - role: semgrep
     - role: shellcheck
     - role: stoplight
