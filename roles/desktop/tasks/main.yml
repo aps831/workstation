@@ -52,3 +52,23 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
+
+- name: add windows 10 desktop entry
+  when: inventory_hostname == 'md-desktop'
+  become: true
+  template:
+    src: windows10.desktop.j2
+    dest: /home/{{ ansible_user }}/.local/share/applications/windows10.desktop
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+
+- name: add windows 10 script
+  when: inventory_hostname == 'md-desktop'
+  become: true
+  copy:
+    src: cinnamon/windows10.sh
+    dest: /home/{{ ansible_user }}/.local/bin/windows10.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
