@@ -1,0 +1,9 @@
+- name: download osv scanner binary
+  become: true
+  get_url:
+    url: "{{ osv_scanner_download_url }}"
+    dest: "/usr/local/bin/osv-scanner"
+    owner: root
+    group: root
+    mode: 0755
+  changed_when: false

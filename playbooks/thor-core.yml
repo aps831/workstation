@@ -47,6 +47,7 @@
     - role: kubernetes
     - role: kvm
     - role: mdbook
+    - role: osvscanner
     - role: owaspzap
     - role: pgadmin
     - role: podman

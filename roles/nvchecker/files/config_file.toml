@@ -184,6 +184,11 @@ source = "github"
 github = "badboy/mdbook-mermaid"
 use_max_tag = true
 
+[osv-scanner]
+source = "github"
+github = "google/osv-scanner"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]
