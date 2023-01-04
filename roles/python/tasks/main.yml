@@ -11,6 +11,22 @@
       - python3-venv
       - python3-pip
       - python3-dotenv-cli
+      # Python build dependencies required for asdf
+      - make
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - llvm
+      - libncursesw5-dev
+      - xz-utils
+      - tk-dev
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libffi-dev
+      - liblzma-dev
 
 # asdf
 - name: install asdf plugin
