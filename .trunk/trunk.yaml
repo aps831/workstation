@@ -1,6 +1,7 @@
 version: 0.1
 runtimes:
   enabled:
+    - python@3.10.8
     - go@1.18.3
     - node@16.14.2
 plugins:
