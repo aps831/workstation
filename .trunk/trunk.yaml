@@ -14,6 +14,8 @@ plugins:
       uri: https://github.com/trunk-io/plugins
 actions:
   enabled:
+    - commit-branch
+    - commitizen
     - trunk-announce
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
