@@ -1,4 +1,4 @@
  - name: Install semgrep
-   pip:
-     name: semgrep=={{ semgrep_version }}
-     state: present
+   community.general.pipx:
+     name: semgrep
+     state: latest

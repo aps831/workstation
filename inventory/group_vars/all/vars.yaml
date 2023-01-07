@@ -43,7 +43,6 @@ psutil_version: 5.9.0
 molecule_version: 3.6.1
 boto3_version: 1.17.97
 botocore_version: 1.20.97
-semgrep_version: 1.2.0
 pipx_version: 1.1.0
 
 # Other Installs

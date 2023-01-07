@@ -215,10 +215,6 @@ pypi = "pre-commit"
 source = "pypi"
 pypi = "virtualenv"
 
-[semgrep]
-source = "pypi"
-pypi = "semgrep"
-
 [pipx]
 source = "pypi"
 pypi = "pipx"
