@@ -1,4 +1,4 @@
 ---
- dependencies:
-   - role: codename
-   - role: asdf
+dependencies:
+  - role: codename
+  - role: asdf

@@ -1,4 +1,4 @@
 ---
- dependencies:
-   - role: python
-   - role: asdf
+dependencies:
+  - role: python
+  - role: asdf

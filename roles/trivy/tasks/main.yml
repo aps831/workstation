@@ -1,5 +1,5 @@
 - name: install packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -25,14 +25,14 @@
     state: present
 
 - name: install trivy
-  become: yes
+  become: true
   apt:
     name: trivy
     state: present
 
 # asdf
 - name: install packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
   vars:
