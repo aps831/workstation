@@ -199,10 +199,6 @@ pypi = "psutil"
 source = "pypi"
 pypi = "molecule"
 
-[localstack]
-source = "pypi"
-pypi = "localstack"
-
 [boto3]
 source = "pypi"
 pypi = "boto3"

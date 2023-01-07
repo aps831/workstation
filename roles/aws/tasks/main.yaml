@@ -106,8 +106,9 @@
 
 # Localstack
  - name: install localstack
-   pip:
-     name: localstack=={{ localstack_version }}
+   community.general.pipx:
+     name: localstack
+     state: latest
 
 # IAM Live
  - name: create temporary build directory for iam live
