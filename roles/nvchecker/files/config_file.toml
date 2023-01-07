@@ -243,14 +243,6 @@ pypi = "tornado"
 source = "pypi"
 pypi = "pycurl"
 
-[setuptools]
-source = "pypi"
-pypi = "setuptools"
-
-[testresources]
-source = "pypi"
-pypi = "testresources"
-
 [semgrep]
 source = "pypi"
 pypi = "semgrep"

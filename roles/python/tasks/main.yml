@@ -39,13 +39,6 @@
 - name: set global python version to system
   ansible.builtin.command: asdf global python system
 
-# python dependencies
-- name: install python dependencies
-  pip:
-    name:
-      - setuptools=={{ setuptools_version }}
-      - testresources=={{ testresources_version }}
-
 - name: reshim asdf
   command: asdf reshim
 
