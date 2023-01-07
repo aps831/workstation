@@ -6,7 +6,7 @@
   register: tmp_dir
   changed_when: false
 
-- name: download cue binary
+- name: download task binary
   become: yes
   get_url:
     url: "{{ task_download_url }}"
@@ -19,3 +19,11 @@
   apt:
     deb: "{{ tmp_dir.path }}/{{ task_filename }}"
     state: present
+
+# asdf
+- name: install task asdf plugin
+  ansible.builtin.command: asdf plugin add task {{ task_asdf_plugin_url }}
+  ignore_errors: true
+
+- name: set global golang version to system
+  ansible.builtin.command: asdf global task system
