@@ -44,7 +44,6 @@ chezmoi apply
 -   .ssh
 -   .vagrant.d
 -   .virtualboxvms
--   .virtualenvs
 -   .vscode
 -   .WindowsXPShare
 -   .ZAP
