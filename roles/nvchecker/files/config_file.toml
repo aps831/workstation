@@ -207,14 +207,6 @@ pypi = "boto3"
 source = "pypi"
 pypi = "botocore"
 
-[pre-commit]
-source = "pypi"
-pypi = "pre-commit"
-
-[virtualenv]
-source = "pypi"
-pypi = "virtualenv"
-
 [pipx]
 source = "pypi"
 pypi = "pipx"
