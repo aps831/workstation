@@ -7,7 +7,7 @@ runtimes:
 plugins:
   sources:
     - id: aps831
-      ref: v1.0.0
+      ref: v1.0.1
       uri: https://github.com/aps831/trunk-io-plugins
     - id: trunk
       ref: v0.0.8
