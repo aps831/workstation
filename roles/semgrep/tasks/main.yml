@@ -2,3 +2,11 @@
    community.general.pipx:
      name: semgrep
      state: latest
+
+# asdf
+ - name: install asdf plugin
+   ansible.builtin.command: asdf plugin add semgrep {{ semgrep_asdf_plugin_url }}
+   ignore_errors: true
+
+ - name: set global semgrep version to system
+   ansible.builtin.command: asdf global semgrep system
