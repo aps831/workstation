@@ -29,3 +29,19 @@
   apt:
     name: trivy
     state: present
+
+# asdf
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - curl
+
+- name: install asdf plugin
+  ansible.builtin.command: asdf plugin add trivy {{ trivy_asdf_plugin_url }}
+  ignore_errors: true
+
+- name: set global trivy version to system
+  ansible.builtin.command: asdf global trivy system
