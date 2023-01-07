@@ -1,2 +1,2 @@
-opendata_server: datafeeds.networkrail.co.uk
+opendata_server: publicdatafeeds.networkrail.co.uk
 opendata_download_url: https://{{ opendata_server }}/ntrod/CifFileAuthenticate?type=CIF_HU_TOC_FULL_DAILY&day=toc-full
