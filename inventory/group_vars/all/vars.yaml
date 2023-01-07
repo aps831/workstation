@@ -52,6 +52,7 @@ tornado_version: 6.1
 pycurl_version: 7.43.0.2
 semgrep_version: 1.2.0
 commitizen_version: 2.38.0
+pipx_version: 1.1.0
 
 # Other Installs
 eclipse_version: 2021-12

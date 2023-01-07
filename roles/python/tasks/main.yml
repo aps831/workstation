@@ -39,6 +39,13 @@
 - name: set global python version to system
   ansible.builtin.command: asdf global python system
 
+# pipx
+- name: install pipx
+  become: true
+  pip:
+    name:
+      - pipx=={{ pipx_version }}
+
 - name: reshim asdf
   command: asdf reshim
 

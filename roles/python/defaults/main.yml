@@ -2,3 +2,4 @@ pyenv_install_dir: /home/{{ ansible_user }}/.pyenv
 pyenv_download_url: "https://github.com/pyenv/pyenv.git"
 pyenv_latest_tag_url: "https://api.github.com/repos/pyenv/pyenv/releases/latest"
 poetry_download_url: "https://install.python-poetry.org"
+pipx_version: 1.1.0

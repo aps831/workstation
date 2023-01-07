@@ -251,6 +251,10 @@ pypi = "semgrep"
 source = "pypi"
 pypi = "commitizen"
 
+[pipx]
+source = "pypi"
+pypi = "pipx"
+
 # Other Installs
 
 [eclipse]
