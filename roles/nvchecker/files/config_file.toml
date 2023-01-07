@@ -215,30 +215,6 @@ pypi = "pre-commit"
 source = "pypi"
 pypi = "virtualenv"
 
-[nvchecker]
-source = "pypi"
-pypi = "nvchecker"
-
-[structlog]
-source = "pypi"
-pypi = "structlog"
-
-[tomli]
-source = "pypi"
-pypi = "tomli"
-
-[appdirs]
-source = "pypi"
-pypi = "appdirs"
-
-[tornado]
-source = "pypi"
-pypi = "tornado"
-
-[pycurl]
-source = "pypi"
-pypi = "pycurl"
-
 [semgrep]
 source = "pypi"
 pypi = "semgrep"

@@ -43,12 +43,6 @@ psutil_version: 5.9.0
 molecule_version: 3.6.1
 boto3_version: 1.17.97
 botocore_version: 1.20.97
-nvchecker_version: 2.7
-structlog_version: 21.5.0
-tomli_version: 2.0.1
-appdirs_version: 1.4.4
-tornado_version: 6.1
-pycurl_version: 7.43.0.2
 semgrep_version: 1.2.0
 pipx_version: 1.1.0
 

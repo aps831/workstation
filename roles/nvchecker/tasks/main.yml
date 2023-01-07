@@ -6,16 +6,13 @@
   vars:
     packages:
       - jq
+      - libssl-dev
+      - libcurl4-openssl-dev
 
 - name: install nvchecker
-  pip:
-    name:
-      - nvchecker=={{ nvchecker_version }}
-      - structlog=={{ structlog_version }}
-      - tomli=={{ tomli_version }}
-      - appdirs=={{ appdirs_version }}
-      - tornado=={{ tornado_version }}
-      # - pycurl=={{ pycurl_version }} already installed in site
+  community.general.pipx:
+    name: nvchecker
+    state: latest
 
 - name: create config directory
   become: yes
