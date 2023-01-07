@@ -41,10 +41,9 @@
 
 # pipx
 - name: install pipx
-  become: true
   pip:
-    name:
-      - pipx=={{ pipx_version }}
+    name: pipx=={{ pipx_version }}
+    extra_args: --user pipx
 
 - name: reshim asdf
   command: asdf reshim
