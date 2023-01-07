@@ -247,10 +247,6 @@ pypi = "pycurl"
 source = "pypi"
 pypi = "semgrep"
 
-[commitizen]
-source = "pypi"
-pypi = "commitizen"
-
 [pipx]
 source = "pypi"
 pypi = "pipx"

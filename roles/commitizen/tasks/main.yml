@@ -1,6 +1,5 @@
 ---
 - name: install commitizen
-  pip:
-    name:
-      - commitizen=={{ commitizen_version }}
+  community.general.pipx:
+    name: commitizen
     state: present
