@@ -259,10 +259,6 @@ pypi = "semgrep"
 source = "pypi"
 pypi = "commitizen"
 
-[safety]
-source = "pypi"
-pypi = "safety"
-
 # Other Installs
 
 [eclipse]

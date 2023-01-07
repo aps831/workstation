@@ -54,7 +54,6 @@ setuptools_version: 61.2.0
 testresources_version: 2.0.1
 semgrep_version: 1.2.0
 commitizen_version: 2.38.0
-safety_version: 2.0b5
 
 # Other Installs
 eclipse_version: 2021-12

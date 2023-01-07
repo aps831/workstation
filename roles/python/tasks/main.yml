@@ -45,7 +45,6 @@
     name:
       - setuptools=={{ setuptools_version }}
       - testresources=={{ testresources_version }}
-      - safety=={{ safety_version }}
 
 - name: reshim asdf
   command: asdf reshim
