@@ -28,8 +28,8 @@
       - libffi-dev
       - liblzma-dev
 
-# asdf
-- name: install asdf plugin
+# asdf python
+- name: install asdf python plugin
   ansible.builtin.command: asdf plugin add python
   ignore_errors: true
 
@@ -73,6 +73,17 @@
 - name: install poetry
   command: "python3 {{ poetry_download_tmp.path }}"
   when: poetry_cmd is failed
+
+# asdf poetry
+- name: install asdf poetry plugin
+  ansible.builtin.command: asdf plugin add poetry
+  ignore_errors: true
+
+- name: install latest poetry version
+  ansible.builtin.command: asdf install poetry latest
+
+- name: set global poetry version to system
+  ansible.builtin.command: asdf global poetry system
 
 # If this hangs, try deleting the cache ~/.cache/pypoetry
 - name: update poetry
