@@ -81,3 +81,8 @@
     owner: root
     group: root
     mode: 0755
+
+# gh dash
+- name: add gh dash
+  command: gh extension install dlvhdr/gh-dash
+  ignore_errors: true
