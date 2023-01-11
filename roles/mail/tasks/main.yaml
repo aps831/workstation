@@ -1,0 +1,131 @@
+---
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - postfix
+      - s-nail
+
+- name: update /etc/hosts
+  become: true
+  lineinfile:
+    dest: "/etc/hosts"
+    insertafter: "^127.0.0.1"
+    line: "127.0.0.1       localhost.com"
+
+- name: test if postfix config initialised
+  stat:
+    path: /etc/postfix/main.cf
+  register: postfix_exists
+
+- name: copy postfix config
+  become: true
+  copy:
+    src: /usr/share/postfix/main.cf.debian
+    dest: /etc/postfix/main.cf
+    owner: "root"
+    group: "root"
+    mode: 0644
+  when: not postfix_exists.stat.exists
+
+- name: update /etc/postfix/main.cf 1
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "^inet_interfaces"
+    line: "inet_interfaces = loopback-only"
+
+- name: update /etc/postfix/main.cf 2
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "^inet_protocols"
+    line: "inet_protocols = all"
+
+- name: update /etc/postfix/main.cf 3
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "^myhostname"
+    line: "myhostname = titan.local"
+
+- name: update /etc/postfix/main.cf 4
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "^home_mailbox"
+    line: "home_mailbox = Maildir/"
+
+- name: update /etc/postfix/main.cf 5
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "^virtual_alias_maps"
+    line: "virtual_alias_maps = hash:/etc/postfix/virtual"
+
+- name: create /etc/postfix/virtual
+  become: true
+  lineinfile:
+    dest: "/etc/postfix/virtual"
+    line: "admin@localhost.com andrew"
+    create: true
+
+- name: update /etc/s-nail.rc 1
+  become: true
+  lineinfile:
+    dest: "/etc/s-nail.rc"
+    line: "set emptystart"
+
+- name: update /etc/s-nail.rc 2
+  become: true
+  lineinfile:
+    dest: "/etc/s-nail.rc"
+    line: "set folder=Maildir"
+
+- name: update /etc/s-nail.rc 3
+  become: true
+  lineinfile:
+    dest: "/etc/s-nail.rc"
+    line: "set record=+sent"
+
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: define mail variables
+  become: true
+  copy:
+    src: mail.sh
+    dest: /home/{{ ansible_user }}/.profile.d/mail.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: run postmap
+  become: true
+  command: postmap /etc/postfix/virtual
+
+- name: restart postfix
+  become: true
+  systemd:
+    name: postfix
+    daemon_reload: true
+    state: restarted
+
+- name: test if Maildir initialised
+  stat:
+    path: /home/{{ ansible_user }}/Maildir
+  register: maildir_exists
+
+- name: initialise Maildir
+  command: >
+    bash -c "echo 'init' |
+    s-nail -s 'init' -Snorecord {{ ansible_user }}"
+  when: not maildir_exists.stat.exists

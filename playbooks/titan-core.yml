@@ -17,6 +17,7 @@
     # Admin
     - role: backblaze
     - role: system
+    - role: mail
     - role: nvchecker
     - role: teamviewer
     - role: shutdown

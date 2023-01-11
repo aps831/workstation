@@ -13,6 +13,7 @@
     - role: multimedia
     - role: dropbox
     - role: fonts
+    - role: mail
     - role: shotwell
     - role: shutdown
     - role: web
