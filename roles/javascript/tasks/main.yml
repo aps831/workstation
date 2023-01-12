@@ -59,11 +59,17 @@
 
 # asdf
 - name: install asdf plugin
-  ansible.builtin.command: asdf plugin add nodejs {{ node_asdf_plugin_url }}
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf plugin add nodejs {{ node_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: install latest node version
-  ansible.builtin.command: asdf install nodejs latest
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf install nodejs latest"
 
 - name: set global nodejs version to system
-  ansible.builtin.command: asdf global nodejs system
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf global nodejs system"

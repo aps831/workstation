@@ -6,8 +6,12 @@
 
 # asdf
 - name: install asdf plugin
-  ansible.builtin.command: asdf plugin add semgrep {{ semgrep_asdf_plugin_url }}
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf plugin add semgrep {{ semgrep_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: set global semgrep version to system
-  ansible.builtin.command: asdf global semgrep system
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf global semgrep system"

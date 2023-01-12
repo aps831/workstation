@@ -1,11 +1,15 @@
 ---
 # asdf
 - name: install terraform asdf plugin
-  ansible.builtin.command: asdf plugin-add terraform {{ terraform_asdf_plugin_url }}
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf plugin-add terraform {{ terraform_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: set global terraform version to system
-  ansible.builtin.command: asdf global terraform system
+  ansible.builtin.shell: >
+    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
+    asdf global terraform system"
 
 # tflint
 - name: create temporary file for tflint download
