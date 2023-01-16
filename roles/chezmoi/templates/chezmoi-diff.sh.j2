@@ -1,0 +1,6 @@
+#! /bin/bash
+tmpfile=$(mktemp)
+dte=$(date +%Y-%m-%d)
+chezmoi diff >"${tmpfile}"
+# shellcheck disable=SC1083
+s-nail -s "Chezmoi Diff Run on ${dte}" {{ ansible_user }} <"${tmpfile}"

@@ -1,0 +1,9 @@
+[Unit]
+Description=run chezmoi-diff on boot
+
+[Timer]
+OnBootSec=7200
+Persistent=true
+
+[Install]
+WantedBy=timers.target

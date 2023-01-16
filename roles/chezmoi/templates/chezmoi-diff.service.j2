@@ -1,0 +1,12 @@
+[Unit]
+Description=run chezmoi-diff
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+Group={{ ansible_user }}
+UMask=0002
+ExecStart=/usr/local/sbin/chezmoi-diff.sh
+
+[Install]
+WantedBy=multi-user.target

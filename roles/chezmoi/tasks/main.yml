@@ -1,4 +1,54 @@
- - name: install chezmoi
-   become: yes
-   apt:
-      deb: "{{ chezmoi_download_url }}"
+---
+- name: install chezmoi
+  become: true
+  apt:
+    deb: "{{ chezmoi_download_url }}"
+
+- name: install maven
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - maven
+
+- name: "install chezmoi-diff script"
+  become: true
+  template:
+    src: "chezmoi-diff.sh.j2"
+    dest: "/usr/local/sbin/chezmoi-diff.sh"
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: "install chezmoi-diff service"
+  become: true
+  template:
+    src: "chezmoi-diff.service.j2"
+    dest: "/etc/systemd/system/chezmoi-diff.service"
+    owner: "root"
+    group: "root"
+    mode: 0666
+
+- name: "install chezmoi-diff timer"
+  become: true
+  template:
+    src: "chezmoi-diff.timer.j2"
+    dest: "/etc/systemd/system/chezmoi-diff.timer"
+    owner: "root"
+    group: "root"
+    mode: 0666
+
+- name: disable chezmoi-diff service
+  become: true
+  systemd:
+    name: "chezmoi-diff"
+    enabled: false
+
+- name: enable chezmoi-diff timer
+  become: true
+  systemd:
+    name: "chezmoi-diff.timer"
+    state: started
+    daemon_reload: true
+    enabled: true
