@@ -7,48 +7,52 @@
   register: aws_tmpdir
 
 - name: download awscli installer
-  become: yes
+  become: true
   get_url:
     url: "{{ awscli_download_url }}"
     dest: "{{ aws_tmpdir.path }}"
   changed_when: false
 
 - name: extract awscli installer from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ aws_tmpdir.path }}/{{ awscli_filename }}"
     dest: "{{ aws_tmpdir.path }}"
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
 
 - name: test if awscli already installed
-  become: yes
+  become: true
   stat:
     path: "/usr/local/bin/aws"
   register: awsclipath
 
 - name: install awscli
-  become: yes
-  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
+  become: true
+  command: >
+    "{{ aws_tmpdir.path }}/aws/install
+    -i /usr/local/aws-cli -b /usr/local/bin"
   when: not awsclipath.stat.exists
 
 - name: update awscli
-  become: yes
-  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
+  become: true
+  command: >
+    "{{ aws_tmpdir.path }}/aws/install
+    -i /usr/local/aws-cli -b /usr/local/bin --update"
   when: awsclipath.stat.exists
 
 - name: set permissions on awscli binary
-  become: yes
+  become: true
   file:
     path: /usr/local/bin/aws
     mode: 0755
 
 - name: set permissions on awscli files
-  become: yes
+  become: true
   file:
     path: /usr/local/aws-cli
-    recurse: yes
+    recurse: true
     mode: 0755
 
 # SAM
@@ -59,49 +63,53 @@
   register: aws_sam_tmpdir
 
 - name: download awssamcli installer
-  become: yes
+  become: true
   get_url:
     url: "{{ awssamcli_download_url }}"
     dest: "{{ aws_sam_tmpdir.path }}/aws-sam-cli-linux-x86_64.zip"
   changed_when: false
 
 - name: extract awssamcli installer from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ aws_sam_tmpdir.path }}/aws-sam-cli-linux-x86_64.zip"
     dest: "{{ aws_sam_tmpdir.path }}"
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
     mode: 0755
 
 - name: test if aws sam cli already installed
-  become: yes
+  become: true
   stat:
     path: "/usr/local/bin/sam"
   register: awssamclipath
 
 - name: install awssamcli
-  become: yes
-  command: "{{ aws_sam_tmpdir.path }}/install -i /usr/local/aws-sam-cli -b /usr/local/bin"
+  become: true
+  command: >
+    "{{ aws_sam_tmpdir.path }}/install
+    -i /usr/local/aws-sam-cli -b /usr/local/bin"
   when: not awssamclipath.stat.exists
 
 - name: update awssamcli
-  become: yes
-  command: "{{ aws_sam_tmpdir.path }}/install -i /usr/local/aws-sam-cli -b /usr/local/bin --update"
+  become: true
+  command: >
+    "{{ aws_sam_tmpdir.path }}/install
+    -i /usr/local/aws-sam-cli -b /usr/local/bin --update"
   when: awssamclipath.stat.exists
 
 - name: set permissions on awssamcli binary
-  become: yes
+  become: true
   file:
     path: /usr/local/bin/sam
     mode: 0755
 
 - name: set permissions on awssamcli files
-  become: yes
+  become: true
   file:
     path: /usr/local/aws-sam-cli
-    recurse: yes
+    recurse: true
     mode: 0755
 
 # Localstack
@@ -118,18 +126,18 @@
   register: iam_live_tmpdir
 
 - name: download iam live
-  become: yes
+  become: true
   get_url:
     url: "{{ iam_live_download_url }}"
     dest: "{{ iam_live_tmpdir.path }}"
   changed_when: false
 
 - name: extract iamlive from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ iam_live_tmpdir.path }}/{{ iam_live_filename }}"
     dest: /usr/local/bin/
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
     mode: 0755
