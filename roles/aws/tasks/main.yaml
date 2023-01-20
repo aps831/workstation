@@ -1,9 +1,55 @@
 ---
 # AWS
+- name: create temporary build directory for awscli
+  tempfile:
+    state: directory
+    suffix: build
+  register: aws_tmpdir
+
+- name: download awscli installer
+  become: yes
+  get_url:
+    url: "{{ awscli_download_url }}"
+    dest: "{{ aws_tmpdir.path }}"
+  changed_when: false
+
+- name: extract awscli installer from archive
+  become: yes
+  unarchive:
+    src: "{{ aws_tmpdir.path }}/{{ awscli_filename }}"
+    dest: "{{ aws_tmpdir.path }}"
+    remote_src: yes
+    owner: root
+    group: root
+
+- name: test if awscli already installed
+  become: yes
+  stat:
+    path: "/usr/local/bin/aws"
+  register: awsclipath
+
 - name: install awscli
-  community.general.pipx:
-    name: awscli
-    state: latest
+  become: yes
+  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
+  when: not awsclipath.stat.exists
+
+- name: update awscli
+  become: yes
+  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
+  when: awsclipath.stat.exists
+
+- name: set permissions on awscli binary
+  become: yes
+  file:
+    path: /usr/local/bin/aws
+    mode: 0755
+
+- name: set permissions on awscli files
+  become: yes
+  file:
+    path: /usr/local/aws-cli
+    recurse: yes
+    mode: 0755
 
 # SAM
 - name: create temporary build directory for sam
