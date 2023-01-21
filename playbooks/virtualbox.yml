@@ -45,7 +45,6 @@
     - role: aws
     - role: cheat
     - role: cloudflared
-    - role: commitizen
     - role: cue
     - role: dagger
     - role: docs

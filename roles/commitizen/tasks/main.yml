@@ -1,5 +1,0 @@
----
-- name: install commitizen
-  community.general.pipx:
-    name: commitizen
-    state: present
