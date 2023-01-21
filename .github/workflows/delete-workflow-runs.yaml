@@ -1,5 +1,6 @@
 ---
 name: Delete old workflow runs
+# yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
   schedule:
