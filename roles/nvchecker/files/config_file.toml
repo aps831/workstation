@@ -199,14 +199,6 @@ pypi = "psutil"
 source = "pypi"
 pypi = "molecule"
 
-[boto3]
-source = "pypi"
-pypi = "boto3"
-
-[botocore]
-source = "pypi"
-pypi = "botocore"
-
 [pipx]
 source = "pypi"
 pypi = "pipx"

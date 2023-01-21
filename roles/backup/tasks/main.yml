@@ -9,13 +9,6 @@
       - cron
       - timeshift
 
-- name: install dependencies
-  pip:
-    name:
-      - boto3=={{ boto3_version }}
-      - botocore=={{ botocore_version }}
-    state: present
-
 # B2 application key id and key
 - name: lookup application key id
   set_fact:
