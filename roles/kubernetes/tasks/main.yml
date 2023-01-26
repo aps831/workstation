@@ -1,15 +1,11 @@
 ---
 # Kubectl
 - name: install kubectl asdf plugin
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf plugin-add kubectl {{ kubectl_asdf_plugin_url }}"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kubectl {{ kubectl_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: set global kubectl version to system
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf global kubectl system"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global kubectl system"
 
 # Minikube
 - name: download minikube checksum
@@ -192,15 +188,11 @@
     mode: 0755
 
 - name: install fluxcd asdf plugin
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf plugin-add flux2 {{ fluxcd_asdf_plugin_url }}"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add flux2 {{ fluxcd_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: set global fluxcd version to system
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf global flux2 system"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global flux2 system"
 
 # Kubeseal
 - name: create temporary file for kubeseal download
@@ -276,15 +268,11 @@
     remote_src: yes
 
 - name: install istioctl asdf plugin
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf plugin-add istioctl {{ istio_asdf_plugin_url }}"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add istioctl {{ istio_asdf_plugin_url }}"
   ignore_errors: true
 
 - name: set global istioctl version to system
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf global istioctl system"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global istioctl system"
 
 # Kubeconform
 - name: create temporary build directory

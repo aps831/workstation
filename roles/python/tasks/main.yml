@@ -30,20 +30,14 @@
 
 # asdf python
 - name: install asdf python plugin
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf plugin add python"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add python"
   ignore_errors: true
 
 - name: install latest python version
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf install python latest"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install python latest"
 
 - name: set global python version to system
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf global python system"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global python system"
 
 # pipx
 - name: install pipx
@@ -52,9 +46,7 @@
     extra_args: --user pipx
 
 - name: reshim asdf
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf reshim python"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
 # poetry
 - name: check if poetry is installed
@@ -84,20 +76,14 @@
 
 # asdf poetry
 - name: install asdf poetry plugin
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf plugin add poetry"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add poetry"
   ignore_errors: true
 
 - name: install latest poetry version
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf install poetry latest"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install poetry latest"
 
 - name: set global poetry version to system
-  ansible.builtin.shell: >
-    bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh &&
-    asdf global poetry system"
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global poetry system"
 
 # If this hangs, try deleting the cache ~/.cache/pypoetry
 - name: update poetry

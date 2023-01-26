@@ -30,16 +30,12 @@
 
 - name: install awscli
   become: true
-  command: >
-    "{{ aws_tmpdir.path }}/aws/install
-    -i /usr/local/aws-cli -b /usr/local/bin"
+  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
   when: not awsclipath.stat.exists
 
 - name: update awscli
   become: true
-  command: >
-    "{{ aws_tmpdir.path }}/aws/install
-    -i /usr/local/aws-cli -b /usr/local/bin --update"
+  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
   when: awsclipath.stat.exists
 
 - name: set permissions on awscli binary
@@ -87,16 +83,12 @@
 
 - name: install awssamcli
   become: true
-  command: >
-    "{{ aws_sam_tmpdir.path }}/install
-    -i /usr/local/aws-sam-cli -b /usr/local/bin"
+  command: "{{ aws_sam_tmpdir.path }}/install -i /usr/local/aws-sam-cli -b /usr/local/bin"
   when: not awssamclipath.stat.exists
 
 - name: update awssamcli
   become: true
-  command: >
-    "{{ aws_sam_tmpdir.path }}/install
-    -i /usr/local/aws-sam-cli -b /usr/local/bin --update"
+  command: "{{ aws_sam_tmpdir.path }}/install -i /usr/local/aws-sam-cli -b /usr/local/bin --update"
   when: awssamclipath.stat.exists
 
 - name: set permissions on awssamcli binary

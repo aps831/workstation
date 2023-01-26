@@ -125,7 +125,5 @@
   register: maildir_exists
 
 - name: initialise Maildir
-  command: >
-    bash -c "echo 'init' |
-    s-nail -s 'init' -Snorecord {{ ansible_user }}"
+  command: bash -c "echo 'init' | s-nail -s 'init' -Snorecord {{ ansible_user }}"
   when: not maildir_exists.stat.exists
