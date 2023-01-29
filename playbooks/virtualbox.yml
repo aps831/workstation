@@ -43,6 +43,7 @@
     - role: akeyless
     - role: asdf
     - role: aws
+    - role: bats
     - role: cheat
     - role: cloudflared
     - role: cue

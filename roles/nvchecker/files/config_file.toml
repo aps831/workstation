@@ -189,6 +189,11 @@ source = "github"
 github = "google/osv-scanner"
 use_max_tag = true
 
+[bats]
+source = "github"
+github = "bats-core/bats-core"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

@@ -37,6 +37,7 @@ task_version: 3.13.0
 mdbook_version: 0.4.21
 mdbook_mermaid_version: 0.11.2
 osv_scanner_version: 1.0.2
+bats_version: 1.8.2
 
 # Pip Installs
 psutil_version: 5.9.0
