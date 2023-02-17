@@ -194,6 +194,11 @@ source = "github"
 github = "bats-core/bats-core"
 use_max_tag = true
 
+[ossf-scorecard]
+source = "github"
+github = "ossf/scorecard"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

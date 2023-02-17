@@ -1,0 +1,7 @@
+---
+ossf_scorecard_version: 4.10.2
+ossf_scorecard_filename: scorecard_{{ ossf_scorecard_version }}_linux_amd64.tar.gz
+ossf_scorecard_url: https://github.com/ossf/scorecard/releases/download/v{{ ossf_scorecard_version }}/{{ ossf_scorecard_filename }}
+ossf_scorecard_checksum_url: https://github.com/ossf/scorecard/releases/download/v{{ ossf_scorecard_version }}/scorecard_checksums.txt
+# This is not currently used
+ossf_scorecard_checksum_sig_url: https://github.com/ossf/scorecard/releases/download/v{{ ossf_scorecard_version }}/scorecard_checksums.txt.sig

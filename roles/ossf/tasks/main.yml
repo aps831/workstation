@@ -1,0 +1,35 @@
+---
+- name: create temporary build directory
+  become: true
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
+
+- name: download ossf scorecard binary
+  become: true
+  get_url:
+    url: "{{ ossf_scorecard_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ ossf_scorecard_checksum_url }}"
+  changed_when: false
+
+- name: extract from archive
+  become: true
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ ossf_scorecard_filename }}"
+    dest: "{{ tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: true
+
+- name: copy ossf scorecard file to bin
+  become: true
+  copy:
+    src: "{{ tmp_dir.path }}/scorecard-linux-amd64"
+    dest: /usr/local/bin/scorecard
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: true

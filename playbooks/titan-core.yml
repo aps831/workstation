@@ -50,6 +50,7 @@
     - role: kubernetes
     - role: kvm
     - role: mdbook
+    - role: ossf
     - role: osvscanner
     - role: owaspzap
     - role: pgadmin
