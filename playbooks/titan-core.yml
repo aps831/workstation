@@ -48,6 +48,7 @@
     - role: git
     - role: github
     - role: gcloud
+    - role: gron
     - role: kubernetes
     - role: kvm
     - role: mdbook

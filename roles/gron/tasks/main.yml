@@ -1,0 +1,25 @@
+---
+- name: create temporary download directory
+  become: true
+  tempfile:
+    state: directory
+    suffix: download
+  register: tmp_dir
+  changed_when: false
+
+- name: download binary
+  become: true
+  get_url:
+    url: "{{ gron_url }}"
+    dest: "{{ tmp_dir.path }}"
+  changed_when: false
+
+- name: extract from archive
+  become: true
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ gron_filename }}"
+    dest: /usr/local/bin
+    remote_src: true
+    owner: root
+    group: root
+    mode: 0755
