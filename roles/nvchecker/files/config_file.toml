@@ -204,6 +204,11 @@ source = "github"
 github = "anchore/syft"
 use_max_tag = true
 
+[grype]
+source = "github"
+github = "anchore/grype"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

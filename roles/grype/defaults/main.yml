@@ -1,0 +1,5 @@
+---
+grype_version: 0.58.0
+grype_filename: grype_{{ grype_version }}_linux_amd64.deb
+grype_url: https://github.com/anchore/grype/releases/download/v{{ grype_version }}/{{ grype_filename }}
+grype_checksum_url: https://github.com/anchore/grype/releases/download/v{{ grype_version }}/grype_{{ grype_version }}_checksums.txt

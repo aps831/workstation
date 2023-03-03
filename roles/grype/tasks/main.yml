@@ -1,0 +1,21 @@
+---
+- name: create temporary download directory
+  become: true
+  tempfile:
+    state: directory
+    suffix: download
+  register: tmp_dir
+  changed_when: false
+
+- name: download grype binary
+  become: true
+  get_url:
+    url: "{{ grype_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ grype_checksum_url }}"
+  changed_when: false
+
+- name: install grype
+  become: true
+  apt:
+    deb: "{{ tmp_dir.path }}/{{ grype_filename }}"
