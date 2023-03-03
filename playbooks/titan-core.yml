@@ -61,6 +61,7 @@
     - role: shellcheck
     - role: stoplight
     - role: sublime
+    - role: syft
     - role: task
     - role: terraform
     - role: trivy

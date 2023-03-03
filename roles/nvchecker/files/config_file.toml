@@ -199,6 +199,11 @@ source = "github"
 github = "ossf/scorecard"
 use_max_tag = true
 
+[syft]
+source = "github"
+github = "anchore/syft"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

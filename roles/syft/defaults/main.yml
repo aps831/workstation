@@ -1,0 +1,5 @@
+---
+syft_version: 0.74.0
+syft_filename: syft_{{ syft_version }}_linux_amd64.deb
+syft_url: https://github.com/anchore/syft/releases/download/v{{ syft_version }}/{{ syft_filename }}
+syft_checksum_url: https://github.com/anchore/syft/releases/download/v{{ syft_version }}/syft_{{ syft_version }}_checksums.txt
