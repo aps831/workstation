@@ -36,6 +36,7 @@
     - role: aws
     - role: bats
     - role: cheat
+    - role: cifuzz
     - role: cloudflared
     - role: cue
     - role: dagger

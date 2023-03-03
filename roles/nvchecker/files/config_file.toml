@@ -209,6 +209,11 @@ source = "github"
 github = "anchore/grype"
 use_max_tag = true
 
+[cifuzz]
+source = "github"
+github = "CodeIntelligenceTesting/cifuzz"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]
