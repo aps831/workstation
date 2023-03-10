@@ -8,6 +8,7 @@
       - redshift
       - redshift-gtk
       - hplip
+      - kazam
 
 - name: set list view for new folders
   become_user: "{{ ansible_user }}"
