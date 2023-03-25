@@ -40,6 +40,7 @@
     - role: cloudflared
     - role: cue
     - role: dagger
+    - role: direnv
     - role: docs
     - role: eclipse
     - role: intellij
