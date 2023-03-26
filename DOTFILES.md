@@ -36,6 +36,7 @@ chezmoi apply
 -   .m2
 -   .minikube
 -   .mozilla
+-   .muttrc
 -   .npm
 -   .password-store
 -   .pip
