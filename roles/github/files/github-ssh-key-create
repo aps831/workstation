@@ -1,0 +1,18 @@
+#! /bin/bash
+# shellcheck disable=SC2312
+
+EMAIL="aps831@yahoo.co.uk"
+KEYNO=$(ykman info | grep "Serial number" | awk '{print $3}')
+PERMANENT_KEY="$(whoami)_on_$(hostname)_for_github_using_sk_${KEYNO}"
+TEMP_KEY="$(whoami)_on_$(hostname)_for_github_no_sk"
+
+# create new ssh key
+echo "Creating ssh key..."
+ssh-keygen -t ed25519 -q -N '' -C "${EMAIL}" -f ~/.ssh/"${TEMP_KEY}"
+
+# update ssh config
+echo "Updating ssh config..."
+sed -i s/"${PERMANENT_KEY}"/"${TEMP_KEY}"/ ~/.ssh/config
+
+# upload to Github
+gh ssh-key add ~/.ssh/"${TEMP_KEY}".pub --title "${TEMP_KEY}"

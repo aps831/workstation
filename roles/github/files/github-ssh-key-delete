@@ -1,0 +1,19 @@
+#! /bin/bash
+# shellcheck disable=SC2312
+
+KEYNO=$(ykman info | grep "Serial number" | awk '{print $3}')
+PERMANENT_KEY="$(whoami)_on_$(hostname)_for_github_using_sk_${KEYNO}"
+TEMP_KEY="$(whoami)_on_$(hostname)_for_github_no_sk"
+
+# delete ssh key
+echo "Deleteing ssh key..."
+rm ~/.ssh/"${TEMP_KEY}"
+rm ~/.ssh/"${TEMP_KEY}".pub
+
+# update ssh config
+echo "Updating ssh config..."
+sed -i s/"${TEMP_KEY}"/"${PERMANENT_KEY}"/ ~/.ssh/config
+
+# delete from Github
+ID=$(gh ssh-key list | grep "${TEMP_KEY}" | awk '{print $5}')
+gh ssh-key delete "${ID}" --yes
