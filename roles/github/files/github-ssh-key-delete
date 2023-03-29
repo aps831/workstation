@@ -17,3 +17,13 @@ sed -i s/"${TEMP_KEY}"/"${PERMANENT_KEY}"/ ~/.ssh/config
 # delete from Github
 ID=$(gh ssh-key list | grep "${TEMP_KEY}" | awk '{print $5}')
 gh ssh-key delete "${ID}" --yes
+
+# output remaining keys
+echo ""
+echo "The following ssh keys remain on github.com:"
+gh ssh-key list
+
+# output current ssh config
+echo ""
+echo "The following entry has been reinstated in ssh config:"
+grep github.com --after-context 2 ~/.ssh/config

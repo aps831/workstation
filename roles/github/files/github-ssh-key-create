@@ -16,3 +16,13 @@ sed -i s/"${PERMANENT_KEY}"/"${TEMP_KEY}"/ ~/.ssh/config
 
 # upload to Github
 gh ssh-key add ~/.ssh/"${TEMP_KEY}".pub --title "${TEMP_KEY}"
+
+# output current keys
+echo ""
+echo "The following ssh keys are now on github.com:"
+gh ssh-key list
+
+# output current ssh config
+echo ""
+echo "The following entry has been updated in ssh config:"
+grep github.com --after-context 2 ~/.ssh/config
