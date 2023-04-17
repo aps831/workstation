@@ -1,172 +1,198 @@
 ---
- - name: install system packages
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - curl
-     - debianutils
-     - findutils
-     - tar
-     - unzip
-     - zip
+# yamllint disable rule:line-length
+- name: install system packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - curl
+      - debianutils
+      - findutils
+      - tar
+      - unzip
+      - zip
 
- - name: check for sdkman installation
-   stat:
-     path: "{{ sdkman_dir }}/bin/sdkman-init.sh"
-   register: sdkman_init
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: download sdkman
-   get_url:
-     url: https://get.sdkman.io?rcupdate=false
-     dest: "{{ sdkman_tmp_dir }}/sdkman_script"
-   when: not sdkman_init.stat.exists
+# sdkman
+- name: check for sdkman installation
+  stat:
+    path: "{{ sdkman_dir }}/bin/sdkman-init.sh"
+  register: sdkman_init
 
- - name: run sdkman script
-   become: yes
-   environment:
-     SDKMAN_DIR: "{{ sdkman_dir }}"
-   command: bash {{ sdkman_tmp_dir }}/sdkman_script
-   args:
-     creates: '{{ sdkman_dir }}/bin/sdkman-init.sh'
-   when: not sdkman_init.stat.exists
+- name: download sdkman
+  get_url:
+    url: https://get.sdkman.io?rcupdate=false
+    dest: "{{ sdkman_tmp_dir }}/sdkman_script"
+  when: not sdkman_init.stat.exists
 
- - name: cleanup sdkman script
-   file:
-     path: "{{ sdkman_tmp_dir }}/sdkman_script"
-     state: absent
-   when: not sdkman_init.stat.exists
+- name: run sdkman script
+  become: true
+  environment:
+    SDKMAN_DIR: "{{ sdkman_dir }}"
+  command: bash {{ sdkman_tmp_dir }}/sdkman_script
+  args:
+    creates: "{{ sdkman_dir }}/bin/sdkman-init.sh"
+  when: not sdkman_init.stat.exists
 
- - name: set permissions on sdkman directory
-   become: yes
-   file:
-     path: "{{ sdkman_dir }}"
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     recurse: true
-   when: not sdkman_init.stat.exists
+- name: cleanup sdkman script
+  file:
+    path: "{{ sdkman_tmp_dir }}/sdkman_script"
+    state: absent
+  when: not sdkman_init.stat.exists
 
- - name: flush sdk caches (before)
-   environment:
-     SDKMAN_DIR: "{{ sdkman_dir }}"
-   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
-   args:
-     executable: /bin/bash
-   with_items:
-   - temp
-   changed_when: false
+- name: set permissions on sdkman directory
+  become: true
+  file:
+    path: "{{ sdkman_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: true
+  when: not sdkman_init.stat.exists
 
- - name: update sdkman
-   environment:
-     SDKMAN_DIR: "{{ sdkman_dir }}"
-   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk selfupdate
-   args:
-     executable: /bin/bash
-   register: sdk_selfupdate
-   changed_when: sdk_selfupdate.stdout != 'No update available at this time.'
+- name: flush sdk caches (before)
+  environment:
+    SDKMAN_DIR: "{{ sdkman_dir }}"
+  shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
+  args:
+    executable: /bin/bash
+  with_items:
+    - temp
+  changed_when: false
 
- - name: install sdk candidates/versions
-   environment:
-     SDKMAN_DIR: "{{ sdkman_dir }}"
-   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk install {{ item }}
-   args:
-     executable: /bin/bash
-   with_items:
-   - maven
-   - gradle
-   - java
-   ignore_errors: true
-   register: sdk_install
-   changed_when: '"Downloading" in sdk_install.stdout'
+- name: update sdkman
+  environment:
+    SDKMAN_DIR: "{{ sdkman_dir }}"
+  shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk selfupdate
+  args:
+    executable: /bin/bash
+  register: sdk_selfupdate
+  changed_when: sdk_selfupdate.stdout != 'No update available at this time.'
 
- - name: flush sdk caches (after)
-   environment:
-     SDKMAN_DIR: "{{ sdkman_dir }}"
-   shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
-   args:
-     executable: /bin/bash
-   with_items:
-   - archives
-   - broadcast
-   - candidates
-   - temp
-   changed_when: false
+- name: install sdk candidates/versions
+  environment:
+    SDKMAN_DIR: "{{ sdkman_dir }}"
+  shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk install {{ item }}
+  args:
+    executable: /bin/bash
+  with_items:
+    - maven
+    - gradle
+    - java
+  ignore_errors: true
+  register: sdk_install
+  changed_when: '"Downloading" in sdk_install.stdout'
 
- - name: ensure user profile directory exists
-   become: yes
-   ansible.builtin.file:
-     dest: /home/{{ ansible_user }}/.profile.d
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: flush sdk caches (after)
+  environment:
+    SDKMAN_DIR: "{{ sdkman_dir }}"
+  shell: source {{ sdkman_dir }}/bin/sdkman-init.sh && sdk flush {{ item }}
+  args:
+    executable: /bin/bash
+  with_items:
+    - archives
+    - broadcast
+    - candidates
+    - temp
+  changed_when: false
 
- - name: define java variables
-   become: yes
-   template:
-     src: user_java.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/java.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: define sdkman variables
+  become: true
+  template:
+    src: user_sdkman.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/sdkman.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: define gradle variables
-   become: yes
-   template:
-     src: user_gradle.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/gradle.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+# asdf
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - curl
 
- - name: define maven variables
-   become: yes
-   template:
-     src: user_maven.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/maven.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: install java asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add java {{ java_asdf_plugin_url }}"
+  ignore_errors: true
 
- - name: define sdkman variables
-   become: yes
-   template:
-     src: user_sdkman.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/sdkman.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: set global java version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global java system"
+
+- name: install maven asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add maven {{ maven_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global maven version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global maven system"
+
+# bash
+- name: define java variables
+  become: true
+  template:
+    src: user_java.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/java.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: define gradle variables
+  become: true
+  template:
+    src: user_gradle.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/gradle.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: define maven variables
+  become: true
+  template:
+    src: user_maven.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/maven.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
 # https://github.com/gluonhq/substrate/blob/master/README.md
- - name: install javafx packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - libasound2-dev
-     - libavcodec-dev
-     - libavformat-dev
-     - libavutil-dev
-     - libfreetype6-dev
-     - libgl-dev
-     - libglib2.0-dev
-     - libgtk-3-dev
-     - libpango1.0-dev
-     - libx11-dev
-     - libxtst-dev
+- name: install javafx packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - libasound2-dev
+      - libavcodec-dev
+      - libavformat-dev
+      - libavutil-dev
+      - libfreetype6-dev
+      - libgl-dev
+      - libglib2.0-dev
+      - libgtk-3-dev
+      - libpango1.0-dev
+      - libx11-dev
+      - libxtst-dev
 
 # https://www.graalvm.org/22.0/reference-manual/native-image/
- - name: install native image packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - build-essential
-     - libz-dev
-     - zlib1g-dev
+- name: install native image packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - build-essential
+      - libz-dev
+      - zlib1g-dev
