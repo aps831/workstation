@@ -13,9 +13,14 @@ plugins:
       ref: v0.0.16
       uri: https://github.com/trunk-io/plugins
 actions:
-  enabled:
-    - commit-branch
+  disabled:
     - commitizen
+  enabled:
+    - wip-check
+    - templated-output-check
+    - commitizen-prompt-conventional
+    - commitizen-tools-check
+    - commit-branch
     - trunk-announce
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
@@ -24,10 +29,12 @@ actions:
 cli:
   version: 1.8.0
 lint:
+  disabled:
+    - terraform-validate
   enabled:
+    - trivy@0.38.3
     - ansible-lint@6.14.6
     - yamllint@1.30.0
-    - trivy
     - semgrep@1.18.0
     - actionlint@1.6.24
     - git-diff-check
