@@ -49,6 +49,7 @@
     - role: cloudflared
     - role: cue
     - role: dagger
+    - role: data
     - role: direnv
     - role: docs
     - role: eclipse

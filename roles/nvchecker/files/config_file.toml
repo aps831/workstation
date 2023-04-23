@@ -219,6 +219,11 @@ source = "github"
 github = "tomnomnom/gron"
 use_max_tag = true
 
+[yq]
+source = "github"
+github = "mikefarah/yq"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]
