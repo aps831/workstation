@@ -10,6 +10,7 @@
       - curl
       - fzf
       - jq
+      - xmlstarlet
 
 - name: download yq binary
   become: true
