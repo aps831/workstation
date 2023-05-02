@@ -26,6 +26,7 @@
       - gitg
       - meld
       - git-gui
+      - fzf
 
 - name: install bash-completion
   become: yes

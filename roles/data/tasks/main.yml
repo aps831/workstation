@@ -8,7 +8,6 @@
     packages:
       - wget
       - curl
-      - fzf
       - jq
       - xmlstarlet
 
