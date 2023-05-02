@@ -69,7 +69,6 @@
     - role: task
     - role: terraform
     - role: trivy
-    - role: trunk
     - role: vagrant
     - role: virtualbox
     - role: vscode

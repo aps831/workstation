@@ -1,9 +1,0 @@
----
- - name: install trunkio
-   become: yes
-   community.general.npm:
-     name: "@trunkio/launcher"
-     production: yes
-     global: yes
-     state: latest
-
