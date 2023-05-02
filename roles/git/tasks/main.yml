@@ -8,14 +8,14 @@
     force: true
 
 - name: add git-core/ppa repository
-  become: yes
+  become: true
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/git-core-keyring.asc] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu {{ ubuntu_codename }} main"
     filename: git-core
     state: present
 
 - name: install packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -29,13 +29,13 @@
       - fzf
 
 - name: install bash-completion
-  become: yes
+  become: true
   apt:
     name: bash-completion
     state: present
 
 - name: download git completion
-  become: yes
+  become: true
   get_url:
     url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
     dest: /etc/bash_completion.d/git-completion
@@ -56,7 +56,7 @@
   changed_when: false
 
 - name: extract git-mkver from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ git_mkrev_download_tmp.path }}"
     dest: /usr/local/bin
@@ -73,7 +73,7 @@
   register: gitleaks_download_tmp
 
 - name: download gitleaks binary
-  become: yes
+  become: true
   get_url:
     url: "{{ gitleaks_url }}"
     dest: "{{ gitleaks_download_tmp.path }}"
@@ -81,7 +81,7 @@
   changed_when: false
 
 - name: extract gitleaks from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ gitleaks_download_tmp.path }}"
     dest: /usr/local/bin
@@ -92,7 +92,7 @@
 
 # delta
 - name: install delta
-  become: yes
+  become: true
   apt:
     deb: "{{ delta_download_url }}"
 
@@ -104,7 +104,7 @@
   register: git_filter_repo_download_tmp
 
 - name: download git filter repo binary
-  become: yes
+  become: true
   get_url:
     url: "{{ git_filter_repo_url }}"
     dest: "{{ git_filter_repo_download_tmp.path }}"
@@ -113,13 +113,13 @@
 
 # unarchive doesn't work for some reason
 - name: extract git filter repo from archive
-  become: yes
+  become: true
   command: "tar -xvf {{ git_filter_repo_filename }}"
   args:
     chdir: "{{ git_filter_repo_download_tmp.path }}"
 
 - name: copy git filter repo
-  become: yes
+  become: true
   copy:
     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/git-filter-repo"
     dest: /usr/local/bin
@@ -133,7 +133,7 @@
   register: man_path
 
 - name: copy git filter repo man documentation
-  become: yes
+  become: true
   copy:
     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/Documentation/man1/git-filter-repo.1"
     dest: "{{ man_path.stdout }}/man1"
