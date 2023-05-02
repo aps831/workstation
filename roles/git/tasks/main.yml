@@ -27,6 +27,7 @@
       - meld
       - git-gui
       - fzf
+      - git-absorb
 
 - name: install bash-completion
   become: true
