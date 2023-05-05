@@ -1,2 +1,7 @@
+---
+# yamllint disable rule:line-length
 yq_version: 4.33.3
+yq_checksums_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/checksums
+yq_checksums_hashes_order_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/checksums_hashes_order
+yq_extract_checksum_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/extract-checksum.sh
 yq_download_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/yq_linux_amd64
