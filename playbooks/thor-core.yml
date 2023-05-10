@@ -43,6 +43,7 @@
     - role: data
     - role: direnv
     - role: docs
+    - role: driftctl
     - role: eclipse
     - role: intellij
     - role: git

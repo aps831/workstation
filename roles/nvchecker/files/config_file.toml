@@ -224,6 +224,12 @@ source = "github"
 github = "mikefarah/yq"
 use_max_tag = true
 
+[driftctl]
+source = "github"
+github = "snyk/driftctl"
+use_max_tag = true
+
+
 # Pip Installs
 
 [psutil]

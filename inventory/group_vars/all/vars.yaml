@@ -44,6 +44,7 @@ grype_version: 0.58.0
 cifuzz_version: 0.22.0
 gron_version: 0.7.1
 yq_version: 4.33.3
+driftctl_version: 0.38.2
 
 # Pip Installs
 psutil_version: 5.9.0
