@@ -47,4 +47,3 @@
     group: "root"
     checksum: "sha256:{{ yq_sha256_checksum.stdout }}"
     mode: 0755
-  changed_when: false
