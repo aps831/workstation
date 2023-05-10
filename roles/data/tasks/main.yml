@@ -43,8 +43,8 @@
   get_url:
     url: "{{ yq_download_url }}"
     dest: "/usr/bin/yq"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "root"
+    group: "root"
     checksum: "sha256:{{ yq_sha256_checksum.stdout }}"
     mode: 0755
   changed_when: false
