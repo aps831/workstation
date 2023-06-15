@@ -87,6 +87,11 @@
   command: gh extension install dlvhdr/gh-dash
   ignore_errors: true
 
+# gh combine-prs
+- name: add gh combine-prs
+  command: gh extension install rnorth/gh-combine-prs
+  ignore_errors: true
+
 # all-repos
 - name: install all-repos
   community.general.pipx:
