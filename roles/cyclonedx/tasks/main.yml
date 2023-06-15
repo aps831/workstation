@@ -1,0 +1,9 @@
+---
+- name: download cyclonedx
+  become: true
+  get_url:
+    url: "{{ cyclonedx_download_url }}"
+    dest: /usr/bin/cyclonedx
+    owner: root
+    group: root
+    mode: 0755
