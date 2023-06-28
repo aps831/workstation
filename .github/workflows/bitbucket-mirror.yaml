@@ -13,3 +13,7 @@ jobs:
       repositoryname: workstation
     secrets:
       BITBUCKET_SSH_PRIVATE_KEY: ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
