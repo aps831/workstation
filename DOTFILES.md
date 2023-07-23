@@ -14,6 +14,7 @@ chezmoi apply
 
 ## Folders
 
+-   .age
 -   .akeyless
 -   .cargo
 -   .cloudflared
