@@ -42,7 +42,6 @@ chezmoi apply
 -   .password-store
 -   .pip
 -   .rustup
--   .sdkman
 -   .ssh
 -   .vagrant.d
 -   .virtualboxvms
