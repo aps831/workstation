@@ -66,6 +66,12 @@
     enabled: yes
 
 #
+# SBOM
+#
+- name: docker sbom plugin
+  shell: curl -sSfL https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh | sh -s --
+
+#
 # Docker Compose
 #
 
