@@ -65,6 +65,7 @@
     - role: ossf
     - role: osvscanner
     - role: owaspzap
+    - role: packer
     - role: pgadmin
     - role: podman
     - role: postman
