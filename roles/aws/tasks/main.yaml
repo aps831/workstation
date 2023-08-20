@@ -57,6 +57,12 @@
     name: localstack
     state: latest
 
+# Policy Sentry
+- name: install policy_sentry
+  community.general.pipx:
+    name: policy_sentry
+    state: latest
+
 # IAM Live
 - name: create temporary build directory for iam live
   tempfile:
