@@ -63,6 +63,12 @@
     name: policy_sentry
     state: latest
 
+# Cloudsplaining
+- name: install cloudsplaining
+  community.general.pipx:
+    name: cloudsplaining
+    state: latest
+
 # IAM Live
 - name: create temporary build directory for iam live
   tempfile:
