@@ -25,6 +25,7 @@
       - vagrant-libvirt
       - dnsmasq-base
       - ebtables
+      - libguestfs-tools
       - libvirt-daemon-system
       - libvirt-clients
       - libxslt-dev
@@ -32,8 +33,30 @@
       - libvirt-dev
       - qemu
       - ruby-dev
+      - ruby-fog-libvirt
       - ruby-libvirt
       - zlib1g-dev
 
 - name: install disksize plugin
   command: vagrant plugin install vagrant-disksize
+
+- name: install libvirt plugin
+  command: vagrant plugin install vagrant-libvirt
+
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: define asdf variables
+  become: true
+  template:
+    src: user_vagrant.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/vagrant.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
