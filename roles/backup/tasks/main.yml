@@ -16,6 +16,11 @@
       - boto3=={{ boto3_version }}
     state: present
 
+- name: install ansible dependencies
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: community.aws
+
 # B2 application key id and key
 - name: lookup application key id
   set_fact:

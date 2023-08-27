@@ -1,4 +1,0 @@
----
-roles:
-  - name: community.aws.s3_sync
-    version: 6.2.0
