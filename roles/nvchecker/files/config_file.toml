@@ -244,6 +244,14 @@ pypi = "molecule"
 source = "pypi"
 pypi = "pipx"
 
+[botocore]
+source = "pypi"
+pypi = "botocore"
+
+[boto3]
+source = "pypi"
+pypi = "boto3"
+
 # Other Installs
 
 [eclipse]

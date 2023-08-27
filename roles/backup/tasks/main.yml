@@ -9,6 +9,13 @@
       - cron
       - timeshift
 
+- name: install aws dependencies
+  pip:
+    name:
+      - botocore=={{ botocore_version }}
+      - boto3=={{ boto3_version }}
+    state: present
+
 # B2 application key id and key
 - name: lookup application key id
   set_fact:

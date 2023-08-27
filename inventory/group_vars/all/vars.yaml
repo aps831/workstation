@@ -50,6 +50,8 @@ driftctl_version: 0.38.2
 psutil_version: 5.9.0
 molecule_version: 3.6.1
 pipx_version: 1.1.0
+boto3_version: 1.28.35
+botocore_version: 1.31.35
 
 # Other Installs
 eclipse_version: 2021-12
