@@ -22,23 +22,7 @@ To update the vault with passwords stored in `pass` run `vault.sh`.
 
 ## Testing
 
-To test the Ansible provisioning using Vagrant run `vagrant up`. The current image for Linux Mint has insufficient initial disk space. Before the Ansible provisioning is run the partition must be expanded to fill the additional disk space that is created as part of the virtual machine provisioning. The first step is to start the virtual machine but without the Ansible provisioning. This can be done by commenting out the appropriate section in the `Vagrantfile`. Then login to the virtual machine using the user and password `vagrant` and run:
-
-```bash
-sudo apt install cloud-guest-utils gparted
-sudo growpart /dev/sda 2
-sudo resize2fs /dev/sda5
-```
-
-If these commands do not work, then it may be possible to use `gparted` to increase the partition size.
-
-If Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain. This can be removed using `sudo rm /var/lib/dpkg/lock`.
-
-If the install of `pgadmin` fails, then update `ca-certificates` using the update manager.
-
-If the Vagrant machine, called ansible, is running then re-provisioning can be performed with `vagrant provision`.
-
-Once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address. The work-around to this is to restart Docker with `sudo systemctl restart docker`.
+To test the Ansible provisioning using Vagrant run `vagrant up`. If Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain. This can be removed using `sudo rm /var/lib/dpkg/lock`. If the Vagrant machine, called workstation_vagrant, is running then re-provisioning can be performed with `vagrant provision`. Once Docker has been installed and the Vagrant machine has been restarted, the network interface `docker0` has no IP address. The work-around to this is to restart Docker with `sudo systemctl restart docker`.
 
 ## Run Role
 

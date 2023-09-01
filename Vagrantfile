@@ -2,18 +2,17 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "vimalkvn/linuxmint-20.2"
-  config.vm.box_version = "1.0"
-  config.disksize.size = '50GB'
-  config.ssh.insert_key = false
+  config.vm.box = "aps831/mint-cinnamon-21.2"
+  config.vm.box_version = "1.0.0"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  config.vm.provider :virtualbox do |v|
-    v.name = "vagrant"
+  config.vm.provider :libvirt do |v|
+    v.forward_ssh_port = true
+    v.graphics_type = "spice"
     v.memory = 8192
-    v.cpus = 2
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    v.customize ["modifyvm", :id, "--ioapic", "on"]
-    v.gui = true
+    v.nested = true
+    v.cpu_mode = "host-model"
+    v.random :model => 'random' # Passthrough /dev/random
   end
 
   config.vm.hostname = "vagrant"
