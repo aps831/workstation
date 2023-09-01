@@ -1,5 +1,5 @@
 [virtual]
-ansible           ansible_connection=ssh ansible_host=127.0.0.1 ansible_port=2222
+vagrant           ansible_connection=ssh ansible_host=127.0.0.1 ansible_port=2222
 
 [workstations]
 md-desktop        ansible_connection=local

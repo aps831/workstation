@@ -1,6 +1,6 @@
 ---
 - name: run playbook tasks
-  hosts: ansible
+  hosts: vagrant
   roles:
     # Security
     - role: encryption

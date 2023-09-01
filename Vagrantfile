@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
 
   config.vm.provider :virtualbox do |v|
-    v.name = "ansible"
+    v.name = "vagrant"
     v.memory = 8192
     v.cpus = 2
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -16,10 +16,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.gui = true
   end
 
-  config.vm.hostname = "ansible"
+  config.vm.hostname = "vagrant"
 
   # Set the name of the VM
-  config.vm.define :ansible do |ansible|
+  config.vm.define :vagrant do |vagrant|
   end
 
   # Ansible provisioner.
