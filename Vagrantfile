@@ -22,7 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :vagrant do |vagrant|
   end
 
-  # Ansible provisioner.
+  # Shell provisioner
+  config.vm.provision "shell", path: "bootstrap.sh"
+
+  # Ansible provisioner
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = "playbooks/vagrant.yml"
