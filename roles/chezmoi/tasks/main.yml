@@ -4,14 +4,6 @@
   apt:
     deb: "{{ chezmoi_download_url }}"
 
-- name: install maven
-  become: true
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - maven
-
 - name: "install chezmoi-diff script"
   become: true
   template:
