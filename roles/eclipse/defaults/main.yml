@@ -1,4 +1,0 @@
----
-eclipse_version: 2021-12
-eclipse_install_dir: /opt/eclipse-versions
-eclipse_download_url: http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/technology/epp/downloads/release/{{ eclipse_version }}/R/eclipse-jee-{{ eclipse_version }}-R-linux-gtk-x86_64.tar.gz
