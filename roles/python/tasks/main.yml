@@ -87,11 +87,11 @@
 
 # If this hangs, try deleting the cache ~/.cache/pypoetry
 - name: update poetry
-  command: poetry self update --no-interaction
+  ansible.builtin.shell: bash -c "export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring && /home/{{ ansible_user }}/.local/bin/poetry self update --no-interaction"
   when: poetry_cmd is not failed
 
 - name: configure poetry
-  command: poetry config virtualenvs.prefer-active-python true
+  command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.prefer-active-python true
   when: poetry_cmd is not failed
 
 # profile
@@ -111,7 +111,7 @@
   register: poetry_completion_tmp
 
 - name: create poetry bash completion
-  shell: "poetry completions bash > {{ poetry_completion_tmp.path }}"
+  shell: "/home/{{ ansible_user }}/.local/bin/poetry completions bash > {{ poetry_completion_tmp.path }}"
   changed_when: false
 
 - name: define poetry variables
@@ -121,3 +121,4 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
+    remote_src: yes
