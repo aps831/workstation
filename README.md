@@ -10,11 +10,11 @@ The following playbooks have been created:
 -   `md-desktop-core.yml` - install core dependencies for m-d;
 -   `thor-backup.yml` - install backup dependencies for thor;
 -   `thor-core.yml` - install core dependencies for thor;
--   `thor-restore.yaml` - install minimal dependencies in order to bootstrap a restore of thor;
+-   `thor-restore.yml` - install minimal dependencies in order to bootstrap a restore of thor;
 -   `titan-backup.yml` - install backup dependencies for titan;
 -   `titan-core.yml` - install core dependencies for titan;
--   `titan-restore.yaml` - install minimal dependencies in order to bootstrap a restore of titan;
--   `virtualbox.yml` - run through all the roles on a Linux Mint instance in Virtualbox.
+-   `titan-restore.yml` - install minimal dependencies in order to bootstrap a restore of titan;
+-   `vagrant.yml` - run through all the roles on a Linux Mint instance using Vagrant.
 
 ## Vault
 
