@@ -82,11 +82,6 @@
     group: root
     mode: 0755
 
-# gh dash
-- name: add gh dash
-  command: gh extension install dlvhdr/gh-dash
-  ignore_errors: true
-
 # gh combine-prs
 - name: add gh combine-prs
   command: gh extension install rnorth/gh-combine-prs
