@@ -87,7 +87,7 @@
 
 # If this hangs, try deleting the cache ~/.cache/pypoetry
 - name: update poetry
-  ansible.builtin.shell: bash -c "export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring && /home/{{ ansible_user }}/.local/bin/poetry self update --no-interaction"
+  command: /home/{{ ansible_user }}/.local/bin/poetry self update --no-interaction
   when: poetry_cmd is not failed
 
 - name: configure poetry

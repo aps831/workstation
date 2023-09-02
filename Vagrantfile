@@ -23,6 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Shell provisioner
   config.vm.provision "shell", path: "bootstrap.sh"
+  config.vm.provision "shell", privileged: false, inline: "echo -n 'vagrant' | gnome-keyring-daemon --daemonize --components=ssh,secrets,pkcs11 --replace --unlock"
 
   # Ansible provisioner
   config.vm.provision "ansible" do |ansible|
