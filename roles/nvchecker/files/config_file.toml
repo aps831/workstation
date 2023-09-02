@@ -229,6 +229,10 @@ source = "github"
 github = "snyk/driftctl"
 use_max_tag = true
 
+[localstack]
+source = "github"
+github = "localstack/localstack-cli"
+use_max_tag = true
 
 # Pip Installs
 

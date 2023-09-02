@@ -1,6 +1,9 @@
 ---
 awscli_filename: awscli-exe-linux-x86_64.zip
 awscli_download_url: https://awscli.amazonaws.com/{{ awscli_filename }}
+localstack_version: 2.2.0
+localstack_filename: localstack-cli-{{ localstack_version }}-linux-amd64-onefile.tar.gz
+localstack_download_url: https://github.com/localstack/localstack-cli/releases/download/v{{ localstack_version }}/{{ localstack_filename }}
 iam_live_version: 0.53.0
 iam_live_filename: iamlive-v{{ iam_live_version }}-linux-amd64.tar.gz
 iam_live_download_url: https://github.com/iann0036/iamlive/releases/download/v{{ iam_live_version }}/{{ iam_live_filename }}

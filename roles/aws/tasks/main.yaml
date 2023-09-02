@@ -52,10 +52,28 @@
     mode: 0755
 
 # Localstack
-- name: install localstack
-  community.general.pipx:
-    name: localstack
-    state: latest
+- name: create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
+
+- name: download binary
+  get_url:
+    url: "{{ localstack_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  changed_when: false
+
+- name: extract from archive
+  become: true
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ localstack_filename }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
 
 # Policy Sentry
 - name: install policy_sentry
