@@ -25,14 +25,6 @@
     packages:
       - gh
 
-- name: add bash completion
-  become: yes
-  ansible.builtin.file:
-    path: "/etc/bash_completion.d/github-completion"
-    owner: root
-    group: root
-    mode: 0644
-
 - name: create temp file for github completion
   become: yes
   ansible.builtin.tempfile:
