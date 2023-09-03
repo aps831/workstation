@@ -92,7 +92,6 @@
 
     # Services
     - role: apache2
-    - role: certificate
     - role: docker
     - role: printserver
     - role: ssh

@@ -56,13 +56,8 @@ After migrating files and folders as per the instructions in [migration](MIGRATI
 
 -   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 -   configure Timeshift;
--   copy self-signed certificate from titan to thor (see below);
 -   create a Samba user is a Samba share has been created for SyncMe Wireless app on Android (see below);
 -   configure printers (see below).
-
-### Certificate
-
-The self-signed certificate for Docker needs to be copied from `titan` to `thor`. On `titan` the certificate can be found at `/usr/local/share/ca-certificates/titan.local.crt`. On `thor` this must be copied to `/etc/docker/certs.d/titan.local:5000/ca.crt`.
 
 ### Samba
 
