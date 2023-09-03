@@ -2,7 +2,7 @@
 - name: Add gcloud signing key
   become: true
   get_url:
-    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    url: "https://dl.k8s.io/apt/doc/apt-key.gpg"
     dest: /usr/share/keyrings/gcloud-keyring.gpg
     mode: 0644
     force: true
