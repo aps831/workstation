@@ -82,11 +82,6 @@
     - role: prolog
     - role: rust
 
-    # Users
-    - role: user
-      vars:
-        create_user: andrew
-
     # Services
     - role: apache2
     - role: docker
