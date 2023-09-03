@@ -25,57 +25,41 @@
     mode: 0755
 
 # Lens
-- name: ensure group lens exists
-  become: yes
-  ansible.builtin.group:
-    name: lens
+- name: create temporary file for key
+  become: true
+  ansible.builtin.tempfile:
+    state: file
+    suffix: temp
+  register: key_temp_file
+  changed_when: False
+
+- name: download key
+  become: true
+  ansible.builtin.get_url:
+    url: https://downloads.k8slens.dev/keys/gpg
+    dest: "{{ key_temp_file.path }}"
+    force: yes
+
+- name: dearmor key
+  become: true
+  ansible.builtin.shell:
+    cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/lens-archive-keyring.gpg
+
+- name: add lens repository
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.gpg] https://downloads.k8slens.dev/apt/debian stable main"
+    filename: "lens"
     state: present
 
-- name: add the user {{ ansible_user }} to lens group
-  become: yes
-  ansible.builtin.user:
-    name: "{{ ansible_user }}"
-    groups: lens
-    append: true
-
-- name: check if lens is already installed
-  become: yes
-  stat:
-    path: "{{ lens_install_dir }}"
-  register: lens_dir
-
-- name: create install directory
+- name: install lens
   become: true
-  ansible.builtin.file:
-    path: "{{ lens_install_dir }}"
-    state: directory
-    owner: root
-    group: lens
-    mode: 0755
-  when: not lens_dir.stat.exists
-
-- name: download lens
-  become: true
-  get_url:
-    url: "{{ lens_download_url }}"
-    dest: "{{ lens_install_dir }}/lens"
-    owner: root
-    group: lens
-    mode: 0755
-  when: not lens_dir.stat.exists
-
-- name: create symbolic link
-  become: yes
-  ansible.builtin.file:
-    src: "{{ lens_install_dir }}/lens"
-    path: "/usr/local/bin/lens"
-    state: link
-
-- name: add lens shortcut
-  become: yes
-  template:
-    src: lens.desktop.j2
-    dest: /usr/share/applications/lens.desktop
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - lens
 
 # Helm
 - name: create temporary build directory
