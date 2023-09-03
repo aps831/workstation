@@ -25,6 +25,8 @@
       - mdbook-open-on-gh
       - mdbook-graphviz
       - mdbook-katex
+  environment:
+    PATH: /home/{{ ansible_user }}/.cargo/bin:{{ ansible_env.PATH }}
 
 - name: create temporary file for mdbook bash completion
   tempfile:
@@ -33,7 +35,7 @@
   register: mdbook_completion_tmp
 
 - name: create mdbook bash completion
-  shell: "mdbook completions bash > {{ mdbook_completion_tmp.path }}"
+  shell: "/home/{{ ansible_user }}/.cargo/bin/mdbook completions bash > {{ mdbook_completion_tmp.path }}"
   changed_when: false
 
 - name: define mdbook variables
