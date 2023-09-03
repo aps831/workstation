@@ -1,40 +1,39 @@
 ---
+- name: fetch rustup
+  ansible.builtin.uri:
+    url: https://sh.rustup.rs
+    return_content: yes
+  register: rustup_installer
 
- - name: fetch rustup
-   ansible.builtin.uri:
-     url: https://sh.rustup.rs
-     return_content: yes
-   register: rustup_installer
+- name: run rustup installer
+  ansible.builtin.shell:
+    cmd: sh -s -- -y --no-modify-path
+    stdin: "{{ rustup_installer.content }}"
+  register: rustup_installer
+  changed_when: '"unchanged" not in rustup_installer.stdout'
 
- - name: run rustup installer
-   ansible.builtin.shell:
-     cmd: sh -s -- -y --no-modify-path
-     stdin: "{{ rustup_installer.content }}"
-   register: rustup_installer
-   changed_when: '"unchanged" not in rustup_installer.stdout'
+- name: run rustup update
+  ansible.builtin.shell:
+    cmd: /home/{{ ansible_user }}/.cargo/bin/rustup self update
+  args:
+    executable: /bin/bash
+  register: rustup_selfupdate
+  changed_when: '"rustup unchanged" not in rustup_selfupdate.stdout'
 
- - name: run rustup update
-   ansible.builtin.shell:
-     cmd: rustup self update
-   args:
-     executable: /bin/bash
-   register: rustup_selfupdate
-   changed_when: '"rustup unchanged" not in rustup_selfupdate.stdout'
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
 
- - name: ensure user profile directory exists
-   become: yes
-   ansible.builtin.file:
-     dest: /home/{{ ansible_user }}/.profile.d
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
-
- - name: define rust variables
-   become: yes
-   template:
-     src: user_rust.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/rust.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: define rust variables
+  become: true
+  template:
+    src: user_rust.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/rust.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
