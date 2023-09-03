@@ -91,7 +91,6 @@
     - role: apache2
     - role: certificate
     - role: docker
-    - role: haproxy
     - role: printserver
     - role: sambashare
     - role: ssh
