@@ -1,8 +1,13 @@
 #! /bin/bash
-sudo apt-get install software-properties-common
-sudo apt-add-repository -y ppa:ansible/ansible
-sudo add-apt-repository -y ppa:git-core/ppa
-sudo apt-get update
-sudo apt-get install -y git
-sudo apt-get install -y ansible
+# Check running as root
+if ((EUID != 0)); then
+  echo "You must be root when running this script" 1>&2
+  exit 1
+fi
+apt-get install software-properties-common
+apt-add-repository -y ppa:ansible/ansible
+add-apt-repository -y ppa:git-core/ppa
+apt-get update
+apt-get install -y git
+apt-get install -y ansible
 ansible-galaxy collection install community.general
