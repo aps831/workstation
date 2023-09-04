@@ -10,6 +10,8 @@
     - role: ansible
     - role: hosts
     - role: nas
+      vars:
+        nas_password: "{{ vault_nas_password }}"
     - role: chezmoi
 
     # Admin
