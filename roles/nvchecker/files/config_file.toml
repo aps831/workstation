@@ -234,6 +234,11 @@ source = "github"
 github = "localstack/localstack-cli"
 use_max_tag = true
 
+[sarif-rs]
+source = "github"
+github = "psastras/sarif-rs"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

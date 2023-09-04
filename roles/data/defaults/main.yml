@@ -5,3 +5,5 @@ yq_checksums_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_versi
 yq_checksums_hashes_order_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/checksums_hashes_order
 yq_extract_checksum_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/extract-checksum.sh
 yq_download_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/yq_linux_amd64
+sarif_fmt_version: 0.4.1
+sarif_fmt_download_url: https://github.com/psastras/sarif-rs/releases/download/sarif-fmt-v{{ sarif_fmt_version }}/sarif-fmt-x86_64-unknown-linux-gnu

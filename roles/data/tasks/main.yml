@@ -47,3 +47,13 @@
     group: "root"
     checksum: "sha256:{{ yq_sha256_checksum.stdout }}"
     mode: 0755
+
+# sarif-fmt
+- name: download sarif-fmt
+  become: true
+  get_url:
+    url: "{{ sarif_fmt_download_url }}"
+    dest: "/usr/bin/sarif-fmt"
+    owner: "root"
+    group: "root"
+    mode: 0755
