@@ -59,6 +59,8 @@ After migrating files and folders as per the instructions in [migration](MIGRATI
 -   create a Samba user is a Samba share has been created for SyncMe Wireless app on Android (see below);
 -   configure printers (see below).
 
+Finally, Github extensions will not install until a user has authenticated. The extentions will be installed the next time provisioning is run after a user has authenticated.
+
 ### Samba
 
 To create a Samba user run `sudo smbpasswd -a <user_name>`.
