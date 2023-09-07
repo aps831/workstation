@@ -6,7 +6,7 @@ PERMANENT_KEY="$(whoami)_on_$(hostname)_for_github_using_sk_${KEYNO}"
 TEMP_KEY="$(whoami)_on_$(hostname)_for_github_no_sk"
 
 # delete ssh key
-echo "Deleteing ssh key..."
+echo "Deleting ssh key..."
 rm ~/.ssh/"${TEMP_KEY}"
 rm ~/.ssh/"${TEMP_KEY}".pub
 
