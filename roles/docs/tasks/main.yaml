@@ -1,6 +1,6 @@
 ---
 - name: install packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -13,16 +13,18 @@
       - pandoc-plantuml-filter
       - plantuml
 
-- name: install ansible python dependencies
-  pip:
-    name:
-      - pandoc-mermaid-filter
-    state: present
-
 - name: install mermaid
-  become: yes
+  become: true
   community.general.npm:
     name: "@mermaid-js/mermaid-cli"
+    production: yes
+    global: yes
+    state: latest
+
+- name: install mermaid-filter
+  become: true
+  community.general.npm:
+    name: "mermaid-filter"
     production: yes
     global: yes
     state: latest

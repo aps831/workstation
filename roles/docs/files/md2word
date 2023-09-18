@@ -45,7 +45,7 @@ for FILE; do
 
     if [[ ${PROCESS} == "Y" ]]; then
 
-        pandoc -o "${FILENAME}.docx" --lua-filter "${LINE_BREAK_FILE}" --filter pandoc-plantuml --filter pandoc-mermaid -f markdown -t docx "${FILENAME}.md"
+        pandoc -o "${FILENAME}.docx" --lua-filter "${LINE_BREAK_FILE}" --filter pandoc-plantuml --filter mermaid-filter -f markdown -t docx "${FILENAME}.md"
 
     fi
 
