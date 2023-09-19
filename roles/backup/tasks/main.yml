@@ -209,14 +209,9 @@
     enabled: yes
 
 # Config Backup
-- name: get current caller identity information
-  amazon.aws.aws_caller_info:
-    profile: "{{ backup_aws_profile_restore }}"
-  register: caller_info
-
 - name: set aws bucket
   set_fact:
-    aws_restore_bucket: "{{ caller_info.account }}-account-restore"
+    aws_restore_bucket: "mars-account-restore"
 
 - name: create aws directory for backup files
   ansible.builtin.file:
