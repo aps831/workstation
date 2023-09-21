@@ -13,6 +13,15 @@
       - pandoc-plantuml-filter
       - plantuml
 
+- name: create puppeteer cache
+  become: true
+  ansible.builtin.file:
+    path: "{{ puppeteer_cache }}"
+    owner: root
+    group: root
+    state: directory
+    mode: "0755"
+
 - name: install mermaid
   become: true
   community.general.npm:
@@ -20,6 +29,8 @@
     production: yes
     global: yes
     state: latest
+  environment:
+    PUPPETEER_CACHE_DIR: "{{ puppeteer_cache }}"
 
 - name: install mermaid-filter
   become: true
@@ -46,17 +57,17 @@
     mode: 0744
 
 - name: install mmd2png script
-  ansible.builtin.copy:
-    src: mmd2png
-    dest: /home/{{ ansible_user }}/.local/bin
+  ansible.builtin.template:
+    src: mmd2png.j2
+    dest: /home/{{ ansible_user }}/.local/bin/mmd2png
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0744
 
 - name: install mmd2svg script
-  ansible.builtin.copy:
-    src: mmd2svg
-    dest: /home/{{ ansible_user }}/.local/bin
+  ansible.builtin.template:
+    src: mmd2svg.j2
+    dest: /home/{{ ansible_user }}/.local/bin/mmd2svg
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0744

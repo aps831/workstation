@@ -1,14 +1,16 @@
 #! /bin/bash
 
+export PUPPETEER_CACHE_DIR="{{ puppeteer_cache }}"
+
 for FILE; do
 
     [[ -e ${FILE} ]] || continue
 
     FILENAME=${FILE%.*}
 
-    if [[ -f ${FILENAME}.mmd && -f ${FILENAME}.svg ]]; then
+    if [[ -f ${FILENAME}.mmd && -f ${FILENAME}.png ]]; then
 
-        read -p "The file ${FILENAME}.svg already exists. Do you want to overwrite? [yN] " -n 1 -r
+        read -p "The file ${FILENAME}.png already exists. Do you want to overwrite? [yN] " -n 1 -r
         echo
 
         if [[ ${REPLY} =~ ^[Yy]$ ]]; then
@@ -31,7 +33,7 @@ for FILE; do
 
     if [[ ${PROCESS} == "Y" ]]; then
 
-        mmdc -i "${FILENAME}.mmd" -o "${FILENAME}.svg" -b transparent
+        mmdc -i "${FILENAME}.mmd" -o "${FILENAME}.png" -b transparent
 
     fi
 
