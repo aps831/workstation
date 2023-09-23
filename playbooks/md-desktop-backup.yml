@@ -1,15 +1,6 @@
 ---
 - name: run playbook tasks
   hosts: md-desktop
-  vars_prompt:
-    - name: aws_profile_data_backup
-      prompt: "Enter AWS profile for location of application keys"
-      default: "andrew-p-spratley"
-      private: no
-    - name: aws_profile_restore_backup
-      prompt: "Enter AWS profile for location of restore backups"
-      default: "spratleyap"
-      private: no
   roles:
     - role: backup
       vars:
@@ -19,8 +10,8 @@
         remote_backup_name: "backblaze"
         backup_time_delay: "60min"
         backup_test_time_delay: "240min"
-        backup_aws_profile_data: "{{ aws_profile_data_backup }}"
-        backup_aws_profile_restore: "{{ aws_profile_restore_backup }}"
+        backup_aws_profile_data: "andrew-p-spratley-power"
+        backup_aws_profile_restore: "spratleyap-power"
 
   pre_tasks:
     - name: update repository caches
