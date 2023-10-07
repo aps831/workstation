@@ -62,7 +62,6 @@
     - role: prettier
     - role: semgrep
     - role: shellcheck
-    - role: stoplight
     - role: sublime
     - role: syft
     - role: task
