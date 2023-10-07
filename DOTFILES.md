@@ -15,7 +15,10 @@ chezmoi apply
 ## Folders
 
 -   .age
--   .akeyless
+-   .all-repos
+-   .ansible
+-   .asdf
+-   .aws
 -   .cargo
 -   .cloudflared
 -   .config/Code
@@ -25,8 +28,11 @@ chezmoi apply
 -   .config/pgadmin4
 -   .config/VirtualBox
 -   .ddlog
+-   .docker
 -   .dropbox
 -   .duplicacy
+-   .driftctl
+-   .gluon
 -   .gnupg
 -   .gradle
 -   .k8slens
@@ -38,13 +44,21 @@ chezmoi apply
 -   .minikube
 -   .mozilla
 -   .muttrc
+-   .ngrok
+-   .ngrok2
 -   .npm
 -   .password-store
--   .pip
+-   .pgadmin
+-   .profile.d
+-   .redhat
 -   .rustup
+-   .semgrep
 -   .ssh
+-   .stack
+-   .terraform.d
+-   .terrascan
 -   .vagrant.d
--   .virtualboxvms
+-   .virtualenvs
 -   .vscode
 -   .WindowsXPShare
 -   .ZAP
