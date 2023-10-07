@@ -10,7 +10,27 @@
       - virtinst
       - bridge-utils
       - qemu
-#      - qemu-kvm # no installation candidate error
+      - qemu-kvm
+      - virt-manager
+
+- name: create directory for home pool
+  file:
+    path: /home/{{ ansible_user }}/.libvirtimages
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: create home pool
+  command: virsh pool-define-as --name home --type dir --target /home/{{ ansible_user }}/.libvirtimages
+  ignore_errors: true
+
+- name: set home pool to autostart
+  command: virsh pool-autostart home
+
+- name: start home pool
+  command: virsh pool-start home
+  ignore_errors: true
 
 - name: Enable audio
   become: true
