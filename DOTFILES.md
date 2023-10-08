@@ -21,12 +21,14 @@ chezmoi apply
 -   .aws
 -   .cargo
 -   .cloudflared
+-   .config/chromium
 -   .config/Code
 -   .config/JetBrains
 -   .config/helm
 -   .config/pgadmin
 -   .config/pgadmin4
 -   .config/VirtualBox
+-   .config/Yubico
 -   .ddlog
 -   .docker
 -   .dropbox
@@ -37,6 +39,7 @@ chezmoi apply
 -   .gradle
 -   .k8slens
 -   .kube
+-   .libvirtimages
 -   .local/share/shotwell
 -   .local/share/JetBrains
 -   .local/share/keyrings
@@ -59,6 +62,7 @@ chezmoi apply
 -   .terrascan
 -   .vagrant.d
 -   .virtualenvs
+-   .virtualboxvms
 -   .vscode
 -   .WindowsXPShare
 -   .ZAP
