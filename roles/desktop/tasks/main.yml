@@ -34,14 +34,14 @@
 
 - name: create directory for cinnamon config
   file:
-    path: /home/{{ ansible_user }}/.cinnamon/spices
+    path: /home/{{ ansible_user }}/.config/cinnamon/spices
     state: directory
     mode: "0755"
 
 - name: copy cinnamon config
   copy:
     src: cinnamon/spices/
-    dest: /home/{{ ansible_user }}/.cinnamon/spices/
+    dest: /home/{{ ansible_user }}/.config/cinnamon/spices/
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
@@ -49,7 +49,7 @@
 - name: copy host specific cinnamon config
   copy:
     src: cinnamon/2.{{ inventory_hostname }}.json
-    dest: /home/{{ ansible_user }}/.cinnamon/spices/grouped-window-list@cinnamon.org/2.json
+    dest: /home/{{ ansible_user }}/.config/cinnamon/spices/grouped-window-list@cinnamon.org/2.json
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
