@@ -148,29 +148,25 @@
     "pinned-apps": {
         "type": "generic",
         "default": [
+            "nemo.desktop",
             "firefox.desktop",
-            "org.gnome.Terminal.desktop",
-            "nemo.desktop"
+            "org.gnome.Terminal.desktop"
         ],
         "value": [
             "firefox.desktop",
             "nemo.desktop",
-            "virtualbox.desktop",
             "virt-manager.desktop",
             "org.gnome.Terminal.desktop",
             "shotwell.desktop",
             "gnome-system-monitor.desktop",
-            "google-chrome.desktop",
+            "org.gnome.Screenshot.desktop",
             "chromium-browser.desktop",
-            "Intellij.desktop",
             "com.teamviewer.TeamViewer.desktop",
             "com.yubico.yubioath.desktop",
-            "code.desktop",
-            "io.github.janbar.noson.desktop",
-            "org.gnome.Screenshot.desktop",
-            "thunderbird.desktop",
             "libreoffice-writer.desktop",
-            "windows10.desktop"
+            "thunderbird.desktop",
+            "windows10.desktop",
+            "google-chrome.desktop"
         ]
     },
     "group-apps": {
@@ -212,7 +208,7 @@
         "type": "keybinding",
         "default": "<Super>grave",
         "description": "Global hotkey to show the order of apps",
-        "value": "<Super>grave"
+        "value": "<Super>grave::"
     },
     "show-apps-order-timeout": {
         "type": "spinbutton",
@@ -357,5 +353,5 @@
         "description": "Window opacity",
         "value": 100
     },
-    "__md5__": "e40a0b58776e89bfacbd212bc3d55f20"
+    "__md5__": "6f73ea938aeb5481595a809eb6cbe8e3"
 }
