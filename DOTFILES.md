@@ -24,6 +24,7 @@ chezmoi apply
 -   .config/chromium
 -   .config/Code
 -   .config/JetBrains
+-   .config/gcloud
 -   .config/helm
 -   .config/pgadmin
 -   .config/pgadmin4
