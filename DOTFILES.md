@@ -21,6 +21,7 @@ chezmoi apply
 -   .aws
 -   .cargo
 -   .cloudflared
+-   .config/BreakTimer
 -   .config/chromium
 -   .config/Code
 -   .config/JetBrains
