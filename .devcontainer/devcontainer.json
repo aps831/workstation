@@ -1,6 +1,6 @@
 {
     "image": "ghcr.io/aps831/devcontainers/ansible:latest",
-    "postCreateCommand": "ansible --version",
+    "postCreateCommand": "./trunk",
     "remoteUser": "vscode",
     "customizations": {
         "vscode": {
