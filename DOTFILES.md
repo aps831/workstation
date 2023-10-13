@@ -54,6 +54,7 @@ chezmoi apply
 -   .npm
 -   .password-store
 -   .pgadmin
+-   .policy_sentry
 -   .profile.d
 -   .redhat
 -   .rustup
