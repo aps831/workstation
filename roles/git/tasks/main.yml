@@ -27,30 +27,6 @@
     dest: /etc/bash_completion.d/git-completion
     mode: 0644
 
-# git-mkver
-- name: create temporary file for git-mkver download
-  tempfile:
-    state: file
-    suffix: temp
-  register: git_mkrev_download_tmp
-
-- name: download git-mkver binary
-  get_url:
-    url: "{{ git_mkrev_url }}"
-    dest: "{{ git_mkrev_download_tmp.path }}"
-    force: yes
-  changed_when: false
-
-- name: extract git-mkver from archive
-  become: true
-  unarchive:
-    src: "{{ git_mkrev_download_tmp.path }}"
-    dest: /usr/local/bin
-    remote_src: yes
-    owner: root
-    group: root
-    mode: 0755
-
 # Gitleaks
 - name: create temporary file for gitleaks download
   tempfile:
