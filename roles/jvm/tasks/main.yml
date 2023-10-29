@@ -1,6 +1,7 @@
 ---
 # yamllint disable rule:line-length
 - name: install system packages
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
