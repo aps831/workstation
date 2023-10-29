@@ -1,0 +1,63 @@
+---
+- name: install system packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+
+- name: create temporary file for key
+  become: true
+  ansible.builtin.tempfile:
+    state: file
+    suffix: temp
+  register: key_temp_file
+  changed_when: False
+
+- name: download key
+  become: true
+  ansible.builtin.get_url:
+    url: https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key
+    dest: "{{ key_temp_file.path }}"
+    force: yes
+
+- name: dearmor key
+  become: true
+  ansible.builtin.shell:
+    cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/doppler-archive-keyring.gpg
+
+- name: add doppler repository
+  become: true
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://packages.doppler.com/public/cli/deb/debian any-version main"
+    filename: jlbarriere68
+    state: present
+
+- name: install doppler
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - doppler
+
+# asdf
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - curl
+
+- name: install doppler asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add doppler {{ doppler_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global doppler version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global doppler system"

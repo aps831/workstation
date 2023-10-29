@@ -44,6 +44,7 @@
     - role: data
     - role: direnv
     - role: docs
+    - role: doppler
     - role: driftctl
     - role: intellij
     - role: git
