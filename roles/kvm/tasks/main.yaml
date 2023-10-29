@@ -10,7 +10,7 @@
       - virtinst
       - bridge-utils
       - qemu
-      - qemu-kvm
+      - qemu-system-x86
       - virt-manager
 
 - name: create directory for home pool
