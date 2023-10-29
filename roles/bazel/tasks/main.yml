@@ -1,0 +1,13 @@
+---
+# asdf
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - curl
+
+- name: install java asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add bazel {{ bazel_asdf_plugin_url }}"
+  ignore_errors: true

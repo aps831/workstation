@@ -37,6 +37,7 @@
     - role: asdf
     - role: aws
     - role: bats
+    - role: bazel
     - role: cheat
     - role: cifuzz
     - role: cloudflared
