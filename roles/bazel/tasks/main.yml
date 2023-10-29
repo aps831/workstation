@@ -8,6 +8,6 @@
     packages:
       - curl
 
-- name: install java asdf plugin
+- name: install bazel asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add bazel {{ bazel_asdf_plugin_url }}"
   ignore_errors: true
