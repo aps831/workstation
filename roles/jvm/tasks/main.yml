@@ -42,9 +42,6 @@
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add maven {{ maven_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global maven version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global maven system"
-
 - name: install gradle asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add gradle {{ gradle_asdf_plugin_url }}"
 
