@@ -46,6 +46,9 @@
 - name: install gradle asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add gradle {{ gradle_asdf_plugin_url }}"
 
+- name: install kotlin asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kotlin {{ kotlin_asdf_plugin_url }}"
+
 # bash
 - name: define java variables
   become: true

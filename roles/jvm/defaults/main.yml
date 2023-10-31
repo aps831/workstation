@@ -2,3 +2,4 @@
 java_asdf_plugin_url: https://github.com/halcyon/asdf-java.git
 maven_asdf_plugin_url: https://github.com/proemion/asdf-maven.git
 gradle_asdf_plugin_url: https://github.com/rfrancis/asdf-gradle.git
+kotlin_asdf_plugin_url: https://github.com/asdf-community/asdf-kotlin.git
