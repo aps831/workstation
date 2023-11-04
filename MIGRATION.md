@@ -23,7 +23,7 @@ Edit `/etc/fstab` using `lsblk -f` to identify the UID of the secondary hard dri
 
 ```
 # /etc/fstab
-UUID=$UUID    /hdd0 ext4 defaults 0 2
+UUID=$UUID    /hdd0 ext4 defaults,nofail 0 2
 ```
 
 Mount the secondary hard drive and then move `/home` to the secondary hard drive:
