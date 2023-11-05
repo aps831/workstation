@@ -1,5 +1,14 @@
+settings {
+    logfile = "/var/log/lsyncd.log",
+    statusFile = "/var/log/lsyncd-status.log",
+    statusInterval = 20
+}
+
 sync {
     default.rsync,
     source = "/etc/libvirt/qemu",
-    target = "/home/{{ ansible_user }}/.libvirt/backup"
- }
+    target = "/home/{{ ansible_user }}/.libvirt/backup",
+    rsync = {
+        chown = "{{ ansible_user }}:{{ ansible_user }}"
+    }
+}

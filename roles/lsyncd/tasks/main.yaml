@@ -14,7 +14,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0666
+    mode: 0777
 
 - name: install lsyncd config
   become: true
@@ -23,7 +23,7 @@
     dest: /etc/lsyncd/lsyncd.conf.lua
     owner: root
     group: root
-    mode: 0744
+    mode: 0755
 
 - name: create libvirt backup directory
   become: true
@@ -32,4 +32,4 @@
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0666
+    mode: 0777
