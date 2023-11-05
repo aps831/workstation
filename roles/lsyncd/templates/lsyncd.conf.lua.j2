@@ -1,0 +1,5 @@
+sync {
+    default.rsync,
+    source = "/etc/libvirt/qemu",
+    target = "/home/{{ ansible_user }}/.libvirt/backup"
+ }

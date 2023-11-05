@@ -15,6 +15,7 @@
     - role: dropbox
     - role: fonts
     - role: mail
+    - role: lsyncd
     - role: shotwell
     - role: shutdown
     - role: web

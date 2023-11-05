@@ -1,0 +1,35 @@
+---
+- name: install lsyncd
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - lsyncd
+
+- name: create lsyncd config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/lsyncd/
+    state: directory
+    owner: root
+    group: root
+    mode: 0666
+
+- name: install lsyncd config
+  become: true
+  ansible.builtin.template:
+    src: lsyncd.conf.lua.j2
+    dest: /etc/lsyncd/lsyncd.conf.lua
+    owner: root
+    group: root
+    mode: 0744
+
+- name: create libvirt backup directory
+  become: true
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/.libvirt/backup
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0666

@@ -16,6 +16,7 @@
     - role: backblaze
     - role: system
     - role: mail
+    - role: lsyncd
     - role: nvchecker
     - role: teamviewer
     - role: shutdown
