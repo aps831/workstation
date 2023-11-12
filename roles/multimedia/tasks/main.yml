@@ -19,3 +19,6 @@
       - cheese
       - heif-gdk-pixbuf
       - libheif-examples
+      - ffmpeg
+      - handbrake
+      - devede
