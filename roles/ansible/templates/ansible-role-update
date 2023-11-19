@@ -1,0 +1,36 @@
+#! /bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "A role name must be supplied"
+    exit 1
+fi
+
+role=$1
+
+if [[ "$(
+    git rev-parse 2>/dev/null
+    [ $? == 0 ] && echo 1
+)" == "1" ]]; then
+
+    workstation=$(
+        [ -d "roles/${role}" ] && git remote -v | grep git@github.com:aps831/workstation.git >/dev/null 2>&1
+        [ $? == 0 ] && echo 1
+    )
+
+fi
+
+if [[ $workstation == "1" ]]; then
+
+    echo "Detected currently in local workstation directory"
+    echo "Running local version of role '${role}'"
+    ansible --ask-become -m include_role -a name=${role} $(hostname -s)
+else
+    echo "Detected not currently in local workstation directory"
+    echo "Running remote version of role '${role}'"
+    trap 'rm -rf "$TMPDIR"' EXIT
+    TMPDIR=$(mktemp -d)
+    cd "$TMPDIR"
+    git clone --depth=1 https://github.com/aps831/workstation.git
+    cd "workstation"
+    ansible --ask-become -m include_role -a name=${role} $(hostname -s)
+fi
