@@ -4,7 +4,7 @@
 #
 
 - name: create temporary file for key
-  become: yes
+  become: true
   ansible.builtin.tempfile:
     state: file
     suffix: temp
@@ -12,14 +12,14 @@
   changed_when: False
 
 - name: download key
-  become: yes
+  become: true
   ansible.builtin.get_url:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     dest: "{{ key_temp_file.path }}"
     force: yes
 
 - name: dearmor key
-  become: yes
+  become: true
   ansible.builtin.shell:
     cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/nodesource.gpg
 
@@ -30,21 +30,21 @@
   changed_when: False
 
 - name: add nodesource repository
-  become: yes
+  become: true
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
     filename: "nodesource"
     state: present
 
 - name: add nodesource src repository
-  become: yes
+  become: true
   apt_repository:
     repo: "deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
     filename: "nodesource"
     state: present
 
 - name: install nodejs
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: latest
@@ -53,9 +53,11 @@
       - nodejs
 
 - name: upgrade npm
+  become: true
   community.general.npm:
     name: npm
     global: yes
+    state: latest
 
 # asdf
 - name: install asdf plugin
