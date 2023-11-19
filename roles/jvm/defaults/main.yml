@@ -3,3 +3,8 @@ java_asdf_plugin_url: https://github.com/halcyon/asdf-java.git
 maven_asdf_plugin_url: https://github.com/proemion/asdf-maven.git
 gradle_asdf_plugin_url: https://github.com/rfrancis/asdf-gradle.git
 kotlin_asdf_plugin_url: https://github.com/asdf-community/asdf-kotlin.git
+gradle_version: 8.4
+gradle_checksum: sha256:f2b9ed0faf8472cbe469255ae6c86eddb77076c75191741b4a462f33128dd419
+gradle_download_url: "https://services.gradle.org/distributions/gradle-{{ gradle_version }}-all.zip"
+gradle_parent_dir: /usr/local/share/
+gradle_symlink: /usr/local/bin/gradle

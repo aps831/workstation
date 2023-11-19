@@ -58,6 +58,9 @@
 - name: install gradle asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add gradle {{ gradle_asdf_plugin_url }}"
 
+- name: set global gradle version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global gradle system"
+
 - name: install kotlin asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kotlin {{ kotlin_asdf_plugin_url }}"
 
@@ -71,6 +74,7 @@
     group: "{{ ansible_user }}"
     mode: 0755
 
+# javafx
 # https://github.com/gluonhq/substrate/blob/master/README.md
 - name: install javafx packages
   become: true
@@ -102,3 +106,49 @@
       - build-essential
       - libz-dev
       - zlib1g-dev
+
+# gradle
+- name: "check gradle version is present"
+  shell: "{{ gradle_symlink }} -v | grep {{ gradle_version }}"
+  changed_when: false
+  register: gradle_version_check
+  ignore_errors: true
+
+- block:
+    - name: "install unzip"
+      become: true
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - unzip
+
+    - name: create temporary directory for backup files
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: restore
+      register: gradle_tempdir
+
+    - name: "download gradle"
+      get_url:
+        url: "{{ gradle_download_url }}"
+        dest: "{{ gradle_tempdir.path }}/gradle-{{ gradle_version }}"
+        checksum: "{{ gradle_checksum }}"
+
+    - name: "extract gradle {{ gradle_version }}"
+      become: true
+      unarchive:
+        src: "{{ gradle_tempdir.path }}/gradle-{{ gradle_version }}"
+        dest: "{{ gradle_parent_dir }}"
+        remote_src: true
+
+    - name: "add gradle symlink"
+      become: true
+      file:
+        src: "{{ gradle_parent_dir }}/gradle-{{ gradle_version }}/bin/gradle"
+        dest: "{{ gradle_symlink }}"
+        owner: root
+        group: root
+        state: link
+
+  when: not gradle_version_check.rc == 0
