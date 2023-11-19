@@ -74,11 +74,6 @@
     group: root
     mode: 0755
 
-# gh combine-prs
-- name: add gh combine-prs
-  command: gh extension install rnorth/gh-combine-prs
-  ignore_errors: true
-
 # all-repos
 - name: install all-repos
   community.general.pipx:
