@@ -34,7 +34,6 @@
     - role: web
 
     # Programming Tools
-    - role: akeyless
     - role: asdf
     - role: aws
     - role: bats
