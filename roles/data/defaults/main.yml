@@ -7,3 +7,6 @@ yq_extract_checksum_url: https://github.com/mikefarah/yq/releases/download/v{{ y
 yq_download_url: https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/yq_linux_amd64
 sarif_fmt_version: 0.4.1
 sarif_fmt_download_url: https://github.com/psastras/sarif-rs/releases/download/sarif-fmt-v{{ sarif_fmt_version }}/sarif-fmt-x86_64-unknown-linux-gnu
+gron_version: 0.7.1
+gron_filename: gron-linux-amd64-{{ gron_version }}.tgz
+gron_url: https://github.com/tomnomnom/gron/releases/download/v{{ gron_version }}/{{ gron_filename }}

@@ -1,4 +1,0 @@
----
-gron_version: 0.7.1
-gron_filename: gron-linux-amd64-{{ gron_version }}.tgz
-gron_url: https://github.com/tomnomnom/gron/releases/download/v{{ gron_version }}/{{ gron_filename }}
