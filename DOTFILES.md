@@ -26,11 +26,12 @@ chezmoi apply
 -   .config/Code
 -   .config/JetBrains
 -   .config/gcloud
--   .config/helm
+-   .config/google-chrome
+-   .config/libreoffice
 -   .config/pgadmin
 -   .config/pgadmin4
+-   .config/Postman
 -   .config/VirtualBox
--   .config/Yubico
 -   .ddlog
 -   .docker
 -   .dropbox
@@ -41,7 +42,7 @@ chezmoi apply
 -   .gradle
 -   .k8slens
 -   .kube
--   .libvirtimages
+-   .libvirt/images
 -   .local/share/shotwell
 -   .local/share/JetBrains
 -   .local/share/keyrings
