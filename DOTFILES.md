@@ -34,9 +34,10 @@ chezmoi apply
 -   .config/VirtualBox
 -   .ddlog
 -   .docker
+-   .doppler
 -   .dropbox
--   .duplicacy
 -   .driftctl
+-   .duplicacy
 -   .gluon
 -   .gnupg
 -   .gradle
