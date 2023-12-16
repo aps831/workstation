@@ -3,6 +3,6 @@ hosts_titan_ip_address: 192.168.0.26
 hosts_thor_ip_address: 192.168.0.27
 hosts_odin_ip_address: 192.168.0.25
 nas_host: odin.local
-vault_nas_password: asecretpassword
+vault_nas_vagrant_password: asecretpassword
 vault_opendata_password_aps831: "{{ 'asecretpassword'|b64encode }}"
 vault_opendata_password_operations_reports_831: "{{ 'asecretpassword'|b64encode }}"

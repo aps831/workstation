@@ -1,6 +1,6 @@
 #! /bin/bash
-PASSWD=$( secret-tool lookup server {{ nas_host }} user {{ ansible_user }} | base64 --decode )
-echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/homes >/dev/null 2>&1
-echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/music >/dev/null 2>&1
-echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/video >/dev/null 2>&1
-echo -e "{{ ansible_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/photo >/dev/null 2>&1
+PASSWD=$(secret-tool lookup server {{ nas_host }} user {{ nas_user }} | base64 --decode)
+echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/homes >/dev/null 2>&1
+echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/music >/dev/null 2>&1
+echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/video >/dev/null 2>&1
+echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/photo >/dev/null 2>&1

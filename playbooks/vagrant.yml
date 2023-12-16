@@ -11,7 +11,8 @@
     - role: hosts
     - role: nas
       vars:
-        nas_password: "{{ vault_nas_password }}"
+        nas_user: vagrant
+        nas_password: "{{ vault_nas_vagrant_password }}"
     - role: chezmoi
 
     # Admin
