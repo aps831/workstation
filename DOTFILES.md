@@ -14,7 +14,6 @@ chezmoi apply
 
 ## Folders
 
--   .age
 -   .all-repos
 -   .ansible
 -   .asdf
