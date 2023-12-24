@@ -44,3 +44,11 @@
     state: started
     daemon_reload: true
     enabled: true
+
+- name: install switch smartcard script
+  ansible.builtin.copy:
+    src: dotfiles
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
