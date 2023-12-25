@@ -10,5 +10,6 @@ cd "workstation"
 export DOPPLER_PROJECT=workstation
 export DOPPLER_CONFIG=$(hostname)
 
-doppler login
+doppler login --scope .
 doppler run -- ansible-playbook --ask-become-pass playbooks/titan-backup.yml
+doppler logout --scope .
