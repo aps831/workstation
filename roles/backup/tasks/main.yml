@@ -9,33 +9,8 @@
       - cron
       - timeshift
 
-- name: install aws dependencies
-  pip:
-    name:
-      - botocore=={{ botocore_version }}
-      - boto3=={{ boto3_version }}
-    state: present
-
-- name: install ansible dependencies
-  community.general.ansible_galaxy_install:
-    type: collection
-    name: community.aws
-
-# B2 application key id and key
-- name: lookup application key id
-  set_fact:
-    backup_application_key_id: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/b2/application_key_id', aws_profile=backup_aws_profile_data) }}"
-
-- name: lookup application key
-  set_fact:
-    backup_application_key: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/{{ backup_user }}/b2/application_key', aws_profile=backup_aws_profile_data) }}"
-
-- name: lookup bucket name
-  set_fact:
-    backup_bucket_name: "{{ lookup('amazon.aws.aws_ssm', '/account/backup/{{ backup_host }}/b2/bucket_name', aws_profile=backup_aws_profile_data) }}"
-
-# Config
-- name: "create config directory"
+# Duplicacy config
+- name: "create duplicacy config directory"
   become: true
   file:
     path: "/home/{{ backup_user }}/.duplicacy/"
@@ -44,17 +19,6 @@
     group: "{{ backup_user }}"
     mode: "0700"
     recurse: yes
-
-- name: create temporary directory for backup files
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: restore
-  register: restore_tempdir
-
-- name: create duplicacy directory for backup files
-  ansible.builtin.file:
-    path: "{{ restore_tempdir.path }}/duplicacy"
-    state: directory
 
 - name: "install {{ backup_user }} preferences"
   become: true
@@ -65,15 +29,6 @@
     group: "{{ backup_user }}"
     mode: "0600"
 
-- name: write duplicacy preferences to temporary directory
-  become: true
-  template:
-    src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
-    dest: "{{ restore_tempdir.path }}/duplicacy/preferences"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0600"
-
 - name: "install {{ backup_user }} filters"
   become: true
   template:
@@ -81,15 +36,6 @@
     dest: "/home/{{ backup_user }}/.duplicacy/filters"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: "0600"
-
-- name: write duplicacy filters to temporary directory
-  become: true
-  template:
-    src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
-    dest: "{{ restore_tempdir.path }}/duplicacy/filters"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
     mode: "0600"
 
 # Log directories
@@ -208,33 +154,12 @@
     state: started
     enabled: yes
 
-# Config Backup
-- name: set aws bucket
-  set_fact:
-    aws_restore_bucket: "mars-account-restore"
+# Config backup
+- name: backup duplicacy preferences
+  shell: cat /home/{{ backup_user }}/.duplicacy/preferences | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_duplicacy_preferences }}
 
-- name: create aws directory for backup files
-  ansible.builtin.file:
-    path: "{{ restore_tempdir.path }}/aws"
-    state: directory
-
-- name: copy aws to temporary directory
-  become: true
-  ansible.builtin.copy:
-    src: "/home/{{ backup_user }}/.aws/"
-    dest: "{{ restore_tempdir.path }}/aws"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0600"
-  ignore_errors: true
-
-- name: upload restore backup to s3
-  community.aws.s3_sync:
-    bucket: "{{ aws_restore_bucket }}"
-    key_prefix: "{{ backup_host }}/{{ backup_user }}"
-    file_root: "{{ restore_tempdir.path }}"
-    profile: "{{ backup_aws_profile_restore }}"
-    delete: true
+- name: backup duplicacy filters
+  shell: cat /home/{{ backup_user }}/.duplicacy/filters | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_duplicacy_filters }}
 
 # Restore scripts
 - name: Install restore backup script

@@ -6,12 +6,15 @@
       vars:
         backup_user: "andrew"
         backup_host: "thor"
-        local_backup_name: "odin"
-        remote_backup_name: "backblaze"
+        backup_local_name: "odin"
+        backup_remote_name: "backblaze"
         backup_time_delay: "60min"
         backup_test_time_delay: "240min"
-        backup_aws_profile_data: "andrew-p-spratley-power"
-        backup_aws_profile_restore: "spratleyap-power"
+        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_KEY_ID_THOR_ANDREW') }}"
+        backup_application_key: "{{ lookup('env', 'BACKBLAZE_KEY_THOR_ANDREW') }}"
+        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_BUCKET_THOR') }}"
+        backup_doppler_duplicacy_preferences: "DUPLICACY_PREFERENCES_THOR_ANDREW"
+        backup_doppler_duplicacy_filters: "DUPLICACY_FILTERS_THOR_ANDREW"
 
   pre_tasks:
     - name: update repository caches

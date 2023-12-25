@@ -1,17 +1,17 @@
 #! /bin/bash
 
-RESTORE_DIR="/hdd2/restore"
+RESTORE_DIR="/hdd0/restore"
 DUPLICACY_DIR=".duplicacy"
 
-if (( EUID != 0 )); then
-   echo "You must be root when running this script" 1>&2
-   exit 1
+if ((EUID != 0)); then
+    echo "You must be root when running this script" 1>&2
+    exit 1
 fi
 
 # Test if restore folder exists
 if [ -d "$RESTORE_DIR" ]; then
-  echo "Restore directory $RESTORE_DIR already exists.  Exiting."
-  exit 1
+    echo "Restore directory $RESTORE_DIR already exists.  Exiting."
+    exit 1
 fi
 
 # Create and change to restore folder

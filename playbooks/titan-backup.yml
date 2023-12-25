@@ -6,12 +6,16 @@
       vars:
         backup_user: "andrew"
         backup_host: "titan"
-        local_backup_name: "odin"
-        remote_backup_name: "backblaze"
+        backup_local_name: "odin"
+        backup_remote_name: "backblaze"
         backup_time_delay: "30min"
         backup_test_time_delay: "180min"
-        backup_aws_profile_data: "andrew-p-spratley-power"
-        backup_aws_profile_restore: "spratleyap-power"
+        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_KEY_ID_TITAN_ANDREW') }}"
+        backup_application_key: "{{ lookup('env', 'BACKBLAZE_KEY_TITAN_ANDREW') }}"
+        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_BUCKET_TITAN') }}"
+        backup_doppler_duplicacy_preferences: "DUPLICACY_PREFERENCES_TITAN_ANDREW"
+        backup_doppler_duplicacy_filters: "DUPLICACY_FILTERS_TITAN_ANDREW"
+
   pre_tasks:
     - name: update repository caches
       become: yes

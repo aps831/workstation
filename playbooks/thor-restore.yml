@@ -1,15 +1,15 @@
 ---
+- name: run playbook tasks
+  hosts: thor
+  roles:
+    - role: encryption
+    - role: backblaze
+    - role: doppler
+    - role: duplicacy
+    - role: git
 
- - name: run playbook tasks
-   hosts: thor
-   roles:
-     - role: encryption
-     - role: duplicacy
-     - role: aws
-     - role: git
-
-   pre_tasks:
-     - name: update repository caches
-       become: yes
-       apt: update_cache=yes
-       changed_when: False
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False

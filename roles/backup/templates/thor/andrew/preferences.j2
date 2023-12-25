@@ -1,6 +1,6 @@
 [
   {
-    "name": "{{ local_backup_name }}",
+    "name": "{{ backup_local_name }}",
     "id": "backup",
     "repository": "",
     "storage": "sftp://backup@odin.local:10022/homes/backup/thor/andrew",
@@ -16,7 +16,7 @@
     "exclude_by_attribute": false
   },
   {
-    "name": "{{ remote_backup_name }}",
+    "name": "{{ backup_remote_name }}",
     "id": "backup",
     "repository": "",
     "storage": "b2://{{ backup_bucket_name }}/andrew/",
