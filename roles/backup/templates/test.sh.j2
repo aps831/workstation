@@ -1,8 +1,8 @@
 #! /bin/bash
 check() { (
     set -e
-    sudo -u {{ backup_user }} duplicacy check -id {{ backup_local_name }} backup_user }}_backup_test/backup_test.log >/var/log/duplicacy/{{ 2>&1
-    sudo -u {{ backup_user }} duplicacy check -id {{ backup_remote_name }} backup_user }}_backup_test/backup_test.log >>/var/log/duplicacy/{{ 2>&1
+    sudo -u {{ backup_user }} duplicacy check -id {{ backup_local_name }} >/var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
+    sudo -u {{ backup_user }} duplicacy check -id {{ backup_remote_name }} >>/var/log/duplicacy/{{ backup_user }}_backup_test/backup_test.log 2>&1
 ); }
 
 check
