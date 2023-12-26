@@ -1,9 +1,6 @@
+---
 firewall_state: enabled
 hosts_titan_ip_address: 192.168.0.26
 hosts_thor_ip_address: 192.168.0.27
 hosts_odin_ip_address: 192.168.0.25
 nas_host: odin.local
-# vault_nas_titan_password: defined in vaulted_vars/vault.yml
-# vault_nas_thor_password: defined in vaulted_vars/vault.yml
-# vault_opendata_password_aps831: defined in vaulted_vars/vault.yml
-# vault_opendata_password_operations_reports_831: defined in vaulted_vars/vault.yml

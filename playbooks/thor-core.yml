@@ -12,7 +12,7 @@
     - role: nas
       vars:
         nas_user: thor
-        nas_password: "{{ vault_nas_thor_password }}"
+        nas_password: "{{ lookup('env', 'ODIN_PASSWORD') }}"
     - role: chezmoi
 
     # Admin

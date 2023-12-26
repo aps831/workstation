@@ -1,7 +1,16 @@
 #! /bin/bash
 trap 'rm -rf "$TMPDIR"' EXIT
+
 TMPDIR=$(mktemp -d)
-cd "$TMPDIR"
+cd "${TMPDIR}" || exit
 git clone --depth=1 https://github.com/aps831/workstation.git
-cd "workstation"
-ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/thor-core.yml
+
+cd "workstation" || exit
+
+DOPPLER_CONFIG=$(hostname)
+export DOPPLER_PROJECT=workstation
+export DOPPLER_CONFIG="${DOPPLER_CONFIG}"
+
+doppler login --scope .
+doppler run -- ansible-playbook --ask-become-pass playbooks/thor-core.yml
+doppler logout --scope .

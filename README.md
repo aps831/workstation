@@ -16,10 +16,6 @@ The following playbooks have been created:
 -   `titan-restore.yml` - install minimal dependencies in order to bootstrap a restore of titan;
 -   `vagrant.yml` - run through all the roles on a Linux Mint instance using Vagrant.
 
-## Vault
-
-To update the vault with passwords stored in `pass` run `vault.sh`.
-
 ## Testing
 
 To test the Ansible provisioning using Vagrant run `vagrant up`. If Ansible hangs and it is necessary to kill the process then the lock file for `dpkg` may remain. This can be removed using `sudo rm /var/lib/dpkg/lock`. If the Vagrant machine, called workstation_vagrant, is running then re-provisioning can be performed with `vagrant provision`.
@@ -29,10 +25,12 @@ To test the Ansible provisioning using Vagrant run `vagrant up`. If Ansible hang
 To run a single role:
 
 ```bash
-ansible --ask-become --ask-vault-pass -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>" --extra-vars "@inventory/vaulted_vars/vault.yml" <host_name>
+export DOPPLER_PROJECT=workstation
+export DOPPLER_CONFIG=$(hostname)
+doppler run -- ansible --ask-become -m include_role -a name=<role_name> --extra-vars "<variable_name1>=<variable_value1> <variable_name2>=<variable_value2>" <host_name>
 ```
 
-If the role does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted.
+If the role does not use secrets then `doppler run` can be omitted.
 
 If the role requires a number of parameters to be passed to it, then it may be easier to run the playbook but filter the roles using tags.
 
@@ -41,10 +39,12 @@ If the role requires a number of parameters to be passed to it, then it may be e
 A playbook can be run locally using
 
 ```bash
-ansible-playbook --ask-become-pass --ask-vault-pass --extra-vars "@inventory/vaulted_vars/vault.yml" playbooks/<name>.yml
+export DOPPLER_PROJECT=workstation
+export DOPPLER_CONFIG=$(hostname)
+doppler run -- ansible-playbook --ask-become-pass playbooks/<name>.yml
 ```
 
-If the playbook does not use encrypted secrets then `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` can be omitted. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used. These pull the latest version of the playbooks from Github.
+If the playbook does not use secrets then `doppler run`. The scripts `run-ansible-core-update.sh` and `run-ansible-backup-update.sh` can also be used. These pull the latest version of the playbooks from Github.
 
 To run selected roles from a playbook, add tags to roles using the syntax: `tags: tagname` and append the `ansible-playbook` command with `--tags "tagname"`.
 
@@ -52,7 +52,7 @@ To run selected roles from a playbook, add tags to roles using the syntax: `tags
 
 A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O bootstrap.sh https://github.com/aps831/workstation/raw/master/bootstrap.sh && chmod +x bootstrap.sh`. This script will install the dependencies needed to run Ansible.
 
-After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run. The `--ask-vault-pass` and `--extra-vars "@inventory/vaulted_vars/vault.yml"` should not be passed when running the restore playbook, as the vault password will not be accessible at the time of running. The following steps are then required:
+After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run. The following steps are then required:
 
 -   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 -   configure Timeshift;

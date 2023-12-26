@@ -12,7 +12,7 @@
     - role: nas
       vars:
         nas_user: titan
-        nas_password: "{{ vault_nas_titan_password }}"
+        nas_password: "{{ lookup('env', 'ODIN_PASSWORD') }}"
     - role: chezmoi
 
     # Admin
@@ -98,13 +98,13 @@
       vars:
         opendata_download_name: "aps831"
         opendata_download_user: "aps831@yahoo.co.uk"
-        opendata_download_password: "{{ vault_opendata_password_aps831 }}"
+        opendata_download_password: "{{ lookup('env', 'OPEN_DATA_PASSWORD_APS831') }}"
         opendata_download_time_delay: "60min"
     - role: opendata
       vars:
         opendata_download_name: "operations-reports-831"
         opendata_download_user: "operations.reports.831@gmail.com"
-        opendata_download_password: "{{ vault_opendata_password_operations_reports_831 }}"
+        opendata_download_password: "{{ lookup('env', 'OPEN_DATA_PASSWORD_OPERATIONS_REPORTS_831') }}"
         opendata_download_time_delay: "70min"
   pre_tasks:
     - name: update repository caches

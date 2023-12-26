@@ -1,9 +1,9 @@
 #! /bin/bash
 URL="{{ opendata_download_url }}"
 OUTPUT_FILE=$(mktemp)
-STATUS_CODE=$(curl --silent --location --output "$OUTPUT_FILE" --write-out "%{http_code}" --user {{ opendata_download_user }}:'{{ opendata_download_password | b64decode | trim }}' "$URL")
+STATUS_CODE=$(curl --silent --location --output "$OUTPUT_FILE" --write-out "%{http_code}" --user {{ opendata_download_user }}:'{{ opendata_download_password }}' "$URL")
 
-if [ "$STATUS_CODE" != "200" ]; then    
+if [ "$STATUS_CODE" != "200" ]; then
     echo "STATUS_CODE=$STATUS_CODE"
     urgency="critical"
     title="Open Data Download Failed: {{ opendata_download_name }}.  Do Not Ignore This Message"
