@@ -1,0 +1,13 @@
+---
+- name: install checkov
+  pip:
+    name:
+      - checkov=={{ checkov_version }}
+    state: present
+
+- name: install checkov asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add checkov {{ checkov_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global checkov version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global checkov system"

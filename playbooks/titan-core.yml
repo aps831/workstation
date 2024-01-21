@@ -40,6 +40,7 @@
     - role: bats
     - role: bazel
     - role: cheat
+    - role: checkov
     - role: cifuzz
     - role: cloudflared
     - role: cue

@@ -249,6 +249,10 @@ pypi = "psutil"
 source = "pypi"
 pypi = "molecule"
 
+[checkov]
+source = "pypi"
+pypi = "checkov"
+
 [pipx]
 source = "pypi"
 pypi = "pipx"
