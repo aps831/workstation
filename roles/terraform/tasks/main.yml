@@ -1,5 +1,13 @@
 ---
-# asdf
+# terraform
+- name: install terraform
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - terraform
+
 - name: install terraform asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add terraform {{ terraform_asdf_plugin_url }}"
   ignore_errors: true
@@ -22,7 +30,7 @@
   changed_when: false
 
 - name: extract tflint from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ tflint_download_tmp.path }}"
     dest: /usr/local/bin
@@ -46,7 +54,7 @@
   changed_when: false
 
 - name: extract terraform doc from archive
-  become: yes
+  become: true
   unarchive:
     src: "{{ terraform_docs_download_tmp.path }}"
     include: "terraform-docs"
@@ -58,7 +66,7 @@
 
 # tfsec
 - name: download tfsec binary
-  become: yes
+  become: true
   get_url:
     url: "{{ tfsec_url }}"
     dest: /usr/local/bin/tfsec
@@ -66,7 +74,7 @@
   changed_when: false
 
 - name: make tfsec binary executable
-  become: yes
+  become: true
   file:
     path: /usr/local/bin/tfsec
     state: file
@@ -76,7 +84,7 @@
 
 # terragrunt
 - name: download terragrunt binary
-  become: yes
+  become: true
   get_url:
     url: "{{ terragrunt_url }}"
     dest: /usr/local/bin/terragrunt
@@ -84,7 +92,7 @@
   changed_when: false
 
 - name: make terragrunt binary executable
-  become: yes
+  become: true
   file:
     path: /usr/local/bin/terragrunt
     state: file
