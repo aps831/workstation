@@ -82,6 +82,13 @@
     group: root
     mode: 0755
 
+- name: install tfsec asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add tfsec {{ tfsec_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global tfsec version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global tfsec system"
+
 # terragrunt
 - name: download terragrunt binary
   become: true
