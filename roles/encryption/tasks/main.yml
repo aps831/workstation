@@ -22,6 +22,7 @@
     packages:
       - age
       - secure-delete
+      - caja-seahorse
       - nemo-seahorse
       - gnupg2
       - gnupg-agent
