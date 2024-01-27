@@ -37,9 +37,6 @@
       - ruby-libvirt
       - zlib1g-dev
 
-- name: install disksize plugin
-  command: vagrant plugin install vagrant-disksize
-
 - name: install libvirt plugin
   command: vagrant plugin install vagrant-libvirt
 
