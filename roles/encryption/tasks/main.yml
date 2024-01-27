@@ -8,14 +8,14 @@
     force: true
 
 - name: add yubico/stable repository
-  become: yes
+  become: true
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/yubico-keyring.asc] https://ppa.launchpadcontent.net/yubico/stable/ubuntu {{ ubuntu_codename }} main"
     filename: jlbarriere68
     state: present
 
 - name: install encryption packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
   vars:
@@ -43,7 +43,7 @@
       - yubikey-manager
 
 - name: install u2f rules
-  become: yes
+  become: true
   get_url:
     url: https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules
     dest: /etc/udev/rules.d/70-u2f.rules
