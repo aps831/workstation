@@ -1,5 +1,5 @@
 #! /bin/bash
-PASSWD=$(secret-tool lookup server {{ nas_host }} user {{ nas_user }} | base64 --decode)
+PASSWD=$(secret-tool lookup server {{ nas_host }} user {{ nas_user }})
 echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/homes >/dev/null 2>&1
 echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/music >/dev/null 2>&1
 echo -e "{{ nas_user }}\nWORKGROUP\n$PASSWD\n" | gio mount smb://{{ nas_host }}/video >/dev/null 2>&1
