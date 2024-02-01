@@ -10,6 +10,8 @@ cd "workstation"
 export DOPPLER_PROJECT=workstation
 export DOPPLER_CONFIG=$(hostname)
 
+echo "A temporary PAT is require to access Doppler personal account"
+echo "Open the browser manually to ensure that you authenticate with the correct account"
 doppler login --scope .
 doppler run -- ansible-playbook --ask-become-pass playbooks/thor-backup.yml
 doppler logout --scope .
