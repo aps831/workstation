@@ -239,6 +239,11 @@ source = "github"
 github = "psastras/sarif-rs"
 use_max_tag = true
 
+[cosign]
+source = "github"
+github = "sigstore/cosign"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

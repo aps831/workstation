@@ -1,0 +1,16 @@
+---
+- name: download cosign binary
+  become: true
+  get_url:
+    url: "{{ cosign_download_url }}"
+    dest: "/usr/bin/cosign"
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: install cosign asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add cosign {{ cosign_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global cosign version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global cosign system"
