@@ -15,7 +15,7 @@
 
 - name: uninstall cifuzz 1
   ansible.builtin.file:
-    path: "/home/{{ ansible_user }}/.local/share}/cifuzz"
+    path: "/home/{{ ansible_user }}/.local/share/cifuzz"
     state: absent
 
 - name: uninstall cifuzz 2
