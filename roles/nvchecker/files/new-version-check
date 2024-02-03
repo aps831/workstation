@@ -2,11 +2,13 @@
 TMPFILE=$(mktemp)
 trap 'rm "$TMPFILE"' EXIT
 
-read -sp 'Github personal access token with repo:public_repo permissions: ' GITHUB_TOKEN
-echo ""
+export DOPPLER_PROJECT="development"
+export DOPPLER_CONFIG="github"
 
-echo "[keys]" > $TMPFILE
-echo "github = \"$GITHUB_TOKEN\"" >> $TMPFILE
+GITHUB_TOKEN=$(doppler secrets get GITHUB_TOKEN_PUBLIC_REPOS --plain)
+
+echo "[keys]" >$TMPFILE
+echo "github = \"$GITHUB_TOKEN\"" >>$TMPFILE
 
 nvchecker -c /etc/nvchecker/config_file.toml --logging warning --keyfile $TMPFILE
 nvcmp -c /etc/nvchecker/config_file.toml
