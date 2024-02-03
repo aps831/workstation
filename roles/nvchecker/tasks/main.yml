@@ -14,6 +14,13 @@
     name: nvchecker
     state: latest
 
+- name: inject packaging into nvchecker
+  community.general.pipx:
+    name: nvchecker
+    inject_packages:
+      - packaging
+    state: inject
+
 - name: create config directory
   become: yes
   file:
