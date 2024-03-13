@@ -1,5 +1,5 @@
 ---
-docker_compose_version: "2.4.0"
+docker_compose_version: "2.24.7"
 docker_compose_download_url: https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64
 docker_compose_sha256_url: "{{ docker_compose_download_url }}.sha256"
 dockerhub_mirror_container_name: dockerhub-mirror
