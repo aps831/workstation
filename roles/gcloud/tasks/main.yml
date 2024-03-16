@@ -47,3 +47,17 @@
     group: root
     mode: 0644
     remote_src: yes
+
+- name: download cloud-sql-proxy binary
+  become: true
+  get_url:
+    url: "{{ cloud_sql_proxy_download_url }}"
+    dest: "/usr/local/bin/cloud-sql-proxy"
+
+- name: set permissions on cloud-sql-proxy binary
+  become: true
+  file:
+    path: "/usr/local/bin/cloud-sql-proxy"
+    owner: root
+    group: root
+    mode: 0755
