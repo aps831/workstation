@@ -15,7 +15,7 @@
     state: present
 
 - name: install packages
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -27,19 +27,19 @@
       - google-cloud-sdk-gke-gcloud-auth-plugin
 
 - name: create temp file for kubectl completion
-  become: yes
+  become: true
   ansible.builtin.tempfile:
     state: file
   register: kubectl_completion_file
   changed_when: false
 
 - name: create kubectl shell completion
-  become: yes
+  become: true
   shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
   changed_when: false
 
 - name: install kubectl completion
-  become: yes
+  become: true
   ansible.builtin.copy:
     src: "{{ kubectl_completion_file.path }}"
     dest: /etc/bash_completion.d/kubectl
@@ -48,6 +48,7 @@
     mode: 0644
     remote_src: yes
 
+# cloud-sql-proxy
 - name: download cloud-sql-proxy binary
   become: true
   get_url:
@@ -58,6 +59,31 @@
   become: true
   file:
     path: "/usr/local/bin/cloud-sql-proxy"
+    owner: root
+    group: root
+    mode: 0755
+
+# docker-credential-gcr
+- name: create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
+
+- name: download docker-credential-gcr binary
+  become: true
+  get_url:
+    url: "{{ gcr_credential_helper_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ gcr_credential_helper_checksum_url }}"
+
+- name: extract from archive
+  become: true
+  unarchive:
+    src: "{{ tmp_dir.path }}/{{ gcr_credential_helper_filename }}"
+    dest: /usr/bin
+    remote_src: yes
     owner: root
     group: root
     mode: 0755
