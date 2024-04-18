@@ -15,6 +15,10 @@
 - name: set global terraform version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global terraform system"
 
+- name: install opentofu asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add opentofu {{ opentofu_asdf_plugin_url }}"
+  ignore_errors: true
+
 # tflint
 - name: create temporary file for tflint download
   tempfile:
