@@ -25,6 +25,7 @@
       - kubectl
       - bash-completion
       - google-cloud-sdk-gke-gcloud-auth-plugin
+      - google-cloud-cli-log-streaming
 
 - name: create temp file for kubectl completion
   become: true
