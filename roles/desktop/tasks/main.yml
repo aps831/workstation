@@ -12,15 +12,24 @@
 
 - name: set list view for new folders
   become_user: "{{ ansible_user }}"
-  dconf: key="/org/nemo/preferences/default-folder-viewer" value="'list-view'"
+  community.general.dconf:
+    key: "/org/nemo/preferences/default-folder-viewer"
+    value: "'list-view'"
+    state: present
 
 - name: set wallpaper file
   become_user: "{{ ansible_user }}"
-  dconf: key="/org/cinnamon/desktop/background/picture-uri" value="'file:///home/{{ ansible_user }}/.wallpaper.png'"
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/background/picture-uri"
+    value: "'file:///home/{{ ansible_user }}/.wallpaper.png'"
+    state: present
 
 - name: centre wallpaper
   become_user: "{{ ansible_user }}"
-  dconf: key="/org/cinnamon/desktop/background/picture-options" value="'centered'"
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/background/picture-options"
+    value: "'centered'"
+    state: present
 
 - name: create bookmarks
   template:
@@ -90,3 +99,8 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
+
+- name: disable touchpad whilst typing
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/peripherals/touchpad/disable-while-typing"
+    value: "true"
