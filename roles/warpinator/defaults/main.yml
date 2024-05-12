@@ -1,0 +1,4 @@
+---
+warpinator_port: 42000
+warpinator_reg_port: 42001
+warpinator_dir: /home/{{ ansible_user }}/warpinator

@@ -21,6 +21,7 @@
     - role: web
     - role: kvm
     - role: virtualbox
+    - role: warpinator
 
   pre_tasks:
     - name: update repository caches

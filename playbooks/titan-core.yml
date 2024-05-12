@@ -94,6 +94,7 @@
     - role: samba
     - role: ssh
     - role: watchtower
+    - role: warpinator
 
     # system
     - role: opendata
