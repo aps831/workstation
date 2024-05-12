@@ -5,4 +5,3 @@ shotwell_import_directory: "'smb://odin.local/photo/andrew'" # Shotwell doesn't 
 
 # UFW
 ssh_ufw_allow_host: "{{ hosts_thor_ip_address }}"
-printserver_ufw_allow_host: "{{ hosts_thor_ip_address }}"

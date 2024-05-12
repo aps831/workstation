@@ -91,7 +91,6 @@
     # Services
     - role: apache2
     - role: docker
-    - role: printserver
     - role: ssh
     - role: watchtower
 
