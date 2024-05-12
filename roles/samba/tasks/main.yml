@@ -1,9 +1,9 @@
 ---
- - name: install packages
-   become: yes
-   apt: 
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:  
-     - samba
+- name: install packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - samba

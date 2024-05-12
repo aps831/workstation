@@ -91,6 +91,7 @@
     # Services
     - role: apache2
     - role: docker
+    - role: samba
     - role: ssh
     - role: watchtower
 
