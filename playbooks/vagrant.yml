@@ -92,7 +92,6 @@
     - role: apache2
     - role: docker
     - role: printserver
-    - role: sambashare
     - role: ssh
     - role: watchtower
 

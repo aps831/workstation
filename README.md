@@ -56,12 +56,7 @@ After migrating files and folders as per the instructions in [migration](MIGRATI
 
 -   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 -   configure Timeshift;
--   create a Samba user is a Samba share has been created for SyncMe Wireless app on Android (see below);
 -   configure printers (see below).
-
-### Samba
-
-To create a Samba user run `sudo smbpasswd -a <user_name>`.
 
 ### Printer
 

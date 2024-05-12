@@ -21,7 +21,6 @@
     - role: web
     - role: kvm
     - role: virtualbox
-    - role: sambashare
 
   pre_tasks:
     - name: update repository caches

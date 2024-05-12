@@ -1,67 +1,44 @@
 ---
-
- - name: make printers browseable on samba share
-   become: yes
-   ini_file:
-     path: /etc/samba/smb.conf
-     section: printers
-     option: browseable
-     value: "yes"
-   notify:
-     - restart smbd
-     - restart nmbd
-
- - name: allow guest access to printers on samba share
-   become: yes
-   ini_file:
-     path: /etc/samba/smb.conf
-     section: printers
-     option: guest ok
-     value: "yes"
-   notify:
-     - restart smbd
-     - restart nmbd
-
 # SMB
- - name: "allow connections from {{ printserver_ufw_allow_host }} 1"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "137"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 1"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "137"
 
- - name: "allow connections from {{ printserver_ufw_allow_host }} 2"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "139"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 2"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "139"
 
- - name: "allow connections from {{ printserver_ufw_allow_host }} 3"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "445"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 3"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "445"
 
 # CUPS
- - name: "allow connections from {{ printserver_ufw_allow_host }} 4"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "53"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 4"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "53"
 
- - name: "allow connections from {{ printserver_ufw_allow_host }} 5"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "631"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 5"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "631"
 
- - name: "allow connections from {{ printserver_ufw_allow_host }} 6"
-   become: yes
-   ufw:
-     rule: allow
-     src: "{{ printserver_ufw_allow_host }}"
-     port: "5353"
+- name: "allow connections from {{ printserver_ufw_allow_host }} 6"
+  become: yes
+  ufw:
+    rule: allow
+    src: "{{ printserver_ufw_allow_host }}"
+    port: "5353"
