@@ -1,0 +1,10 @@
+[/]
+ask-for-send-permission=true
+autostart=false
+connect-id='TITAN-927DF861123DA5ADD774'
+group-code='cheese.bread.pickle'
+no-overwrite=true
+port=42000
+preferred-network-iface='auto'
+receiving-folder='file:///home/andrew/recipes'
+reg-port=42001

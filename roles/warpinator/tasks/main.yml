@@ -7,6 +7,15 @@
     packages:
       - warpinator
 
+- name: create directory"
+  become: true
+  file:
+    path: "{{ warpinator_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
 - name: allow in {{ warpinator_port }}
   become: true
   ufw:
@@ -54,18 +63,13 @@
     value: "'cheese.bread.pickle'"
     state: present
 
+- name: evaluate symlink for folder
+  shell: readlink -f {{ warpinator_dir }}
+  register: warpinator_dir_full
+
 - name: set receiving-folder
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/x/warpinator/preferences/receiving-folder"
-    value: "'{{ warpinator_dir }}'"
+    value: "'file://{{ warpinator_dir_full.stdout }}'"
     state: present
-
-- name: create directory"
-  become: true
-  file:
-    path: "{{ warpinator_dir }}"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
