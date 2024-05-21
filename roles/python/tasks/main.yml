@@ -47,6 +47,12 @@
 - name: reshim asdf
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
+# safety
+- name: install safety
+  community.general.pipx:
+    name: safety
+    state: latest
+
 # poetry
 - name: check if poetry is installed
   command: "/home/{{ ansible_user }}/.local/bin/poetry"
