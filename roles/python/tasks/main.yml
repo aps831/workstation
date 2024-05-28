@@ -47,6 +47,12 @@
 - name: reshim asdf
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
+# cookiecutter
+- name: install cookiecutter
+  community.general.pipx:
+    name: cookiecutter
+    state: latest
+
 # safety
 - name: install safety
   community.general.pipx:
