@@ -1,3 +1,4 @@
 ---
- dependencies:
-   - role: ansible
+dependencies:
+  - role: ansible
+  - role: python

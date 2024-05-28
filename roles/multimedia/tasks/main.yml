@@ -24,3 +24,12 @@
       - handbrake
       - devede
       - k3b
+      - abcde
+      - lame
+      - flac
+
+# eyeD3
+- name: install eyeD3
+  community.general.pipx:
+    name: eyeD3
+    state: latest
