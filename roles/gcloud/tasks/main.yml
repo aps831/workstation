@@ -1,16 +1,28 @@
 ---
-- name: Add gcloud signing key
+- name: create temporary file for key
   become: true
-  get_url:
-    url: "https://dl.k8s.io/apt/doc/apt-key.gpg"
-    dest: /usr/share/keyrings/gcloud-keyring.gpg
-    mode: 0644
-    force: true
+  ansible.builtin.tempfile:
+    state: file
+    suffix: temp
+  register: key_temp_file
+  changed_when: False
+
+- name: download gcloud signing key
+  become: true
+  ansible.builtin.get_url:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    dest: "{{ key_temp_file.path }}"
+    force: yes
+
+- name: dearmor gcloud signing key
+  become: true
+  ansible.builtin.shell:
+    cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/cloud.google.gpg
 
 - name: Add gcloud repo
   become: true
   apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/gcloud-keyring.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    repo: "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
     filename: gcloud
     state: present
 
