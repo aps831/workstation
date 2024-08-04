@@ -1,0 +1,17 @@
+settings {
+    logfile = "/home/{{ ansible_user }}/.lsyncd/lsyncd-home.log",
+    statusFile = "/home/{{ ansible_user }}/.lsyncd/lsyncd-home-status.log",
+    statusInterval = 20,
+    insist = true
+}
+
+sync {
+    default.rsyncssh,
+    source = "/home/{{ ansible_user }}",
+    host = "{{ nas_host }}",
+    excludeFrom = "/etc/lsyncd/lsyncd-home.exclude",
+    targetdir = "lsyncd/{{ inventory_hostname }}/{{ ansible_user }}",
+    ssh = {
+        port = 10022
+    }
+}

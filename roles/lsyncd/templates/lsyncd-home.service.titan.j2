@@ -1,0 +1,16 @@
+[Unit]
+Description=Live Syncing (Mirror) Daemon for home
+After=network.target
+
+[Service]
+Restart=always
+Type=simple
+User={{ ansible_user }}
+WorkingDirectory=/home/{{ ansible_user }}
+Nice=19
+ExecStart=/usr/bin/lsyncd -nodaemon -pidfile /run/lsyncd-home.pid /etc/lsyncd/lsyncd-home.conf.lua
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/run/lsyncd-home.pid
+
+[Install]
+WantedBy=multi-user.target

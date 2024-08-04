@@ -16,15 +16,6 @@
     group: root
     mode: 0777
 
-- name: install lsyncd config
-  become: true
-  ansible.builtin.template:
-    src: lsyncd.conf.lua.j2
-    dest: /etc/lsyncd/lsyncd.conf.lua
-    owner: root
-    group: root
-    mode: 0755
-
 - name: create libvirt backup directory
   become: true
   ansible.builtin.file:
@@ -33,3 +24,75 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0777
+
+- name: disable lsyncd service
+  become: true
+  systemd:
+    name: lsyncd
+    enabled: no
+
+- name: create lsyncd log directory
+  become: true
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/.lsyncd
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777
+
+- name: copy lsyncd-home config
+  become: true
+  ansible.builtin.template:
+    src: lsyncd-home.conf.lua.{{ inventory_hostname }}.j2
+    dest: /etc/lsyncd/lsyncd-home.conf.lua
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: copy lsyncd-home exclude
+  become: true
+  ansible.builtin.template:
+    src: lsyncd-home.exclude.{{ inventory_hostname }}.j2
+    dest: /etc/lsyncd/lsyncd-home.exclude
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: create lsyncd-home service
+  become: true
+  template:
+    src: lsyncd-home.service.{{ inventory_hostname }}.j2
+    dest: /etc/systemd/system/lsyncd-home.service
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: enable lsyncd-home service at boot
+  become: true
+  systemd:
+    name: lsyncd-home
+    enabled: yes
+
+- name: copy lsyncd-qemu config
+  become: true
+  ansible.builtin.template:
+    src: lsyncd-qemu.conf.lua.j2
+    dest: /etc/lsyncd/lsyncd-qemu.conf.lua
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: create lsyncd-qemu service
+  become: true
+  template:
+    src: lsyncd-qemu.service.j2
+    dest: /etc/systemd/system/lsyncd-qemu.service
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: enable lsyncd-qemu service at boot
+  become: true
+  systemd:
+    name: lsyncd-qemu
+    enabled: yes

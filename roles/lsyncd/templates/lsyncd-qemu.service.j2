@@ -1,0 +1,14 @@
+[Unit]
+Description=Live Syncing (Mirror) Daemon for qemu
+After=network.target
+
+[Service]
+Restart=always
+Type=simple
+Nice=19
+ExecStart=/usr/bin/lsyncd -nodaemon -pidfile /run/lsyncd-qemu.pid /etc/lsyncd/lsyncd-qemu.conf.lua
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/run/lsyncd-qemu.pid
+
+[Install]
+WantedBy=multi-user.target

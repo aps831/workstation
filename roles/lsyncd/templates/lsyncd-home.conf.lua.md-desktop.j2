@@ -1,0 +1,16 @@
+settings {
+    logfile = "/home/{{ ansible_user }}/.lsyncd/lsyncd-home.log",
+    statusFile = "/home/{{ ansible_user }}/.lsyncd/lsyncd-home-status.log",
+    statusInterval = 20,
+    insist = true
+}
+
+sync {
+    default.rsync,
+    source = "/hdd/home/{{ ansible_user }}",
+    target = "/backup/lsyncd/{{ ansible_user }}",
+    excludeFrom = "/etc/lsyncd/lsyncd-home.exclude",
+    rsync = {
+        chown = "{{ ansible_user }}:{{ ansible_user }}"
+    }
+}
