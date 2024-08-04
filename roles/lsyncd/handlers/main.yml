@@ -1,0 +1,12 @@
+---
+- name: restart lsyncd-home
+  become: yes
+  systemd:
+    name: lsyncd-home
+    state: restarted
+
+- name: restart lsyncd-qemu
+  become: yes
+  systemd:
+    name: lsyncd-qemu
+    state: restarted

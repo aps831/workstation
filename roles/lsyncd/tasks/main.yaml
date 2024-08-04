@@ -57,6 +57,7 @@
     owner: "root"
     group: "root"
     mode: 0644
+  notify: restart lsyncd-home
 
 - name: enable lsyncd-home service at boot
   become: true
@@ -81,6 +82,7 @@
     owner: "root"
     group: "root"
     mode: 0644
+  notify: restart lsyncd-qemu
 
 - name: enable lsyncd-qemu service at boot
   become: true
