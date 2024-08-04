@@ -69,14 +69,6 @@ wget https://developers.hp.com/sites/default/files/hplip-3.20.11-plugin.run
 hp-plugin -i -p .
 ```
 
-### MEGA
-
-mega.io file syncing is not installed automatically. The downloads are available from https://mega.io/desktop and the Chrome store. The following are required:
-
--   desktop app;
--   nemo integration;
--   Chrome extension.
-
 ## Specified Versions
 
 The following roles have version numbers defined within the role:
