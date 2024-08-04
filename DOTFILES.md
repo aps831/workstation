@@ -68,5 +68,4 @@ chezmoi apply
 -   .virtualenvs
 -   .virtualboxvms
 -   .vscode
--   .WindowsXPShare
 -   .ZAP
