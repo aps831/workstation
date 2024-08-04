@@ -165,6 +165,7 @@
   template:
     src: dockerhubmirror.service.j2
     dest: /etc/systemd/system/dockerhubmirror.service
+  notify: restart dockerhubmirror
 
 - name: enable dockerhub mirror service at boot
   become: yes

@@ -1,19 +1,24 @@
 ---
+- name: restart docker
+  become: yes
+  systemd:
+    name: docker
+    daemon_reload: yes
+    state: restarted
 
-  - name: restart docker
-    become: yes
-    systemd:
-      name: docker
-      daemon_reload: yes
-      state: restarted
+- name: restart dnsmasq
+  become: yes
+  systemd:
+    name: dnsmasq
+    state: restarted
 
-  - name: restart dnsmasq
-    become: yes
-    systemd:
-      name: dnsmasq
-      state: restarted
+- name: reload ufw
+  become: yes
+  ufw:
+    state: reloaded
 
-  - name: reload ufw
-    become: yes
-    ufw:
-      state: reloaded
+- name: restart dockerhubmirror
+  become: yes
+  systemd:
+    name: dockerhubmirror
+    state: restarted
