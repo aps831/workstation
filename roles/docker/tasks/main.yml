@@ -143,8 +143,9 @@
 #
 - name: create directory for dockerhub mirror
   become: yes
-  file: path=/var/lib/dockerhub-mirror
-    state=directory
+  file:
+    path: /var/lib/dockerhub-mirror
+    state: directory
 
 - name: copy dockerhub mirror config
   become: yes
