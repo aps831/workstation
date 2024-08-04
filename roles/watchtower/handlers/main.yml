@@ -1,0 +1,6 @@
+---
+- name: restart watchtower
+  become: yes
+  systemd:
+    name: watchtower
+    state: restarted
