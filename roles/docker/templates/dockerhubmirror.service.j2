@@ -4,8 +4,11 @@ After=docker.service
 Requires=docker.service
 
 [Service]
+Restart=always
 Type=simple
 ExecStart=/bin/bash /usr/share/systemd/dockerhubmirror.sh
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/run/dockerhubmirror.pid
 
 [Install]
 WantedBy=multi-user.target
