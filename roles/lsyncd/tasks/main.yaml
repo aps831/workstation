@@ -49,15 +49,6 @@
     group: "root"
     mode: 0644
 
-- name: copy lsyncd-home exclude
-  become: true
-  ansible.builtin.template:
-    src: lsyncd-home.exclude.{{ inventory_hostname }}.j2
-    dest: /etc/lsyncd/lsyncd-home.exclude
-    owner: "root"
-    group: "root"
-    mode: 0644
-
 - name: create lsyncd-home service
   become: true
   template:

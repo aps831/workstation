@@ -9,7 +9,16 @@ sync {
     default.rsync,
     source = "/hdd/home/{{ ansible_user }}",
     target = "/backup/lsyncd/{{ ansible_user }}",
-    excludeFrom = "/etc/lsyncd/lsyncd-home.exclude",
+    exclude = {
+        "/.libvirt/images",
+        "/.local/share/Trash",
+        "/.local/share/containers",
+        "/.lsyncd",
+        "/.virtualboxvms",
+        "/.WindowsXPShare",
+        "**/.terraform/**",
+        "**/DELETE/**"
+    },
     rsync = {
         chown = "{{ ansible_user }}:{{ ansible_user }}"
     }
