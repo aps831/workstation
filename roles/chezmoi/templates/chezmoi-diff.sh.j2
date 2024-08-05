@@ -1,4 +1,7 @@
 #! /bin/bash
+export DOPPLER_PROJECT=development
+export DOPPLER_CONFIG=$(hostname)
+export DOPPLER_TOKEN=$(doppler configure --json | yq '.. | select(has("token"))' | yq '.token')
 tmpfile=$(mktemp)
 dte=$(date +%Y-%m-%d)
 chezmoi diff >"${tmpfile}"
