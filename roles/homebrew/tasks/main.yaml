@@ -1,0 +1,15 @@
+---
+- name: install build-essential
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - build-essential
+
+- name: install homebrew
+  ansible.builtin.shell: bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+- name: install gcc
+  ansible.builtin.shell: /home/linuxbrew/.linuxbrew/bin/brew install gcc
