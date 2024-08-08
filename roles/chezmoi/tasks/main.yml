@@ -20,7 +20,7 @@
     dest: "/etc/systemd/system/chezmoi-diff.service"
     owner: "root"
     group: "root"
-    mode: 0666
+    mode: 0644
 
 - name: "install chezmoi-diff timer"
   become: true
@@ -29,7 +29,7 @@
     dest: "/etc/systemd/system/chezmoi-diff.timer"
     owner: "root"
     group: "root"
-    mode: 0666
+    mode: 0644
 
 - name: disable chezmoi-diff service
   become: true

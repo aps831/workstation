@@ -96,7 +96,7 @@
     dest: "/etc/systemd/system/{{ backup_user }}_backup.service"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: 0666
+    mode: 0644
 
 - name: "install {{ backup_user }} backup test service"
   become: true
@@ -105,7 +105,7 @@
     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.service"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: 0666
+    mode: 0644
 
 # Timers
 - name: "install {{ backup_user }} backup timer"
@@ -115,7 +115,7 @@
     dest: "/etc/systemd/system/{{ backup_user }}_backup.timer"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: 0666
+    mode: 0644
 
 - name: "install {{ backup_user }} backup test timer"
   become: true
@@ -124,7 +124,7 @@
     dest: "/etc/systemd/system/{{ backup_user }}_backup_test.timer"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: 0666
+    mode: 0644
 
 # Disable services
 - name: disable {{ backup_user }} backup service
