@@ -1,0 +1,8 @@
+---
+- name: install silversearcher
+  become: true
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - silversearcher-ag

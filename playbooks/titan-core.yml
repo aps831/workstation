@@ -70,6 +70,7 @@
     - role: prettier
     - role: semgrep
     - role: shellcheck
+    - role: silversearcher
     - role: sublime
     - role: syft
     - role: task
