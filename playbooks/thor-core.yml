@@ -49,6 +49,7 @@
     - role: cue
     - role: dagger
     - role: data
+    - role: devtoys
     - role: direnv
     - role: docs
     - role: doppler

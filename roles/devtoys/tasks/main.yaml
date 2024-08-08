@@ -1,0 +1,10 @@
+---
+- name: install dev toys
+  become: yes
+  apt:
+    deb: "{{ dev_toys_download_url }}"
+
+- name: install dev toys cli
+  become: yes
+  apt:
+    deb: "{{ dev_toys_cli_download_url }}"
