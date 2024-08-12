@@ -12,7 +12,6 @@
     - role: teamviewer
     - role: desktop
     - role: multimedia
-    - role: dropbox
     - role: fonts
     - role: mail
     - role: lsyncd
