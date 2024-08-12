@@ -25,6 +25,12 @@
     group: "{{ ansible_user }}"
     mode: 0777
 
+- name: stop lsyncd service
+  become: true
+  systemd:
+    name: lsyncd
+    state: stopped
+
 - name: disable lsyncd service
   become: true
   systemd:
