@@ -1,5 +1,6 @@
 [Unit]
 Description=run {{ backup_user }} backup
+OnFailure=status-email-user@%n.service
 
 [Service]
 Type=simple
