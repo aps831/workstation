@@ -24,6 +24,7 @@
     - role: nvchecker
     - role: teamviewer
     - role: shutdown
+    - role: status-email
 
     # Desktop
     - role: breaktimer
