@@ -1,9 +1,9 @@
 [Unit]
 Description=Live Syncing (Mirror) Daemon for home
 After=network.target
+OnFailure=status-email-user@%n.service
 
 [Service]
-Restart=always
 Type=simple
 User={{ ansible_user }}
 WorkingDirectory=/home/{{ ansible_user }}

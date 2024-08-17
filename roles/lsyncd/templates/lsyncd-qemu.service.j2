@@ -1,9 +1,9 @@
 [Unit]
 Description=Live Syncing (Mirror) Daemon for qemu
 After=network.target
+OnFailure=status-email-user@%n.service
 
 [Service]
-Restart=always
 Type=simple
 Nice=19
 ExecStart=/usr/bin/lsyncd -nodaemon -pidfile /run/lsyncd-qemu.pid /etc/lsyncd/lsyncd-qemu.conf.lua
