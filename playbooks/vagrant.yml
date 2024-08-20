@@ -66,6 +66,7 @@
     - role: osvscanner
     - role: owaspzap
     - role: packer
+    - role: pet
     - role: pgadmin
     - role: podman
     - role: postman

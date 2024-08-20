@@ -1,0 +1,5 @@
+---
+- name: install pet
+  become: true
+  apt:
+    deb: "{{ pet_download_url }}"
