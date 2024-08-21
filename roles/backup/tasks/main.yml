@@ -131,12 +131,14 @@
   become: true
   systemd:
     name: "{{ backup_user }}_backup"
+    daemon_reload: true
     enabled: no
 
 - name: disable {{ backup_user }} backup test service
   become: true
   systemd:
     name: "{{ backup_user }}_backup_test"
+    daemon_reload: true
     enabled: no
 
 # Enable timers
@@ -144,6 +146,7 @@
   become: true
   systemd:
     name: "{{ backup_user }}_backup.timer"
+    daemon_reload: true
     state: started
     enabled: yes
 
@@ -151,6 +154,7 @@
   become: true
   systemd:
     name: "{{ backup_user }}_backup_test.timer"
+    daemon_reload: true
     state: started
     enabled: yes
 

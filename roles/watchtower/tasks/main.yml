@@ -17,4 +17,5 @@
   become: yes
   systemd:
     name: watchtower
+    daemon_reload: true
     enabled: yes

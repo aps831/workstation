@@ -3,22 +3,26 @@
   become: yes
   systemd:
     name: sleep.target
+    daemon_reload: true
     masked: yes
 
 - name: mask suspend service
   become: yes
   systemd:
     name: suspend.target
+    daemon_reload: true
     masked: yes
 
 - name: mask hibernate service
   become: yes
   systemd:
     name: hibernate.target
+    daemon_reload: true
     masked: yes
 
 - name: mask hybrid-sleep service
   become: yes
   systemd:
     name: hybrid-sleep.target
+    daemon_reload: true
     masked: yes

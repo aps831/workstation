@@ -63,6 +63,7 @@
   become: yes
   systemd:
     name: docker
+    daemon_reload: true
     enabled: yes
 
 #
@@ -171,6 +172,7 @@
   become: yes
   systemd:
     name: dockerhubmirror
+    daemon_reload: true
     enabled: yes
 
 #

@@ -10,6 +10,7 @@
   become: yes
   systemd:
     name: dnsmasq
+    daemon_reload: true
     state: restarted
 
 - name: reload ufw
@@ -21,4 +22,5 @@
   become: yes
   systemd:
     name: dockerhubmirror
+    daemon_reload: true
     state: restarted

@@ -30,11 +30,13 @@
   become: yes
   systemd:
     name: "{{ opendata_download_name }}-opendata-download"
+    daemon_reload: true
     enabled: no
 
 - name: enable {{ opendata_download_name }} opendata download timer
   become: yes
   systemd:
     name: "{{ opendata_download_name }}-opendata-download.timer"
+    daemon_reload: true
     state: started
     enabled: yes

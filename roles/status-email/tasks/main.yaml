@@ -21,4 +21,5 @@
   become: true
   systemd:
     name: status-email-user@
+    daemon_reload: true
     enabled: yes

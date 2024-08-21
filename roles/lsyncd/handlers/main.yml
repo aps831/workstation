@@ -3,10 +3,12 @@
   become: yes
   systemd:
     name: lsyncd-home
+    daemon_reload: true
     state: restarted
 
 - name: restart lsyncd-qemu
   become: yes
   systemd:
     name: lsyncd-qemu
+    daemon_reload: true
     state: restarted

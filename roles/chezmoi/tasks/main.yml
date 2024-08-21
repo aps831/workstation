@@ -35,6 +35,7 @@
   become: true
   systemd:
     name: "chezmoi-diff"
+    daemon_reload: true
     enabled: false
 
 - name: enable chezmoi-diff timer
