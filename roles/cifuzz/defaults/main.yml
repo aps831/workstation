@@ -1,4 +1,0 @@
----
-cifuzz_version: 0.22.0
-cifuzz_filename: cifuzz_installer_linux_amd64
-cifuzz_url: https://github.com/CodeIntelligenceTesting/cifuzz/releases/download/v{{ cifuzz_version }}/cifuzz_installer_linux_amd64

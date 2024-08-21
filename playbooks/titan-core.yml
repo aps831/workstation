@@ -44,7 +44,6 @@
     - role: buildpacks
     - role: cheat
     - role: checkov
-    - role: cifuzz
     - role: cloudflared
     - role: cosign
     - role: cue
