@@ -48,6 +48,12 @@
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
 # cookiecutter
+- name: install pip-audit
+  community.general.pipx:
+    name: pip-audit
+    state: latest
+
+# cookiecutter
 - name: install cookiecutter
   community.general.pipx:
     name: cookiecutter
