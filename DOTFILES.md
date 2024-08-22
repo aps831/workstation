@@ -35,7 +35,6 @@ chezmoi apply
 -   .docker
 -   .doppler
 -   .dropbox
--   .driftctl
 -   .duplicacy
 -   .gluon
 -   .gnupg

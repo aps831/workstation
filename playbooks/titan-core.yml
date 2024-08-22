@@ -53,7 +53,6 @@
     - role: direnv
     - role: docs
     - role: doppler
-    - role: driftctl
     - role: intellij
     - role: git
     - role: github
