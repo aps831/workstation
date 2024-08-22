@@ -74,12 +74,6 @@
     group: root
     mode: 0755
 
-# all-repos
-- name: install all-repos
-  community.general.pipx:
-    name: all-repos
-    state: latest
-
 - name: install packages
   become: true
   apt:
@@ -94,15 +88,6 @@
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0755
-
-- name: define all-repos variables
-  become: true
-  ansible.builtin.copy:
-    src: all-repos.sh
-    dest: /home/{{ ansible_user }}/.profile.d/all-repos.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755

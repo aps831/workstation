@@ -14,7 +14,6 @@ chezmoi apply
 
 ## Folders
 
--   .all-repos
 -   .ansible
 -   .asdf
 -   .aws
