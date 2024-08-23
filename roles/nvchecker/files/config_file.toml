@@ -209,11 +209,6 @@ source = "github"
 github = "anchore/grype"
 use_max_tag = true
 
-[cifuzz]
-source = "github"
-github = "CodeIntelligenceTesting/cifuzz"
-use_max_tag = true
-
 [gron]
 source = "github"
 github = "tomnomnom/gron"

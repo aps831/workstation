@@ -41,7 +41,6 @@ bats_version: 1.8.2
 ossf_scorecard_version: 4.10.2
 syft_version: 0.74.0
 grype_version: 0.58.0
-cifuzz_version: 0.22.0
 gron_version: 0.7.1
 yq_version: 4.33.3
 localstack_version: 2.2.0
