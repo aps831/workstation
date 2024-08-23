@@ -1,4 +1,4 @@
 ---
-dev_toys_version: v2.0.5.0
-dev_toys_download_url: https://github.com/DevToys-app/DevToys/releases/download/{{ dev_toys_version }}/devtoys_linux_x64.deb
-dev_toys_cli_download_url: https://github.com/DevToys-app/DevToys/releases/download/{{ dev_toys_version }}/devtoys.cli_linux_x64.deb
+dev_toys_version: 2.0.5.0
+dev_toys_download_url: https://github.com/DevToys-app/DevToys/releases/download/v{{ dev_toys_version }}/devtoys_linux_x64.deb
+dev_toys_cli_download_url: https://github.com/DevToys-app/DevToys/releases/download/v{{ dev_toys_version }}/devtoys.cli_linux_x64.deb

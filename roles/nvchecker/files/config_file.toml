@@ -239,6 +239,16 @@ source = "github"
 github = "sigstore/cosign"
 use_max_tag = true
 
+[pet]
+source = "github"
+github = "knqyf263/pet"
+use_max_tag = true
+
+[devtoys]
+source = "github"
+github = "DevToys-app/DevToys"
+use_max_tag = true
+
 # Pip Installs
 
 [psutil]

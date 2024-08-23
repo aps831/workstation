@@ -47,6 +47,8 @@ yq_version: 4.33.3
 localstack_version: 2.2.0
 sarif_fmt_version: 0.4.1
 cosign_version: 2.2.3
+pet_version: 0.9.0
+dev_toys_version: 2.0.5.0
 
 # Pip Installs
 psutil_version: 5.9.0
