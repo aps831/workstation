@@ -1,0 +1,7 @@
+---
+- name: restart rclone backup
+  become: yes
+  systemd:
+    name: rclone_{{ backup_user }}_backup
+    daemon_reload: true
+    state: restarted

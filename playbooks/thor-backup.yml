@@ -6,15 +6,13 @@
       vars:
         backup_user: "andrew"
         backup_host: "thor"
-        backup_local_name: "odin"
-        backup_remote_name: "backblaze"
-        backup_time_delay: "60min"
-        backup_test_time_delay: "240min"
-        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_KEY_ID_THOR_ANDREW') }}"
-        backup_application_key: "{{ lookup('env', 'BACKBLAZE_KEY_THOR_ANDREW') }}"
-        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_BUCKET_THOR') }}"
-        backup_doppler_duplicacy_preferences: "DUPLICACY_PREFERENCES_THOR_ANDREW"
-        backup_doppler_duplicacy_filters: "DUPLICACY_FILTERS_THOR_ANDREW"
+        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_ID_THOR_ANDREW') }}"
+        backup_application_key: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_THOR_ANDREW') }}"
+        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_RCLONE_BUCKET_THOR') }}"
+        backup_doppler_rclone_key_id: BACKBLAZE_RCLONE_KEY_ID_THOR_ANDREW
+        backup_doppler_rclone_key: BACKBLAZE_RCLONE_KEY_THOR_ANDREW
+        backup_doppler_rclone_config: "BACKBLAZE_RCLONE_CONFIG_THOR_ANDREW"
+        backup_doppler_rclone_filters: "BACKBLAZE_RCLONE_FILTERS_THOR_ANDREW"
 
   pre_tasks:
     - name: update repository caches

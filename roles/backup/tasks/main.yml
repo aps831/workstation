@@ -1,5 +1,4 @@
 ---
-# Packages
 - name: install backup packages
   become: true
   apt:
@@ -8,168 +7,82 @@
     packages:
       - cron
       - timeshift
+      - rclone
+      - rclone-browser
 
-# Duplicacy config
-- name: "create duplicacy config directory"
+- name: "create rclone config directory"
   become: true
   file:
-    path: "/home/{{ backup_user }}/.duplicacy/"
+    path: "/home/{{ backup_user }}/.config/rclone"
     state: directory
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
     mode: "0700"
     recurse: yes
 
-- name: "install {{ backup_user }} preferences"
+- name: "create rclone log file"
   become: true
-  template:
-    src: "{{ backup_host }}/{{ backup_user }}/preferences.j2"
-    dest: "/home/{{ backup_user }}/.duplicacy/preferences"
+  copy:
+    content: ""
+    dest: "/var/log/rclone.log"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: "0600"
+    mode: "0666"
 
 - name: "install {{ backup_user }} filters"
   become: true
-  template:
-    src: "{{ backup_host }}/{{ backup_user }}/filters.j2"
-    dest: "/home/{{ backup_user }}/.duplicacy/filters"
+  ansible.builtin.copy:
+    src: "{{ backup_host }}/{{ backup_user }}/filters.txt"
+    dest: "/home/{{ backup_user }}/.config/rclone/filters.txt"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
     mode: "0600"
 
-# Log directories
-- name: "create directory for backup logs"
+- name: "install {{ backup_user }} config"
   become: true
-  file:
-    path: "/var/log/duplicacy/"
-    state: directory
-    owner: "root"
-    group: "root"
-    mode: "0755"
-    recurse: yes
-
-- name: "create directory for {{ backup_user }} backup logs"
-  become: true
-  file:
-    path: "/var/log/duplicacy/{{ backup_user }}_backup"
-    state: directory
+  template:
+    src: "rclone.conf.j2"
+    dest: "/home/{{ backup_user }}/.config/rclone/rclone.conf"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
-    mode: "0755"
-    recurse: yes
+    mode: "0600"
 
-- name: "create directory for {{ backup_user }} backup test logs"
-  become: true
-  file:
-    path: "/var/log/duplicacy/{{ backup_user }}_backup_test"
-    state: directory
-    owner: "{{ backup_user }}"
-    group: "{{ backup_user }}"
-    mode: "0755"
-    recurse: yes
-
-# Scripts
 - name: "install {{ backup_user }} backup script"
   become: true
   template:
     src: "backup.sh.j2"
-    dest: "/usr/local/sbin/{{ backup_user }}_backup.sh"
+    dest: "/usr/local/sbin/rclone_{{ backup_user }}_backup.sh"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
     mode: "0700"
 
-- name: "install {{ backup_user }} backup test script"
-  become: true
-  template:
-    src: "test.sh.j2"
-    dest: "/usr/local/sbin/{{ backup_user }}_backup_test.sh"
-    owner: "{{ backup_user }}"
-    group: "{{ backup_user }}"
-    mode: "0700"
-
-# Services
 - name: "install {{ backup_user }} backup service"
   become: true
   template:
     src: "backup.service.j2"
-    dest: "/etc/systemd/system/{{ backup_user }}_backup.service"
+    dest: "/etc/systemd/system/rclone_{{ backup_user }}_backup.service"
     owner: "{{ backup_user }}"
     group: "{{ backup_user }}"
     mode: 0644
 
-- name: "install {{ backup_user }} backup test service"
-  become: true
-  template:
-    src: "test.service.j2"
-    dest: "/etc/systemd/system/{{ backup_user }}_backup_test.service"
-    owner: "{{ backup_user }}"
-    group: "{{ backup_user }}"
-    mode: 0644
-
-# Timers
-- name: "install {{ backup_user }} backup timer"
-  become: true
-  template:
-    src: "backup.timer.j2"
-    dest: "/etc/systemd/system/{{ backup_user }}_backup.timer"
-    owner: "{{ backup_user }}"
-    group: "{{ backup_user }}"
-    mode: 0644
-
-- name: "install {{ backup_user }} backup test timer"
-  become: true
-  template:
-    src: "test.timer.j2"
-    dest: "/etc/systemd/system/{{ backup_user }}_backup_test.timer"
-    owner: "{{ backup_user }}"
-    group: "{{ backup_user }}"
-    mode: 0644
-
-# Disable services
-- name: disable {{ backup_user }} backup service
+- name: enable rclone_{{ backup_user }}_backup service at boot
   become: true
   systemd:
-    name: "{{ backup_user }}_backup"
-    daemon_reload: true
-    enabled: no
-
-- name: disable {{ backup_user }} backup test service
-  become: true
-  systemd:
-    name: "{{ backup_user }}_backup_test"
-    daemon_reload: true
-    enabled: no
-
-# Enable timers
-- name: enable {{ backup_user }} backup timer
-  become: true
-  systemd:
-    name: "{{ backup_user }}_backup.timer"
-    daemon_reload: true
-    state: started
+    name: rclone_{{ backup_user }}_backup
     enabled: yes
+  notify: restart rclone backup
 
-- name: enable {{ backup_user }} backup test timer
+- name: "install rotation script"
   become: true
-  systemd:
-    name: "{{ backup_user }}_backup_test.timer"
-    daemon_reload: true
-    state: started
-    enabled: yes
+  template:
+    src: "rotate.sh.j2"
+    dest: "/home/{{ backup_user }}/.local/bin/rotate-backblaze-rclone-key"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: "0755"
 
-# Config backup
-- name: backup duplicacy preferences
-  shell: cat /home/{{ backup_user }}/.duplicacy/preferences | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_duplicacy_preferences }}
+- name: backup rclone config
+  shell: cat /home/{{ backup_user }}/.config/rclone/rclone.conf | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_rclone_config }}
 
-- name: backup duplicacy filters
-  shell: cat /home/{{ backup_user }}/.duplicacy/filters | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_duplicacy_filters }}
-
-# Restore scripts
-- name: Install restore backup script
-  ansible.builtin.copy:
-    src: restore-backup-from-odin.{{ inventory_hostname }}
-    dest: /home/{{ ansible_user }}/.local/bin/restore-backup-from-odin
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0744"
+- name: backup rclone filters
+  shell: cat /home/{{ backup_user }}/.config/rclone/filters.txt | doppler secrets -p workstation -c {{ backup_host }} set {{ backup_doppler_rclone_filters }}

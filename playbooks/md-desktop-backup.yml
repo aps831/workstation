@@ -6,15 +6,13 @@
       vars:
         backup_user: "m-d"
         backup_host: "md-desktop"
-        backup_local_name: "internal"
-        backup_remote_name: "backblaze"
-        backup_time_delay: "60min"
-        backup_test_time_delay: "240min"
-        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_KEY_ID_MD_DESKTOP_MD') }}"
-        backup_application_key: "{{ lookup('env', 'BACKBLAZE_KEY_MD_DESKTOP_MD') }}"
-        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_BUCKET_MD_DESKTOP') }}"
-        backup_doppler_duplicacy_preferences: "DUPLICACY_PREFERENCES_MD_DESKTOP_MD"
-        backup_doppler_duplicacy_filters: "DUPLICACY_FILTERS_MD_DESKTOP_MD"
+        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_ID_MD_DESKTOP_MD') }}"
+        backup_application_key: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_MD_DESKTOP_MD') }}"
+        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_RCLONE_BUCKET_MD_DESKTOP') }}"
+        backup_doppler_rclone_key_id: BACKBLAZE_RCLONE_KEY_ID_MD_DESKTOP_MD
+        backup_doppler_rclone_key: BACKBLAZE_RCLONE_KEY_MD_DESKTOP_MD
+        backup_doppler_rclone_config: "BACKBLAZE_RCLONE_CONFIG_MD_DESKTOP_MD"
+        backup_doppler_rclone_filters: "BACKBLAZE_RCLONE_FILTERS_MD_DESKTOP_MD"
 
   pre_tasks:
     - name: update repository caches

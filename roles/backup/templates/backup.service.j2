@@ -4,8 +4,10 @@ OnFailure=status-email-user@%n.service
 
 [Service]
 Type=simple
-ExecStart=/usr/local/sbin/{{ backup_user }}_backup.sh
+User={{ ansible_user }}
 WorkingDirectory=/home/{{ backup_user }}
+Nice=19
+ExecStart=/usr/local/sbin/rclone_{{ backup_user }}_backup.sh
 
 [Install]
 WantedBy=multi-user.target

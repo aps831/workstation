@@ -114,11 +114,6 @@ source = "github"
 github = "vmware/differential-datalog"
 use_latest_release = true
 
-[duplicacy]
-source = "github"
-github = "gilbertchen/duplicacy"
-use_latest_release = true
-
 [elm]
 source = "github"
 github = "elm/compiler"

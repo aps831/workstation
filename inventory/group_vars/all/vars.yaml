@@ -22,7 +22,6 @@ act_version: 0.2.49
 iam_live_version: 0.53.0
 ddlog_version: 1.2.3
 ddlog_timestamp: 20211213235218
-duplicacy_version: 3.2.3
 elm_version: 0.19.0
 vagrant_version: 2.4.1
 cue_version: 0.4.3-beta.2

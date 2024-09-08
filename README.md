@@ -79,7 +79,6 @@ The following roles have version numbers defined within the role:
 -   chezmoi
 -   ddlog
 -   docker
--   duplicacy
 -   elm
 -   git
 -   github

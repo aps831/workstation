@@ -1,6 +1,5 @@
 ---
 dependencies:
   - role: ansible
-  - role: duplicacy
   - role: doppler
   - role: status-email

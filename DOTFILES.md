@@ -29,12 +29,12 @@ chezmoi apply
 -   .config/pgadmin
 -   .config/pgadmin4
 -   .config/Postman
+-   .config/rclone
 -   .config/VirtualBox
 -   .ddlog
 -   .docker
 -   .doppler
 -   .dropbox
--   .duplicacy
 -   .gluon
 -   .gnupg
 -   .gradle
