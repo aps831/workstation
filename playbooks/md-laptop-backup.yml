@@ -1,0 +1,21 @@
+---
+- name: run playbook tasks
+  hosts: md-laptop
+  roles:
+    - role: backup
+      vars:
+        backup_user: "m-d"
+        backup_host: "md-laptop"
+        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_ID_MD_LAPTOP_MD') }}"
+        backup_application_key: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_MD_LAPTOP_MD') }}"
+        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_RCLONE_BUCKET_MD_LAPTOP') }}"
+        backup_doppler_rclone_key_id: BACKBLAZE_RCLONE_KEY_ID_MD_LAPTOP_MD
+        backup_doppler_rclone_key: BACKBLAZE_RCLONE_KEY_MD_LAPTOP_MD
+        backup_doppler_rclone_config: "BACKBLAZE_RCLONE_CONFIG_MD_LAPTOP_MD"
+        backup_doppler_rclone_filters: "BACKBLAZE_RCLONE_FILTERS_MD_LAPTOP_MD"
+
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False

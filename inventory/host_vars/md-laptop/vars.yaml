@@ -1,0 +1,5 @@
+---
+ansible_user: "m-d"
+
+# Shotwell
+shotwell_import_directory: "'/home/m-d/Elizabeth/Photos'"

@@ -1,0 +1,26 @@
+---
+- name: run playbook tasks
+  hosts: md-laptop
+  roles:
+    - role: ansible
+    - role: aws
+    - role: backblaze
+    - role: encryption
+    - role: doppler
+    - role: firewall
+    - role: system
+    - role: teamviewer
+    - role: multimedia
+    - role: fonts
+    - role: mail
+    - role: lsyncd
+    - role: shotwell
+    - role: status-email
+    - role: web
+    - role: warpinator
+
+  pre_tasks:
+    - name: update repository caches
+      become: yes
+      apt: update_cache=yes
+      changed_when: False

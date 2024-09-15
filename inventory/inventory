@@ -3,5 +3,6 @@ vagrant           ansible_connection=ssh ansible_host=127.0.0.1 ansible_port=222
 
 [workstations]
 md-desktop        ansible_connection=local
+md-laptop         ansible_connection=local
 titan             ansible_connection=local
 thor              ansible_connection=local
