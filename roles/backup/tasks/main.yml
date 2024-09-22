@@ -65,14 +65,29 @@
     group: "{{ backup_user }}"
     mode: 0644
 
-- name: enable rclone_{{ backup_user }}_backup service at boot
+- name: "install {{ backup_user }} backup timer"
+  become: true
+  template:
+    src: "backup.timer.j2"
+    dest: "/etc/systemd/system/rclone_{{ backup_user }}_backup.timer"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0644
+
+- name: disable rclone_{{ backup_user }}_backup service
   become: true
   systemd:
-    name: rclone_{{ backup_user }}_backup
+    name: "rclone_{{ backup_user }}_backup.service"
+    enabled: no
+
+- name: enable rclone_{{ backup_user }}_backup timer
+  become: true
+  systemd:
+    name: "rclone_{{ backup_user }}_backup.timer"
     enabled: yes
   notify: restart rclone backup
 
-- name: "install rotation script"
+- name: install rotation script
   become: true
   template:
     src: "rotate.sh.j2"

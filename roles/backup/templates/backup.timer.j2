@@ -1,0 +1,10 @@
+[Unit]
+Description=run {{ backup_user }} backup on timer
+
+[Timer]
+OnBootSec=15m
+OnUnitActiveSec=120m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

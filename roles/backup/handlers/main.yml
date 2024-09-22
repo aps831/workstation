@@ -2,6 +2,6 @@
 - name: restart rclone backup
   become: yes
   systemd:
-    name: rclone_{{ backup_user }}_backup
+    name: "rclone_{{ backup_user }}_backup.timer"
     daemon_reload: true
     state: restarted
