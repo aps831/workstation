@@ -1,6 +1,8 @@
 [Unit]
 Description=run {{ backup_user }} backup
 OnFailure=status-email-user@%n.service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
