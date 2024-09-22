@@ -13,7 +13,6 @@
     - role: multimedia
     - role: fonts
     - role: mail
-    - role: lsyncd
     - role: shotwell
     - role: status-email
     - role: web
