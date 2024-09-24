@@ -3,6 +3,7 @@
 - .dbus/**
 - .cache/**
 - .cargo/**
+- .config/google-chrome/**
 - .cookiecutter_replay/**
 - .cookiecutters/**
 - .ddlog/**
@@ -19,6 +20,7 @@
 - .lsyncd/**
 - .m2/**
 - .minikube/**
+- .mozilla/firefox/**
 - node_modules/**
 - .npm/**
 - .pip-audit-cache/**
