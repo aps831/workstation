@@ -60,6 +60,7 @@
     - role: kubernetes
     - role: kvm
     - role: mdbook
+    - role: notation
     - role: ossf
     - role: osvscanner
     - role: owaspzap
