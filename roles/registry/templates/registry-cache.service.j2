@@ -1,14 +1,14 @@
 [Unit]
-Description=dockerhubmirror
+Description=registry
 After=docker.service
 Requires=docker.service
 
 [Service]
 Restart=always
 Type=simple
-ExecStart=/bin/bash /usr/share/systemd/dockerhubmirror.sh
+ExecStart=/bin/bash /usr/share/systemd/registry-cache.sh
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/run/dockerhubmirror.pid
+PIDFile=/run/registry-cache.pid
 
 [Install]
 WantedBy=multi-user.target

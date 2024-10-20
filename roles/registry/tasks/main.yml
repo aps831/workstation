@@ -1,0 +1,75 @@
+---
+- name: create directory for registry cache data
+  become: yes
+  file:
+    path: /var/lib/registry/cache
+    state: directory
+
+- name: create directory for registry local data
+  become: yes
+  file:
+    path: /var/lib/registry/local
+    state: directory
+
+- name: copy registry cache config
+  become: yes
+  copy:
+    src: registry-cache.yml
+    dest: /var/lib/registry/cache/config.yml
+    mode: 0744
+
+- name: copy registry local config
+  become: yes
+  copy:
+    src: registry-local.yml
+    dest: /var/lib/registry/local/config.yml
+    mode: 0744
+
+- name: create script for registry cache service
+  become: yes
+  template:
+    src: registry-cache.sh.j2
+    dest: /usr/share/systemd/registry-cache.sh
+    mode: 0744
+
+- name: create script for registry local service
+  become: yes
+  template:
+    src: registry-local.sh.j2
+    dest: /usr/share/systemd/registry-local.sh
+    mode: 0744
+
+- name: create registry cache service
+  become: yes
+  template:
+    src: registry-cache.service.j2
+    dest: /etc/systemd/system/registry-cache.service
+  notify: restart registry cache
+
+- name: create registry local service
+  become: yes
+  template:
+    src: registry-local.service.j2
+    dest: /etc/systemd/system/registry-local.service
+  notify: restart registry local
+
+- name: enable registry cache service at boot
+  become: yes
+  systemd:
+    name: registry-cache
+    daemon_reload: true
+    enabled: yes
+
+- name: enable registry local service at boot
+  become: yes
+  systemd:
+    name: registry-local
+    daemon_reload: true
+    enabled: yes
+
+- name: add registry.local to /etc/hosts
+  become: yes
+  lineinfile:
+    path: /etc/hosts
+    regexp: '.registry\.local'
+    line: "127.0.0.1       registry.local"

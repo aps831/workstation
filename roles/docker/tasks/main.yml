@@ -127,53 +127,20 @@
 - name: docker daemon configuration
   become: yes
   environment:
-    REGISTRY_MIRROR: "http://localhost:{{ dockerhub_mirror_container_port }}"
+    MIRROR: "http://localhost:5001"
+    REGISTRY: "http://registry.local:5000"
   shell: |
     set -e
     echo "{}" > /etc/docker/daemon.json
-    cat /etc/docker/daemon.json   | jq                                   '.dns |= [ "8.8.8.8", "8.8.4.4" ]'   -- > /etc/docker/daemon.json.1
-    cat /etc/docker/daemon.json.1 | jq --arg mirror  "$REGISTRY_MIRROR"  '."registry-mirrors" |= [ $mirror ]' -- > /etc/docker/daemon.json.2
-    cat /etc/docker/daemon.json.2 | jq                                   '.features.buildkit  |= true'        -- > /etc/docker/daemon.json.3
+    cat /etc/docker/daemon.json   | jq                             '.dns |= [ "8.8.8.8", "8.8.4.4" ]'        -- > /etc/docker/daemon.json.1
+    cat /etc/docker/daemon.json.1 | jq --arg mirror    "$MIRROR"   '."registry-mirrors" |= [ $mirror ]'      -- > /etc/docker/daemon.json.2
+    cat /etc/docker/daemon.json.2 | jq --arg registry  "$REGISTRY" '."insecure-registries" |= [ $registry ]' -- > /etc/docker/daemon.json.3
+    cat /etc/docker/daemon.json.3 | jq                             '.features.buildkit  |= true'             -- > /etc/docker/daemon.json.4
     rm /etc/docker/daemon.json.1
     rm /etc/docker/daemon.json.2
-    mv /etc/docker/daemon.json.3 /etc/docker/daemon.json
+    rm /etc/docker/daemon.json.3
+    mv /etc/docker/daemon.json.4 /etc/docker/daemon.json
   notify: restart docker
-
-#
-# Dockerhub mirror
-#
-- name: create directory for dockerhub mirror
-  become: yes
-  file:
-    path: /var/lib/dockerhub-mirror
-    state: directory
-
-- name: copy dockerhub mirror config
-  become: yes
-  copy:
-    src: dockerhubmirrorconfig.yml
-    dest: /var/lib/dockerhub-mirror/config.yml
-
-- name: create script for dockerhub mirror service
-  become: yes
-  template:
-    src: dockerhubmirror.sh.j2
-    dest: /usr/share/systemd/dockerhubmirror.sh
-    mode: 0744
-
-- name: create dockerhubmirror service
-  become: yes
-  template:
-    src: dockerhubmirror.service.j2
-    dest: /etc/systemd/system/dockerhubmirror.service
-  notify: restart dockerhubmirror
-
-- name: enable dockerhub mirror service at boot
-  become: yes
-  systemd:
-    name: dockerhubmirror
-    daemon_reload: true
-    enabled: yes
 
 #
 # Docker Credential Helper

@@ -1,0 +1,14 @@
+[Unit]
+Description=registry
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+Type=simple
+ExecStart=/bin/bash /usr/share/systemd/registry-local.sh
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/run/registry-local.pid
+
+[Install]
+WantedBy=multi-user.target

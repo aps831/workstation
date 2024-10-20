@@ -1,0 +1,12 @@
+---
+- name: restart registry cache
+  become: yes
+  systemd:
+    name: registry-cache
+    state: restarted
+
+- name: restart registry local
+  become: yes
+  systemd:
+    name: registry-local
+    state: restarted

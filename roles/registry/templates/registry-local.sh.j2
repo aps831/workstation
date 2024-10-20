@@ -1,0 +1,17 @@
+#! /bin/bash
+
+LINES=$(docker ps -a --filter=name=^/{{ registry_local_container_name }}\$ | wc -l)
+
+if test "$LINES" = "2"; then
+    echo "Starting existing container"
+    docker start -a {{ registry_local_container_name }}
+else
+    echo "Creating new container"
+    docker run --restart=unless-stopped \
+        --publish 5000:5000 \
+        --detach \
+        --name {{ registry_local_container_name }} \
+        --volume /var/lib/registry/local:/var/lib/registry \
+        registry:2 \
+        serve /var/lib/registry/config.yml
+fi

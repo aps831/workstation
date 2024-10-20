@@ -17,10 +17,3 @@
   become: yes
   ufw:
     state: reloaded
-
-- name: restart dockerhubmirror
-  become: yes
-  systemd:
-    name: dockerhubmirror
-    daemon_reload: true
-    state: restarted
