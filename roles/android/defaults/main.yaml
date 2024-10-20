@@ -1,0 +1,7 @@
+---
+android_cmdline_tools_version: 11076708
+android_emulator_version: 12478503
+android_install_dir: "/opt/android"
+android_cmdline_tools_download_url: https://dl.google.com/android/repository/commandlinetools-linux-{{ android_cmdline_tools_version }}_latest.zip
+android_emulator_download_url: https://redirector.gvt1.com/edgedl/android/repository/emulator-linux_x64-{{ android_emulator_version }}.zip
+android_asdf_plugin_url: https://github.com/huffduff/asdf-android-sdk.git

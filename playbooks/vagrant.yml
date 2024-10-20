@@ -85,6 +85,7 @@
     - role: watchman
 
     # Programming Languages
+    - role: android
     - role: ddlog
     - role: elm
     - role: golang

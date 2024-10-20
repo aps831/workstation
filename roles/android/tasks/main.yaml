@@ -1,0 +1,83 @@
+---
+- name: create sdk directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ android_install_dir }}/cmdline-tools/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: download and unpack android command line tools
+  become: true
+  unarchive:
+    src: "{{ android_cmdline_tools_download_url }}"
+    dest: "{{ android_install_dir }}/cmdline-tools/"
+    owner: root
+    group: root
+    mode: 0775
+    remote_src: true
+
+- name: rename to latest
+  become: true
+  copy:
+    src: "{{ android_install_dir }}/cmdline-tools/cmdline-tools/"
+    dest: "{{ android_install_dir }}/cmdline-tools/latest"
+    remote_src: true
+
+- name: remove cmdline-tools
+  become: true
+  file:
+    path: "{{ android_install_dir }}/cmdline-tools/cmdline-tools"
+    state: absent
+
+- name: accept licences
+  become: true
+  ansible.builtin.shell: yes | {{ android_install_dir }}/cmdline-tools/latest/bin/sdkmanager --licenses
+
+- name: install emulator
+  become: true
+  ansible.builtin.shell: "{{ android_install_dir }}/cmdline-tools/latest/bin/sdkmanager emulator"
+
+- name: install platform-tools
+  become: true
+  ansible.builtin.shell: "{{ android_install_dir }}/cmdline-tools/latest/bin/sdkmanager platform-tools"
+
+- name: update permissions
+  become: true
+  ansible.builtin.file:
+    path: "{{ android_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0777
+
+- name: ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+# bash
+- name: define android variables
+  become: true
+  template:
+    src: user_android.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/android.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+# asdf
+- name: install asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add android-sdk {{ android_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: install latest android-sdk version
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && yes | asdf install android-sdk latest"
+
+- name: set global android-sdk version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global android-sdk system"
