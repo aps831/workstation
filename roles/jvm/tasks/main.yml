@@ -14,6 +14,22 @@
       - unzip
       - zip
 
+- name: install java packages
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - openjdk-17-jdk
+      - openjdk-21-jdk
+
+- name: select system java version
+  become: true
+  community.general.alternatives:
+    name: java
+    path: /usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/java
+
 - name: ensure user profile directory exists
   become: true
   ansible.builtin.file:
