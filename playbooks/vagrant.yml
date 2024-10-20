@@ -81,6 +81,7 @@
     - role: vagrant
     - role: virtualbox
     - role: vscode
+    - role: watchman
 
     # Programming Languages
     - role: ddlog
