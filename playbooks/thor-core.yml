@@ -61,6 +61,7 @@
     - role: kvm
     - role: mdbook
     - role: notation
+    - role: onefetch
     - role: ossf
     - role: osvscanner
     - role: owaspzap
