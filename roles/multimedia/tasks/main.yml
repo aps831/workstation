@@ -27,6 +27,7 @@
       - abcde
       - lame
       - flac
+      - zbar-tools
 
 # eyeD3
 - name: install eyeD3
