@@ -95,6 +95,7 @@
     - role: python
     - role: prolog
     - role: rust
+    - role: tailwindcss
 
     # Services
     - role: apache2

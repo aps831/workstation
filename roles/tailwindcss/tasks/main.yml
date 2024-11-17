@@ -1,0 +1,18 @@
+---
+- name: download tailwindcss
+  become: true
+  get_url:
+    url: "{{ tailwindcss_download_url }}"
+    dest: "/usr/bin/tailwindcss"
+    checksum: "sha256:{{ tailwindcss_checksum_url }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
+  changed_when: false
+
+- name: install tailwindcss asdf plugin
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add tailwindcss {{ tailwindcss_asdf_plugin_url }}"
+  ignore_errors: true
+
+- name: set global tailwindcss version to system
+  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global tailwindcss system"
