@@ -104,3 +104,8 @@
   community.general.dconf:
     key: "/org/cinnamon/desktop/peripherals/touchpad/disable-while-typing"
     value: "true"
+
+- name: disable blueman autoconnect
+  community.general.dconf:
+    key: "/org/blueman/general/plugin-list"
+    value: "['!AutoConnect']"
