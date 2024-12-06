@@ -17,6 +17,7 @@
     - role: status-email
     - role: web
     - role: warpinator
+    - role: journald
 
   pre_tasks:
     - name: update repository caches

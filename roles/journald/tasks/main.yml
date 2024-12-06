@@ -1,0 +1,27 @@
+---
+- name: create journald conf folder
+  become: true
+  file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: set journald max use
+  become: true
+  copy:
+    dest: /etc/systemd/journald.conf.d/system_max_use.conf
+    mode: 0644
+    owner: root
+    group: root
+    content: |
+      [Journal]
+      SystemMaxUse=512M
+
+- name: restart systemd-journald
+  become: yes
+  systemd:
+    name: systemd-journald
+    daemon_reload: true
+    state: restarted
