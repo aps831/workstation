@@ -5,24 +5,24 @@
     - role: ansible
     - role: aws
     - role: backblaze
-    - role: encryption
-    - role: doppler
-    - role: firewall
-    - role: system
-    - role: teamviewer
     - role: desktop
-    - role: multimedia
+    - role: doppler
+    - role: encryption
+    - role: firewall
     - role: fonts
-    - role: mail
+    - role: journald
+    - role: kvm
     - role: lsyncd
+    - role: mail
+    - role: multimedia
     - role: shotwell
     - role: shutdown
     - role: status-email
-    - role: web
-    - role: kvm
+    - role: system
+    - role: teamviewer
     - role: virtualbox
     - role: warpinator
-    - role: journald
+    - role: web
 
   pre_tasks:
     - name: update repository caches

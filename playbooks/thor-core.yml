@@ -18,14 +18,14 @@
     # Admin
     - role: backblaze
     - role: homebrew
-    - role: system
-    - role: mail
     - role: journald
     - role: lsyncd
+    - role: mail
     - role: nvchecker
-    - role: teamviewer
+    - role: system
     - role: shutdown
     - role: status-email
+    - role: teamviewer
 
     # Desktop
     - role: breaktimer
