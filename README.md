@@ -57,8 +57,17 @@ A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O b
 After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run. The following steps are then required:
 
 -   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
--   configure Timeshift;
+-   configure Timeshift (see below);
 -   configure printers (see below).
+
+### Timeshift
+
+When setting up Timeshift, exclusions should be added for the external hard drives and storage locations for `libvirt` and docker registries:
+
+-   `/hdd0/`
+-   `/hdd1/`
+-   `/var/lib/libvirt/`
+-   `/var/lib/registry`.
 
 ### Printer
 
