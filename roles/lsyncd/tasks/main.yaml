@@ -39,10 +39,28 @@
     daemon_reload: true
     enabled: no
 
-- name: create lsyncd log directory
+- name: create lsyncd home log directory
   become: true
   ansible.builtin.file:
-    path: /home/{{ ansible_user }}/.lsyncd
+    path: /var/log/lsyncd/home
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777
+
+- name: create lsyncd-home log directory
+  become: true
+  ansible.builtin.file:
+    path: /var/log/lsyncd/home
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777
+
+- name: create lsyncd-qemu log directory
+  become: true
+  ansible.builtin.file:
+    path: /var/log/lsyncd/qemu
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
