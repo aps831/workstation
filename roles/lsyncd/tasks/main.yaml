@@ -7,15 +7,6 @@
     packages:
       - lsyncd
 
-- name: create lsyncd config directory
-  become: true
-  ansible.builtin.file:
-    path: /etc/lsyncd/
-    state: directory
-    owner: root
-    group: root
-    mode: 0777
-
 - name: create libvirt backup directory
   become: true
   ansible.builtin.file:
@@ -25,6 +16,7 @@
     group: "{{ ansible_user }}"
     mode: 0777
 
+# lsyncd service
 - name: stop lsyncd service
   become: true
   systemd:
@@ -39,15 +31,7 @@
     daemon_reload: true
     enabled: no
 
-- name: create lsyncd home log directory
-  become: true
-  ansible.builtin.file:
-    path: /var/log/lsyncd/home
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0777
-
+# logging
 - name: create lsyncd-home log directory
   become: true
   ansible.builtin.file:
@@ -66,6 +50,35 @@
     group: "{{ ansible_user }}"
     mode: 0777
 
+# log rotate
+- name: set up logrotate for lsyncd-home log
+  become: true
+  template:
+    src: lsyncd-home.logrotate.j2
+    dest: /etc/logrotate.d/lsyncd-home
+    owner: root
+    group: root
+    mode: 0644
+
+- name: set up logrotate for lsyncd-qemu log
+  become: true
+  template:
+    src: lsyncd-qemu.logrotate.j2
+    dest: /etc/logrotate.d/lsyncd-qemu
+    owner: root
+    group: root
+    mode: 0644
+
+# config
+- name: create lsyncd config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/lsyncd/
+    state: directory
+    owner: root
+    group: root
+    mode: 0777
+
 - name: copy lsyncd-home config
   become: true
   ansible.builtin.template:
@@ -75,6 +88,16 @@
     group: "root"
     mode: 0644
 
+- name: copy lsyncd-qemu config
+  become: true
+  ansible.builtin.template:
+    src: lsyncd-qemu.conf.lua.j2
+    dest: /etc/lsyncd/lsyncd-qemu.conf.lua
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+# lsyncd-home service
 - name: create lsyncd-home service
   become: true
   template:
@@ -92,15 +115,7 @@
     daemon_reload: true
     enabled: yes
 
-- name: copy lsyncd-qemu config
-  become: true
-  ansible.builtin.template:
-    src: lsyncd-qemu.conf.lua.j2
-    dest: /etc/lsyncd/lsyncd-qemu.conf.lua
-    owner: "root"
-    group: "root"
-    mode: 0644
-
+# lsyncd-qemu service
 - name: create lsyncd-qemu service
   become: true
   template:
