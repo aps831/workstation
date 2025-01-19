@@ -1,7 +1,7 @@
 ---
-- name: install python
+- name: Install python
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -28,71 +28,71 @@
       - liblzma-dev
 
 # asdf python
-- name: install asdf python plugin
+- name: Install asdf python plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add python"
   ignore_errors: true
 
-- name: install latest python version
+- name: Install latest python version
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install python latest"
 
-- name: set global python version to system
+- name: Set global python version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global python system"
 
 # pipx
-- name: install pipx
-  pip:
+- name: Install pipx
+  ansible.builtin.pip:
     name: pipx=={{ python_pipx_version }}
     extra_args: --user pipx
 
-- name: reshim asdf
+- name: Reshim asdf
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
 # cookiecutter
-- name: install pip-audit
+- name: Install pip-audit
   community.general.pipx:
     name: pip-audit
     state: latest
 
 # cookiecutter
-- name: install cookiecutter
+- name: Install cookiecutter
   community.general.pipx:
     name: cookiecutter
     state: latest
 
 # safety
-- name: install safety
+- name: Install safety
   community.general.pipx:
     name: safety
     state: latest
 
 # poetry
-- name: install poetry
+- name: Install poetry
   community.general.pipx:
     name: poetry
     state: latest
 
-- name: install poetry plugin export
+- name: Install poetry plugin export
   community.general.pipx:
     name: poetry
     inject_packages: poetry-plugin-export
     state: inject
 
-- name: configure poetry
-  command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
+- name: Configure poetry
+  ansible.builtin.command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
 
 # asdf poetry
-- name: install asdf poetry plugin
+- name: Install asdf poetry plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add poetry"
   ignore_errors: true
 
-- name: install latest poetry version
+- name: Install latest poetry version
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install poetry latest"
 
-- name: set global poetry version to system
+- name: Set global poetry version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global poetry system"
 
 # profile
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
@@ -101,18 +101,18 @@
     group: "{{ ansible_user }}"
     mode: 0755
 
-- name: create temporary file for poetry bash completion
-  tempfile:
+- name: Create temporary file for poetry bash completion
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: poetry_completion_tmp
 
-- name: create poetry bash completion
-  shell: "/home/{{ ansible_user }}/.local/bin/poetry completions bash > {{ poetry_completion_tmp.path }}"
+- name: Create poetry bash completion
+  ansible.builtin.shell: "/home/{{ ansible_user }}/.local/bin/poetry completions bash > {{ poetry_completion_tmp.path }}"
   changed_when: false
 
-- name: define poetry variables
-  copy:
+- name: Define poetry variables
+  ansible.builtin.copy:
     src: "{{ poetry_completion_tmp.path }}"
     dest: "/home/{{ ansible_user }}/.profile.d/poetry.sh"
     owner: "{{ ansible_user }}"
