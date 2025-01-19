@@ -20,6 +20,11 @@
       - molecule=={{ molecule_version }}
     state: present
 
+- name: install policy_sentry
+  community.general.pipx:
+    name: ansible-lint
+    state: latest
+
 - name: install ansible core update script
   template:
     src: ansible-core-update.{{ inventory_hostname }}
