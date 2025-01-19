@@ -6,13 +6,6 @@
     daemon_reload: true
     state: restarted
 
-- name: Restart dnsmasq
-  become: true
-  ansible.builtin.systemd:
-    name: dnsmasq
-    daemon_reload: true
-    state: restarted
-
 - name: Reload ufw
   become: true
   community.general.ufw:
