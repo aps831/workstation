@@ -58,7 +58,8 @@ After migrating files and folders as per the instructions in [migration](MIGRATI
 
 -   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
 -   configure Timeshift (see below);
--   configure printers (see below).
+-   configure printers (see below);
+-   configure Syncthing.
 
 ### Timeshift
 

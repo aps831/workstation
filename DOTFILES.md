@@ -30,6 +30,7 @@ chezmoi apply
 -   .config/pgadmin4
 -   .config/Postman
 -   .config/rclone
+-   .config/syncthing
 -   .config/VirtualBox
 -   .ddlog
 -   .docker

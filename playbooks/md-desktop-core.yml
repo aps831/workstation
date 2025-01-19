@@ -18,6 +18,7 @@
     - role: shotwell
     - role: shutdown
     - role: status-email
+    - role: syncthing
     - role: system
     - role: teamviewer
     - role: virtualbox
