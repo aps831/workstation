@@ -1,4 +1,7 @@
+---
 gcr_credential_helper_version: 2.1.22
 gcr_credential_helper_filename: docker-credential-gcr_linux_amd64-{{ gcr_credential_helper_version }}.tar.gz
-gcr_credential_helper_download_url: https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v{{ gcr_credential_helper_version }}/{{ gcr_credential_helper_filename }}
+gcr_credential_helper_download_url:
+  https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v{{ gcr_credential_helper_version }}/{{ gcr_credential_helper_filename
+  }}
 gcr_credential_helper_checksum_url: https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v{{ gcr_credential_helper_version }}/checksums.txt

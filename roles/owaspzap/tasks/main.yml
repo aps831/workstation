@@ -1,85 +1,85 @@
 ---
- - name: ensure group owaspzap exists
-   become: yes
-   ansible.builtin.group:
+- name: Ensure group owaspzap exists
+  become: true
+  ansible.builtin.group:
     name: owaspzap
     state: present
 
- - name: add the user {{ ansible_user }} to owaspzap group
-   become: yes
-   ansible.builtin.user:
+- name: Add the user {{ ansible_user }} to owaspzap group
+  become: true
+  ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: owaspzap
     append: true
 
- - name: check if owasp zap is already installed
-   become: yes
-   stat:
-     path: "{{ owasp_install_dir }}"
-   register: owasp_install
+- name: Check if owasp zap is already installed
+  become: true
+  ansible.builtin.stat:
+    path: "{{ owasp_install_dir }}"
+  register: owasp_install
 
- - name: create parent of install directory
-   become: true
-   ansible.builtin.file:
-     path: "{{ owasp_install_parent_dir }}"
-     state: directory
-     owner: root
-     group: owaspzap
-     mode: 0755
+- name: Create parent of install directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ owasp_install_parent_dir }}"
+    state: directory
+    owner: root
+    group: owaspzap
+    mode: "0755"
 
- - name: create install directory
-   become: true
-   ansible.builtin.file:
-     path: "{{ owasp_install_dir }}"
-     state: directory
-     owner: root
-     group: owaspzap
-     mode: 0755
+- name: Create install directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ owasp_install_dir }}"
+    state: directory
+    owner: root
+    group: owaspzap
+    mode: "0755"
 
- - name: create temporary build directory
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
 
- - name: download owasp zap
-   become: true
-   get_url:
-     url: "{{ owasp_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-   when: not owasp_install.stat.exists
+- name: Download owasp zap
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ owasp_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  when: not owasp_install.stat.exists
 
- - name: extract from archive
-   become: yes
-   unarchive:
-     src: "{{ tmp_dir.path }}/{{ owasp_filename }}"
-     dest: "{{ owasp_install_dir }}"
-     extra_opts: [--strip-components=1]
-     remote_src: yes
-     owner: root
-     group: owaspzap
-     mode: 0755
-   when: not owasp_install.stat.exists
+- name: Extract from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ tmp_dir.path }}/{{ owasp_filename }}"
+    dest: "{{ owasp_install_dir }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true
+    owner: root
+    group: owaspzap
+    mode: "0755"
+  when: not owasp_install.stat.exists
 
- - name: create symbolic link
-   become: yes
-   file:
-     src: "{{ owasp_install_dir }}"
-     path: "/opt/owaspzap"
-     state: link
-     mode: 0755
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
+    src: "{{ owasp_install_dir }}"
+    path: "/opt/owaspzap"
+    state: link
+    mode: "0755"
 
- - name: create symbolic link
-   become: yes
-   file:
-     src: "/opt/owaspzap/zap.sh"
-     path: "/usr/local/bin/owaspzap"
-     state: link
-     mode: 0755
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
+    src: "/opt/owaspzap/zap.sh"
+    path: "/usr/local/bin/owaspzap"
+    state: link
+    mode: "0755"
 
- - name: add owasp zap shortcut
-   become: yes
-   template:
-     src: owaspzap.desktop.j2
-     dest: /usr/share/applications/Owaspzap.desktop
+- name: Add owasp zap shortcut
+  become: true
+  ansible.builtin.template:
+    src: owaspzap.desktop.j2
+    dest: /usr/share/applications/Owaspzap.desktop

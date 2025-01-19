@@ -1,18 +1,16 @@
 ---
- 
- - name: accept eula for mscorefonts
-   become: yes
-   debconf:
-     name: ttf-mscorefonts-installer
-     question: msttcorefonts/accepted-mscorefonts-eula
-     value: "true"
-     vtype: select
+- name: Accept eula for mscorefonts
+  become: true
+  ansible.builtin.debconf:
+    name: ttf-mscorefonts-installer
+    question: msttcorefonts/accepted-mscorefonts-eula
+    value: "true"
+    vtype: select
 
- - name: install font packages
-   become: yes
-   apt: 
-     name: "{{ packages }}"
-   vars:
-     packages:
-     - ttf-mscorefonts-installer
-
+- name: Install font packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - ttf-mscorefonts-installer

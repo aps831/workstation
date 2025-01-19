@@ -1,5 +1,5 @@
 ---
-- name: run playbook tasks
+- name: Run playbook tasks
   hosts: md-desktop
   roles:
     - role: backup
@@ -15,7 +15,8 @@
         backup_doppler_rclone_filters: "BACKBLAZE_RCLONE_FILTERS_MD_DESKTOP_MD"
 
   pre_tasks:
-    - name: update repository caches
-      become: yes
-      apt: update_cache=yes
-      changed_when: False
+    - name: Update repository caches
+      become: true
+      ansible.builtin.apt:
+        update_cache: "yes"
+      changed_when: false

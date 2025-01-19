@@ -1,26 +1,26 @@
 ---
-- name: install direnv
+- name: Install direnv
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - direnv
 
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
-- name: define direnv variables
+- name: Define direnv variables
   become: true
   ansible.builtin.copy:
     src: direnv.sh
     dest: /home/{{ ansible_user }}/.profile.d/direnv.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"

@@ -1,73 +1,73 @@
 ---
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - warpinator
 
-- name: create directory"
+- name: Create directory"
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ warpinator_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0775"
 
-- name: allow in {{ warpinator_port }}
+- name: Allow in {{ warpinator_port }}
   become: true
-  ufw:
+  community.general.ufw:
     rule: allow
     src: "192.168.0.0/24"
     comment: "WARPINATOR_MAIN"
     port: "{{ warpinator_port }}"
 
-- name: allow in {{ warpinator_reg_port }}
+- name: Allow in {{ warpinator_reg_port }}
   become: true
-  ufw:
+  community.general.ufw:
     rule: allow
     src: "192.168.0.0/24"
     comment: "WARPINATOR_AUTH"
     port: "{{ warpinator_reg_port }}"
     proto: tcp
 
-- name: allow in 5353
+- name: Allow in 5353
   become: true
-  ufw:
+  community.general.ufw:
     rule: allow
     src: "192.168.0.0/24"
     comment: "WARPINATOR_FLATPACK_ZC_FIX"
     port: "5353"
     proto: udp
 
-- name: set port
+- name: Set port
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/x/warpinator/preferences/port"
     value: "{{ warpinator_port }}"
     state: present
 
-- name: set reg-port
+- name: Set reg-port
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/x/warpinator/preferences/reg-port"
     value: "{{ warpinator_reg_port }}"
     state: present
 
-- name: set group-code
+- name: Set group-code
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/x/warpinator/preferences/group-code"
     value: "'cheese.bread.pickle'"
     state: present
 
-- name: evaluate symlink for folder
-  shell: readlink -f {{ warpinator_dir }}
+- name: Evaluate symlink for folder
+  ansible.builtin.command: readlink -f {{ warpinator_dir }}
   register: warpinator_dir_full
 
-- name: set receiving-folder
+- name: Set receiving-folder
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/x/warpinator/preferences/receiving-folder"

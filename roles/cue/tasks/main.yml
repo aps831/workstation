@@ -1,35 +1,35 @@
 ---
- - name: create temporary build directory
-   become: yes
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
+- name: Create temporary build directory
+  become: true
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
 
- - name: download cue binary
-   become: yes
-   get_url:
-     url: "{{ cue_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-     checksum: "sha256:{{ cue_checksum_url }}"
-   changed_when: false
+- name: Download cue binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ cue_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+    checksum: "sha256:{{ cue_checksum_url }}"
+  changed_when: false
 
- - name: extract from archive
-   become: yes
-   unarchive:
-     src: "{{ tmp_dir.path }}/{{ cue_filename }}"
-     dest: "{{ tmp_dir.path }}"
-     owner: root
-     group: root
-     remote_src: yes
+- name: Extract from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ tmp_dir.path }}/{{ cue_filename }}"
+    dest: "{{ tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: true
 
- - name: copy cue file to bin
-   become: yes
-   copy:
-     src: "{{ tmp_dir.path }}/cue"
-     dest: /usr/local/bin
-     owner: root
-     group: root
-     mode: 0755
-     remote_src: yes
+- name: Copy cue file to bin
+  become: true
+  ansible.builtin.copy:
+    src: "{{ tmp_dir.path }}/cue"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true

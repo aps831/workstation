@@ -1,4 +1,4 @@
 ---
- dependencies:
-   - role: jvm
-   - role: ansible
+dependencies:
+  - role: jvm
+  - role: ansible

@@ -1,6 +1,7 @@
-- name: install packages
+---
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -11,37 +12,37 @@
 
 - name: Add trivy signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://aquasecurity.github.io/trivy-repo/deb/public.key"
     dest: /usr/share/keyrings/trivy-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add trivy repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/trivy-keyring.asc] https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main"
     filename: trivy
     state: present
 
-- name: install trivy
+- name: Install trivy
   become: true
-  apt:
+  ansible.builtin.apt:
     name: trivy
     state: present
 
 # asdf
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - curl
 
-- name: install asdf plugin
+- name: Install asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add trivy {{ trivy_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global trivy version to system
+- name: Set global trivy version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global trivy system"

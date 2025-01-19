@@ -1,46 +1,46 @@
 ---
-- name: install chezmoi
+- name: Install chezmoi
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ chezmoi_download_url }}"
 
-- name: "install chezmoi-diff script"
+- name: "Install chezmoi-diff script"
   become: true
-  template:
+  ansible.builtin.template:
     src: "chezmoi-diff.sh.j2"
     dest: "/usr/local/sbin/chezmoi-diff.sh"
     owner: "root"
     group: "root"
-    mode: 0755
+    mode: "0755"
 
-- name: "install chezmoi-diff service"
+- name: "Install chezmoi-diff service"
   become: true
-  template:
+  ansible.builtin.template:
     src: "chezmoi-diff.service.j2"
     dest: "/etc/systemd/system/chezmoi-diff.service"
     owner: "root"
     group: "root"
-    mode: 0644
+    mode: "0644"
 
-- name: "install chezmoi-diff timer"
+- name: "Install chezmoi-diff timer"
   become: true
-  template:
+  ansible.builtin.template:
     src: "chezmoi-diff.timer.j2"
     dest: "/etc/systemd/system/chezmoi-diff.timer"
     owner: "root"
     group: "root"
-    mode: 0644
+    mode: "0644"
 
-- name: disable chezmoi-diff service
+- name: Disable chezmoi-diff service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: "chezmoi-diff"
     daemon_reload: true
     enabled: false
 
-- name: enable chezmoi-diff timer
+- name: Enable chezmoi-diff timer
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: "chezmoi-diff.timer"
     state: started
     daemon_reload: true

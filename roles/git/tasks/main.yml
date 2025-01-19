@@ -1,7 +1,7 @@
 ---
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -14,75 +14,75 @@
       - fzf
       - git-absorb
 
-- name: install bash-completion
+- name: Install bash-completion
   become: true
-  apt:
+  ansible.builtin.apt:
     name: bash-completion
     state: present
 
-- name: download git completion
+- name: Download git completion
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
     dest: /etc/bash_completion.d/git-completion
-    mode: 0644
+    mode: "0644"
 
 # Gitleaks
-- name: create temporary file for gitleaks download
-  tempfile:
+- name: Create temporary file for gitleaks download
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: gitleaks_download_tmp
 
-- name: download gitleaks binary
+- name: Download gitleaks binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ gitleaks_url }}"
     dest: "{{ gitleaks_download_tmp.path }}"
-    force: yes
+    force: true
   changed_when: false
 
-- name: extract gitleaks from archive
+- name: Extract gitleaks from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ gitleaks_download_tmp.path }}"
     dest: /usr/local/bin
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 # delta
-- name: install delta
+- name: Install delta
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ delta_download_url }}"
 
 # git filter repo
-- name: create temporary file for git filter repo download
-  tempfile:
+- name: Create temporary file for git filter repo download
+  ansible.builtin.tempfile:
     state: directory
     suffix: temp
   register: git_filter_repo_download_tmp
 
-- name: download git filter repo binary
+- name: Download git filter repo binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ git_filter_repo_url }}"
     dest: "{{ git_filter_repo_download_tmp.path }}"
-    force: yes
+    force: true
   changed_when: false
 
 # unarchive doesn't work for some reason
-- name: extract git filter repo from archive
+- name: Extract git filter repo from archive
   become: true
-  command: "tar -xvf {{ git_filter_repo_filename }}"
+  ansible.builtin.command: "tar -xvf {{ git_filter_repo_filename }}"
   args:
     chdir: "{{ git_filter_repo_download_tmp.path }}"
 
-- name: copy git filter repo
+- name: Copy git filter repo
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/git-filter-repo"
     dest: /usr/local/bin
     owner: root
@@ -90,13 +90,13 @@
     mode: "0777"
     remote_src: true
 
-- name: get location for man files
-  command: "git --man-path"
+- name: Get location for man files
+  ansible.builtin.command: "git --man-path"
   register: man_path
 
-- name: copy git filter repo man documentation
+- name: Copy git filter repo man documentation
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ git_filter_repo_download_tmp.path }}/{{ git_filter_repo_folder }}/Documentation/man1/git-filter-repo.1"
     dest: "{{ man_path.stdout }}/man1"
     owner: root

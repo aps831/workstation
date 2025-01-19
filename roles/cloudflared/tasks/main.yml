@@ -1,4 +1,5 @@
-- name: install cloudflared
-  become: yes
-  apt:
+---
+- name: Install cloudflared
+  become: true
+  ansible.builtin.apt:
     deb: "{{ cloudflared_download_url }}"

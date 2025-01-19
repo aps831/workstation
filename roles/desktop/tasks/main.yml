@@ -1,7 +1,7 @@
 ---
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -10,102 +10,106 @@
       - hplip
       - kazam
 
-- name: set list view for new folders
+- name: Set list view for new folders
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/nemo/preferences/default-folder-viewer"
     value: "'list-view'"
     state: present
 
-- name: set wallpaper file
+- name: Set wallpaper file
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/cinnamon/desktop/background/picture-uri"
     value: "'file:///home/{{ ansible_user }}/.wallpaper.png'"
     state: present
 
-- name: centre wallpaper
+- name: Centre wallpaper
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/cinnamon/desktop/background/picture-options"
     value: "'centered'"
     state: present
 
-- name: create bookmarks
-  template:
+- name: Create bookmarks
+  ansible.builtin.template:
     src: "bookmarks.{{ ansible_user }}.j2"
     dest: /home/{{ ansible_user }}/.config/gtk-3.0/bookmarks
 
-- name: add redshift autostart
-  template:
+- name: Add redshift autostart
+  ansible.builtin.template:
     src: redshift-gtk.desktop.j2
     dest: /home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop
 
-- name: create directory for cinnamon config
-  file:
+- name: Create directory for cinnamon config
+  ansible.builtin.file:
     path: /home/{{ ansible_user }}/.config/cinnamon/spices
     state: directory
     mode: "0755"
 
-- name: copy cinnamon config
-  copy:
+- name: Copy cinnamon config
+  ansible.builtin.copy:
     src: cinnamon/spices/
     dest: /home/{{ ansible_user }}/.config/cinnamon/spices/
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
 
-- name: copy host specific cinnamon config
-  copy:
+- name: Copy host specific cinnamon config
+  ansible.builtin.copy:
     src: cinnamon/2.{{ inventory_hostname }}.json
     dest: /home/{{ ansible_user }}/.config/cinnamon/spices/grouped-window-list@cinnamon.org/2.json
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
 
-- name: set enabled applets
+- name: Set enabled applets
   community.general.dconf:
     key: "/org/cinnamon/enabled-applets"
-    value: "['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:0:show-desktop@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:1:systray@cinnamon.org:3', 'panel1:right:2:xapp-status@cinnamon.org:4', 'panel1:right:3:notifications@cinnamon.org:5', 'panel1:right:4:printers@cinnamon.org:6', 'panel1:right:5:removable-drives@cinnamon.org:7', 'panel1:right:6:keyboard@cinnamon.org:8', 'panel1:right:7:favorites@cinnamon.org:9', 'panel1:right:8:network@cinnamon.org:10', 'panel1:right:9:sound@cinnamon.org:11', 'panel1:right:10:power@cinnamon.org:12', 'panel1:right:11:calendar@cinnamon.org:13']"
+    value:
+      "['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:0:show-desktop@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:1:systray@cinnamon.org:3',
+      'panel1:right:2:xapp-status@cinnamon.org:4', 'panel1:right:3:notifications@cinnamon.org:5', 'panel1:right:4:printers@cinnamon.org:6', 'panel1:right:5:removable-drives@cinnamon.org:7',
+      'panel1:right:6:keyboard@cinnamon.org:8', 'panel1:right:7:favorites@cinnamon.org:9', 'panel1:right:8:network@cinnamon.org:10', 'panel1:right:9:sound@cinnamon.org:11',
+      'panel1:right:10:power@cinnamon.org:12', 'panel1:right:11:calendar@cinnamon.org:13']"
     state: present
 
-- name: set next applet id
+- name: Set next applet id
   community.general.dconf:
     key: "/org/cinnamon/next-applet-id"
     value: 14
 
-- name: hide volumes from desktop
+- name: Hide volumes from desktop
   community.general.dconf:
     key: "/org/nemo/desktop/volumes-visible"
     value: "false"
     state: present
 
-- name: add windows 10 desktop entry
+- name: Add windows 10 desktop entry
   when: inventory_hostname == 'md-desktop'
   become: true
-  template:
+  ansible.builtin.template:
     src: windows10.desktop.j2
     dest: /home/{{ ansible_user }}/.local/share/applications/windows10.desktop
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: add windows 10 script
+- name: Add windows 10 script
   when: inventory_hostname == 'md-desktop'
   become: true
-  copy:
+  ansible.builtin.copy:
     src: cinnamon/windows10.sh
     dest: /home/{{ ansible_user }}/.local/bin/windows10.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: disable touchpad whilst typing
+- name: Disable touchpad whilst typing
   community.general.dconf:
     key: "/org/cinnamon/desktop/peripherals/touchpad/disable-while-typing"
     value: "true"
 
-- name: disable blueman autoconnect
+- name: Disable blueman autoconnect
   community.general.dconf:
     key: "/org/blueman/general/plugin-list"
     value: "['!AutoConnect']"

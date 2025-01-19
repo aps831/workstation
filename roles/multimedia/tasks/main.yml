@@ -1,7 +1,7 @@
 ---
-- name: install application packages
+- name: Install application packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -30,7 +30,7 @@
       - zbar-tools
 
 # eyeD3
-- name: install eyeD3
+- name: Install eyeD3
   community.general.pipx:
     name: eyeD3
     state: latest

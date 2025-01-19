@@ -1,6 +1,5 @@
 ---
- dependencies:
-   - role: codename
-   - role: ansible
-   - role: samba
-
+dependencies:
+  - role: codename
+  - role: ansible
+  - role: samba

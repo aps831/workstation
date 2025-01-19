@@ -5,16 +5,16 @@
     dest: /home/{{ ansible_user }}/.local/bin/cht.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0744
+    mode: "0744"
 
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Download cht.sh bash completion
   ansible.builtin.get_url:
@@ -24,4 +24,4 @@
     dest: /home/{{ ansible_user }}/.profile.d/cht.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0744
+    mode: "0744"

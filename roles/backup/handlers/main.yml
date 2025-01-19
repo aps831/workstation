@@ -1,7 +1,7 @@
 ---
-- name: restart rclone backup
-  become: yes
-  systemd:
+- name: Restart rclone backup
+  become: true
+  ansible.builtin.systemd:
     name: "rclone_{{ backup_user }}_backup.timer"
     daemon_reload: true
     state: restarted

@@ -1,7 +1,7 @@
 ---
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -18,17 +18,17 @@
       - ncdu
       - fd-find
 
-- name: set value for swappiness
-  become: yes
-  blockinfile:
+- name: Set value for swappiness
+  become: true
+  ansible.builtin.blockinfile:
     path: /etc/sysctl.conf
     block: |
       # Reduce the swap tendency
       vm.swappiness = 10
 
-- name: set value for max user watches
-  become: yes
-  blockinfile:
+- name: Set value for max user watches
+  become: true
+  ansible.builtin.blockinfile:
     path: /etc/sysctl.conf
     block: |
       # Increase max user watches

@@ -2,110 +2,110 @@
 #
 # System Go
 #
-- name: test if version already installed
-  become: yes
+- name: Test if version already installed
+  become: true
   ansible.builtin.stat:
     path: "/usr/local/bin/go-{{ golang_version }}"
   register: golang_install_dir
 
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   when: golang_install_dir.stat.isdir is not defined
   changed_when: false
 
-- name: download golang
-  become: yes
-  get_url:
+- name: Download golang
+  become: true
+  ansible.builtin.get_url:
     url: "{{ golang_download_url }}"
     checksum: "sha256:{{ golang_checksum }}"
     dest: "{{ tmp_dir.path }}"
   when: golang_install_dir.stat.isdir is not defined
 
-- name: create directory for installation
-  become: yes
+- name: Create directory for installation
+  become: true
   ansible.builtin.file:
     path: "/usr/local/bin/go-{{ golang_version }}"
     state: directory
     mode: "0755"
 
-- name: unpack golang
-  become: yes
-  unarchive:
+- name: Unpack golang
+  become: true
+  ansible.builtin.unarchive:
     src: "{{ tmp_dir.path }}/{{ golang_download_filename }}"
     dest: "/usr/local/bin/go-{{ golang_version }}"
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when: golang_install_dir.stat.isdir is not defined
 
-- name: create symbolic link
-  become: yes
-  file:
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
     src: "/usr/local/bin/go-{{ golang_version }}/go/bin/go"
     dest: "/usr/local/bin/go"
     state: link
     mode: "0755"
 
-- name: create symbolic link
-  become: yes
-  file:
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
     src: "/usr/local/bin/go-{{ golang_version }}/go/bin/gofmt"
     dest: "/usr/local/bin/gofmt"
     state: link
     mode: "0755"
 
 # asdf
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - curl
 
-- name: install asdf plugin
+- name: Install asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add golang {{ golang_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global golang version to system
+- name: Set global golang version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global golang system"
 
 # nancy
-- name: create temporary build directory
-  become: yes
-  tempfile:
+- name: Create temporary build directory
+  become: true
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: nancy_tmp_dir
   changed_when: false
 
-- name: download nancy binary
-  become: yes
-  get_url:
+- name: Download nancy binary
+  become: true
+  ansible.builtin.get_url:
     url: "{{ nancy_download_url }}"
     dest: "{{ nancy_tmp_dir.path }}"
     checksum: "sha256:{{ nancy_checksum_url }}"
   changed_when: false
 
-- name: extract from archive
-  become: yes
-  unarchive:
+- name: Extract from archive
+  become: true
+  ansible.builtin.unarchive:
     src: "{{ nancy_tmp_dir.path }}/{{ nancy_filename }}"
     dest: "{{ nancy_tmp_dir.path }}"
     owner: root
     group: root
-    remote_src: yes
+    remote_src: true
 
-- name: copy nancy file to bin
-  become: yes
-  copy:
+- name: Copy nancy file to bin
+  become: true
+  ansible.builtin.copy:
     src: "{{ nancy_tmp_dir.path }}/nancy"
     dest: /usr/local/bin
     owner: root
     group: root
-    mode: 0755
-    remote_src: yes
+    mode: "0755"
+    remote_src: true

@@ -1,9 +1,9 @@
 ---
-- name: install notation
+- name: Install notation
   community.general.homebrew:
     name: notation
     state: present
 
-- name: install notation aws signer plugin
+- name: Install notation aws signer plugin
   ansible.builtin.shell: notation plugin install --url {{ notation_aws_signer_download_url }} --sha256sum {{ notation_aws_signer_download_sha256 }} || true
   ignore_errors: true

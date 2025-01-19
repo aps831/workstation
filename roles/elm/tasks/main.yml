@@ -1,25 +1,23 @@
 ---
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: tmp_dir
+  changed_when: false
 
- - name: create temporary build directory
-   tempfile:
-     state: directory
-     suffix: build
-   register: tmp_dir
-   changed_when: false
+- name: Download binary
+  ansible.builtin.get_url:
+    url: "{{ elm_download_url }}"
+    dest: "{{ tmp_dir.path }}"
+  changed_when: false
 
- - name: download binary
-   get_url:
-     url: "{{ elm_download_url }}"
-     dest: "{{ tmp_dir.path }}"
-   changed_when: false
-
- - name: extract from archive
-   become: yes
-   unarchive:
-     src: "{{ tmp_dir.path }}/{{ elm_filename }}"
-     dest: /usr/local/bin
-     remote_src: yes
-     owner: root
-     group: root
-     mode: 0755
-
+- name: Extract from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ tmp_dir.path }}/{{ elm_filename }}"
+    dest: /usr/local/bin
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0755"

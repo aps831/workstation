@@ -1,21 +1,21 @@
 ---
-- name: create temporary download directory
+- name: Create temporary download directory
   become: true
-  tempfile:
+  ansible.builtin.tempfile:
     state: directory
     suffix: download
   register: tmp_dir
   changed_when: false
 
-- name: download syft binary
+- name: Download syft binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ syft_url }}"
     dest: "{{ tmp_dir.path }}"
     checksum: "sha256:{{ syft_checksum_url }}"
   changed_when: false
 
-- name: install syft
+- name: Install syft
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ tmp_dir.path }}/{{ syft_filename }}"

@@ -1,4 +1,4 @@
 ---
- dependencies:
-   - role: ansible
-   - role: codename
+dependencies:
+  - role: ansible
+  - role: codename

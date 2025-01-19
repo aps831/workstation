@@ -1,112 +1,112 @@
 ---
 # AWS
-- name: create temporary build directory for awscli
-  tempfile:
+- name: Create temporary build directory for awscli
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: aws_tmpdir
 
-- name: download awscli installer
+- name: Download awscli installer
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ awscli_download_url }}"
     dest: "{{ aws_tmpdir.path }}"
   changed_when: false
 
-- name: extract awscli installer from archive
+- name: Extract awscli installer from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ aws_tmpdir.path }}/{{ awscli_filename }}"
     dest: "{{ aws_tmpdir.path }}"
     remote_src: true
     owner: root
     group: root
 
-- name: test if awscli already installed
+- name: Test if awscli already installed
   become: true
-  stat:
+  ansible.builtin.stat:
     path: "/usr/local/bin/aws"
   register: awsclipath
 
-- name: install awscli
+- name: Install awscli
   become: true
-  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
+  ansible.builtin.command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin"
   when: not awsclipath.stat.exists
 
-- name: update awscli
+- name: Update awscli
   become: true
-  command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
+  ansible.builtin.command: "{{ aws_tmpdir.path }}/aws/install -i /usr/local/aws-cli -b /usr/local/bin --update"
   when: awsclipath.stat.exists
 
-- name: set permissions on awscli binary
+- name: Set permissions on awscli binary
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/aws
-    mode: 0755
+    mode: "0755"
 
-- name: set permissions on awscli files
+- name: Set permissions on awscli files
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/aws-cli
     recurse: true
-    mode: 0755
+    mode: "0755"
 
 # Localstack
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   changed_when: false
 
-- name: download binary
-  get_url:
+- name: Download binary
+  ansible.builtin.get_url:
     url: "{{ localstack_download_url }}"
     dest: "{{ tmp_dir.path }}"
   changed_when: false
 
-- name: extract from archive
+- name: Extract from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ tmp_dir.path }}/{{ localstack_filename }}"
     dest: /usr/local/bin
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 # Policy Sentry
-- name: install policy_sentry
+- name: Install policy_sentry
   community.general.pipx:
     name: policy_sentry
     state: latest
 
 # Cloudsplaining
-- name: install cloudsplaining
+- name: Install cloudsplaining
   community.general.pipx:
     name: cloudsplaining
     state: latest
 
 # IAM Live
-- name: create temporary build directory for iam live
-  tempfile:
+- name: Create temporary build directory for iam live
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: iam_live_tmpdir
 
-- name: download iam live
+- name: Download iam live
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ iam_live_download_url }}"
     dest: "{{ iam_live_tmpdir.path }}"
   changed_when: false
 
-- name: extract iamlive from archive
+- name: Extract iamlive from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ iam_live_tmpdir.path }}/{{ iam_live_filename }}"
     dest: /usr/local/bin/
     remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

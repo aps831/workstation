@@ -1,30 +1,30 @@
 ---
-- name: install libsecret
-  become: yes
-  apt:
+- name: Install libsecret
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - libsecret-tools
 
-- name: install script for mounting
-  template:
+- name: Install script for mounting
+  ansible.builtin.template:
     src: mount-odin-local.j2
     dest: /home/{{ ansible_user }}/.local/bin/mount-odin-local
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: add odin autostart
-  template:
+- name: Add odin autostart
+  ansible.builtin.template:
     src: odin.desktop.j2
     dest: /home/{{ ansible_user }}/.config/autostart/odin.desktop
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: add {{ nas_host }} password to keyring
-  shell: secret-tool store --label='{{ nas_host }}' server {{ nas_host }} user {{ nas_user }}
+- name: Add {{ nas_host }} password to keyring
+  ansible.builtin.command: secret-tool store --label='{{ nas_host }}' server {{ nas_host }} user {{ nas_user }}
   args:
     stdin: "{{ nas_password }}"
     stdin_add_newline: false

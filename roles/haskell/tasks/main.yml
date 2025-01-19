@@ -1,18 +1,17 @@
 ---
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - haskell-stack
 
- - name: install packages
-   become: yes
-   apt:
-     name: "{{ packages }}"
-     state: present
-   vars:
-     packages:
-     - haskell-stack
-
- - name: upgrade stack
-   become: yes
-   shell: stack upgrade
-   args:
-     executable: /bin/bash
-   register: stack_upgrade
-   changed_when: '"Version" in stack_upgrade.stdout'
+- name: Upgrade stack
+  become: true
+  ansible.builtin.shell: stack upgrade
+  args:
+    executable: /bin/bash
+  register: stack_upgrade
+  changed_when: '"Version" in stack_upgrade.stdout'

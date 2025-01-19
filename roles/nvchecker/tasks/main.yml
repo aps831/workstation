@@ -1,6 +1,7 @@
-- name: install packages
-  become: yes
-  apt:
+---
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -9,42 +10,42 @@
       - libssl-dev
       - libcurl4-openssl-dev
 
-- name: install nvchecker
+- name: Install nvchecker
   community.general.pipx:
     name: nvchecker
     state: latest
 
-- name: inject packaging into nvchecker
+- name: Inject packaging into nvchecker
   community.general.pipx:
     name: nvchecker
     inject_packages:
       - packaging
     state: inject
 
-- name: create config directory
-  become: yes
-  file:
+- name: Create config directory
+  become: true
+  ansible.builtin.file:
     path: "/etc/nvchecker"
-    mode: 0755
+    mode: "0755"
     state: directory
 
-- name: install script
-  become: yes
-  copy:
+- name: Install script
+  become: true
+  ansible.builtin.copy:
     src: "new-version-check"
     dest: "/home/{{ ansible_user }}/.local/bin/new-version-check"
     mode: "0755"
 
-- name: install config
-  become: yes
-  copy:
+- name: Install config
+  become: true
+  ansible.builtin.copy:
     src: "config_file.toml"
     dest: "/etc/nvchecker/config_file.toml"
     mode: "0644"
 
-- name: install old versions
-  become: yes
-  template:
+- name: Install old versions
+  become: true
+  ansible.builtin.template:
     src: "old_versions.json.j2"
     dest: "/etc/nvchecker/old_versions.json"
     mode: "0644"

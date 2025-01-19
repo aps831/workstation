@@ -1,6 +1,7 @@
-- name: install kvm dependencies
+---
+- name: Install kvm dependencies
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -13,23 +14,22 @@
       - qemu-system-x86
       - virt-manager
 
-- name: create directory for user pool
-  file:
+- name: Create directory for user pool
+  ansible.builtin.file:
     path: /home/{{ ansible_user }}/.libvirt/images
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
 
-- name: create user pool
-  command: virsh pool-define-as --name user --type dir --target /home/{{ ansible_user }}/.libvirt/images
+- name: Create user pool
+  ansible.builtin.command: virsh pool-define-as --name user --type dir --target /home/{{ ansible_user }}/.libvirt/images
   ignore_errors: true
 
-- name: set user pool to autostart
-  command: virsh pool-autostart user
-
-- name: start user pool
-  command: virsh pool-start user
+- name: Set user pool to autostart
+  ansible.builtin.command: virsh pool-autostart user
+- name: Start user pool
+  ansible.builtin.command: virsh pool-start user
   ignore_errors: true
 
 - name: Enable audio
@@ -43,5 +43,5 @@
   become: true
   ansible.builtin.systemd:
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
     name: libvirtd

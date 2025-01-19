@@ -1,134 +1,134 @@
 ---
-- name: install lsyncd
+- name: Install lsyncd
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - lsyncd
 
-- name: create libvirt backup directory
+- name: Create libvirt backup directory
   become: true
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/.libvirt/backup
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0777
+    mode: "0777"
 
 # lsyncd service
-- name: stop lsyncd service
+- name: Stop lsyncd service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: lsyncd
     daemon_reload: true
     state: stopped
 
-- name: disable lsyncd service
+- name: Disable lsyncd service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: lsyncd
     daemon_reload: true
-    enabled: no
+    enabled: false
 
 # logging
-- name: create lsyncd-home log directory
+- name: Create lsyncd-home log directory
   become: true
   ansible.builtin.file:
     path: /var/log/lsyncd/home
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0777
+    mode: "0777"
 
-- name: create lsyncd-qemu log directory
+- name: Create lsyncd-qemu log directory
   become: true
   ansible.builtin.file:
     path: /var/log/lsyncd/qemu
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0777
+    mode: "0777"
 
 # log rotate
-- name: set up logrotate for lsyncd-home log
+- name: Set up logrotate for lsyncd-home log
   become: true
-  template:
+  ansible.builtin.template:
     src: lsyncd-home.logrotate.j2
     dest: /etc/logrotate.d/lsyncd-home
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
-- name: set up logrotate for lsyncd-qemu log
+- name: Set up logrotate for lsyncd-qemu log
   become: true
-  template:
+  ansible.builtin.template:
     src: lsyncd-qemu.logrotate.j2
     dest: /etc/logrotate.d/lsyncd-qemu
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
 # config
-- name: create lsyncd config directory
+- name: Create lsyncd config directory
   become: true
   ansible.builtin.file:
     path: /etc/lsyncd/
     state: directory
     owner: root
     group: root
-    mode: 0777
+    mode: "0777"
 
-- name: copy lsyncd-home config
+- name: Copy lsyncd-home config
   become: true
   ansible.builtin.template:
     src: lsyncd-home.conf.lua.{{ inventory_hostname }}.j2
     dest: /etc/lsyncd/lsyncd-home.conf.lua
     owner: "root"
     group: "root"
-    mode: 0644
+    mode: "0644"
 
-- name: copy lsyncd-qemu config
+- name: Copy lsyncd-qemu config
   become: true
   ansible.builtin.template:
     src: lsyncd-qemu.conf.lua.j2
     dest: /etc/lsyncd/lsyncd-qemu.conf.lua
     owner: "root"
     group: "root"
-    mode: 0644
+    mode: "0644"
 
 # lsyncd-home service
-- name: create lsyncd-home service
+- name: Create lsyncd-home service
   become: true
-  template:
+  ansible.builtin.template:
     src: lsyncd-home.service.{{ inventory_hostname }}.j2
     dest: /etc/systemd/system/lsyncd-home.service
     owner: "root"
     group: "root"
-    mode: 0644
-  notify: restart lsyncd-home
+    mode: "0644"
+  notify: Restart lsyncd-home
 
-- name: enable lsyncd-home service at boot
+- name: Enable lsyncd-home service at boot
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: lsyncd-home
     daemon_reload: true
-    enabled: yes
+    enabled: true
 
 # lsyncd-qemu service
-- name: create lsyncd-qemu service
+- name: Create lsyncd-qemu service
   become: true
-  template:
+  ansible.builtin.template:
     src: lsyncd-qemu.service.j2
     dest: /etc/systemd/system/lsyncd-qemu.service
     owner: "root"
     group: "root"
-    mode: 0644
-  notify: restart lsyncd-qemu
+    mode: "0644"
+  notify: Restart lsyncd-qemu
 
-- name: enable lsyncd-qemu service at boot
+- name: Enable lsyncd-qemu service at boot
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: lsyncd-qemu
     daemon_reload: true
-    enabled: yes
+    enabled: true

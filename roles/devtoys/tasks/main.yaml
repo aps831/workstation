@@ -1,10 +1,10 @@
 ---
-- name: install dev toys
-  become: yes
-  apt:
+- name: Install dev toys
+  become: true
+  ansible.builtin.apt:
     deb: "{{ dev_toys_download_url }}"
 
-- name: install dev toys cli
-  become: yes
-  apt:
+- name: Install dev toys cli
+  become: true
+  ansible.builtin.apt:
     deb: "{{ dev_toys_cli_download_url }}"

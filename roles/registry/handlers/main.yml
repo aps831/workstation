@@ -1,12 +1,12 @@
 ---
-- name: restart registry cache
-  become: yes
-  systemd:
+- name: Restart registry cache
+  become: true
+  ansible.builtin.systemd:
     name: registry-cache
     state: restarted
 
-- name: restart registry local
-  become: yes
-  systemd:
+- name: Restart registry local
+  become: true
+  ansible.builtin.systemd:
     name: registry-local
     state: restarted

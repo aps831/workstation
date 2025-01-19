@@ -99,7 +99,7 @@
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Create temporary file for poetry bash completion
   ansible.builtin.tempfile:
@@ -117,5 +117,5 @@
     dest: "/home/{{ ansible_user }}/.profile.d/poetry.sh"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
-    remote_src: yes
+    mode: "0755"
+    remote_src: true

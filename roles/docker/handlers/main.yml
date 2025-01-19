@@ -1,19 +1,19 @@
 ---
-- name: restart docker
-  become: yes
-  systemd:
+- name: Restart docker
+  become: true
+  ansible.builtin.systemd:
     name: docker
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
 
-- name: restart dnsmasq
-  become: yes
-  systemd:
+- name: Restart dnsmasq
+  become: true
+  ansible.builtin.systemd:
     name: dnsmasq
     daemon_reload: true
     state: restarted
 
-- name: reload ufw
-  become: yes
-  ufw:
+- name: Reload ufw
+  become: true
+  community.general.ufw:
     state: reloaded

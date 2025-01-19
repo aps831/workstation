@@ -2,9 +2,9 @@
 #
 # Docker
 #
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -17,82 +17,76 @@
 
 - name: Add docker signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://download.docker.com/linux/ubuntu/gpg"
     dest: /usr/share/keyrings/docker-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add docker repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-keyring.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
     filename: docker
     state: present
 
-- name: install docker
-  become: yes
-  apt:
+- name: Install docker
+  become: true
+  ansible.builtin.apt:
     name: docker-ce
     state: present
-  notify: restart docker
+  notify: Restart docker
 
-- name: install bash-completion
-  become: yes
-  apt:
+- name: Install bash-completion
+  become: true
+  ansible.builtin.apt:
     name: bash-completion
     state: present
 
-- name: notify handlers to avoid firewall conflicts
-  meta: flush_handlers
-
-- name: ensure docker group exists
-  become: yes
-  group:
+- name: Notify handlers to avoid firewall conflicts
+  ansible.builtin.meta: flush_handlers
+- name: Ensure docker group exists
+  become: true
+  ansible.builtin.group:
     name: docker
     state: present
 
-- name: "ensure user '{{ ansible_user }}' is in docker group"
-  become: yes
-  user:
+- name: "Ensure user '{{ ansible_user }}' is in docker group"
+  become: true
+  ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: docker
-    append: yes
+    append: true
 
-- name: ensure docker is enabled at boot
-  become: yes
-  systemd:
+- name: Ensure docker is enabled at boot
+  become: true
+  ansible.builtin.systemd:
     name: docker
     daemon_reload: true
-    enabled: yes
+    enabled: true
 
 #
 # SBOM
 #
-- name: docker sbom plugin
-  shell: curl -sSfL https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh | sh -s --
-
-#
-# Docker Compose
-#
-
-- name: ensure docker plugins parent directory exists
-  become: yes
+- name: Docker sbom plugin
+  ansible.builtin.shell: curl -sSfL https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh | sh -s --
+- name: Ensure docker plugins parent directory exists
+  become: true
   ansible.builtin.file:
     path: "/usr/local/lib/docker"
     state: directory
     mode: "0755"
 
-- name: ensure docker plugins directory exists
-  become: yes
+- name: Ensure docker plugins directory exists
+  become: true
   ansible.builtin.file:
     path: "/usr/local/lib/docker/cli-plugins"
     state: directory
     mode: "0755"
 
-- name: install docker compose
-  become: yes
-  get_url:
+- name: Install docker compose
+  become: true
+  ansible.builtin.get_url:
     url: "{{ docker_compose_download_url }}"
     dest: "/usr/local/lib/docker/cli-plugins/docker-compose"
     checksum: "sha256:{{ docker_compose_sha256_url }}"
@@ -101,35 +95,36 @@
 #
 # Firewall
 #
-- name: set default forward policy to accept for firewall
-  become: yes
-  ufw: direction=routed
-    default=allow
-    route=yes
-  notify: reload ufw
+- name: Set default forward policy to accept for firewall
+  become: true
+  community.general.ufw:
+    direction: routed
+    default: allow
+    route: "yes"
+  notify: Reload ufw
 
-- name: get ip address of docker interface
-  shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
+- name: Get ip address of docker interface
+  ansible.builtin.shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
   register: ip
   changed_when: false
 
-- name: allow connections from docker interface through firewall
-  become: yes
-  ufw:
+- name: Allow connections from docker interface through firewall
+  become: true
+  community.general.ufw:
     rule: allow
     src: "{{ ip.stdout }}/24"
-  notify: reload ufw
+  notify: Reload ufw
 
 #
 # Daemon configuration
 #
 
-- name: docker daemon configuration
-  become: yes
+- name: Docker daemon configuration
+  become: true
   environment:
     MIRROR: "http://localhost:5001"
     REGISTRY: "http://registry.local:5000"
-  shell: |
+  ansible.builtin.shell: |
     set -e
     echo "{}" > /etc/docker/daemon.json
     cat /etc/docker/daemon.json   | jq                             '.dns |= [ "8.8.8.8", "8.8.4.4" ]'        -- > /etc/docker/daemon.json.1
@@ -140,30 +135,30 @@
     rm /etc/docker/daemon.json.2
     rm /etc/docker/daemon.json.3
     mv /etc/docker/daemon.json.4 /etc/docker/daemon.json
-  notify: restart docker
+  notify: Restart docker
 
 #
 # Docker Credential Helper
 #
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   changed_when: false
 
-- name: download docker credential helper
-  become: yes
-  get_url:
+- name: Download docker credential helper
+  become: true
+  ansible.builtin.get_url:
     url: "{{ docker_credential_helper_url }}"
     dest: "{{ tmp_dir.path }}"
 
-- name: unpack docker credential helper
-  become: yes
-  unarchive:
+- name: Unpack docker credential helper
+  become: true
+  ansible.builtin.unarchive:
     src: "{{ tmp_dir.path }}/{{ docker_credential_helper_filename }}"
     dest: "{{ docker_credential_helper_install_dir }}"
     owner: root
     group: root
-    mode: 0755
-    remote_src: yes
+    mode: "0755"
+    remote_src: true

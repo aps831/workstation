@@ -1,3 +1,4 @@
+---
 dagger_version: 0.2.6
 dagger_filename: dagger_v{{ dagger_version }}_linux_amd64.tar.gz
 dagger_download_url: https://github.com/dagger/dagger/releases/download/v{{ dagger_version }}/{{ dagger_filename }}

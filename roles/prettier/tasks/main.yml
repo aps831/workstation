@@ -1,8 +1,8 @@
 ---
-- name: install prettier
+- name: Install prettier
   become: true
   community.general.npm:
     name: "prettier"
-    production: yes
-    global: yes
+    production: true
+    global: true
     state: latest

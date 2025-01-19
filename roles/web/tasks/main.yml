@@ -1,29 +1,29 @@
 ---
 - name: Add google linux signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
     dest: /usr/share/keyrings/google-linux-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Remove chrome repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main"
     filename: google-chrome
     state: absent
 
 - name: Add chrome repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.asc] https://dl.google.com/linux/chrome/deb/ stable main"
     filename: google-chrome
     state: present
 
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:

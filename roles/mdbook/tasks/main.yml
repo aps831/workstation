@@ -1,7 +1,7 @@
 ---
-- name: install rust dependencies
+- name: Install rust dependencies
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -14,7 +14,7 @@
       - gcc
       - libc6-dev
 
-- name: install mdbook rust packages
+- name: Install mdbook rust packages
   community.general.cargo:
     name:
       - mdbook
@@ -28,21 +28,21 @@
   environment:
     PATH: /home/{{ ansible_user }}/.cargo/bin:{{ ansible_env.PATH }}
 
-- name: create temporary file for mdbook bash completion
-  tempfile:
+- name: Create temporary file for mdbook bash completion
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: mdbook_completion_tmp
 
-- name: create mdbook bash completion
-  shell: "/home/{{ ansible_user }}/.cargo/bin/mdbook completions bash > {{ mdbook_completion_tmp.path }}"
+- name: Create mdbook bash completion
+  ansible.builtin.shell: "/home/{{ ansible_user }}/.cargo/bin/mdbook completions bash > {{ mdbook_completion_tmp.path }}"
   changed_when: false
 
-- name: define mdbook variables
-  copy:
+- name: Define mdbook variables
+  ansible.builtin.copy:
     src: "{{ mdbook_completion_tmp.path }}"
     dest: "/home/{{ ansible_user }}/.profile.d/mdbook.sh"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
     remote_src: true

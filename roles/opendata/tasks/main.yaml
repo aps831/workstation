@@ -1,42 +1,42 @@
 ---
-- name: "install {{ opendata_download_name }} opendata download script"
-  become: yes
-  template:
+- name: "Install {{ opendata_download_name }} opendata download script"
+  become: true
+  ansible.builtin.template:
     src: "opendata-download.sh.j2"
     dest: "/usr/local/sbin/{{ opendata_download_name }}-opendata-download.sh"
     owner: "root"
     group: "root"
-    mode: 0700
+    mode: "0700"
 
-- name: "install {{ opendata_download_name }} opendata download service"
-  become: yes
-  template:
+- name: "Install {{ opendata_download_name }} opendata download service"
+  become: true
+  ansible.builtin.template:
     src: "opendata-download.service.j2"
     dest: "/etc/systemd/system/{{ opendata_download_name }}-opendata-download.service"
     owner: "root"
     group: "root"
-    mode: 0666
+    mode: "0666"
 
-- name: "install {{ opendata_download_name }} opendata download timer"
-  become: yes
-  template:
+- name: "Install {{ opendata_download_name }} opendata download timer"
+  become: true
+  ansible.builtin.template:
     src: "opendata-download.timer.j2"
     dest: "/etc/systemd/system/{{ opendata_download_name }}-opendata-download.timer"
     owner: "root"
     group: "root"
-    mode: 0644
+    mode: "0644"
 
-- name: disable {{ opendata_download_name }} opendata download service
-  become: yes
-  systemd:
+- name: Disable {{ opendata_download_name }} opendata download service
+  become: true
+  ansible.builtin.systemd:
     name: "{{ opendata_download_name }}-opendata-download"
     daemon_reload: true
-    enabled: no
+    enabled: false
 
-- name: enable {{ opendata_download_name }} opendata download timer
-  become: yes
-  systemd:
+- name: Enable {{ opendata_download_name }} opendata download timer
+  become: true
+  ansible.builtin.systemd:
     name: "{{ opendata_download_name }}-opendata-download.timer"
     daemon_reload: true
     state: started
-    enabled: yes
+    enabled: true

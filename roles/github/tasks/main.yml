@@ -3,110 +3,110 @@
 
 - name: Add githubcli signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
     dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add github repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     filename: githubcli
     state: present
 
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
     packages:
       - gh
 
-- name: create temp file for github completion
-  become: yes
+- name: Create temp file for github completion
+  become: true
   ansible.builtin.tempfile:
     state: file
   register: github_completion_file
   changed_when: false
 
-- name: create github shell completion
-  become: yes
-  shell: gh completion -s bash > {{ github_completion_file.path  }}
+- name: Create github shell completion
+  become: true
+  ansible.builtin.shell: gh completion -s bash > {{ github_completion_file.path  }}
   changed_when: false
 
-- name: install github completion
-  become: yes
+- name: Install github completion
+  become: true
   ansible.builtin.copy:
     src: "{{ github_completion_file.path }}"
     dest: /etc/bash_completion.d/github-completion
     owner: root
     group: root
-    mode: 0644
-    remote_src: yes
+    mode: "0644"
+    remote_src: true
 
 # act
-- name: create temporary file for act download
-  tempfile:
+- name: Create temporary file for act download
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: act_download_tmp
   changed_when: false
 
-- name: download act binary
-  get_url:
+- name: Download act binary
+  ansible.builtin.get_url:
     url: "{{ act_download_url }}"
     dest: "{{ act_download_tmp.path }}"
-    force: yes
+    force: true
   changed_when: false
 
-- name: extract act from archive
-  become: yes
-  unarchive:
+- name: Extract act from archive
+  become: true
+  ansible.builtin.unarchive:
     src: "{{ act_download_tmp.path }}"
     dest: /usr/local/bin
     include:
       - act
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
     packages:
       - jq
 
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 # ssh scripts
-- name: add github-ssh-key-create script
+- name: Add github-ssh-key-create script
   become: true
   ansible.builtin.copy:
     src: github-ssh-key-create
     dest: /home/{{ ansible_user }}/.local/bin
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
-- name: add github-ssh-key-delete script
+- name: Add github-ssh-key-delete script
   become: true
   ansible.builtin.copy:
     src: github-ssh-key-delete
     dest: /home/{{ ansible_user }}/.local/bin
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"

@@ -1,3 +1,4 @@
+---
 cyclonedx_version: 0.24.2
 cyclonedx_filename: cyclonedx-linux-x64
 cyclonedx_download_url: https://github.com/CycloneDX/cyclonedx-cli/releases/download/v{{ cyclonedx_version }}/{{ cyclonedx_filename }}

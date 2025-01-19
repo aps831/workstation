@@ -1,18 +1,18 @@
 ---
-- name: fetch rustup
+- name: Fetch rustup
   ansible.builtin.uri:
     url: https://sh.rustup.rs
-    return_content: yes
+    return_content: true
   register: rustup_installer
 
-- name: run rustup installer
-  ansible.builtin.shell:
+- name: Run rustup installer
+  ansible.builtin.command:
     cmd: sh -s -- -y --no-modify-path
     stdin: "{{ rustup_installer.content }}"
   register: rustup_installer
   changed_when: '"unchanged" not in rustup_installer.stdout'
 
-- name: run rustup update
+- name: Run rustup update
   ansible.builtin.shell:
     cmd: /home/{{ ansible_user }}/.cargo/bin/rustup self update
   args:
@@ -20,36 +20,36 @@
   register: rustup_selfupdate
   changed_when: '"rustup unchanged" not in rustup_selfupdate.stdout'
 
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
-- name: define rust variables
+- name: Define rust variables
   become: true
-  template:
+  ansible.builtin.template:
     src: user_rust.sh.j2
     dest: /home/{{ ansible_user }}/.profile.d/rust.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 # asdf
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - curl
 
-- name: install rust asdf plugin
+- name: Install rust asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add rust {{ rust_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global rust version to system
+- name: Set global rust version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global rust system"

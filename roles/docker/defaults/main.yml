@@ -4,5 +4,7 @@ docker_compose_download_url: https://github.com/docker/compose/releases/download
 docker_compose_sha256_url: "{{ docker_compose_download_url }}.sha256"
 docker_credential_helper_version: "0.6.4"
 docker_credential_helper_filename: docker-credential-pass-v{{ docker_credential_helper_version }}-amd64.tar.gz
-docker_credential_helper_url: https://github.com/docker/docker-credential-helpers/releases/download/v{{ docker_credential_helper_version }}/{{ docker_credential_helper_filename }}
+docker_credential_helper_url:
+  https://github.com/docker/docker-credential-helpers/releases/download/v{{ docker_credential_helper_version }}/{{ docker_credential_helper_filename
+  }}
 docker_credential_helper_install_dir: /usr/local/bin

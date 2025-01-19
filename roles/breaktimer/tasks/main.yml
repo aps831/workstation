@@ -1,44 +1,44 @@
 ---
- - name: ensure group breaktimer exists
-   become: yes
-   ansible.builtin.group:
+- name: Ensure group breaktimer exists
+  become: true
+  ansible.builtin.group:
     name: breaktimer
     state: present
 
- - name: add the user {{ ansible_user }} to breaktimer group
-   become: yes
-   ansible.builtin.user:
+- name: Add the user {{ ansible_user }} to breaktimer group
+  become: true
+  ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: breaktimer
     append: true
 
- - name: create install directory
-   become: yes
-   ansible.builtin.file:
-     path: "{{ breaktimer_install_dir }}"
-     state: directory
-     owner: root
-     group: breaktimer
-     mode: 0775
+- name: Create install directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ breaktimer_install_dir }}"
+    state: directory
+    owner: root
+    group: breaktimer
+    mode: "0775"
 
- - name: download breaktimer
-   become: yes
-   get_url:
-     url: "{{ breaktimer_download_url }}"
-     dest: "{{ breaktimer_install_dir }}/breaktimer"
-     owner: root
-     group: breaktimer
-     mode: 0775
+- name: Download breaktimer
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ breaktimer_download_url }}"
+    dest: "{{ breaktimer_install_dir }}/breaktimer"
+    owner: root
+    group: breaktimer
+    mode: "0775"
 
- - name: create symbolic link
-   become: yes
-   ansible.builtin.file:
-     src: "{{ breaktimer_install_dir }}/breaktimer"
-     path: "/usr/local/bin/breaktimer"
-     state: link
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
+    src: "{{ breaktimer_install_dir }}/breaktimer"
+    path: "/usr/local/bin/breaktimer"
+    state: link
 
- - name: add breaktimer shortcut
-   become: yes
-   template:
-     src: "breaktimer.desktop.j2"
-     dest: "/home/{{ ansible_user }}/.config/autostart/breaktimer.desktop"
+- name: Add breaktimer shortcut
+  become: true
+  ansible.builtin.template:
+    src: "breaktimer.desktop.j2"
+    dest: "/home/{{ ansible_user }}/.config/autostart/breaktimer.desktop"

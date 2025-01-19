@@ -1,34 +1,34 @@
 ---
-- name: create temporary file for key
+- name: Create temporary file for key
   become: true
   ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: key_temp_file
-  changed_when: False
+  changed_when: false
 
-- name: download gcloud signing key
+- name: Download gcloud signing key
   become: true
   ansible.builtin.get_url:
     url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
     dest: "{{ key_temp_file.path }}"
-    force: yes
+    force: true
 
-- name: dearmor gcloud signing key
+- name: Dearmor gcloud signing key
   become: true
   ansible.builtin.shell:
     cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/cloud.google.gpg
 
 - name: Add gcloud repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
     filename: gcloud
     state: present
 
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -39,49 +39,49 @@
       - google-cloud-sdk-gke-gcloud-auth-plugin
       - google-cloud-cli-log-streaming
 
-- name: create temp file for kubectl completion
+- name: Create temp file for kubectl completion
   become: true
   ansible.builtin.tempfile:
     state: file
   register: kubectl_completion_file
   changed_when: false
 
-- name: create kubectl shell completion
+- name: Create kubectl shell completion
   become: true
-  shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
+  ansible.builtin.shell: /usr/bin/kubectl completion bash > {{ kubectl_completion_file.path }}
   changed_when: false
 
-- name: install kubectl completion
+- name: Install kubectl completion
   become: true
   ansible.builtin.copy:
     src: "{{ kubectl_completion_file.path }}"
     dest: /etc/bash_completion.d/kubectl
     owner: root
     group: root
-    mode: 0644
-    remote_src: yes
+    mode: "0644"
+    remote_src: true
 
 # docker-credential-gcr
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   changed_when: false
 
-- name: download docker-credential-gcr binary
+- name: Download docker-credential-gcr binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ gcr_credential_helper_download_url }}"
     dest: "{{ tmp_dir.path }}"
     checksum: "sha256:{{ gcr_credential_helper_checksum_url }}"
 
-- name: extract from archive
+- name: Extract from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ tmp_dir.path }}/{{ gcr_credential_helper_filename }}"
     dest: /usr/bin
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

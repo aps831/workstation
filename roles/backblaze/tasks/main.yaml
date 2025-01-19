@@ -1,10 +1,10 @@
 ---
-- name: download b2 binary
+- name: Download b2 binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ b2_download_url }}"
     dest: "/usr/local/bin/b2"
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   changed_when: false

@@ -1,31 +1,31 @@
 ---
 - name: Add hashicorp signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://apt.releases.hashicorp.com/gpg"
     dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add Hashicorp repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ubuntu_codename }} main"
     filename: hashicorp
     state: present
 
-- name: install packer
+- name: Install packer
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - packer
 
 # asdf
-- name: install packer asdf plugin
+- name: Install packer asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add packer {{ packer_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global packer version to system
+- name: Set global packer version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global packer system"

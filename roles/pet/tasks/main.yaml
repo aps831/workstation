@@ -1,5 +1,5 @@
 ---
-- name: install pet
+- name: Install pet
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ pet_download_url }}"

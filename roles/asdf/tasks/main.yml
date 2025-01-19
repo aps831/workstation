@@ -1,43 +1,43 @@
 ---
- - name: create asdf folder
-   file:
-     path: "{{ asdf_install_dir }}"
-     state: directory
-     mode: 0755
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
+- name: Create asdf folder
+  ansible.builtin.file:
+    path: "{{ asdf_install_dir }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
- - name: get latest tag name
-   uri:
-     url: "{{ asdf_latest_tag_url }}"
-     return_content: yes
-   register: release_content
+- name: Get latest tag name
+  ansible.builtin.uri:
+    url: "{{ asdf_latest_tag_url }}"
+    return_content: true
+  register: release_content
 
- - name: output version
-   ansible.builtin.debug:
-     msg: "Using version {{ release_content.json.tag_name }}"
+- name: Output version
+  ansible.builtin.debug:
+    msg: "Using version {{ release_content.json.tag_name }}"
 
- - name: install asdf
-   git:
-   args:
-     repo: "{{ asdf_download_url }}"
-     dest: "{{ asdf_install_dir }}"
-     version: "{{ release_content.json.tag_name }}"
+- name: Install asdf
+  ansible.builtin.git:
+  args:
+    repo: "{{ asdf_download_url }}"
+    dest: "{{ asdf_install_dir }}"
+    version: "{{ release_content.json.tag_name }}"
 
- - name: ensure user profile directory exists
-   become: yes
-   ansible.builtin.file:
-     dest: /home/{{ ansible_user }}/.profile.d
-     state: directory
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: Ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
 
- - name: define asdf variables
-   become: yes
-   template:
-     src: user_asdf.sh.j2
-     dest: /home/{{ ansible_user }}/.profile.d/asdf.sh
-     owner: "{{ ansible_user }}"
-     group: "{{ ansible_user }}"
-     mode: 0755
+- name: Define asdf variables
+  become: true
+  ansible.builtin.template:
+    src: user_asdf.sh.j2
+    dest: /home/{{ ansible_user }}/.profile.d/asdf.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"

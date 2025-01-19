@@ -1,8 +1,8 @@
 ---
 # yamllint disable rule:line-length
-- name: install system packages
+- name: Install system packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -14,9 +14,9 @@
       - unzip
       - zip
 
-- name: install java packages
+- name: Install java packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -24,77 +24,77 @@
       - openjdk-17-jdk
       - openjdk-21-jdk
 
-- name: select system java version
+- name: Select system java version
   become: true
   community.general.alternatives:
     name: java
     path: /usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/java
 
-- name: ensure user profile directory exists
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 # maven
-- name: install maven packages
+- name: Install maven packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - maven
 
 # asdf
-- name: install asdf packages
+- name: Install asdf packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - curl
 
-- name: install java asdf plugin
+- name: Install java asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add java {{ java_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global java version to system
+- name: Set global java version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global java system"
 
-- name: install maven asdf plugin
+- name: Install maven asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add maven {{ maven_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global maven version to system
+- name: Set global maven version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global maven system"
 
-- name: install gradle asdf plugin
+- name: Install gradle asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add gradle {{ gradle_asdf_plugin_url }}"
 
-- name: set global gradle version to system
+- name: Set global gradle version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global gradle system"
 
-- name: install kotlin asdf plugin
+- name: Install kotlin asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kotlin {{ kotlin_asdf_plugin_url }}"
 
 # bash
-- name: define java variables
+- name: Define java variables
   become: true
-  template:
+  ansible.builtin.template:
     src: user_java.sh.j2
     dest: /home/{{ ansible_user }}/.profile.d/java.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
 # javafx
 # https://github.com/gluonhq/substrate/blob/master/README.md
-- name: install javafx packages
+- name: Install javafx packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -112,9 +112,9 @@
       - libxtst-dev
 
 # https://www.graalvm.org/22.0/reference-manual/native-image/
-- name: install native image packages
+- name: Install native image packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -124,47 +124,46 @@
       - zlib1g-dev
 
 # gradle
-- name: "check gradle version is present"
-  shell: "{{ gradle_symlink }} -v | grep {{ gradle_version }}"
+- name: "Check gradle version is present"
+  ansible.builtin.shell: "{{ gradle_symlink }} -v | grep {{ gradle_version }}"
   changed_when: false
   register: gradle_version_check
   ignore_errors: true
 
-- block:
-    - name: "install unzip"
+- when: not gradle_version_check.rc == 0
+  block:
+    - name: "Install unzip"
       become: true
-      apt:
+      ansible.builtin.apt:
         name: "{{ packages }}"
       vars:
         packages:
           - unzip
 
-    - name: create temporary directory for backup files
+    - name: Create temporary directory for backup files
       ansible.builtin.tempfile:
         state: directory
         suffix: restore
       register: gradle_tempdir
 
-    - name: "download gradle"
-      get_url:
+    - name: "Download gradle"
+      ansible.builtin.get_url:
         url: "{{ gradle_download_url }}"
         dest: "{{ gradle_tempdir.path }}/gradle-{{ gradle_version }}"
         checksum: "{{ gradle_checksum }}"
 
-    - name: "extract gradle {{ gradle_version }}"
+    - name: "Extract gradle {{ gradle_version }}"
       become: true
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ gradle_tempdir.path }}/gradle-{{ gradle_version }}"
         dest: "{{ gradle_parent_dir }}"
         remote_src: true
 
-    - name: "add gradle symlink"
+    - name: "Add gradle symlink"
       become: true
-      file:
+      ansible.builtin.file:
         src: "{{ gradle_parent_dir }}/gradle-{{ gradle_version }}/bin/gradle"
         dest: "{{ gradle_symlink }}"
         owner: root
         group: root
         state: link
-
-  when: not gradle_version_check.rc == 0

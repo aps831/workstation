@@ -1,7 +1,7 @@
 ---
-- name: disable apache2 service
-  become: yes
-  systemd:
+- name: Disable apache2 service
+  become: true
+  ansible.builtin.systemd:
     name: apache2
     daemon_reload: true
-    enabled: no
+    enabled: false

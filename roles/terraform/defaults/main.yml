@@ -1,3 +1,4 @@
+---
 tflint_version: 0.35.0
 tflint_url: https://github.com/terraform-linters/tflint/releases/download/v{{ tflint_version }}/tflint_linux_amd64.zip
 terraform_docs_version: 0.16.0

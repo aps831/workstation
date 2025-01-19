@@ -1,21 +1,21 @@
 ---
-- name: create script for watchtower service
-  become: yes
-  template:
+- name: Create script for watchtower service
+  become: true
+  ansible.builtin.template:
     src: watchtower.sh.j2
     dest: /usr/share/systemd/watchtower.sh
-    mode: 0744
+    mode: "0744"
 
-- name: create watchtower service
-  become: yes
-  template:
+- name: Create watchtower service
+  become: true
+  ansible.builtin.template:
     src: watchtower.service.j2
     dest: /etc/systemd/system/watchtower.service
-  notify: restart watchtower
+  notify: Restart watchtower
 
-- name: enable watchtower service at boot
-  become: yes
-  systemd:
+- name: Enable watchtower service at boot
+  become: true
+  ansible.builtin.systemd:
     name: watchtower
     daemon_reload: true
-    enabled: yes
+    enabled: true

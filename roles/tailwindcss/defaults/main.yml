@@ -1,3 +1,4 @@
+---
 tailwindcss_version: 3.4.15
 tailwindcss_download_url: https://github.com/tailwindlabs/tailwindcss/releases/download/v{{ tailwindcss_version }}/tailwindcss-linux-x64
 tailwindcss_checksum_url: https://github.com/tailwindlabs/tailwindcss/releases/download/v{{ tailwindcss_version }}/sha256sums.txt

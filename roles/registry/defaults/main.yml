@@ -1,2 +1,3 @@
+---
 registry_cache_container_name: registry-cache
 registry_local_container_name: registry-local

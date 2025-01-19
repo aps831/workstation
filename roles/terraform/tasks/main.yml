@@ -1,112 +1,112 @@
 ---
 # terraform
-- name: install terraform
+- name: Install terraform
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
       - terraform
 
-- name: install terraform asdf plugin
+- name: Install terraform asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add terraform {{ terraform_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global terraform version to system
+- name: Set global terraform version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global terraform system"
 
-- name: install opentofu asdf plugin
+- name: Install opentofu asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add opentofu {{ opentofu_asdf_plugin_url }}"
   ignore_errors: true
 
 # tflint
-- name: create temporary file for tflint download
-  tempfile:
+- name: Create temporary file for tflint download
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: tflint_download_tmp
 
-- name: download tflint binary
-  get_url:
+- name: Download tflint binary
+  ansible.builtin.get_url:
     url: "{{ tflint_url }}"
     dest: "{{ tflint_download_tmp.path }}"
-    force: yes
+    force: true
   changed_when: false
 
-- name: extract tflint from archive
+- name: Extract tflint from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ tflint_download_tmp.path }}"
     dest: /usr/local/bin
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 # terraform docs
-- name: create temporary file for terraform docs download
-  tempfile:
+- name: Create temporary file for terraform docs download
+  ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: terraform_docs_download_tmp
 
-- name: download terraform docs binary
-  get_url:
+- name: Download terraform docs binary
+  ansible.builtin.get_url:
     url: "{{ terraform_docs_url }}"
     dest: "{{ terraform_docs_download_tmp.path }}"
-    force: yes
+    force: true
   changed_when: false
 
-- name: extract terraform doc from archive
+- name: Extract terraform doc from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ terraform_docs_download_tmp.path }}"
     include: "terraform-docs"
     dest: /usr/local/bin
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 # tfsec
-- name: download tfsec binary
+- name: Download tfsec binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ tfsec_url }}"
     dest: /usr/local/bin/tfsec
-    force: yes
+    force: true
   changed_when: false
 
-- name: make tfsec binary executable
+- name: Make tfsec binary executable
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/tfsec
     state: file
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
-- name: install tfsec asdf plugin
+- name: Install tfsec asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add tfsec {{ tfsec_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: set global tfsec version to system
+- name: Set global tfsec version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global tfsec system"
 
 # terragrunt
-- name: download terragrunt binary
+- name: Download terragrunt binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ terragrunt_url }}"
     dest: /usr/local/bin/terragrunt
-    force: yes
+    force: true
   changed_when: false
 
-- name: make terragrunt binary executable
+- name: Make terragrunt binary executable
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/terragrunt
     state: file
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

@@ -1,16 +1,16 @@
 ---
-- name: create temporary directory
+- name: Create temporary directory
   ansible.builtin.tempfile:
     state: directory
   register: tmp_dir
 
-- name: checkout bats-core
+- name: Checkout bats-core
   ansible.builtin.git:
     repo: "https://github.com/bats-core/bats-core.git"
     dest: "{{ tmp_dir.path }}"
     version: v{{ bats_version }}
 
-- name: install bats
+- name: Install bats
   become: true
   ansible.builtin.command: ./install.sh /usr/local
   args:

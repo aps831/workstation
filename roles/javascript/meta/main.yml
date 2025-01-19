@@ -1,5 +1,4 @@
 ---
- dependencies:
-   - role: git
-   - role: asdf
-
+dependencies:
+  - role: git
+  - role: asdf

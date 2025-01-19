@@ -1,7 +1,7 @@
 ---
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -11,15 +11,15 @@
       - jq
       - xmlstarlet
 # yq
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   changed_when: false
 
-- name: download checksum files
-  get_url:
+- name: Download checksum files
+  ansible.builtin.get_url:
     url: "{{ item }}"
     dest: "{{ tmp_dir.path }}"
   loop:
@@ -27,59 +27,59 @@
     - "{{ yq_checksums_hashes_order_url }}"
     - "{{ yq_extract_checksum_url }}"
 
-- name: make extract checksum executable
+- name: Make extract checksum executable
   ansible.builtin.file:
     path: "{{ tmp_dir.path }}/extract-checksum.sh"
-    mode: 0755
+    mode: "0755"
 
-- name: get checksum for yq_linux_amd64
+- name: Get checksum for yq_linux_amd64
   ansible.builtin.shell:
     cmd: ./extract-checksum.sh SHA-256 yq_linux_amd64 | cut -f2
     chdir: "{{ tmp_dir.path }}"
   register: yq_sha256_checksum
 
-- name: download yq binary
+- name: Download yq binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ yq_download_url }}"
     dest: "/usr/bin/yq"
     owner: "root"
     group: "root"
     checksum: "sha256:{{ yq_sha256_checksum.stdout }}"
-    mode: 0755
+    mode: "0755"
 
 # sarif-fmt
-- name: download sarif-fmt
+- name: Download sarif-fmt
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ sarif_fmt_download_url }}"
     dest: "/usr/bin/sarif-fmt"
     owner: "root"
     group: "root"
-    mode: 0755
+    mode: "0755"
 
 # gron
-- name: create temporary download directory
+- name: Create temporary download directory
   become: true
-  tempfile:
+  ansible.builtin.tempfile:
     state: directory
     suffix: download
   register: tmp_dir
   changed_when: false
 
-- name: download binary
+- name: Download binary
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ gron_url }}"
     dest: "{{ tmp_dir.path }}"
   changed_when: false
 
-- name: extract from archive
+- name: Extract from archive
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ tmp_dir.path }}/{{ gron_filename }}"
     dest: /usr/local/bin
     remote_src: true
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

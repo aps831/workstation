@@ -1,7 +1,7 @@
 ---
-- name: install silversearcher
+- name: Install silversearcher
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:

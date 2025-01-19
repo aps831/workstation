@@ -1,28 +1,28 @@
 ---
-- name: mask sleep service
-  become: yes
-  systemd:
+- name: Mask sleep service
+  become: true
+  ansible.builtin.systemd:
     name: sleep.target
     daemon_reload: true
-    masked: yes
+    masked: true
 
-- name: mask suspend service
-  become: yes
-  systemd:
+- name: Mask suspend service
+  become: true
+  ansible.builtin.systemd:
     name: suspend.target
     daemon_reload: true
-    masked: yes
+    masked: true
 
-- name: mask hibernate service
-  become: yes
-  systemd:
+- name: Mask hibernate service
+  become: true
+  ansible.builtin.systemd:
     name: hibernate.target
     daemon_reload: true
-    masked: yes
+    masked: true
 
-- name: mask hybrid-sleep service
-  become: yes
-  systemd:
+- name: Mask hybrid-sleep service
+  become: true
+  ansible.builtin.systemd:
     name: hybrid-sleep.target
     daemon_reload: true
-    masked: yes
+    masked: true

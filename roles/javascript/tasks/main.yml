@@ -3,69 +3,69 @@
 # System Node
 #
 
-- name: create temporary file for key
+- name: Create temporary file for key
   become: true
   ansible.builtin.tempfile:
     state: file
     suffix: temp
   register: key_temp_file
-  changed_when: False
+  changed_when: false
 
-- name: download key
+- name: Download key
   become: true
   ansible.builtin.get_url:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     dest: "{{ key_temp_file.path }}"
-    force: yes
+    force: true
 
-- name: dearmor key
+- name: Dearmor key
   become: true
   ansible.builtin.shell:
     cmd: cat {{ key_temp_file.path }} | gpg --dearmor >> /usr/share/keyrings/nodesource.gpg
 
-- name: get debian distro
-  shell:
+- name: Get debian distro
+  ansible.builtin.shell:
     cmd: cat /etc/debian_version | awk -F/ '{ print $1 }'
   register: debian_distro
-  changed_when: False
+  changed_when: false
 
-- name: add nodesource repository
+- name: Add nodesource repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
     filename: "nodesource"
     state: present
 
-- name: add nodesource src repository
+- name: Add nodesource src repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_version }}.x {{ debian_distro.stdout }} main"
     filename: "nodesource"
     state: present
 
-- name: install nodejs
+- name: Install nodejs
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: latest
   vars:
     packages:
       - nodejs
 
-- name: upgrade npm
+- name: Upgrade npm
   become: true
   community.general.npm:
     name: npm
-    global: yes
+    global: true
     state: latest
 
 # asdf
-- name: install asdf plugin
+- name: Install asdf plugin
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add nodejs {{ node_asdf_plugin_url }}"
   ignore_errors: true
 
-- name: install latest node version
+- name: Install latest node version
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install nodejs latest"
 
-- name: set global nodejs version to system
+- name: Set global nodejs version to system
   ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global nodejs system"

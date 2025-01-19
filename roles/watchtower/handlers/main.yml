@@ -1,6 +1,6 @@
 ---
-- name: restart watchtower
-  become: yes
-  systemd:
+- name: Restart watchtower
+  become: true
+  ansible.builtin.systemd:
     name: watchtower
     state: restarted

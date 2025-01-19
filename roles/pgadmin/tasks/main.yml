@@ -1,28 +1,28 @@
 ---
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: ca-certificates
     state: present
 
 - name: Add pgadmin signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://www.pgadmin.org/static/packages_pgadmin_org.pub"
     dest: /usr/share/keyrings/pgadmin-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add pgadmin repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/pgadmin-keyring.asc] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }} pgadmin4 main"
     filename: pgadmin
     state: present
 
-- name: install packages
-  become: yes
-  apt:
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:

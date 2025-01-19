@@ -1,22 +1,22 @@
 ---
 - name: Add hashicorp signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://apt.releases.hashicorp.com/gpg"
     dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add hashicorp repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ubuntu_codename }} main"
     filename: hashicorp
     state: present
 
-- name: install vagrant and libvirt dependencies
+- name: Install vagrant and libvirt dependencies
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -37,23 +37,22 @@
       - ruby-libvirt
       - zlib1g-dev
 
-- name: install libvirt plugin
-  command: vagrant plugin install vagrant-libvirt
-
-- name: ensure user profile directory exists
+- name: Install libvirt plugin
+  ansible.builtin.command: vagrant plugin install vagrant-libvirt
+- name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:
     dest: /home/{{ ansible_user }}/.profile.d
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
 
-- name: define asdf variables
+- name: Define asdf variables
   become: true
-  template:
+  ansible.builtin.template:
     src: user_vagrant.sh.j2
     dest: /home/{{ ansible_user }}/.profile.d/vagrant.sh
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"

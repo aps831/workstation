@@ -1,73 +1,73 @@
 ---
-- name: ensure group postman exists
-  become: yes
+- name: Ensure group postman exists
+  become: true
   ansible.builtin.group:
     name: postman
     state: present
 
-- name: add the user {{ ansible_user }} to postman group
-  become: yes
+- name: Add the user {{ ansible_user }} to postman group
+  become: true
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: postman
     append: true
 
-- name: determine if postman already installed
-  stat:
-     path: "{{ postman_install_dir }}"
+- name: Determine if postman already installed
+  ansible.builtin.stat:
+    path: "{{ postman_install_dir }}"
   register: postman_install
   changed_when: false
 
-- name: create temporary build directory
-  tempfile:
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
   changed_when: false
   when: not postman_install.stat.exists
 
-- name: download Postman
-  become: yes
-  get_url:
-    url: '{{ postman_download_url }}'
-    dest: '{{ tmp_dir.path }}/{{ postman_redis_filename }}'
-    mode: 0755
+- name: Download Postman
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ postman_download_url }}"
+    dest: "{{ tmp_dir.path }}/{{ postman_redis_filename }}"
+    mode: "0755"
   when: not postman_install.stat.exists
 
-- name: create Postman installation directory
-  become: yes
-  file:
+- name: Create Postman installation directory
+  become: true
+  ansible.builtin.file:
     state: directory
     owner: root
     group: postman
-    mode: 0755
-    dest: '{{ postman_install_dir }}'
+    mode: "0755"
+    dest: "{{ postman_install_dir }}"
 
-- name: install Postman
-  become: yes
-  unarchive:
-    src: '{{ tmp_dir.path }}/{{ postman_redis_filename }}'
-    dest: '{{ postman_install_dir }}'
-    extra_opts: ['--strip-components=1']
-    remote_src: yes
+- name: Install Postman
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ tmp_dir.path }}/{{ postman_redis_filename }}"
+    dest: "{{ postman_install_dir }}"
+    extra_opts: ["--strip-components=1"]
+    remote_src: true
     owner: root
     group: postman
-    mode: 0755
-    creates: '{{ postman_install_dir }}/Postman'
+    mode: "0755"
+    creates: "{{ postman_install_dir }}/Postman"
   when: not postman_install.stat.exists
 
-- name: install Postman link
-  become: yes
-  file:
+- name: Install Postman link
+  become: true
+  ansible.builtin.file:
     state: link
-    src: '{{ postman_install_dir }}/Postman'
-    dest: '/usr/local/bin/Postman'
+    src: "{{ postman_install_dir }}/Postman"
+    dest: "/usr/local/bin/Postman"
 
-- name: install Postman desktop file
-  become: yes
-  template:
+- name: Install Postman desktop file
+  become: true
+  ansible.builtin.template:
     src: Postman.desktop.j2
-    dest: '/usr/share/applications/Postman.desktop'
+    dest: "/usr/share/applications/Postman.desktop"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"

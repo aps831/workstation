@@ -1,22 +1,22 @@
 ---
 - name: Add microsoft signing key
   become: true
-  get_url:
+  ansible.builtin.get_url:
     url: "https://packages.microsoft.com/keys/microsoft.asc"
     dest: /usr/share/keyrings/microsoft-keyring.asc
-    mode: 0644
+    mode: "0644"
     force: true
 
 - name: Add vscode repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-keyring.asc] https://packages.microsoft.com/repos/vscode stable main"
     filename: vscode
     state: present
 
-- name: install vscode
-  become: yes
-  apt:
+- name: Install vscode
+  become: true
+  ansible.builtin.apt:
     state: present
     pkg: code
-    update_cache: yes
+    update_cache: true

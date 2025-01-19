@@ -1,75 +1,75 @@
 ---
-- name: create directory for registry cache data
-  become: yes
-  file:
+- name: Create directory for registry cache data
+  become: true
+  ansible.builtin.file:
     path: /var/lib/registry/cache
     state: directory
 
-- name: create directory for registry local data
-  become: yes
-  file:
+- name: Create directory for registry local data
+  become: true
+  ansible.builtin.file:
     path: /var/lib/registry/local
     state: directory
 
-- name: copy registry cache config
-  become: yes
-  copy:
+- name: Copy registry cache config
+  become: true
+  ansible.builtin.copy:
     src: registry-cache.yml
     dest: /var/lib/registry/cache/config.yml
-    mode: 0744
+    mode: "0744"
 
-- name: copy registry local config
-  become: yes
-  copy:
+- name: Copy registry local config
+  become: true
+  ansible.builtin.copy:
     src: registry-local.yml
     dest: /var/lib/registry/local/config.yml
-    mode: 0744
+    mode: "0744"
 
-- name: create script for registry cache service
-  become: yes
-  template:
+- name: Create script for registry cache service
+  become: true
+  ansible.builtin.template:
     src: registry-cache.sh.j2
     dest: /usr/share/systemd/registry-cache.sh
-    mode: 0744
+    mode: "0744"
 
-- name: create script for registry local service
-  become: yes
-  template:
+- name: Create script for registry local service
+  become: true
+  ansible.builtin.template:
     src: registry-local.sh.j2
     dest: /usr/share/systemd/registry-local.sh
-    mode: 0744
+    mode: "0744"
 
-- name: create registry cache service
-  become: yes
-  template:
+- name: Create registry cache service
+  become: true
+  ansible.builtin.template:
     src: registry-cache.service.j2
     dest: /etc/systemd/system/registry-cache.service
-  notify: restart registry cache
+  notify: Restart registry cache
 
-- name: create registry local service
-  become: yes
-  template:
+- name: Create registry local service
+  become: true
+  ansible.builtin.template:
     src: registry-local.service.j2
     dest: /etc/systemd/system/registry-local.service
-  notify: restart registry local
+  notify: Restart registry local
 
-- name: enable registry cache service at boot
-  become: yes
-  systemd:
+- name: Enable registry cache service at boot
+  become: true
+  ansible.builtin.systemd:
     name: registry-cache
     daemon_reload: true
-    enabled: yes
+    enabled: true
 
-- name: enable registry local service at boot
-  become: yes
-  systemd:
+- name: Enable registry local service at boot
+  become: true
+  ansible.builtin.systemd:
     name: registry-local
     daemon_reload: true
-    enabled: yes
+    enabled: true
 
-- name: add registry.local to /etc/hosts
-  become: yes
-  lineinfile:
+- name: Add registry.local to /etc/hosts
+  become: true
+  ansible.builtin.lineinfile:
     path: /etc/hosts
-    regexp: '.registry\.local'
+    regexp: ".registry\\.local"
     line: "127.0.0.1       registry.local"
