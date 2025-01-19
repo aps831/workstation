@@ -78,10 +78,7 @@
     state: inject
 
 - name: configure poetry
-  command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.prefer-active-python false
-
-- name: configure poetry
-  command: /home/{{ ansible_user }}/.local/bin/poetry config warnings.export true
+  command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
 
 # asdf poetry
 - name: install asdf poetry plugin
