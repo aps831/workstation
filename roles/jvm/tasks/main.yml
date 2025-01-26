@@ -48,48 +48,6 @@
     packages:
       - maven
 
-# asdf
-- name: Install asdf packages
-  become: true
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - curl
-
-- name: Install java asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add java {{ java_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global java version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global java system"
-
-- name: Install maven asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add maven {{ maven_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global maven version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global maven system"
-
-- name: Install gradle asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add gradle {{ gradle_asdf_plugin_url }}"
-
-- name: Set global gradle version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global gradle system"
-
-- name: Install kotlin asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kotlin {{ kotlin_asdf_plugin_url }}"
-
-# bash
-- name: Define java variables
-  become: true
-  ansible.builtin.template:
-    src: user_java.sh.j2
-    dest: /home/{{ ansible_user }}/.profile.d/java.sh
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
 # javafx
 # https://github.com/gluonhq/substrate/blob/master/README.md
 - name: Install javafx packages

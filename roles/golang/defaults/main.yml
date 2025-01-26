@@ -4,7 +4,6 @@ golang_download_filename: go{{ golang_version }}.linux-amd64.tar.gz
 golang_download_url: https://go.dev/dl/{{ golang_download_filename }}
 # https://go.dev/dl/
 golang_checksum: "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f" #pragma: allowlist secret
-golang_asdf_plugin_url: https://github.com/kennyp/asdf-golang.git
 nancy_version: 1.0.36
 nancy_filename: nancy-v{{ nancy_version }}-linux-amd64.tar.gz
 nancy_download_url: https://github.com/sonatype-nexus-community/nancy/releases/download/v{{ nancy_version }}/{{ nancy_filename }}

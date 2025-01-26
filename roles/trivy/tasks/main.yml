@@ -30,19 +30,3 @@
   ansible.builtin.apt:
     name: trivy
     state: present
-
-# asdf
-- name: Install packages
-  become: true
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - curl
-
-- name: Install asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add trivy {{ trivy_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global trivy version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global trivy system"

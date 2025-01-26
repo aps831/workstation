@@ -8,17 +8,6 @@
     packages:
       - terraform
 
-- name: Install terraform asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add terraform {{ terraform_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global terraform version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global terraform system"
-
-- name: Install opentofu asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add opentofu {{ opentofu_asdf_plugin_url }}"
-  ignore_errors: true
-
 # tflint
 - name: Create temporary file for tflint download
   ansible.builtin.tempfile:
@@ -85,13 +74,6 @@
     owner: root
     group: root
     mode: "0755"
-
-- name: Install tfsec asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add tfsec {{ tfsec_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global tfsec version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global tfsec system"
 
 # terragrunt
 - name: Download terragrunt binary

@@ -7,10 +7,3 @@
     owner: "root"
     group: "root"
     mode: "0755"
-
-- name: Install cosign asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add cosign {{ cosign_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global cosign version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global cosign system"

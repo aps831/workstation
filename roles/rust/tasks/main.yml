@@ -37,19 +37,3 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
-
-# asdf
-- name: Install packages
-  become: true
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - curl
-
-- name: Install rust asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add rust {{ rust_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global rust version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global rust system"

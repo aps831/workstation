@@ -24,6 +24,12 @@
     dest: "{{ asdf_install_dir }}"
     version: "{{ release_content.json.tag_name }}"
 
+- name: Add asdf plugin manager
+  ansible.builtin.command: asdf plugin add asdf-plugin-manager {{ asdf_plugin_manager_url }}
+
+- name: Update asdf plugin manager
+  ansible.builtin.command: asdf plugin update asdf-plugin-manager {{ asdf_plugin_manager_version }}
+
 - name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:

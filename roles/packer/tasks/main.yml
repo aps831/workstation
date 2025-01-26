@@ -21,11 +21,3 @@
   vars:
     packages:
       - packer
-
-# asdf
-- name: Install packer asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add packer {{ packer_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global packer version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global packer system"

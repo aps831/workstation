@@ -45,19 +45,3 @@
   vars:
     packages:
       - doppler
-
-# asdf
-- name: Install packages
-  become: true
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - curl
-
-- name: Install doppler asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add doppler {{ doppler_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global doppler version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global doppler system"

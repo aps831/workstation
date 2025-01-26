@@ -2,3 +2,5 @@
 asdf_install_dir: /home/{{ ansible_user }}/.asdf
 asdf_download_url: "https://github.com/asdf-vm/asdf.git"
 asdf_latest_tag_url: "https://api.github.com/repos/asdf-vm/asdf/releases/latest"
+asdf_plugin_manager_url: "https://github.com/asdf-community/asdf-plugin-manager.git"
+asdf_plugin_manager_version: 0ef4f9e

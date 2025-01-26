@@ -1,12 +1,4 @@
 ---
-# Kubectl
-- name: Install kubectl asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add kubectl {{ kubectl_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global kubectl version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global kubectl system"
-
 # Minikube
 - name: Download minikube checksum
   ansible.builtin.uri:
@@ -168,13 +160,6 @@
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: Install fluxcd asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add flux2 {{ fluxcd_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global fluxcd version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global flux2 system"
-
 # Kubeseal
 - name: Create temporary file for kubeseal download
   ansible.builtin.tempfile:
@@ -247,13 +232,6 @@
     group: root
     mode: "0755"
     remote_src: true
-
-- name: Install istioctl asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin-add istioctl {{ istio_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global istioctl version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global istioctl system"
 
 # Kubeconform
 - name: Create temporary build directory

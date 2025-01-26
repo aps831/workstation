@@ -41,7 +41,6 @@
     - role: asdf
     - role: aws
     - role: bats
-    - role: bazel
     - role: buildpacks
     - role: cheat
     - role: checkov

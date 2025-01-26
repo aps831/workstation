@@ -48,7 +48,7 @@
     group: "{{ ansible_user }}"
     mode: "0755"
 
-- name: Define asdf variables
+- name: Define vagrant variables
   become: true
   ansible.builtin.template:
     src: user_vagrant.sh.j2

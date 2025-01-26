@@ -9,10 +9,3 @@
     group: "root"
     mode: "0755"
   changed_when: false
-
-- name: Install tailwindcss asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add tailwindcss {{ tailwindcss_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global tailwindcss version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global tailwindcss system"

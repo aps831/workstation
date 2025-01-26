@@ -27,25 +27,11 @@
       - libffi-dev
       - liblzma-dev
 
-# asdf python
-- name: Install asdf python plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add python"
-  ignore_errors: true
-
-- name: Install latest python version
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install python latest"
-
-- name: Set global python version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global python system"
-
 # pipx
 - name: Install pipx
   ansible.builtin.pip:
     name: pipx=={{ python_pipx_version }}
     extra_args: --user pipx
-
-- name: Reshim asdf
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf reshim python"
 
 # cookiecutter
 - name: Install pip-audit
@@ -79,17 +65,6 @@
 
 - name: Configure poetry
   ansible.builtin.command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
-
-# asdf poetry
-- name: Install asdf poetry plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add poetry"
-  ignore_errors: true
-
-- name: Install latest poetry version
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install poetry latest"
-
-- name: Set global poetry version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global poetry system"
 
 # profile
 - name: Ensure user profile directory exists

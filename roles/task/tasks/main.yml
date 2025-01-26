@@ -20,11 +20,3 @@
   ansible.builtin.apt:
     deb: "{{ tmp_dir.path }}/{{ task_filename }}"
     state: present
-
-# asdf
-- name: Install task asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add task {{ task_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Set global golang version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global task system"

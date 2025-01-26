@@ -68,14 +68,3 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0755"
-
-# asdf
-- name: Install asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add android-sdk {{ android_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Install latest android-sdk version
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && yes | asdf install android-sdk latest"
-
-- name: Set global android-sdk version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global android-sdk system"

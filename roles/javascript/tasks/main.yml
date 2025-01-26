@@ -58,14 +58,3 @@
     name: npm
     global: true
     state: latest
-
-# asdf
-- name: Install asdf plugin
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf plugin add nodejs {{ node_asdf_plugin_url }}"
-  ignore_errors: true
-
-- name: Install latest node version
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf install nodejs latest"
-
-- name: Set global nodejs version to system
-  ansible.builtin.shell: bash -c ". /home/{{ ansible_user }}/.asdf/asdf.sh && asdf global nodejs system"
