@@ -2,6 +2,8 @@
 - name: Run playbook tasks
   hosts: titan
   roles:
+    - role: backblaze
+    - role: lsyncd
     - role: rclone
       vars:
         rclone_user: "andrew"

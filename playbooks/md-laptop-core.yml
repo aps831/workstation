@@ -4,7 +4,6 @@
   roles:
     - role: ansible
     - role: aws
-    - role: backblaze
     - role: doppler
     - role: encryption
     - role: firewall

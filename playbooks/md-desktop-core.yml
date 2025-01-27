@@ -4,7 +4,6 @@
   roles:
     - role: ansible
     - role: aws
-    - role: backblaze
     - role: desktop
     - role: doppler
     - role: encryption
@@ -12,7 +11,6 @@
     - role: fonts
     - role: journald
     - role: kvm
-    - role: lsyncd
     - role: mail
     - role: multimedia
     - role: shotwell

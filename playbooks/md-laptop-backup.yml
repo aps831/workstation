@@ -2,6 +2,7 @@
 - name: Run playbook tasks
   hosts: md-laptop
   roles:
+    - role: backblaze
     - role: rclone
       vars:
         rclone_user: "m-d"

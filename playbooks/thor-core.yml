@@ -16,10 +16,8 @@
     - role: chezmoi
 
     # Admin
-    - role: backblaze
     - role: homebrew
     - role: journald
-    - role: lsyncd
     - role: mail
     - role: nvchecker
     - role: system
