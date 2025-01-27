@@ -1,0 +1,106 @@
+---
+- name: Install backup packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - cron
+      - timeshift
+      - rclone
+      - rclone-browser
+
+- name: "Create rclone config directory"
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ rclone_user }}/.config/rclone"
+    state: directory
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0700"
+    recurse: true
+
+- name: "Create rclone log file"
+  become: true
+  ansible.builtin.copy:
+    content: ""
+    dest: "/var/log/rclone.log"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0666"
+
+- name: "Install {{ rclone_user }} filters"
+  become: true
+  ansible.builtin.copy:
+    src: "{{ rclone_host }}/{{ rclone_user }}/filters.txt"
+    dest: "/home/{{ rclone_user }}/.config/rclone/filters.txt"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0600"
+
+- name: "Install {{ rclone_user }} config"
+  become: true
+  ansible.builtin.template:
+    src: "rclone.conf.j2"
+    dest: "/home/{{ rclone_user }}/.config/rclone/rclone.conf"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0600"
+
+- name: "Install {{ rclone_user }} backup script"
+  become: true
+  ansible.builtin.template:
+    src: "backup.sh.j2"
+    dest: "/usr/local/sbin/rclone_{{ rclone_user }}_backup.sh"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0700"
+
+- name: "Install {{ rclone_user }} backup service"
+  become: true
+  ansible.builtin.template:
+    src: "backup.service.j2"
+    dest: "/etc/systemd/system/rclone_{{ rclone_user }}_backup.service"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0644"
+
+- name: "Install {{ rclone_user }} backup timer"
+  become: true
+  ansible.builtin.template:
+    src: "backup.timer.j2"
+    dest: "/etc/systemd/system/rclone_{{ rclone_user }}_backup.timer"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0644"
+
+- name: Disable rclone_{{ rclone_user }}_backup service
+  become: true
+  ansible.builtin.systemd:
+    name: "rclone_{{ rclone_user }}_backup.service"
+    enabled: false
+
+- name: Enable rclone_{{ rclone_user }}_backup timer
+  become: true
+  ansible.builtin.systemd:
+    name: "rclone_{{ rclone_user }}_backup.timer"
+    enabled: true
+  notify: Restart rclone backup
+
+- name: Install rotation script
+  become: true
+  ansible.builtin.template:
+    src: "rotate.sh.j2"
+    dest: "/home/{{ rclone_user }}/.local/bin/rotate-backblaze-rclone-key"
+    owner: "{{ rclone_user }}"
+    group: "{{ rclone_user }}"
+    mode: "0755"
+
+- name: Backup rclone config
+  ansible.builtin.shell:
+    cat /home/{{ rclone_user }}/.config/rclone/rclone.conf | doppler secrets -p workstation -c {{ rclone_host }} set {{ rclone_backblaze_config_doppler_name
+    }}
+- name: Backup rclone filters
+  ansible.builtin.shell:
+    cat /home/{{ rclone_user }}/.config/rclone/filters.txt | doppler secrets -p workstation -c {{ rclone_host }} set {{ rclone_backblaze_filters_doppler_name
+    }}

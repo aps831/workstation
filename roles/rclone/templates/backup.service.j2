@@ -1,5 +1,5 @@
 [Unit]
-Description=run {{ backup_user }} backup
+Description=run {{ rclone_user }} backup
 OnFailure=status-email-user@%n.service
 After=network-online.target
 Wants=network-online.target
@@ -7,9 +7,9 @@ Wants=network-online.target
 [Service]
 Type=simple
 User={{ ansible_user }}
-WorkingDirectory=/home/{{ backup_user }}
+WorkingDirectory=/home/{{ rclone_user }}
 Nice=19
-ExecStart=/usr/local/sbin/rclone_{{ backup_user }}_backup.sh
+ExecStart=/usr/local/sbin/rclone_{{ rclone_user }}_backup.sh
 
 [Install]
 WantedBy=multi-user.target

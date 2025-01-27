@@ -1,0 +1,2 @@
+#! /bin/bash
+rclone sync . backblaze:{{ rclone_backblaze_bucket_name }}/{{ rclone_user }} --fast-list --transfers 10 --filter-from /home/{{ rclone_user }}/.config/rclone/filters.txt &> /var/log/rclone.log

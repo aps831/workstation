@@ -2,17 +2,17 @@
 - name: Run playbook tasks
   hosts: titan
   roles:
-    - role: backup
+    - role: rclone
       vars:
-        backup_user: "andrew"
-        backup_host: "titan"
-        backup_application_key_id: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_ID_TITAN_ANDREW') }}"
-        backup_application_key: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_TITAN_ANDREW') }}"
-        backup_bucket_name: "{{ lookup('env', 'BACKBLAZE_RCLONE_BUCKET_TITAN') }}"
-        backup_doppler_rclone_key_id: BACKBLAZE_RCLONE_KEY_ID_TITAN_ANDREW
-        backup_doppler_rclone_key: BACKBLAZE_RCLONE_KEY_TITAN_ANDREW
-        backup_doppler_rclone_config: "BACKBLAZE_RCLONE_CONFIG_TITAN_ANDREW"
-        backup_doppler_rclone_filters: "BACKBLAZE_RCLONE_FILTERS_TITAN_ANDREW"
+        rclone_user: "andrew"
+        rclone_host: "titan"
+        rclone_backblaze_application_key_id: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_ID_TITAN_ANDREW') }}"
+        rclone_backblaze_application_key: "{{ lookup('env', 'BACKBLAZE_RCLONE_KEY_TITAN_ANDREW') }}"
+        rclone_backblaze_bucket_name: "{{ lookup('env', 'BACKBLAZE_RCLONE_BUCKET_TITAN') }}"
+        rclone_backblaze_key_id_doppler_name: BACKBLAZE_RCLONE_KEY_ID_TITAN_ANDREW
+        rclone_backblaze_key_doppler_name: BACKBLAZE_RCLONE_KEY_TITAN_ANDREW
+        rclone_backblaze_config_doppler_name: "BACKBLAZE_RCLONE_CONFIG_TITAN_ANDREW"
+        rclone_backblaze_filters_doppler_name: "BACKBLAZE_RCLONE_FILTERS_TITAN_ANDREW"
 
   pre_tasks:
     - name: Update repository caches

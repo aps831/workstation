@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# find existing key
+KEY_ID=$(b2 key list | grep rclone-sync-{{ rclone_host }}-{{ rclone_user }} | awk '{ print $1 }')
+
+# delete existing key
+b2 key delete "$KEY_ID"
+
+# create new key
+NEW_KEY=$(b2 key create rclone-sync-{{ rclone_host }}-{{ rclone_user }} deleteFiles,listAllBucketNames,listBuckets,listFiles,readBucketEncryption,readBucketNotifications,readBucketReplications,readBuckets,readFiles,shareFiles,writeBucketEncryption,writeBucketNotifications,writeBucketReplications,writeFiles --bucket {{ rclone_backblaze_bucket_name }})
+
+# extract id and key
+NEW_KEY_ID=$(echo -n $NEW_KEY | awk '{ print $1 }')
+NEW_KEY=$(echo -n $NEW_KEY | awk '{ print $2 }')
+
+# update config
+sed -i "/account =.*/d" /home/{{ rclone_user }}/.config/rclone/rclone.conf
+sed -i "/key =.*/d" /home/{{ rclone_user }}/.config/rclone/rclone.conf
+sed -i "/^[[:space:]]*$/d" /home/{{ rclone_user }}/.config/rclone/rclone.conf
+echo "account = $NEW_KEY_ID" >> /home/{{ rclone_user }}/.config/rclone/rclone.conf
+echo "key = $NEW_KEY" >> /home/{{ rclone_user }}/.config/rclone/rclone.conf
+echo "" >> /home/{{ rclone_user }}/.config/rclone/rclone.conf
+
+# update doppler
+echo -n "$NEW_KEY_ID" | doppler secrets -p workstation -c {{ rclone_host }} set {{ rclone_backblaze_key_id_doppler_name }}
+echo -n "$NEW_KEY" | doppler secrets -p workstation -c {{ rclone_host }} set {{ rclone_backblaze_key_doppler_name }}
+cat /home/{{ rclone_user }}/.config/rclone/rclone.conf | doppler secrets -p workstation -c {{ rclone_host }} set {{ rclone_backblaze_config_doppler_name }}
