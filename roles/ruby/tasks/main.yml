@@ -9,30 +9,19 @@
       - ruby-full
       - build-essential
       - zlib1g-dev
-
-- name: Ensure gems directory exists
-  become: true
-  ansible.builtin.file:
-    dest: /home/{{ ansible_user }}/gems
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
-- name: Ensure user profile directory exists
-  become: true
-  ansible.builtin.file:
-    dest: /home/{{ ansible_user }}/.profile.d
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
-- name: Add ruby variables
-  become: true
-  ansible.builtin.template:
-    src: user_ruby.sh.j2
-    dest: /home/{{ ansible_user }}/.profile.d/ruby.sh
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
+      # ruby-build dependenices
+      - autoconf
+      - patch
+      - build-essential
+      - rustc
+      - libssl-dev
+      - libyaml-dev
+      - libreadline6-dev
+      - zlib1g-dev
+      - libgmp-dev
+      - libncurses5-dev
+      - libffi-dev
+      - libgdbm6
+      - libgdbm-dev
+      - libdb-dev
+      - uuid-dev
