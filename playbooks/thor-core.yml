@@ -92,6 +92,7 @@
     - role: haskell
     - role: python
     - role: prolog
+    - role: ruby
     - role: rust
     - role: tailwindcss
 
