@@ -10,6 +10,8 @@
       - curl
       - jq
       - xmlstarlet
+      - xmlcopyeditor
+
 # yq
 - name: Create temporary build directory
   ansible.builtin.tempfile:
