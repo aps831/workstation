@@ -1,4 +1,2 @@
 ---
-# unable to determine link to a pinned version. sha256 has to be calculated manually
-notation_aws_signer_download_url: https://d2hvyiie56hcat.cloudfront.net/linux/amd64/plugin/latest/notation-aws-signer-plugin.zip
-notation_aws_signer_download_sha256: cccfe8fdcdf853d83fd57ffc80524eddda75ad7ae9d9a257b087007230ec02f9
+notation_aws_signer_download_url: https://d2hvyiie56hcat.cloudfront.net/linux/amd64/installer/deb/latest/aws-signer-notation-cli_amd64.deb
