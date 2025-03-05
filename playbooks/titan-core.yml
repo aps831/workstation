@@ -16,7 +16,6 @@
     - role: chezmoi
 
     # Admin
-    - role: homebrew
     - role: journald
     - role: mail
     - role: nvchecker
