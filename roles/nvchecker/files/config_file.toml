@@ -240,9 +240,6 @@ github = "DevToys-app/DevToys"
 use_max_tag = true
 
 # Pip Installs
-[checkov]
-source = "pypi"
-pypi = "checkov"
 
 [botocore]
 source = "pypi"

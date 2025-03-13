@@ -1,6 +1,5 @@
 ---
 - name: Install checkov
-  ansible.builtin.pip:
-    name:
-      - checkov=={{ checkov_version }}
+  community.general.pipx:
+    name: checkov
     state: present
