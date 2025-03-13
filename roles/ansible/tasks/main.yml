@@ -13,13 +13,6 @@
       - tar
       - unzip
 
-- name: Install ansible python dependencies
-  ansible.builtin.pip:
-    name:
-      - psutil=={{ psutil_version }}
-      - molecule=={{ molecule_version }}
-    state: present
-
 - name: Install policy_sentry
   community.general.pipx:
     name: ansible-lint

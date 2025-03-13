@@ -50,8 +50,6 @@ pet_version: 0.9.0
 dev_toys_version: 2.0.5.0
 
 # Pip Installs
-psutil_version: 5.9.0
-molecule_version: 3.6.1
 checkov_version: 3.1.67
 boto3_version: 1.28.35
 botocore_version: 1.31.35

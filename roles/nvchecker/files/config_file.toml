@@ -240,15 +240,6 @@ github = "DevToys-app/DevToys"
 use_max_tag = true
 
 # Pip Installs
-
-[psutil]
-source = "pypi"
-pypi = "psutil"
-
-[molecule]
-source = "pypi"
-pypi = "molecule"
-
 [checkov]
 source = "pypi"
 pypi = "checkov"
