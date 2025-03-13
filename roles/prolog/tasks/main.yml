@@ -1,4 +1,5 @@
 ---
+# Find fingerprint at https://launchpad.net/~swi-prolog/+archive/ubuntu/stable
 - name: Add swi-prolog signing key
   become: true
   ansible.builtin.get_url:

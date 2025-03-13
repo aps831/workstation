@@ -1,4 +1,5 @@
 ---
+# Find fingerprint at https://launchpad.net/~yubico/+archive/ubuntu/stable
 - name: Add yubico signing key
   become: true
   ansible.builtin.get_url:
