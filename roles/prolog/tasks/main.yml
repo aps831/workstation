@@ -2,7 +2,7 @@
 - name: Add swi-prolog signing key
   become: true
   ansible.builtin.get_url:
-    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x73E75048FF27533C0D8DC521EF8406856DBFCA18"
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE8B739E3753FF4A12360BA6A4AB3A5F60EA9AEB3"
     dest: /usr/share/keyrings/swi-prolog-keyring.asc
     mode: "0644"
     force: true
