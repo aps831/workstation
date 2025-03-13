@@ -34,11 +34,6 @@ source = "github"
 github = "idc101/git-mkver"
 use_latest_release = true
 
-[delta]
-source = "github"
-github = "dandavison/delta"
-use_latest_release = true
-
 [zaproxy]
 source = "github"
 github = "zaproxy/zaproxy"

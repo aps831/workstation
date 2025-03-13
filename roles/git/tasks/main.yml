@@ -13,6 +13,7 @@
       - git-gui
       - fzf
       - git-absorb
+      - git-delta
 
 - name: Install bash-completion
   become: true
@@ -51,12 +52,6 @@
     owner: root
     group: root
     mode: "0755"
-
-# delta
-- name: Install delta
-  become: true
-  ansible.builtin.apt:
-    deb: "{{ delta_download_url }}"
 
 # git filter repo
 - name: Create temporary file for git filter repo download
