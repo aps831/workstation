@@ -4,4 +4,4 @@ asdf_filename: asdf-v{{ asdf_version }}-linux-amd64.tar.gz
 asdf_download_url: https://github.com/asdf-vm/asdf/releases/download/v{{ asdf_version }}/{{ asdf_filename }}
 asdf_download_md5_url: https://github.com/asdf-vm/asdf/releases/download/v{{ asdf_version }}/{{ asdf_filename }}.md5
 asdf_plugin_manager_url: "https://github.com/asdf-community/asdf-plugin-manager.git"
-asdf_plugin_manager_version: 0ef4f9e
+asdf_plugin_manager_version: 0ef4f9e16faa6426fbafe632e03c2c9bdbe52921
