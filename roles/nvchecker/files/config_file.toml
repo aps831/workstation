@@ -253,10 +253,6 @@ pypi = "molecule"
 source = "pypi"
 pypi = "checkov"
 
-[pipx]
-source = "pypi"
-pypi = "pipx"
-
 [botocore]
 source = "pypi"
 pypi = "botocore"
