@@ -1,49 +1,31 @@
 ---
-- name: Create asdf folder
-  ansible.builtin.file:
-    path: "{{ asdf_install_dir }}"
+- name: Create temporary build directory for asdf
+  ansible.builtin.tempfile:
     state: directory
+    suffix: build
+  register: asdf_tmpdir
+
+- name: Download asdf
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ asdf_download_url }}"
+    dest: "{{ asdf_tmpdir.path }}"
+    checksum: "md5:{{ asdf_download_md5_url }}"
+  changed_when: false
+
+- name: Extract asdf from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ asdf_tmpdir.path }}/{{ asdf_filename }}"
+    include: asdf
+    dest: "/usr/local/bin/"
+    remote_src: true
+    owner: root
+    group: root
     mode: "0755"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-
-- name: Get latest tag name
-  ansible.builtin.uri:
-    url: "{{ asdf_latest_tag_url }}"
-    return_content: true
-  register: release_content
-
-- name: Output version
-  ansible.builtin.debug:
-    msg: "Using version {{ release_content.json.tag_name }}"
-
-- name: Install asdf
-  ansible.builtin.git:
-  args:
-    repo: "{{ asdf_download_url }}"
-    dest: "{{ asdf_install_dir }}"
-    version: "{{ release_content.json.tag_name }}"
 
 - name: Add asdf plugin manager
   ansible.builtin.command: asdf plugin add asdf-plugin-manager {{ asdf_plugin_manager_url }}
 
 - name: Update asdf plugin manager
   ansible.builtin.command: asdf plugin update asdf-plugin-manager {{ asdf_plugin_manager_version }}
-
-- name: Ensure user profile directory exists
-  become: true
-  ansible.builtin.file:
-    dest: /home/{{ ansible_user }}/.profile.d
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
-- name: Define asdf variables
-  become: true
-  ansible.builtin.template:
-    src: user_asdf.sh.j2
-    dest: /home/{{ ansible_user }}/.profile.d/asdf.sh
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
