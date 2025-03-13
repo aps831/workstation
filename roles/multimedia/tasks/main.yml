@@ -16,7 +16,6 @@
       - openshot-qt
       - blueman
       - lsp-plugins
-      - pulseeffects
       - cheese
       - heif-gdk-pixbuf
       - libheif-examples
