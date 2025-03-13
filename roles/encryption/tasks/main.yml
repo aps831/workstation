@@ -41,8 +41,64 @@
       - pcsc-tools
       - scdaemon
       - libksba8
-      - yubioath-desktop
       - yubikey-manager
+
+- name: Determine if yubioath already installed
+  ansible.builtin.stat:
+    path: "{{ encryption_yubioath_install_dir }}/{{ encryption_yubioath_version }}"
+  register: encryption_yubioath_installed
+  changed_when: false
+
+- name: Create installation directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ encryption_yubioath_install_dir }}/{{ encryption_yubioath_version }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download and unpack yubioath
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ encryption_yubioath_download_url }}"
+    dest: "{{ encryption_yubioath_install_dir }}/{{ encryption_yubioath_version }}"
+    extra_opts: [--strip-components=1]
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true
+  changed_when: false
+  when: not encryption_yubioath_installed.stat.exists
+
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
+    src: "{{ encryption_yubioath_install_dir }}/{{ encryption_yubioath_version }}"
+    path: "/opt/authenticator"
+    owner: root
+    group: root
+    state: link
+    mode: "0755"
+  when: not encryption_yubioath_installed.stat.exists
+
+- name: Add yubioath to bin folder
+  become: true
+  ansible.builtin.template:
+    src: authenticator.j2
+    dest: /usr/bin/authenticator
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Add authenticator shortcut
+  become: true
+  ansible.builtin.template:
+    src: authenticator.desktop.j2
+    dest: /usr/share/applications/authenticator.desktop
+    owner: root
+    group: root
+    mode: "0644"
 
 - name: Install u2f rules
   become: true
