@@ -1,4 +1,20 @@
 ---
+# Find fingerprint at https://launchpad.net/~stefanberger/+archive/ubuntu/swtpm-{{ ubuntu_codename }}
+- name: Add stefanberger/swtpm signing key
+  become: true
+  ansible.builtin.get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x98E5A594422A7F7CEC7A5DCD1E9E66385D3E4D5D"
+    dest: /usr/share/keyrings/swtpm-{{ ubuntu_codename }}-keyring.asc
+    mode: "0644"
+    force: true
+
+- name: Add stefanberger/swtpm repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/swtpm-{{ ubuntu_codename }}-keyring.asc] https://ppa.launchpadcontent.net/stefanberger/swtpm-{{ ubuntu_codename }}/ubuntu {{ ubuntu_codename }} main"
+    filename: swtpm-{{ ubuntu_codename }}
+    state: present
+
 - name: Install kvm dependencies
   become: true
   ansible.builtin.apt:
@@ -8,11 +24,17 @@
       - libvirt-clients
       - libvirt-daemon-system
       - libvirt-daemon
+      - libosinfo-bin
       - virtinst
       - bridge-utils
       - qemu
       - qemu-system-x86
+      - qemu-kvm
       - virt-manager
+      - virt-viewer
+      - ovmf
+      - swtpm
+      - swtpm-tools
 
 - name: Create directory for user pool
   ansible.builtin.file:
