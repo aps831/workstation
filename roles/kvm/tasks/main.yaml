@@ -36,6 +36,27 @@
       - swtpm
       - swtpm-tools
 
+- name: Add user to libvirt group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: libvirt
+    append: true
+
+- name: Add user to libvirt-qemu group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: libvirt-qemu
+    append: true
+
+- name: Add user to kvm group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: kvm
+    append: true
+
 - name: Create directory for user pool
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/.libvirt/images
