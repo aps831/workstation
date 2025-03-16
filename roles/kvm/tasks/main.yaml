@@ -27,6 +27,7 @@
       - libosinfo-bin
       - libguestfs-tools
       - virtinst
+      - virtiofsd
       - bridge-utils
       - dnsmasq-base
       - genisoimage
