@@ -25,11 +25,15 @@
       - libvirt-daemon-system
       - libvirt-daemon
       - libosinfo-bin
+      - libguestfs-tools
       - virtinst
       - bridge-utils
+      - dnsmasq-base
+      - genisoimage
       - qemu
       - qemu-system-x86
       - qemu-kvm
+      - virtinst
       - virt-manager
       - virt-viewer
       - ovmf
@@ -71,6 +75,7 @@
 
 - name: Set user pool to autostart
   ansible.builtin.command: virsh pool-autostart user
+
 - name: Start user pool
   ansible.builtin.command: virsh pool-start user
   ignore_errors: true
