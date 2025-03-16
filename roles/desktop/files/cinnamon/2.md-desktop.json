@@ -166,6 +166,7 @@
             "libreoffice-writer.desktop",
             "thunderbird.desktop",
             "windows10.desktop",
+            "windows11.desktop",
             "google-chrome.desktop"
         ]
     },
