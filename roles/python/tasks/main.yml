@@ -33,7 +33,7 @@
     name: pip
     state: latest
 
-# cookiecutter
+# pip-audit
 - name: Install pip-audit
   community.general.pipx:
     name: pip-audit
