@@ -57,12 +57,6 @@
     name: poetry
     state: latest
 
-- name: Install poetry plugin export
-  community.general.pipx:
-    name: poetry
-    inject_packages: poetry-plugin-export
-    state: inject
-
 - name: Configure poetry
   ansible.builtin.command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
 
