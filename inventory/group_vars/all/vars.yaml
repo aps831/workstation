@@ -53,7 +53,7 @@ boto3_version: 1.28.35
 botocore_version: 1.31.35
 
 # Other Installs
-intellij_version: 2023.2.2
+intellij_version: 2025.1.4.1
 vbox_version: 7.0
 node_version: 22
 golang_version: 1.18
