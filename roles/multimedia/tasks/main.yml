@@ -23,7 +23,7 @@
       - libheif-examples
       - ffmpeg
       - handbrake
-      - devede
+      # - devede this is out of date and has a bug; download from https://www.rastersoft.com/programas/devede.html
       - k3b
       - abcde
       - lame
