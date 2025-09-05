@@ -10,6 +10,7 @@ The following playbooks have been created:
 -   `md-desktop-core.yml` - install core dependencies for m-d on md-desktop;
 -   `md-laptop-backup.yml` - install backup dependencies for m-d on md-laptop;
 -   `md-laptop-core.yml` - install core dependencies for m-d on md-laptop;
+-   `mk-laptop-core.yml` - install core dependencies for mk on mk-laptop;
 -   `thor-backup.yml` - install backup dependencies for thor;
 -   `thor-core.yml` - install core dependencies for thor;
 -   `thor-restore.yml` - install minimal dependencies in order to bootstrap a restore of thor;
