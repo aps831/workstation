@@ -1,5 +1,5 @@
 ---
-intellij_version: "2025.1.4.1"
+intellij_version: "2025.2.1"
 intellij_filename: "ideaIC-{{intellij_version}}.tar.gz"
 intellij_install_dir: "/opt/intellij-versions"
 intellij_download_url: "http://download.jetbrains.com/idea/{{ intellij_filename }}"
