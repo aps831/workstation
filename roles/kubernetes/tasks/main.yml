@@ -89,18 +89,6 @@
     mode: "0755"
     remote_src: true
 
-- name: Install helm secrets
-  ansible.builtin.command: helm plugin install https://github.com/jkroepke/helm-secrets
-  ignore_errors: true
-
-- name: Update helm secrets
-  ansible.builtin.command: helm plugin update secrets
-- name: Install helm diff
-  ansible.builtin.command: helm plugin install https://github.com/databus23/helm-diff
-  ignore_errors: true
-
-- name: Update helm diff
-  ansible.builtin.command: helm plugin update diff
 - name: Download helmfile binary
   become: true
   ansible.builtin.get_url:
