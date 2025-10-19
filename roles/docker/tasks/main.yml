@@ -136,6 +136,9 @@
   ansible.builtin.get_url:
     url: "{{ docker_credential_helper_url }}"
     dest: "{{ docker_credential_helper_tmp_dir.path }}"
+    owner: root
+    group: root
+    mode: "0755"
 
 - name: Unpack docker credential helper
   become: true
