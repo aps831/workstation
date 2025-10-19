@@ -16,6 +16,7 @@
     - role: chezmoi
 
     # Admin
+    - role: flatpak
     - role: journald
     - role: mail
     - role: nvchecker
@@ -29,10 +30,12 @@
     - role: desktop
     - role: dropbox
     - role: fonts
+    - role: freerdp
     - role: multimedia
     - role: noson
     - role: shotwell
     - role: web
+    - role: winboat
 
     # Programming Tools
     - role: asdf

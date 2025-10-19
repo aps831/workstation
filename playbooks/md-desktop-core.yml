@@ -5,10 +5,13 @@
     - role: ansible
     - role: aws
     - role: desktop
+    - role: docker
     - role: doppler
     - role: encryption
     - role: firewall
+    - role: flatpak
     - role: fonts
+    - role: freerdp
     - role: journald
     - role: kvm
     - role: mail
@@ -22,6 +25,7 @@
     - role: virtualbox
     - role: warpinator
     - role: web
+    - role: winboat
 
   pre_tasks:
     - name: Update repository caches

@@ -1,0 +1,19 @@
+---
+- name: Create temporary file
+  ansible.builtin.tempfile:
+    state: file
+  register: winboat_tmp_file
+  changed_when: false
+
+- name: Download winboat
+  ansible.builtin.get_url:
+    url: "{{ winboat_download_url }}"
+    dest: "{{ winboat_tmp_file.path }}"
+    mode: "0777"
+    force: true
+  changed_when: false
+
+- name: Install winboat deb package
+  become: true
+  ansible.builtin.apt:
+    deb: "{{ winboat_tmp_file.path }}"

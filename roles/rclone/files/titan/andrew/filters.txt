@@ -33,3 +33,4 @@
 - .vagrant.d/**
 - .virtualboxvms/**
 - .virtualenvs/**
+- .winboat-vms/**

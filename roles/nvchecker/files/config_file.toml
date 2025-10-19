@@ -234,6 +234,11 @@ source = "github"
 github = "DevToys-app/DevToys"
 use_max_tag = true
 
+[winboat]
+source = "github"
+github = "TibixDev/winboat"
+use_max_tag = true
+
 # Pip Installs
 
 [botocore]
