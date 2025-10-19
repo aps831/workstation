@@ -1,7 +1,4 @@
 ---
-docker_compose_version: "2.24.7"
-docker_compose_download_url: https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64
-docker_compose_sha256_url: "{{ docker_compose_download_url }}.sha256"
 docker_credential_helper_version: "0.6.4"
 docker_credential_helper_filename: docker-credential-pass-v{{ docker_credential_helper_version }}-amd64.tar.gz
 docker_credential_helper_url:

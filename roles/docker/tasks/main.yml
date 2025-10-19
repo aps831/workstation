@@ -33,7 +33,12 @@
 - name: Install docker
   become: true
   ansible.builtin.apt:
-    name: docker-ce
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
     state: present
   notify: Restart docker
 
@@ -70,27 +75,6 @@
 #
 - name: Docker sbom plugin
   ansible.builtin.shell: curl -sSfL https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh | sh -s --
-- name: Ensure docker plugins parent directory exists
-  become: true
-  ansible.builtin.file:
-    path: "/usr/local/lib/docker"
-    state: directory
-    mode: "0755"
-
-- name: Ensure docker plugins directory exists
-  become: true
-  ansible.builtin.file:
-    path: "/usr/local/lib/docker/cli-plugins"
-    state: directory
-    mode: "0755"
-
-- name: Install docker compose
-  become: true
-  ansible.builtin.get_url:
-    url: "{{ docker_compose_download_url }}"
-    dest: "/usr/local/lib/docker/cli-plugins/docker-compose"
-    checksum: "sha256:{{ docker_compose_sha256_url }}"
-    mode: "0755"
 
 #
 # Firewall
