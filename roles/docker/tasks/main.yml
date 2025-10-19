@@ -88,7 +88,7 @@
   notify: Reload ufw
 
 - name: Get ip address of docker interface
-  ansible.builtin.shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
+  ansible.builtin.shell: set -o pipefail | ifconfig docker0 | grep 'inet ' | awk '{print $2}'
   register: docker_interface_ip
   changed_when: false
 
