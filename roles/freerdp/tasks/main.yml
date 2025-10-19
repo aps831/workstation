@@ -1,0 +1,6 @@
+---
+- name: Install free RDP
+  become: true
+  community.general.flatpak:
+    name: com.freerdp.FreeRDP
+    state: present
