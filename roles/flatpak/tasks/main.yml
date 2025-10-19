@@ -1,0 +1,6 @@
+---
+- name: Install flatpak
+  become: true
+  ansible.builtin.apt:
+    name:
+      - flatpak
