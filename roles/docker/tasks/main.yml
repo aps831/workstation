@@ -73,8 +73,22 @@
 #
 # SBOM
 #
-- name: Docker sbom plugin
-  ansible.builtin.shell: curl -sSfL https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh | sh -s --
+- name: Create temporary file
+  ansible.builtin.tempfile:
+    state: file
+  register: docker_sbom_tmp_file
+  changed_when: false
+
+- name: Download sbom plugin install script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/docker/sbom-cli-plugin/main/install.sh
+    dest: "{{ docker_sbom_tmp_file.path }}"
+    mode: "0777"
+  changed_when: false
+
+- name: Install Docker sbom plugin
+  ansible.builtin.script:
+    cmd: "{{ docker_sbom_tmp_file.path }}"
 
 #
 # Firewall
