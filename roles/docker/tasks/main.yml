@@ -102,23 +102,14 @@
 #
 # Daemon configuration
 #
-
 - name: Docker daemon configuration
   become: true
-  environment:
-    MIRROR: "http://localhost:5001"
-    REGISTRY: "http://registry.local:5000"
-  ansible.builtin.shell: |
-    set -e
-    echo "{}" > /etc/docker/daemon.json
-    cat /etc/docker/daemon.json   | jq                             '.dns |= [ "8.8.8.8", "8.8.4.4" ]'        -- > /etc/docker/daemon.json.1
-    cat /etc/docker/daemon.json.1 | jq --arg mirror    "$MIRROR"   '."registry-mirrors" |= [ $mirror ]'      -- > /etc/docker/daemon.json.2
-    cat /etc/docker/daemon.json.2 | jq --arg registry  "$REGISTRY" '."insecure-registries" |= [ $registry ]' -- > /etc/docker/daemon.json.3
-    cat /etc/docker/daemon.json.3 | jq                             '.features.buildkit  |= true'             -- > /etc/docker/daemon.json.4
-    rm /etc/docker/daemon.json.1
-    rm /etc/docker/daemon.json.2
-    rm /etc/docker/daemon.json.3
-    mv /etc/docker/daemon.json.4 /etc/docker/daemon.json
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0755"
   notify: Restart docker
 
 #

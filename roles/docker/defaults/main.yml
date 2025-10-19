@@ -5,3 +5,5 @@ docker_credential_helper_url:
   https://github.com/docker/docker-credential-helpers/releases/download/v{{ docker_credential_helper_version }}/{{ docker_credential_helper_filename
   }}
 docker_credential_helper_install_dir: /usr/local/bin
+docker_registry_mirror: "http://localhost:5001"
+docker_insecure_registry: "http://registry.local:5000"
