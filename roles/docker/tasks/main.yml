@@ -56,7 +56,7 @@
     name: docker
     state: present
 
-- name: "Ensure user '{{ ansible_user }}' is in docker group"
+- name: "Ensure docker group contains user '{{ ansible_user }}'"
   become: true
   ansible.builtin.user:
     name: "{{ ansible_user }}"
