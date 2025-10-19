@@ -89,14 +89,14 @@
 
 - name: Get ip address of docker interface
   ansible.builtin.shell: ifconfig docker0 | grep 'inet ' | awk '{print $2}'
-  register: ip
+  register: docker_interface_ip
   changed_when: false
 
 - name: Allow connections from docker interface through firewall
   become: true
   community.general.ufw:
     rule: allow
-    src: "{{ ip.stdout }}/24"
+    src: "{{ docker_interface_ip.stdout }}/24"
   notify: Reload ufw
 
 #
