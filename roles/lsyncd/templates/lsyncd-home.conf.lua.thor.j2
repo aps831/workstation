@@ -9,6 +9,7 @@ sync {
     default.rsyncssh,
     source = "/home/{{ ansible_user }}",
     host = "{{ nas_host }}",
+    delete = false,
     exclude = {
         "/.asdf",
         "/.dbus",

@@ -9,6 +9,7 @@ sync {
     default.rsync,
     source = "/hdd/home/{{ ansible_user }}",
     target = "/backup/lsyncd/{{ ansible_user }}",
+    delete = false,
     exclude = {
         "/.libvirt/images",
         "/.local/share/Trash",
