@@ -1,0 +1,121 @@
+---
+- name: Install hints dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libgirepository1.0-dev
+      - gcc
+      - libcairo2-dev
+      - pkg-config
+      - gir1.2-gtk-4.0
+
+- name: Install hints
+  community.general.pipx:
+    name: hints
+    source: git+https://github.com/AlfredoSequeida/hints.git
+    state: install
+
+# /etc/environment
+
+# ACCESSIBILITY_ENABLED=1
+# GTK_MODULES=gail:atk-bridge
+# OOO_FORCE_DESKTOP=gnome
+# GNOME_ACCESSIBILITY=1
+# QT_ACCESSIBILITY=1
+# QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+
+- name: "Ensure input group contains user '{{ ansible_user }}'"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: input
+    append: true
+
+- name: Ensure systemd directory exists
+  become: true
+  ansible.builtin.file:
+    dest: "/home/{{ ansible_user }}/.config/systemd/user/"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
+- name: Create hintsd service
+  become: true
+  ansible.builtin.template:
+    src: hintsd.service.j2
+    dest: "/home/{{ ansible_user }}/.config/systemd/user/hintsd.service"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+
+- name: Ensure systemd directory exists
+  become: true
+  ansible.builtin.file:
+    dest: "/home/{{ ansible_user }}/.config/systemd/user/default.target.wants/"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: "/home/{{ ansible_user }}/.config/systemd/user/hintsd.service"
+    dest: "/home/{{ ansible_user }}/.config/systemd/user/default.target.wants/hintsd.service"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: link
+
+- name: Create udev rules
+  become: true
+  ansible.builtin.copy:
+    src: 80-hints.rules
+    dest: /etc/udev/rules.d/80-hints.rules
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create custom binding
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/keybindings/custom-keybindings/custom0/binding"
+    value: "['<Primary>a']"
+    state: present
+
+- name: Create custom binding
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/keybindings/custom-keybindings/custom0/command"
+    value: "'/home/{{ ansible_user }}/.local/bin/hints'"
+    state: present
+
+- name: Create custom binding
+  community.general.dconf:
+    key: "/org/cinnamon/desktop/keybindings/custom-keybindings/custom0/name"
+    value: "'Hints'"
+    state: present
+
+- name: Register uid of {{ ansible_user }}
+  ansible.builtin.command: id -u {{ ansible_user }}
+  register: hints_uid
+  changed_when: false
+
+- name: Reload systemd daemon
+  become: true
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+  environment:
+    XDG_RUNTIME_DIR: /run/user/{{ hints_uid }}
+
+- name: Start hintsd
+  become: true
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.systemd:
+    name: hintsd
+    state: started
+    enabled: true
+    scope: user
+  environment:
+    XDG_RUNTIME_DIR: /run/user/{{ hints_uid }}
