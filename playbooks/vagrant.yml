@@ -17,25 +17,28 @@
 
     # Admin
     - role: backblaze
-    - role: system
-    - role: mail
+    - role: flatpak
     - role: journald
     - role: lsyncd
+    - role: mail
     - role: nvchecker
     - role: teamviewer
     - role: shutdown
     - role: status-email
     - role: syncthing
+    - role: system
 
     # Desktop
     - role: breaktimer
     - role: desktop
     - role: dropbox
     - role: fonts
+    - role: freerdp
     - role: multimedia
     - role: noson
     - role: shotwell
     - role: web
+    - role: winboat
 
     # Programming Tools
     - role: asdf
