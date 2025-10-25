@@ -30,15 +30,6 @@
     name: java
     path: /usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/java
 
-- name: Ensure user profile directory exists
-  become: true
-  ansible.builtin.file:
-    dest: /home/{{ ansible_user }}/.profile.d
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
 # maven
 - name: Install maven packages
   become: true

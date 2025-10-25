@@ -137,7 +137,7 @@
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: "0755"
+    mode: "0775"
 
 - name: Add flux auto completion
   become: true
@@ -329,7 +329,7 @@
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: "0755"
+    mode: "0775"
 
 - name: Define krew variables
   become: true

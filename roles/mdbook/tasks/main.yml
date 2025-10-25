@@ -38,6 +38,16 @@
   ansible.builtin.shell: "/home/{{ ansible_user }}/.cargo/bin/mdbook completions bash > {{ mdbook_completion_tmp.path }}"
   changed_when: false
 
+# profile
+- name: Ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
 - name: Define mdbook variables
   ansible.builtin.copy:
     src: "{{ mdbook_completion_tmp.path }}"

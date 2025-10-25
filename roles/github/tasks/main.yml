@@ -83,15 +83,6 @@
     packages:
       - jq
 
-- name: Ensure user profile directory exists
-  become: true
-  ansible.builtin.file:
-    dest: /home/{{ ansible_user }}/.profile.d
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0755"
-
 # ssh scripts
 - name: Add github-ssh-key-create script
   become: true
