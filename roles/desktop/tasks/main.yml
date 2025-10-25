@@ -11,6 +11,7 @@
       - kazam
 
 - name: Set list view for new folders
+  become: true
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/nemo/preferences/default-folder-viewer"
@@ -18,6 +19,7 @@
     state: present
 
 - name: Set wallpaper file
+  become: true
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/cinnamon/desktop/background/picture-uri"
@@ -25,6 +27,7 @@
     state: present
 
 - name: Centre wallpaper
+  become: true
   become_user: "{{ ansible_user }}"
   community.general.dconf:
     key: "/org/cinnamon/desktop/background/picture-options"
@@ -35,11 +38,17 @@
   ansible.builtin.template:
     src: "bookmarks.{{ ansible_user }}.j2"
     dest: /home/{{ ansible_user }}/.config/gtk-3.0/bookmarks
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0664"
 
 - name: Add redshift autostart
   ansible.builtin.template:
     src: redshift-gtk.desktop.j2
     dest: /home/{{ ansible_user }}/.config/autostart/redshift-gtk.desktop
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0664"
 
 - name: Create directory for cinnamon config
   ansible.builtin.file:
