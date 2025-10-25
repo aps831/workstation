@@ -38,9 +38,11 @@
 - name: Install emulator
   become: true
   ansible.builtin.command: "{{ android_install_dir }}/cmdline-tools/latest/bin/sdkmanager emulator"
+
 - name: Install platform-tools
   become: true
   ansible.builtin.command: "{{ android_install_dir }}/cmdline-tools/latest/bin/sdkmanager platform-tools"
+
 - name: Update permissions
   become: true
   ansible.builtin.file:
