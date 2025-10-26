@@ -80,7 +80,7 @@
 - name: Create custom binding
   community.general.dconf:
     key: "/org/cinnamon/desktop/keybindings/custom-keybindings/custom0/binding"
-    value: "['<Primary>a']"
+    value: "['<Primary>backslash']"
     state: present
 
 - name: Create custom binding
