@@ -20,25 +20,20 @@
     name: "{{ packages }}"
   vars:
     packages:
-      - vagrant
-      - vagrant-mutate
-      - vagrant-libvirt
-      - dnsmasq-base
-      - ebtables
-      - libguestfs-tools
-      - libvirt-daemon-system
-      - libvirt-clients
-      - libxslt-dev
-      - libxml2-dev
+      - build-essential
       - libvirt-dev
-      - qemu
+      - libxml2-dev
+      - libxslt1-dev
+      - libz-dev
       - ruby-dev
-      - ruby-fog-libvirt
-      - ruby-libvirt
-      - zlib1g-dev
+      - vagrant
 
 - name: Install libvirt plugin
   ansible.builtin.command: vagrant plugin install vagrant-libvirt
+
+- name: Install mutate plugin
+  ansible.builtin.command: vagrant plugin install vagrant-mutate
+
 - name: Ensure user profile directory exists
   become: true
   ansible.builtin.file:

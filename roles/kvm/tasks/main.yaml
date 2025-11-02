@@ -31,7 +31,9 @@
       - bridge-utils
       - dnsmasq-base
       - genisoimage
+      - qemu-kvm
       - qemu-system-x86
+      - qemu-utils
       - virtinst
       - virt-manager
       - virt-viewer
