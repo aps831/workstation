@@ -5,6 +5,7 @@ if ((EUID != 0)); then
   exit 1
 fi
 apt-get install software-properties-common
+apt-get update
 apt-add-repository -y ppa:ansible/ansible
 add-apt-repository -y ppa:git-core/ppa
 apt-get update
