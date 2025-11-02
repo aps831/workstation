@@ -24,7 +24,6 @@
     - role: teamviewer
     - role: shutdown
     - role: status-email
-    - role: syncthing
     - role: system
 
     # Desktop
