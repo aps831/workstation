@@ -6,6 +6,7 @@
   vars:
     packages:
       - libsecret-tools
+      - gnome-keyring
 
 - name: Install script for mounting
   ansible.builtin.template:

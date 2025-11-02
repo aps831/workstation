@@ -11,4 +11,5 @@ add-apt-repository -y ppa:git-core/ppa
 apt-get update
 apt-get install -y git
 apt-get install -y ansible
+apt-get install -y gnome-keyring
 ansible-galaxy collection install community.general
