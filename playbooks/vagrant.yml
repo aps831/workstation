@@ -19,7 +19,6 @@
     - role: backblaze
     - role: flatpak
     - role: journald
-    - role: lsyncd
     - role: mail
     - role: nvchecker
     - role: teamviewer
