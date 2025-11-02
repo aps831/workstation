@@ -1,5 +1,5 @@
 ---
-owasp_version: 2.11.1
+owasp_version: 2.16.1
 owasp_install_parent_dir: /opt/owaspzap-versions
 owasp_install_dir: "{{ owasp_install_parent_dir }}/owaspzap-{{ owasp_version }}"
 owasp_filename: ZAP_{{ owasp_version }}_Linux.tar.gz

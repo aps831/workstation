@@ -6,7 +6,7 @@ tflint_version: 0.35.0
 terragrunt_version: 0.36.6
 gitleaks_version: 8.5.1
 git_mkrev_version: 1.2.2
-owasp_version: 2.11.1
+owasp_version: 2.16.1
 docker_compose_version: 2.24.7
 docker_credential_helper_version: 0.6.4
 chezmoi_version: 2.42.3
