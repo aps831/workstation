@@ -80,7 +80,6 @@
     - role: terraform
     - role: trivy
     - role: vagrant
-    - role: virtualbox
     - role: vscode
 
     # Programming Languages

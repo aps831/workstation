@@ -31,7 +31,6 @@ chezmoi apply
 -   .config/Postman
 -   .config/rclone
 -   .config/syncthing
--   .config/VirtualBox
 -   .ddlog
 -   .docker
 -   .doppler

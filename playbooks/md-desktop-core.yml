@@ -22,7 +22,6 @@
     - role: syncthing
     - role: system
     - role: teamviewer
-    - role: virtualbox
     - role: warpinator
     - role: web
     - role: winboat

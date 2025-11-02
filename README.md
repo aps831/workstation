@@ -57,7 +57,7 @@ A bootstrapping script `bootstrap.sh` can be downloaded by running `wget -q -O b
 
 After migrating files and folders as per the instructions in [migration](MIGRATION.md), the restore, core and backup playbooks should be run. The following steps are then required:
 
--   logout and back in again to pick up group membership defined the Docker and Virtualbox roles;
+-   logout and back in again to pick up group membership defined in the Docker role;
 -   configure Timeshift (see below);
 -   configure printers (see below);
 -   configure Syncthing.
@@ -105,7 +105,6 @@ The following roles have version numbers defined within the role:
 -   semgrep
 -   terraform
 -   vagrant
--   virtualbox
 -   web
 
 New versions are tracked using [newreleases.io](https://newreleases.io/) except for the following:
@@ -113,7 +112,6 @@ New versions are tracked using [newreleases.io](https://newreleases.io/) except 
 -   golang
 -   intellij
 -   node
--   virtualbox
 
 Version numbers are also defined centrally in `inventory/group_vars/all/vars.yaml`. These take precedence over the default values in the roles.
 
