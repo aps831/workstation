@@ -13,3 +13,6 @@ apt-get install -y git
 apt-get install -y ansible
 apt-get install -y gnome-keyring
 ansible-galaxy collection install community.general
+
+# This has been removed from Ubuntu 24
+mkdir -p /usr/local/bin
