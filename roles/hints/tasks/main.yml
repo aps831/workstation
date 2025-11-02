@@ -10,21 +10,14 @@
       - libcairo2-dev
       - pkg-config
       - gir1.2-gtk-4.0
+      - cmake
+      - libdbus-1-dev
 
 - name: Install hints
   community.general.pipx:
     name: hints
     source: git+https://github.com/AlfredoSequeida/hints.git
     state: install
-
-# /etc/environment
-
-# ACCESSIBILITY_ENABLED=1
-# GTK_MODULES=gail:atk-bridge
-# OOO_FORCE_DESKTOP=gnome
-# GNOME_ACCESSIBILITY=1
-# QT_ACCESSIBILITY=1
-# QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
 
 - name: "Ensure input group contains user '{{ ansible_user }}'"
   become: true
