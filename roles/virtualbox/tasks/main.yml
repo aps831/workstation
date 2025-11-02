@@ -45,7 +45,7 @@
 
 - name: Set extension pack filename
   ansible.builtin.set_fact:
-    vbox_extpack_filename: "Oracle_VM_VirtualBox_Extension_Pack-{{ vbox_extpack_version }}.vbox-extpack"
+    vbox_extpack_filename: "Oracle_VirtualBox_Extension_Pack-{{ vbox_extpack_version }}.vbox-extpack"
 
 - name: Set extension pack url
   ansible.builtin.set_fact:
