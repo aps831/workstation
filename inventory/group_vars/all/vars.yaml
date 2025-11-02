@@ -17,7 +17,7 @@ kubeseal_version: 0.17.5
 helmfile_version: 0.144.0
 sops_version: 3.7.3
 fluxcd_version: 0.38.2
-istio_version: 1.16.1
+istio_version: 1.27.3
 act_version: 0.2.49
 iam_live_version: 0.53.0
 ddlog_version: 1.2.3

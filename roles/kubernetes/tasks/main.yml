@@ -199,7 +199,9 @@
   ansible.builtin.get_url:
     url: "{{ istio_download_url }}"
     dest: "{{ istio_tmp_dir.path }}"
-    checksum: "sha256:{{ istio_checksum_url }}"
+    # This is failing
+    # checksum: "sha256:{{ istio_checksum_url }}"
+    checksum: "sha256:55670d7472548b71e495ebc1184e8d90bcc34f7897d7e570c57a33fa5e6eb25d"
   changed_when: false
 
 - name: Extract from archive
