@@ -87,8 +87,7 @@
   changed_when: false
 
 - name: Install Docker sbom plugin
-  ansible.builtin.script:
-    cmd: "{{ docker_sbom_tmp_file.path }}"
+  ansible.builtin.shell: "{{ docker_sbom_tmp_file.path }}"
 
 #
 # Firewall
