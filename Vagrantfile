@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :libvirt do |v|
     v.forward_ssh_port = true
     v.graphics_type = "spice"
-    v.memory = 8192
+    v.memory = 4096
     v.nested = true
     v.cpu_mode = "host-model"
     v.random :model => 'random' # Passthrough /dev/random
