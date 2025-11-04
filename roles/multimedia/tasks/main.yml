@@ -16,8 +16,6 @@
       - openshot-qt
       - blueman
       - lsp-plugins
-      - pulseeffects
-      - pulseaudio-module-bluetooth
       - cheese
       - heif-gdk-pixbuf
       - libheif-examples
