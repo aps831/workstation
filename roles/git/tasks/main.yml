@@ -11,7 +11,6 @@
       - gitg
       - meld
       - git-gui
-      - fzf
       - git-absorb
       - git-delta
 
@@ -98,3 +97,20 @@
     group: root
     mode: "0644"
     remote_src: true
+
+- name: Ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
+- name: Download fzf-git
+  ansible.builtin.get_url:
+    url: "{{ git_fzf_download_url }}"
+    dest: /home/{{ ansible_user }}/.profile.d/fzf-git.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0744"

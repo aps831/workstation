@@ -1,0 +1,5 @@
+---
+fzf_version: 0.66.1
+fzf_filename: fzf-{{ fzf_version }}-linux_amd64.tar.gz
+fzf_download_url: https://github.com/junegunn/fzf/releases/download/v{{ fzf_version }}/{{ fzf_filename }}
+fzf_checksum_url: https://github.com/junegunn/fzf/releases/download/v{{ fzf_version }}/fzf_{{ fzf_version }}_checksums.txt

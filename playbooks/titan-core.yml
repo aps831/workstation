@@ -30,6 +30,7 @@
     - role: desktop
     - role: dropbox
     - role: fonts
+    - role: fzf
     - role: freerdp
     - role: hints
     - role: multimedia

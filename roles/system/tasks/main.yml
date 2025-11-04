@@ -33,3 +33,20 @@
     block: |
       # Increase max user watches
       fs.inotify.max_user_watches = 999999999
+
+- name: Ensure user profile directory exists
+  become: true
+  ansible.builtin.file:
+    dest: /home/{{ ansible_user }}/.profile.d
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0775"
+
+- name: Download fuzzy-sys
+  ansible.builtin.get_url:
+    url: "{{ system_fuzzy_sys_download_url }}"
+    dest: /home/{{ ansible_user }}/.profile.d/fuzzy-sys.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0744"

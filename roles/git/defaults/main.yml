@@ -5,3 +5,4 @@ git_filter_repo_version: 2.34.0
 git_filter_repo_folder: git-filter-repo-{{ git_filter_repo_version }}
 git_filter_repo_filename: "{{ git_filter_repo_folder }}.tar.xz"
 git_filter_repo_url: https://github.com/newren/git-filter-repo/releases/download/v{{ git_filter_repo_version }}/{{ git_filter_repo_filename }}
+git_fzf_download_url: https://raw.githubusercontent.com/junegunn/fzf-git.sh/c823ffd521cb4a3a65a5cf87f1b1104ef651c3de/fzf-git.sh

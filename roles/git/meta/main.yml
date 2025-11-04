@@ -3,3 +3,4 @@ dependencies:
   - role: ansible
   - role: codename
   - role: python
+  - role: fzf
