@@ -3,7 +3,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "aps831/mint-cinnamon-22.2"
-  config.vm.box_version = "1.0.0"
+  config.vm.box_version = "1.1.0"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider :libvirt do |v|
