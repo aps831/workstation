@@ -14,6 +14,7 @@
     filename: hashicorp
     state: present
 
+# This was significantly changed to work with mint 22.2
 - name: Install vagrant and libvirt dependencies
   become: true
   ansible.builtin.apt:
