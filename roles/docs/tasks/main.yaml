@@ -7,6 +7,9 @@
   vars:
     packages:
       - pdfposter
+      - poppler-utils
+      - datamash
+      - texlive-extra-utils
       - texlive-latex-extra
       - texstudio
       - pandoc
