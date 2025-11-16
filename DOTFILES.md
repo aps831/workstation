@@ -31,6 +31,7 @@ chezmoi apply
 -   .config/Postman
 -   .config/rclone
 -   .config/syncthing
+-   .config/winboat
 -   .ddlog
 -   .docker
 -   .doppler
