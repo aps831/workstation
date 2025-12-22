@@ -58,3 +58,4 @@ intellij_version: 2025.2.1
 vbox_version: 7.0
 node_version: 22
 golang_version: 1.18
+protonvpn_version: 1.0.8

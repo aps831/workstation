@@ -101,6 +101,7 @@
     # Services
     - role: apache2
     - role: docker
+    - role: protonvpn
     - role: registry
     - role: samba
     - role: ssh

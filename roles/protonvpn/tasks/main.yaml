@@ -1,0 +1,18 @@
+---
+- name: Install proton vpn repository
+  become: true
+  ansible.builtin.apt:
+    deb: "{{ protonvpn_repository_download_url }}"
+
+- name: Install proton vpn packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: true
+  vars:
+    packages:
+      - proton-vpn-gnome-desktop
+      - libayatana-appindicator3-1
+      - gir1.2-ayatanaappindicator3-0.1
+      - gnome-shell-extension-appindicator
