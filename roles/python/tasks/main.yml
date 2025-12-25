@@ -57,9 +57,6 @@
     name: poetry
     state: latest
 
-- name: Configure poetry
-  ansible.builtin.command: /home/{{ ansible_user }}/.local/bin/poetry config virtualenvs.use-poetry-python true
-
 # profile
 - name: Ensure user profile directory exists
   become: true
