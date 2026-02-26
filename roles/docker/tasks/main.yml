@@ -153,3 +153,43 @@
     group: root
     mode: "0755"
     remote_src: true
+
+#
+# Lazy Docker
+#
+- name: Create temporary build directory for lazydocker
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: docker_lazy_tmp_dir
+  changed_when: false
+
+- name: Download lazydocker binary
+  ansible.builtin.get_url:
+    url: "{{ docker_lazy_docker_url }}"
+    dest: "{{ docker_lazy_tmp_dir.path }}"
+    checksum: "sha256:{{ docker_lazy_docker_checksum_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+  changed_when: false
+
+- name: Extract lazydocker from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ docker_lazy_tmp_dir.path }}/{{ docker_lazy_docker_filename }}"
+    dest: "{{ docker_lazy_tmp_dir.path }}"
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copy lazydocker to bin
+  become: true
+  ansible.builtin.copy:
+    src: "{{ docker_lazy_tmp_dir.path }}/lazydocker"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: yes

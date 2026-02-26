@@ -7,3 +7,7 @@ docker_credential_helper_url:
 docker_credential_helper_install_dir: /usr/local/bin
 docker_registry_mirror: "http://localhost:5001"
 docker_insecure_registry: "http://registry.local:5000"
+docker_lazy_docker_version: 0.24.4
+docker_lazy_docker_filename: lazydocker_{{ docker_lazy_docker_version }}_Linux_x86_64.tar.gz
+docker_lazy_docker_url: https://github.com/jesseduffield/lazydocker/releases/download/v{{ docker_lazy_docker_version }}/{{ docker_lazy_docker_filename }}
+docker_lazy_docker_checksum_url: https://github.com/jesseduffield/lazydocker/releases/download/v{{ docker_lazy_docker_version }}/checksums.txt
