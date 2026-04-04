@@ -1,0 +1,2 @@
+- name: Install playwright
+  ansible.builtin.command: npx playwright install --with-deps chromium firefox webkit

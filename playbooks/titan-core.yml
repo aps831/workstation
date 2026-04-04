@@ -69,6 +69,7 @@
     - role: packer
     - role: pet
     - role: pgadmin
+    - role: playwright
     - role: podman
     - role: postman
     - role: prettier

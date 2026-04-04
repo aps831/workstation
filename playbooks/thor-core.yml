@@ -68,6 +68,7 @@
     - role: owaspzap
     - role: packer
     - role: pet
+    - role: playwright
     - role: pgadmin
     - role: podman
     - role: postman
