@@ -1,0 +1,35 @@
+---
+- name: Create temporary build directory
+  become: true
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: cook_tmp_dir
+  changed_when: false
+
+- name: Download cook binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ cook_download_url }}"
+    dest: "{{ cook_tmp_dir.path }}"
+    checksum: "sha256:{{ cook_checksum_url }}"
+  changed_when: false
+
+- name: Extract from archive
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ cook_tmp_dir.path }}/{{ cook_filename }}"
+    dest: "{{ cook_tmp_dir.path }}"
+    owner: root
+    group: root
+    remote_src: true
+
+- name: Copy dagger file to bin
+  become: true
+  ansible.builtin.copy:
+    src: "{{ cook_tmp_dir.path }}/cook"
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true

@@ -27,6 +27,7 @@
 
     # Desktop
     - role: breaktimer
+    - role: cook
     - role: desktop
     - role: dropbox
     - role: fonts
