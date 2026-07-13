@@ -1,0 +1,20 @@
+---
+- name: Create temporary download directory
+  become: true
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: download
+  register: obsidian_tmp_dir
+  changed_when: false
+
+- name: Download obsidian binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ obsidian_url }}"
+    dest: "{{ obsidian_tmp_dir.path }}"
+  changed_when: false
+
+- name: Install obsidian
+  become: true
+  ansible.builtin.apt:
+    deb: "{{ obsidian_tmp_dir.path }}/{{ obsidian_filename }}"

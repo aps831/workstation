@@ -36,6 +36,7 @@
     - role: hints
     - role: multimedia
     - role: noson
+    - role: obsidian
     - role: shotwell
     - role: web
     - role: winboat

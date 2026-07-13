@@ -59,3 +59,4 @@ intellij_version: 2025.2.1
 node_version: 24
 golang_version: 1.18
 protonvpn_version: 1.0.8
+obsidian_version: 1.12.7
