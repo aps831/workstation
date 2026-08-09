@@ -21,7 +21,7 @@
 - name: Create puppeteer cache
   become: true
   ansible.builtin.file:
-    path: "{{ puppeteer_cache }}"
+    path: "{{ docs_puppeteer_cache }}"
     owner: root
     group: root
     state: directory
@@ -35,7 +35,7 @@
     global: true
     state: latest
   environment:
-    PUPPETEER_CACHE_DIR: "{{ puppeteer_cache }}"
+    PUPPETEER_CACHE_DIR: "{{ docs_puppeteer_cache }}"
 
 - name: Install mermaid-filter
   become: true

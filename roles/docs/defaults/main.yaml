@@ -1,2 +1,2 @@
 ---
-puppeteer_cache: /usr/lib/puppeteer/.cache
+docs_puppeteer_cache: /usr/lib/puppeteer/.cache
