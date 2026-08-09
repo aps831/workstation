@@ -12,6 +12,7 @@
       - texlive-extra-utils
       - texlive-latex-extra
       - texstudio
+      - librsvg2-bin
       - pandoc
       - graphviz
       - pandoc-plantuml-filter
