@@ -10,9 +10,15 @@
 
 - name: Add yubico/stable repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/yubico-keyring.asc] https://ppa.launchpadcontent.net/yubico/stable/ubuntu {{ ubuntu_codename }} main"
-    filename: jlbarriere68
+  ansible.builtin.deb822_repository:
+    name: yubico
+    types: deb
+    uris:
+      - "https://ppa.launchpadcontent.net/yubico/stable/ubuntu"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/yubico-keyring.asc
     state: present
 
 - name: Install encryption packages

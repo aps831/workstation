@@ -9,9 +9,15 @@
 
 - name: Add jlbarriere68/noson-app repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/jlbarriere68-keyring.asc] https://ppa.launchpadcontent.net/jlbarriere68/noson-app/ubuntu {{ ubuntu_codename }} main"
-    filename: jlbarriere68
+  ansible.builtin.deb822_repository:
+    name: jlbarriere68
+    types: deb
+    uris:
+      - "https://ppa.launchpadcontent.net/jlbarriere68/noson-app/ubuntu"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/jlbarriere68-keyring.asc
     state: present
 
 - name: Install noson

@@ -10,9 +10,15 @@
 
 - name: Add stefanberger/swtpm repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/swtpm-{{ ubuntu_codename }}-keyring.asc] https://ppa.launchpadcontent.net/stefanberger/swtpm-{{ ubuntu_codename }}/ubuntu {{ ubuntu_codename }} main"
-    filename: swtpm-{{ ubuntu_codename }}
+  ansible.builtin.deb822_repository:
+    name: swtpm
+    types: deb
+    uris:
+      - "https://ppa.launchpadcontent.net/stefanberger/swtpm-{{ ubuntu_codename }}/ubuntu"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/swtpm-{{ ubuntu_codename }}-keyring.asc
     state: present
 
 - name: Install kvm dependencies

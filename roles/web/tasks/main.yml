@@ -9,16 +9,31 @@
 
 - name: Remove chrome repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main"
-    filename: google-chrome
+  ansible.builtin.deb822_repository:
+    name: google-chrome
+    types: deb
+    uris:
+      - "https://dl.google.com/linux/chrome/deb/"
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
     state: absent
 
 - name: Add chrome repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.asc] https://dl.google.com/linux/chrome/deb/ stable main"
-    filename: google-chrome
+  ansible.builtin.deb822_repository:
+    name: google-chrome
+    types: deb
+    uris:
+      - "https://dl.google.com/linux/chrome/deb/"
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
+    signed_by: /usr/share/keyrings/google-linux-keyring.asc
     state: present
 
 - name: Install packages

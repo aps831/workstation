@@ -33,9 +33,15 @@
 
 - name: Add doppler repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://packages.doppler.com/public/cli/deb/debian any-version main"
-    filename: jlbarriere68
+  ansible.builtin.deb822_repository:
+    name: doppler
+    types: deb
+    uris:
+      - "https://packages.doppler.com/public/cli/deb/debian"
+    suites: any-version
+    components:
+      - main
+    signed_by: /usr/share/keyrings/doppler-archive-keyring.gpg
     state: present
 
 - name: Install doppler

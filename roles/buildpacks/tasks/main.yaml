@@ -9,11 +9,15 @@
 
 - name: Add cncf-buildpacks pack cli repo
   become: true
-  ansible.builtin.apt_repository:
-    repo:
-      "deb [signed-by=/usr/share/keyrings/cncf-buildpacks-keyring.asc] https://ppa.launchpadcontent.net/cncf-buildpacks/pack-cli/ubuntu {{ ubuntu_codename }}
-      main "
-    filename: cncf-buildpacks
+  ansible.builtin.deb822_repository:
+    name: cncf-buildpacks
+    types: deb
+    uris:
+      - "https://ppa.launchpadcontent.net/cncf-buildpacks/pack-cli/ubuntu"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/cncf-buildpacks-keyring.asc
     state: present
 
 - name: Install packages

@@ -9,9 +9,17 @@
 
 - name: Add vscode repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-keyring.asc] https://packages.microsoft.com/repos/vscode stable main"
-    filename: vscode
+  ansible.builtin.deb822_repository:
+    name: vscode
+    types: deb
+    uris:
+      - "https://packages.microsoft.com/repos/vscode"
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
+    signed_by: /usr/share/keyrings/microsoft-keyring.asc
     state: present
 
 - name: Install vscode

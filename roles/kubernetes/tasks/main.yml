@@ -39,9 +39,17 @@
 
 - name: Add lens repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.gpg] https://downloads.k8slens.dev/apt/debian stable main"
-    filename: "lens"
+  ansible.builtin.deb822_repository:
+    name: "lens"
+    types: deb
+    uris:
+      - "https://downloads.k8slens.dev/apt/debian"
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
+    signed_by: /usr/share/keyrings/lens-archive-keyring.gpg
     state: present
 
 - name: Install lens

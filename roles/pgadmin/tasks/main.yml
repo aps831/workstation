@@ -15,9 +15,15 @@
 
 - name: Add pgadmin repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/pgadmin-keyring.asc] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }} pgadmin4 main"
-    filename: pgadmin
+  ansible.builtin.deb822_repository:
+    name: pgadmin
+    types: deb
+    uris:
+      - "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ubuntu_codename }}"
+    suites: pgadmin4
+    components:
+      - main
+    signed_by: /usr/share/keyrings/pgadmin-keyring.asc
     state: present
 
 - name: Install packages

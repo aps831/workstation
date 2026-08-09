@@ -11,9 +11,17 @@
 
 - name: Add github repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
-    filename: githubcli
+  ansible.builtin.deb822_repository:
+    name: githubcli
+    types: deb
+    uris:
+      - "https://cli.github.com/packages"
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
+    signed_by: /usr/share/keyrings/githubcli-archive-keyring.gpg
     state: present
 
 - name: Install packages

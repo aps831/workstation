@@ -21,9 +21,15 @@
 
 - name: Add gcloud repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
-    filename: gcloud
+  ansible.builtin.deb822_repository:
+    name: gcloud
+    types: deb
+    uris:
+      - "https://packages.cloud.google.com/apt"
+    suites: cloud-sdk
+    components:
+      - main
+    signed_by: /usr/share/keyrings/cloud.google.gpg
     state: present
 
 - name: Install packages

@@ -10,9 +10,15 @@
 
 - name: Add swi-prolog/stable repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/swi-prolog-keyring.asc] https://ppa.launchpadcontent.net/swi-prolog/stable/ubuntu/ {{ ubuntu_codename }} main"
-    filename: swi-prolog
+  ansible.builtin.deb822_repository:
+    name: swi-prolog
+    types: deb
+    uris:
+      - "https://ppa.launchpadcontent.net/swi-prolog/stable/ubuntu/"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/swi-prolog-keyring.asc
     state: present
 
 - name: Install encryption packages

@@ -9,9 +9,15 @@
 
 - name: Add Hashicorp repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ubuntu_codename }} main"
-    filename: hashicorp
+  ansible.builtin.deb822_repository:
+    name: hashicorp
+    types: deb
+    uris:
+      - "https://apt.releases.hashicorp.com"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/hashicorp-archive-keyring.asc
     state: present
 
 - name: Install packer

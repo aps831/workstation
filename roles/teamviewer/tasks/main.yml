@@ -9,9 +9,15 @@
 
 - name: Add teamviewer repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/teamviewer-keyring.asc] https://linux.teamviewer.com/deb stable main"
-    filename: teamviewer
+  ansible.builtin.deb822_repository:
+    name: teamviewer
+    types: deb
+    uris:
+      - "https://linux.teamviewer.com/deb"
+    suites: stable
+    components:
+      - main
+    signed_by: /usr/share/keyrings/teamviewer-keyring.asc
     state: present
 
 - name: Apt-get install

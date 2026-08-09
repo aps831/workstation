@@ -20,9 +20,15 @@
 
 - name: Add trivy repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/trivy-keyring.asc] https://aquasecurity.github.io/trivy-repo/deb {{ ubuntu_codename }} main"
-    filename: trivy
+  ansible.builtin.deb822_repository:
+    name: trivy
+    types: deb
+    uris:
+      - "https://aquasecurity.github.io/trivy-repo/deb"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/trivy-keyring.asc
     state: present
 
 - name: Install trivy

@@ -9,9 +9,13 @@
 
 - name: Add sublimehq repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/sublimehq-keyring.asc] https://download.sublimetext.com/ apt/stable/"
-    filename: sublimehq
+  ansible.builtin.deb822_repository:
+    name: sublimehq
+    types: deb
+    uris:
+      - "https://download.sublimetext.com/"
+    suites: apt/stable/
+    signed_by: /usr/share/keyrings/sublimehq-keyring.asc
     state: present
 
 - name: Install sublime

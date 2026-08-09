@@ -25,9 +25,15 @@
 
 - name: Add docker repo
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-keyring.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
-    filename: docker
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris:
+      - "https://download.docker.com/linux/ubuntu"
+    suites: "{{ ubuntu_codename }}"
+    components:
+      - stable
+    signed_by: /usr/share/keyrings/docker-keyring.asc
     state: present
 
 - name: Install docker
