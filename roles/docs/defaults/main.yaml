@@ -1,2 +1,4 @@
 ---
 docs_puppeteer_cache: /usr/lib/puppeteer/.cache
+docs_gsn2x_version: 4.3.1
+docs_gsn2x_download_url: https://github.com/jonasthewolf/gsn2x/releases/download/v{{ docs_gsn2x_version }}/gsn2x-Linux

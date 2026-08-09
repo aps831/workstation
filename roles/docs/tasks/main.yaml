@@ -92,3 +92,12 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0744"
+
+- name: Install gsn2x
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ docs_gsn2x_download_url }}"
+    dest: /usr/local/bin/gsn2x
+    owner: root
+    group: root
+    mode: "0755"
