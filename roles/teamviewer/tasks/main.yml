@@ -18,6 +18,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/teamviewer-keyring.asc
+    enabled: true
     state: present
 
 - name: Apt-get install

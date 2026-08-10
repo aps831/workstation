@@ -16,6 +16,7 @@
       - "https://download.sublimetext.com/"
     suites: apt/stable/
     signed_by: /usr/share/keyrings/sublimehq-keyring.asc
+    enabled: true
     state: present
 
 - name: Install sublime

@@ -19,6 +19,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/swtpm-{{ ubuntu_codename }}-keyring.asc
+    enabled: true
     state: present
 
 - name: Install kvm dependencies

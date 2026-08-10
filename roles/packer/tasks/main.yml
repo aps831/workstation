@@ -18,6 +18,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/hashicorp-archive-keyring.asc
+    enabled: true
     state: present
 
 - name: Install packer

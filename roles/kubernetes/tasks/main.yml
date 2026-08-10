@@ -50,6 +50,7 @@
     architectures:
       - amd64
     signed_by: /usr/share/keyrings/lens-archive-keyring.gpg
+    enabled: true
     state: present
 
 - name: Install lens

@@ -18,6 +18,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/hashicorp-archive-keyring.asc
+    enabled: true
     state: present
 
 # This was significantly changed to work with mint 22.2

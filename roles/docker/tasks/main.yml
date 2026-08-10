@@ -34,6 +34,7 @@
     components:
       - stable
     signed_by: /usr/share/keyrings/docker-keyring.asc
+    enabled: true
     state: present
 
 - name: Install docker

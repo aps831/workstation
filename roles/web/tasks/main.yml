@@ -19,6 +19,7 @@
       - main
     architectures:
       - amd64
+    enabled: true
     state: absent
 
 - name: Add chrome repo
@@ -34,6 +35,7 @@
     architectures:
       - amd64
     signed_by: /usr/share/keyrings/google-linux-keyring.asc
+    enabled: true
     state: present
 
 - name: Install packages

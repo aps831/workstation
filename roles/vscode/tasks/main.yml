@@ -20,6 +20,7 @@
     architectures:
       - amd64
     signed_by: /usr/share/keyrings/microsoft-keyring.asc
+    enabled: true
     state: present
 
 - name: Install vscode

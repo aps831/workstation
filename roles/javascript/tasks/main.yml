@@ -36,6 +36,7 @@
     architectures:
       - amd64
     signed_by: /usr/share/keyrings/nodesource.gpg
+    enabled: true
     state: present
 
 - name: Install nodejs

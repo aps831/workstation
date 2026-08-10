@@ -42,6 +42,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/doppler-archive-keyring.gpg
+    enabled: true
     state: present
 
 - name: Install doppler

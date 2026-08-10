@@ -18,6 +18,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/cncf-buildpacks-keyring.asc
+    enabled: true
     state: present
 
 - name: Install packages

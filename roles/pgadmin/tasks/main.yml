@@ -24,6 +24,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/pgadmin-keyring.asc
+    enabled: true
     state: present
 
 - name: Install packages

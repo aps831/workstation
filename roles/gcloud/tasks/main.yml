@@ -30,6 +30,7 @@
     components:
       - main
     signed_by: /usr/share/keyrings/cloud.google.gpg
+    enabled: true
     state: present
 
 - name: Install packages
