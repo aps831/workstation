@@ -36,6 +36,7 @@
       - ruby-dev
       - vagrant
 
+# If install fails try running vagrant plugin expunge
 - name: Install libvirt plugin
   ansible.builtin.command: vagrant plugin install vagrant-libvirt
 
