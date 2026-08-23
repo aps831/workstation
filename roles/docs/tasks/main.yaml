@@ -11,6 +11,7 @@
       - datamash
       - texlive-extra-utils
       - texlive-latex-extra
+      - texlive-fonts-recommended
       - texstudio
       - chktex
       - librsvg2-bin
