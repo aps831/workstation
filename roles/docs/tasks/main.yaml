@@ -12,6 +12,7 @@
       - texlive-extra-utils
       - texlive-latex-extra
       - texstudio
+      - chktex
       - librsvg2-bin
       - pandoc
       - graphviz
