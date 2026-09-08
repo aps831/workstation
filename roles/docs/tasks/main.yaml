@@ -13,6 +13,7 @@
       - texlive-latex-extra
       - texlive-fonts-recommended
       - texstudio
+      - latexmk
       - chktex
       - librsvg2-bin
       - pandoc
