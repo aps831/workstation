@@ -1,4 +1,16 @@
 ---
+- name: Gather network facts
+  ansible.builtin.setup:
+    gather_subset:
+      - network
+
+- set_fact:
+    local_network: >-
+      {{
+        (ansible_facts["default_ipv4"]["address"] ~ '/' ~ ansible_facts["default_ipv4"]["netmask"])
+        | ansible.utils.ipaddr('network/prefix')
+      }}
+
 - name: Install packages
   become: true
   ansible.builtin.apt:
@@ -20,7 +32,7 @@
   become: true
   community.general.ufw:
     rule: allow
-    src: "192.168.0.0/24"
+    src: "{{ local_network }}"
     comment: "WARPINATOR_MAIN"
     port: "{{ warpinator_port }}"
 
@@ -28,7 +40,7 @@
   become: true
   community.general.ufw:
     rule: allow
-    src: "192.168.0.0/24"
+    src: "{{ local_network }}"
     comment: "WARPINATOR_AUTH"
     port: "{{ warpinator_reg_port }}"
     proto: tcp
@@ -37,7 +49,7 @@
   become: true
   community.general.ufw:
     rule: allow
-    src: "192.168.0.0/24"
+    src: "{{ local_network }}"
     comment: "WARPINATOR_FLATPACK_ZC_FIX"
     port: "5353"
     proto: udp
