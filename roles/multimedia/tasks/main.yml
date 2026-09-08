@@ -34,9 +34,11 @@
   community.general.pipx:
     name: eyeD3
     state: latest
+    executable: /usr/local/bin/pipx
 
 # yt-dlp
 - name: Install yt-dlp
   community.general.pipx:
     name: yt-dlp
     state: latest
+    executable: /usr/local/bin/pipx

@@ -14,6 +14,7 @@
   community.general.pipx:
     name: nvchecker
     state: latest
+    executable: /usr/local/bin/pipx
 
 - name: Inject packaging into nvchecker
   community.general.pipx:
@@ -21,6 +22,7 @@
     inject_packages:
       - packaging
     state: inject
+    executable: /usr/local/bin/pipx
 
 - name: Create config directory
   become: true

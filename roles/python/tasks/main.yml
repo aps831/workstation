@@ -9,7 +9,6 @@
       - python3-dev
       - python3-venv
       - python3-pip
-      - pipx
       # Python build dependencies required for asdf
       - make
       - build-essential
@@ -27,35 +26,61 @@
       - libffi-dev
       - liblzma-dev
 
+# Install pipx
+- name: create pipx virtual environment
+  ansible.builtin.command:
+    cmd: python3 -m venv /opt/pipx
+    creates: /opt/pipx/bin/python
+  become: true
+
+- name: install pipx
+  ansible.builtin.pip:
+    name: pipx
+    virtualenv: /opt/pipx
+    state: latest
+  become: true
+
+- name: make pipx available system-wide
+  ansible.builtin.file:
+    src: /opt/pipx/bin/pipx
+    dest: /usr/local/bin/pipx
+    state: link
+  become: true
+
 # pip
 - name: Install pip
   community.general.pipx:
     name: pip
     state: latest
+    executable: /usr/local/bin/pipx
 
 # pip-audit
 - name: Install pip-audit
   community.general.pipx:
     name: pip-audit
     state: latest
+    executable: /usr/local/bin/pipx
 
 # cookiecutter
 - name: Install cookiecutter
   community.general.pipx:
     name: cookiecutter
     state: latest
+    executable: /usr/local/bin/pipx
 
 # safety
 - name: Install safety
   community.general.pipx:
     name: safety
     state: latest
+    executable: /usr/local/bin/pipx
 
 # poetry
 - name: Install poetry
   community.general.pipx:
     name: poetry
     state: latest
+    executable: /usr/local/bin/pipx
 
 # profile
 - name: Ensure user profile directory exists

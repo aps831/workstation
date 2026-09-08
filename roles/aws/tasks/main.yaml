@@ -80,12 +80,14 @@
   community.general.pipx:
     name: policy_sentry
     state: latest
+    executable: /usr/local/bin/pipx
 
 # Cloudsplaining
 - name: Install cloudsplaining
   community.general.pipx:
     name: cloudsplaining
     state: latest
+    executable: /usr/local/bin/pipx
 
 # IAM Live
 - name: Create temporary build directory for iam live

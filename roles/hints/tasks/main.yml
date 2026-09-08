@@ -18,6 +18,7 @@
     name: hints
     source: git+https://github.com/AlfredoSequeida/hints.git
     state: install
+    executable: /usr/local/bin/pipx
 
 - name: "Ensure input group contains user '{{ ansible_user }}'"
   become: true
