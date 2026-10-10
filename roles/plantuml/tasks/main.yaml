@@ -1,0 +1,62 @@
+---
+- name: Remove distribution PlantUML package
+  become: true
+  ansible.builtin.apt:
+    name: plantuml
+    state: absent
+
+- name: Install PlantUML dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - default-jre
+      - graphviz
+      - ca-certificates
+    state: present
+
+- name: Create PlantUML installation directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ plantuml_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download PlantUML JAR
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ plantuml_download_url }}"
+    dest: "{{ plantuml_install_dir }}/plantuml-{{ plantuml_version }}.jar"
+    checksum: "{{ plantuml_checksum }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create PlantUML JAR symlink
+  become: true
+  ansible.builtin.file:
+    src: "{{ plantuml_install_dir }}/plantuml-{{ plantuml_version }}.jar"
+    dest: "{{ plantuml_install_dir }}/plantuml.jar"
+    state: link
+    force: true
+
+- name: Install PlantUML executable wrapper
+  become: true
+  ansible.builtin.copy:
+    dest: /usr/local/bin/plantuml
+    owner: root
+    group: root
+    mode: "0755"
+    content: |
+      #!/bin/sh
+      exec java -jar {{ plantuml_install_dir }}/plantuml.jar "$@"
+
+- name: Verify PlantUML installation
+  ansible.builtin.command:
+    cmd: /usr/local/bin/plantuml -version
+  register: plantuml_version_result
+  changed_when: false
+  failed_when: >-
+    plantuml_version_result.rc != 0 or
+    plantuml_version not in plantuml_version_result.stdout

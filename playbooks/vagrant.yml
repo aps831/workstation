@@ -94,6 +94,7 @@
     - role: javascript
     - role: jvm
     - role: haskell
+    - role: plantuml
     - role: python
     - role: prolog
     - role: ruby

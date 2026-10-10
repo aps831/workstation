@@ -1,0 +1,5 @@
+---
+plantuml_version: "1.2026.8"
+plantuml_checksum: sha256:5e1ecfa8ecd32c90b03bbf3b1eb6f020943f98ab0fcf4032be31a0002ee2c462
+plantuml_install_dir: /opt/plantuml
+plantuml_download_url: https://github.com/plantuml/plantuml/releases/download/v{{ plantuml_version }}/plantuml-{{ plantuml_version }}.jar

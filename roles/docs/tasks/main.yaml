@@ -19,7 +19,6 @@
       - pandoc
       - graphviz
       - pandoc-plantuml-filter
-      - plantuml
 
 - name: Create puppeteer cache
   become: true
