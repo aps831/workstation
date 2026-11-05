@@ -38,6 +38,9 @@
       - pinentry-curses
       - keychain
       - pass
+      - pass-otp
+      - oathtool
+      - qrencode
       - xclip
       - xsel
       - libpth20
