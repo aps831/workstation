@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+read -r -p "Issuer: " issuer
+read -r -p "Account: " account
+
+if [[ -z $issuer || -z $account ]]; then
+    echo "Issuer and account are required." >&2
+    exit 1
+fi
+
+if [[ $issuer == */* || $account == */* ]]; then
+    echo "Issuer and account must not contain '/'." >&2
+    exit 1
+fi
+
+read -r -s -p "Secret: " secret
+printf '\n'
+
+# Remove whitespace and convert to uppercase.
+secret="${secret//[[:space:]]/}"
+secret="${secret^^}"
+
+# Validate Base32, allowing optional trailing padding.
+if [[ ! $secret =~ ^[A-Z2-7]+={0,6}$ ]]; then
+    echo "Invalid Base32 secret." >&2
+    exit 1
+fi
+
+# Remove optional Base32 padding.
+secret="${secret%%=*}"
+
+path="$issuer/$account/totp"
+
+printf '%s\n' "$secret" |
+    pass otp insert \
+        --secret \
+        --issuer "$issuer" \
+        --account "$account" \
+        "$path"
+
+unset secret

@@ -124,3 +124,11 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0744"
+
+- name: Install pass-otp-add script
+  ansible.builtin.copy:
+    src: pass-otp-add
+    dest: /home/{{ ansible_user }}/.local/bin
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0744"
