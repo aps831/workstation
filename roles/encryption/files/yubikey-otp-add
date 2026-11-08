@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Never accept secrets as command-line arguments.
+if (($# > 0)); then
+    echo "Warning: Do not supply an OTPAUTH URI as an argument." >&2
+    echo "Secrets in arguments may appear in shell history or process listings." >&2
+    exit 2
+fi
+
+otpauth=""
+
+if [[ -t 0 ]]; then
+    # Interactive input without echo.
+    read -r -s -p "OTPAUTH URI: " otpauth
+    printf '\n'
+else
+    # Read from standard input.
+    IFS= read -r otpauth || [[ -n $otpauth ]]
+fi
+
+# Validate the URI scheme and type.
+case "$otpauth" in
+otpauth://totp/* | otpauth://hotp/*) ;;
+*)
+    echo "Invalid OTPAUTH URI." >&2
+    exit 1
+    ;;
+esac
+
+ykman oath accounts uri "$otpauth"
